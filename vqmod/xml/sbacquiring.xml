@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+  <id>sbacquiring</id>
+  <version>1.0.0</version>
+  <vqmver>2.0.0</vqmver>
+  <author>ashap08@ya.ru</author>
+  <file name="catalog/view/theme/*/template/account/order_list.tpl">
+    <operation>
+      <search position="replace">
+        <![CDATA[<div class="order-info">]]>
+      </search>
+      <add>
+        <![CDATA[<div class="order-info"><?php
+            foreach ($sb as $sbcode){
+                if ($sb_style) {
+                    $sb_styles = 'button';
+                } else {
+                    $sb_styles = 'sb_button';
+                }
+                $order_id = $order['order_id'];
+                if ($order['status'] == $sb_status['name'] && $order['payment_code'] == $sbcode) {
+                    $code = substr($this->model_account_sbacquiring->yanencrypt($order['order_id'], $this->config->get('config_encryption')), 0, 8);
+                    echo "<div class='sbpay'><a class='$sb_styles' href='index.php?route=account/sbacquiring&order_id=$order_id&code=$code'>";
+                    if (empty($order['image'])) {
+                        print $pay_text_lichkab;
+                    } else {
+                        echo $order['image'];
+                    }
+                    echo "</a></div>";
+                } 
+            }
+        ?>]]>
+      </add>
+    </operation>
+  </file>
+  <file name="catalog/controller/account/order.php">
+    <operation>
+      <search position="before">
+        <![CDATA[ if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_list.tpl')) ]]>
+      </search>
+      <add>
+        <![CDATA[     
+    	  $this->load->model('account/sbacquiring');
+      	  $sb_codes = $this->model_account_sbacquiring->getPayMethods();
+          $this->data['sb'] = $sb_codes;
+          foreach ($sb_codes as $sbcode){
+            if ($this->config->get($sbcode.'_status')){
+              $this->language->load('payment/'.$sbcode);
+              $this->data['pay_text_lichkab'] = $this->language->get('pay_text_lichkab');
+              $sb_on_status = $this->config->get($sbcode.'_on_status_id');
+          	  $this->data['sb_status'] = $this->model_account_sbacquiring->getOrderStatus($sb_on_status);
+              $this->data['sb_style'] = $this->config->get($sbcode.'_style');
+            }
+          } ]]>
+      </add>
+    </operation>
+  </file>
+  	<file name="admin/controller/common/header.php">
+		<operation>
+			<search position="before"><![CDATA[$this->data['text_zone']]]></search>
+			<add><![CDATA[ $this->data['text_sbacquiring'] = $this->language->get('text_sbacquiring');]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[$this->data['zone']]]></search>
+			<add><![CDATA[			$this->data['sbacquiring'] = $this->url->link('payment/sbacquiring/status', 'token=' . $this->session->data['token'], 'SSL');]]></add>
+		</operation>
+	</file>
+	<file name="admin/language/*/common/header.php">
+		<operation>
+			<search position="before"><![CDATA[$_['text_zone']]]></search>
+			<add><![CDATA[$_['text_sbacquiring']               = 'SBAcquiring';]]></add>
+		</operation>
+	</file>
+  <file name="admin/model/sale/order.php">
+    <operation>
+      <search position="before">
+        <![CDATA[ if ($data['comment']) { ]]>
+      </search>
+      <add>
+        <![CDATA[ 
+        $this->load->model('payment/sbacquiring');
+      	$sb_codes = $this->model_payment_sbacquiring->getPayMethods();
+        $this->language->load('payment/sbacquiringpro');
+
+        foreach ($sb_codes as $sbcode){
+          if ($this->config->get($sbcode.'_on_status_id') == $data['order_status_id'] && $order_info['payment_code'] == $sbcode) {
+            $action= $order_info['store_url'] . 'index.php?route=account/sbacquiring';
+    				$merchant_url = $action .
+    					'&order_id='	. $order_info['order_id'] . '&code=' . substr($this->model_payment_sbacquiring->encrypt($order_info['order_id'], $this->config->get('config_encryption')), 0, 8);
+
+            $merchant_url="<a href=' ".$merchant_url."'>" . $merchant_url . "</a>";
+            $this->language->load('payment/'.$sbcode);
+            $message .= $this->language->get('pay_text_mail') . "\n";
+            $message .= strip_tags(html_entity_decode($merchant_url, ENT_QUOTES, 'UTF-8')) . "\n\n";
+          }
+        }
+       ]]>
+      </add>
+    </operation>
+  </file>
+  <file name="admin/controller/sale/order.php">
+    <operation>
+       <search position="before">
+       <![CDATA[ $this->template = 'sale/order_info.tpl'; ]]>
+       </search>
+       <add>
+       <![CDATA[
+        $this->load->model('payment/sbacquiring');
+       	$this->data['sbacquiring_link'] = $order_info['store_url'] . 'index.php?route=account/sbacquiring' . '&order_id='	. $order_info['order_id'] . '&code=' . substr($this->model_payment_sbacquiring->encrypt($order_info['order_id'], $this->config->get('config_encryption')), 0, 8);
+      	$sb_codes = $this->model_payment_sbacquiring->getPayMethods();
+        $this->data['sb'] = $sb_codes;
+        $this->language->load('payment/sbacquiringpro');
+        foreach ($sb_codes as $sbcode){
+          if ($order_info['payment_code'] == $sbcode) {
+            $this->data['sbacquiring_code'] = $order_info['payment_code'];
+            $this->language->load('payment/'.$sbcode);
+            $this->data['pay_text_admin'] = $this->language->get('pay_text_admin');
+          }
+        }
+       ]]>
+       </add>
+    </operation>
+  </file>
+  <file name="admin/view/template/sale/order_info.tpl">
+    <operation>
+    <search position="after" offset="1">
+       <![CDATA[ <div id="history"></div> ]]>
+    </search>
+    <add>
+         <![CDATA[ 
+         <?php if (isset($sbacquiring_code)) { ?>
+              <tr>
+                <td><?php echo $pay_text_admin; ?></td>
+                <td><?php echo $sbacquiring_link; ?></td>
+              </tr>
+            <?php } ?> ]]>
+    </add>
+  </operation>
+  </file>
+</modification>

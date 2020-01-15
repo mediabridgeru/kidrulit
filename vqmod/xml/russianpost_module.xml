@@ -1,0 +1,26 @@
+<modification>
+	<id>RussianPost2 module</id>
+	<version>1.5.x</version>
+	<vqmver>1.0.8</vqmver>
+	<author>softpodkluch.ru</author>
+	<file name="admin/controller/extension/shipping.php">
+		<operation>
+			<search position="after"><![CDATA[$extension = basename($file, '.php');]]></search>
+			<add><![CDATA[if( preg_match("/^russianpost2f[\d]+$/", $extension) ) continue;]]></add>
+		</operation>
+	</file>
+	<file name="catalog/view/theme/*/template/checkout/shipping_method.tpl">
+		<operation>
+			<search position="replace"><![CDATA[<?php echo $quote['title']; ?>]]></search>
+			<add><![CDATA[
+			<?php /* start russianpost2 */ ?>
+			  <?php if( !empty($quote['html_image']) ) { ?>
+				<?php echo $quote['html_image']; ?>
+			  <?php } else { ?>
+				<?php echo $quote['title']; ?>
+			  <?php } ?>
+		    <?php /* end russianpost2 */ ?>]]></add>
+		</operation>
+	</file>
+	
+</modification>

@@ -1,0 +1,96 @@
+body {
+	font-family: 'Arial';
+}
+.invoice-heading p {
+	vertical-align: middle;
+	text-align: center;
+	color: #000;
+	font-size: 8pt;
+}
+.invoice-company-info {
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+.invoice-company-info td {
+	vertical-align: top;
+	text-align: left;
+	padding-left: 9px;
+	font-size: 10pt;
+	color: #000;
+	border: 1px solid #000;
+}
+.invoice-account {
+	vertical-align: middle;
+	text-align: left;
+	padding: 10px;
+	border-bottom: 3px solid #000000 !important;
+	font-weight: bold;
+	color: #000000;
+	font-size: 14pt;
+	margin: 0;
+}
+.invoice-address-info td {
+	vertical-align: middle;
+	text-align: left;
+	padding-left: 9px;
+	font-size: 9pt;
+}
+.invoice-products {
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+.invoice-products th {
+	vertical-align: middle;
+	text-align: center;
+	border: 1px solid #000;
+	font-size: 10pt;
+}
+.invoice-products td {
+	vertical-align: top;
+	text-align: left;
+	padding-left: 9px;
+	border: 1px solid #000;
+	font-size: 10pt;
+}
+.invoice-total td {
+	vertical-align: top;
+	text-align: right;
+	padding-right: 9px;
+	font-size: 10pt;
+}
+.invoice-total-names {
+	display: block;
+	font-size: 10pt;
+	padding-bottom: 5px;
+}
+.invoice-total-summ {
+	display: block;
+	font-size: 10pt;
+	font-weight: bold;
+}
+.invoice-posts {
+	border-top: 3px solid #000;
+	padding-top: 6pt;
+	width: 100%;
+	font-size: 10pt;
+	table-layout: fixed;
+}
+.invoice-posts th {
+	text-align: left;
+	width: 100%;
+}
+.invoice-posts td {
+	padding: 0 6pt;
+	text-align: center;
+	vertical-align: bottom;
+	width: 100%;
+}
+.sign {
+	display: block;
+	vertical-align: top;
+	text-align: center;
+	font-size: 8pt;
+	border-top: 1px solid #000;
+}

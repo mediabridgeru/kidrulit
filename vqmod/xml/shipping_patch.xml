@@ -1,0 +1,17 @@
+<modification>
+	<id>Shipping Patch</id>
+	<version>1.0.0</version>
+	<vqmver>2.4.1</vqmver>
+	<author>viper203</author>
+	<file name="admin/view/template/catalog/product_form.tpl">
+		<operation>
+			<search position="after"><![CDATA[<form]]></search>
+			<add><![CDATA[<input type="hidden" name="shipping" value="1" />]]></add>
+		</operation>
+		<operation>
+			<search position="replace" offset="13"><![CDATA[<td><?php echo $entry_shipping; ?></td>]]></search>
+			<add><![CDATA[]]></add>
+		</operation>
+	</file>
+</modification>
+

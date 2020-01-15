@@ -1,0 +1,40 @@
+.recent_view_list  {
+	list-style-type: none;
+	padding-left: 0px;
+}
+
+.recent_view_list li  {
+	padding: 2px 0 2px 0;
+}
+.box.box-recent {
+border-top: 1px solid #ebebeb;
+width: auto;position: relative;
+padding-bottom: 20px;
+}
+.box.box-recent .box-heading {
+background: none;
+border-radius: 0;
+-webkit-border-radius: 0;
+-moz-border-radius: 0;
+font-size: 30px;
+font-weight: 400;
+color: #202020;
+padding: 30px 30px 40px;
+}
+.box.box-recent .box-content {
+border: none;
+overflow: hidden;
+padding: 0 15px;
+border-radius: 0;
+-webkit-border-radius: 0;
+-moz-border-radius: 0;
+-webkit-box-shadow: none;
+-moz-box-shadow: none;
+box-shadow: none;
+text-align: center;
+
+}
+#boss-qs-image-additional2 li {
+float: left;
+margin: 0 15px 10px 0;
+}

@@ -1,0 +1,29 @@
+<file path="{ADMIN}/controller/extension/modification.php">
+    <operation error="skip">
+        <search position="replace"><![CDATA[if ($error == 'skip')]]></search>
+        <add position="replace"><![CDATA[
+											if ($error == 'skip') {
+												$log[] = 'NOT FOUND - OPERATION SKIPPED!';
+												continue;
+											}
+											if ($error == 'fake_skip')
+    ]]></add>
+    </operation>
+</file>
+<file path="{ADMIN}/controller/error/permission.php">
+	<operation error="skip">
+        <search position="before"><![CDATA[if (isset($this->request->get]]></search>
+        <add position="before"><![CDATA[
+        if (!class_exists('agooCache')) {
+			$Cache = $this->registry->get('cache');
+			$this->registry->set('cache_old', $Cache);
+			loadlibrary('agoo/cache');
+			$jcCache = new agooCache($this->registry);
+			$jcCache->agooconstruct();
+			$this->registry->set('cache', $jcCache);
+		}
+    ]]></add>
+	</operation>
+</file>
+
+

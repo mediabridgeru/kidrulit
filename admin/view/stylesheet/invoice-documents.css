@@ -1,0 +1,35 @@
+/*Стиль блока при наведении*/
+.droplink ul li a:hover{
+ background-color:#3E403D;
+}
+ .drop-ul{
+	display: none
+}
+.drop-ul ul{
+	margin: 0px;
+    padding: 0px;
+}
+.drop-ul ul li{
+	list-style: outside none none;
+    margin: 0px;
+    padding: 8px;
+    background: transparent url("../image/transparent.png") repeat scroll 0% 0%;
+}
+.show{
+	position: absolute;
+	display: block;
+	padding: 10px;
+	border-radius: 4px;
+	
+}
+.drop-ul ul li a{
+	padding: 5px;
+    margin: 1px;
+    color: #FFF;
+    text-decoration: none;
+	padding-top: 10px
+	
+}
+.drop-ul ul li:hover {
+	background-color: #990000; 
+}

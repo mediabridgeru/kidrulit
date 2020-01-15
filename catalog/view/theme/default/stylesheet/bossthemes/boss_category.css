@@ -1,0 +1,52 @@
+/*module category*/
+#content #submenu{ margin-bottom:25px; width:auto}
+#submenu {clear: both;float: left;width:100%; position:relative; z-index:90;overflow:visible;}
+.submenu-inside  dl { position:relative; margin:0}
+.submenu-inside  > dl > dt > a{
+	padding-left:10px;
+	font-weight:400;
+}
+.submenu-inside  > dl > dt > a > i{margin-right:10px}
+.submenu-inside  dt { position:relative;padding:5px 0 6px; font-weight:400}
+.submenu-inside   dl:hover{ z-index:1600}
+.submenu-inside  dl , .submenu-inside  dd{ margin-left:0}
+.submenu-inside dd { padding-left: 25px;}
+.submenu-inside   dl > dt > a, .submenu-inside   dl > dt > a.active { display:block; position:relative; z-index:2;padding:0 20px}
+.submenu-inside   dl > dt > a.active  { cursor:default;font-weight:bold}
+.submenu-inside   dl:hover > dt > a{font-weight:bold; color:#202020}
+.submenu-inside   dl.cate_hover > dt > a {  border-left:0; border-right:0; display:block}
+.submenu-inside .cate-list-item > dd{ position:absolute; /*visibility:hidden;*/ display: none; z-index:-1;padding:0;}
+.submenu-inside .cate-list-item.submenu dd.sub-cate-list { 
+	background-color: #FFFFFF;
+    box-shadow: 0 0 5px #C8C5C5;
+    left: 100%;
+    margin: 0;
+    position: absolute;
+    top: 0;
+	padding:6px 0
+}
+.submenu-inside .cate-list-item.submenu:hover dd.sub-cate-list {
+	border: 1px solid #ebebeb;   
+    top: -7px !important;
+    z-index: 0;
+}
+
+.submenu-inside .cate-list-item.submenu dd.sub-cate-list > div{float:left; clear:none; max-width:180px}
+.submenu-inside .cate-list-item.submenu dd.sub-cate-list > div.sub-item > dl { padding:0 10px;}
+.submenu-inside .cate-list-item.submenu dd.sub-cate-list > div.sub-item > dl > dt > a{ }
+.submenu-inside .cate-list-item.submenu dd.sub-cate-list > div.sub-item > dl:hover > dt > a {}
+.submenu-inside > dl:hover > dt > a{
+	
+}
+
+.submenu-inside .sub-cate-list > dl { display: inline-block;vertical-align: top;width: 49%;}
+.submenu-inside .sub-cate-list > dl > dt > a { line-height:32px;height:30px; display:block;}
+.submenu-inside .sub-cate-list > dl > dt > a:hover {}
+.submenu-inside .sub-cate-list   dl:hover > dt > a { border:0; }
+
+
+.submenu-inside .sub-cate-list  dl  dd > .cate-list-item.submenu > dd { position:absolute; top:-11px; left:100%; visibility:hidden;z-index:-1; background-color:#fff; border:1px solid #ccc; margin:0; width:180px; padding:10px 0 15px 0}
+.submenu-inside .sub-cate-list  dl  dd > .cate-list-item.submenu:hover > dd  { display:block; background-color:#fff; border:1px solid #ccc;visibility:visible;z-index:5; }
+
+#column-right .submenu-inside .cate-list-item.submenu dd.sub-cate-list{ right:99.9%; left:auto}
+#column-right  .submenu-inside .sub-cate-list dl dd > .cate-list-item.submenu > dd {right:100%; left:auto}

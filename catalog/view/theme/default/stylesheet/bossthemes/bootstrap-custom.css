@@ -1,0 +1,40 @@
+.nav > li > a:hover, .nav > li > a:focus { background:none}
+.col-md-cs5{
+    position: relative;
+	  min-height: 1px;
+	  padding-left: 15px;
+	  padding-right: 15px;
+}
+.col-md-cs5 {
+    float: left;
+}
+@media (min-width: 768px){
+	.col-sm-cs5{ width:25%}
+}
+
+
+@media (min-width: 992px){
+	.col-md-cs5{ width:25%}
+}
+@media (min-width: 1200px) {
+	.col-lg-cs5 { width:20%}
+}
+
+.touch  .tooltip, .touch  .tooltip.in { display:none!important}
+
+
+.modal-body { padding:0}
+.modal-header { border:none}
+.modal-dialog {
+	margin:				10px auto!important;
+	height:				95%
+}
+
+.modal-content {
+	padding:			10px 0 10px 20px;
+	overflow:			hidden
+}
+
+.form-control {
+	line-height:normal
+}

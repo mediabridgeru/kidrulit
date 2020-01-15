@@ -1,0 +1,35 @@
+<modification>
+	<id>catalog - controller - common - seo_url</id>
+	<version>1.5.6</version>
+	<vqmver>2.4.1</vqmver>
+	<author>bossthemes</author>
+	<file name="catalog/controller/common/seo_url.php">
+		<operation>
+			<search position="before"><![CDATA[if (isset($this->request->get['route'])) ]]></search>
+			<add><![CDATA[
+			/* SEO Alphabet URL */
+			if($this->config->get('boss_alphabet_seo')){
+				if($this->request->get['_route_'] == $this->config->get('boss_alphabet_seo')){
+					$this->request->get['route'] = 'bossthemes/product_by_alphabet';
+				}
+			}
+			/* SEO Alphabet URL */
+			]]></add>
+		</operation>	
+		<operation>	
+			<search position="after"><![CDATA[if (isset($data['route'])) {]]></search>
+			<add><![CDATA[
+				/* SEO Alphabet URL */
+				if($this->config->get('boss_alphabet_seo')){
+					if($data['route'] == 'bossthemes/product_by_alphabet'){
+						$this->request->get['route'] = 'bossthemes/product_by_alphabet';
+						$url .= '/'.$this->config->get('boss_alphabet_seo');
+						unset($data[$key]);
+						continue;
+					}
+				}
+				/* SEO Alphabet URL */
+			]]></add>
+		</operation>
+	</file>
+</modification>

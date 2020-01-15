@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<items_setting>
+	<general>
+		<background>
+			<frontend>true</frontend>
+			<text>Background Color</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>g_bg_color</name>
+				<class>body</class>
+				<style>background-color</style>
+			</item>
+		</background>
+		<background_1>
+			<frontend>true</frontend>
+			<text>Background content</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>g_bg_color_1</name>
+				<class>#content-container .container, .box, .box .box-content, .tab-content,  .modal-content</class>
+				<style>background-color</style>
+			</item>
+		</background_1>
+		
+		<text_color>
+			<frontend>true</frontend>
+			<text>Link color</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>g_text_1</name>
+				<class>body, a, .form-comment-container .required , .boss_block-recent-comments .recent-comment-content , .boss_article-items, .block .block-content ol > li , .block .block-content ul > li, #language a, #currency a, .boss-alphabet a, input[type=text], input[type=password], select, select.form-control, textarea, .pagination .links a , .sbHolder, .boss_block-recent-comments .recent-comment-content, .boss_article-detail .article-content p, article-content .h4</class>
+				<style>color</style>
+			</item>
+		</text_color>
+		<text_color>
+			<frontend>false</frontend>
+			<text>Text Color 2</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>g_text_2</name>
+				<class>a b , a.forgotten,.product-info .stock, tbody .stock, .boss-static a:hover, .blogarticles .readmore a:hover,a.comment-title:hover, .comment-count a:hover , .post-by span, .comment-by span , .article-name h2 a:hover ,.article-title h2 a:hover,a.article-title:hover,	a.comment-title:hover, .product-info .review a.pull-right, .boss_article-detail .tags a</class>
+				<style>color</style>
+			</item>
+		</text_color>
+		<text_color>
+			<frontend>false</frontend>
+			<text>Text Color 3</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>g_text_3</name>
+				<class>#powered, #powered a, .price-old,.price s, .price-new, .time-stamp small , small.time-stamp ,.separator, .comment-count, .comment-count a , .post-by, .comment-by, .price-tax</class>
+				<style>color</style>
+			</item>
+		</text_color>			
+		<text_color>
+			<frontend>false</frontend>
+			<text>Link hover color</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>g_text_4</name>
+				<class>a:hover, a:focus,a.forgotten:hover, .box-category li:hover > a, .submenu-inside   dl:hover > dt > a,.cart-total td,.cart-info tbody .price,.wishlist-info tbody .price, .boss_article-detail .tags  a:hover , .product-info .description, .table.table-bordered.checkout-product tbody td.price, .checkout-product tbody td.total, .table.table-bordered.checkout-product tfoot td ,.checkout-product tfoot td.price b , ul.list > li > a:hover , ul.list > li.active > a, .mini-cart-total td ,.mini-cart-info td.name div.total , a:hover b, .article-name h2 a , .article-name h2 span, .article-title h2 a, a.article-title ,	a.comment-title, #boss_cart  .heading h4 a.active, .box .box-product .price ,.blogarticles .name a</class>
+				<style>color</style>
+			</item>
+		</text_color>
+			
+		<button_color_1>
+			<frontend>false</frontend>
+			<text>Button 1[ Default ]</text>
+			<item>
+				<itemshow>true</itemshow>
+				<text>Background</text>
+				<name>g_button_bg_normal_1</name>
+				<class>.btn-primary,button.btn</class>
+				<style>background-color</style>
+			</item>	
+			<item>
+				<itemshow>true</itemshow>
+				<text>Text color</text>
+				<name>g_button_text_normal_1</name>
+				<class>.btn-primary, .notouch .btn-primary:hover, .checkout a.btn:hover ,#boss_login a.btn:hover, .checkout a.btn, #boss_login a.btn</class>
+				<style>color</style>
+			</item>		
+			<item>
+				<itemshow>true</itemshow>
+				<text>Border</text>
+				<name>g_button_border_normal_1</name>
+				<class>.btn-primary, button.btn</class>
+				<style>border-color</style>
+			</item>				
+		</button_color_1>		
+		
+		<button_color_2>
+			<frontend>false</frontend>
+			<text>Button 2[ Cart ]</text>
+			<item>
+				<itemshow>true</itemshow>
+				<text>Background</text>
+				<name>g_button_bg_normal_2</name>
+				<class>.btn-color</class>
+				<style>background-color</style>
+			</item>	
+			<item>
+				<itemshow>true</itemshow>
+				<text>Text color</text>
+				<name>g_button_text_normal_2</name>
+				<class>.btn-color, .notouch .btn-color:hover, .cart .btn-color input[type=button], .cart .btn-color span</class>
+				<style>color</style>
+			</item>
+			<item>
+				<itemshow>true</itemshow>
+				<text>Border</text>
+				<name>g_button_border_normal_2</name>
+				<class>.btn-color</class>
+				<style>border-color</style>
+			</item>			
+			<item>
+				<itemshow>true</itemshow>
+				<text>Border Bottom</text>
+				<name>g_button_border_bottom_normal_2</name>
+				<class>.btn-color</class>
+				<style>border-bottom-color</style>
+			</item>								
+		</button_color_2>
+		
+		
+		<button_color_3>
+			<frontend>false</frontend>
+			<text>Button 3[ Checkout ]</text>
+			<item>
+				<itemshow>true</itemshow>
+				<text>Background</text>
+				<name>g_button_bg_normal_3</name>
+				<class>a.btn.btn-checkout, #boss_login a.btn.btn-checkout</class>
+				<style>background-color</style>
+			</item>	
+			<item>
+				<itemshow>true</itemshow>
+				<text>Text color</text>
+				<name>g_button_text_normal_3</name>
+				<class>a.btn.btn-checkout, #boss_login a.btn.btn-checkout, a.btn.btn-checkout:hover , #boss_login a.btn.btn-checkout:hover</class>
+				<style>color</style>
+			</item>	
+			<item>
+				<itemshow>true</itemshow>
+				<text>Border</text>
+				<name>g_button_border_normal_3</name>
+				<class>a.btn.btn-checkout, #boss_login a.btn.btn-checkout</class>
+				<style>border-color</style>
+			</item>	
+			<item>
+				<itemshow>true</itemshow>
+				<text>Border Bottom</text>
+				<name>g_button_border_bottom_normal_3</name>
+				<class>a.btn.btn-checkout, #boss_login a.btn.btn-checkout</class>
+				<style>border-bottom-color</style>
+			</item>							
+		</button_color_3>
+			
+		
+	</general>
+	<header>
+		<background_color>
+			<frontend>true</frontend>
+			<text>Background color</text>
+			<item>
+				<itemshow>true</itemshow>				
+				<name>h_bg_color</name>
+				<class>#page-top, .boss-alphabet a:hover, #header</class>
+				<style>background-color</style>
+			</item>
+		</background_color>
+		<color_1>
+			<frontend>false</frontend>
+			<text>Text color 1</text>
+			<item>
+				<itemshow>true</itemshow>
+				<text>Normal</text>
+				<name>h_text_nomal</name>
+				<class>#header-top .links a, #boss_login h3</class>
+				<style>color</style>
+			</item>
+			<item>
+				<itemshow>false</itemshow>
+				<text>Hover</text>
+				<name>h_text_hover</name>
+				<class>#boss_login:hover h3, #boss_login h3:focus, #header-top .links a:hover,  #boss_login a:hover</class>
+				<style>color</style>
+			</item>			
+		</color_1>
+		<color_2>
+			<frontend>false</frontend>
+			<text>Text color 2[Cart]</text>			
+			<item>
+				<itemshow>true</itemshow>
+				<text>Text color</text>
+				<name>h_cart_text</name>
+				<class>#boss_cart .heading h4 a</class>
+				<style>color</style>
+			</item>	
+			<item>
+				<itemshow>true</itemshow>
+				<text>Border color</text>
+				<name>h_cart_border</name>
+				<class>#boss_cart .heading h4 span#quantity_product</class>
+				<style>border-color</style>
+			</item>			
+		</color_2>
+		
+
+	</header>
+	<footer>
+		<background>
+			<frontend>true</frontend>
+			<text>Background color</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>f_bg_color</name>
+				<class>.footer-info</class>
+				<style>background-color</style>
+			</item>
+		</background>
+		<color_1>
+			<frontend>true</frontend>
+			<text>Link color</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>f_text_1</name>
+				<class>#footer h3, .boss-static-footer-2 .delivery span</class>
+				<style>color</style>
+			</item>			
+		</color_1>
+		<color_2>
+			<frontend>false</frontend>
+			<text>Link hover color</text>
+			<item>
+				<itemshow>true</itemshow>				
+				<name>f_text_normal_2</name>
+				<class>#footer .column ul li a</class>
+				<style>color</style>
+			</item>			
+		</color_2>
+		
+	</footer>
+	<menu>		
+		<background>
+			<frontend>false</frontend>
+			<text>Menu background color</text>
+			<item>
+				<itemshow>false</itemshow>				
+				<name>menu_bg_color</name>
+				<class>#boss_menu div.boss-menu</class>
+				<style>background-color</style>
+			</item>
+		</background>
+		<background>
+			<frontend>false</frontend>
+			<text>Drop menu background</text>
+			<item>
+				<itemshow>false</itemshow>				
+				<name>mdrop_bg_color</name>
+				<class>div.dropdown-menu, #boss_menu ul li div.sub_menu, .dropdown-menu-inner</class>
+				<style>background-color</style>
+			</item>
+		</background>
+		<text_color>
+			<frontend>true</frontend>
+			<text>Link color</text>
+			<item>
+				<itemshow>true</itemshow>				
+				<name>m_text_normal</name>
+				<class>.navbar ul.nav > li > a, #megamenu-responsive .root ul li a, #megamenu-responsive .root > ul > li > ul > li > a</class>
+				<style>color</style>
+			</item>			
+		</text_color>
+		<color_1>
+			<frontend>false</frontend>
+			<text>Link color text 2</text>
+			<item>
+				<itemshow>true</itemshow>
+				<text>Normal</text>
+				<name>m_text_normal_1</name>
+				<class>#boss_menu div.option div.staticblock h3, #boss_menu ul li.menu_item a.parent,#boss_menu div.option ul li a.product_name:hover,#boss_menu  div.option ul li:hover > a.product_name:hover  ,#boss_menu .option ul.category li.sub_category:hover > a, #boss_menu ul > li ul > li > a:hover</class>
+				<style>color</style>
+			</item>								
+		</color_1>
+		<color_2>
+			<frontend>false</frontend>
+			<text>Link color text 3</text>
+			<item>
+				<itemshow>true</itemshow>
+				<text>Normal</text>
+				<name>m_text_normal_2</name>
+				<class>#boss_menu ul > li ul > li a, #boss_menu div.option div.staticblock p , #boss_menu div.option ul li a.product_name, #boss_menu  div.option ul li:hover > a.product_name </class>
+				<style>color</style>
+			</item>			
+		</color_2>
+	</menu>
+	<product>
+		<product_name>
+			<frontend>true</frontend>
+			<text>Link color</text>
+			<item>
+				<itemshow>true</itemshow>				
+				<name>p_name_text_normal</name>
+				<class>.name a, .name span, .mini-cart-info .name .desc, a.product_name,.checkout-content .name a</class>
+				<style>color</style>
+			</item>
+		</product_name>
+		<product_name_1>
+			<frontend>false</frontend>
+			<text>Link hover color</text>
+			<item>
+				<itemshow>false</itemshow>
+				<text>Hover</text>
+				<name>p_name_text_hover</name>
+				<class>.name a:hover</class>
+				<style>color</style>
+			</item>
+		</product_name_1>
+		<product_des>
+			<frontend>false</frontend>
+			<text>Product description</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>p_des_text</name>
+				<class>.product-list .description, .product-grid .description, div.description, .boss-static p,  .boss_article-items .article-title, .blogarticles h4, .boss-static.boss-home-brands p</class>
+				<style>color</style>
+			</item>
+		</product_des>
+		<price>
+			<frontend>true</frontend>
+			<text>Price color</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>p_price_text</name>
+				<class>span.price,div.price</class>
+				<style>color</style>
+			</item>
+		</price>
+		<price_spec>
+			<frontend>false</frontend>
+			<text>Old price color</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>p_spec_text</name>
+				<class>.price b,.price-new</class>
+				<style>color</style>
+			</item>
+		</price_spec>	
+	</product>
+	<title>
+		<page_title>
+			<frontend>true</frontend>
+			<text>Heading color</text>
+			<item>
+				<itemshow>true</itemshow>
+				<name>t_page</name>
+				<class>h1, h2, h4, h5, h6, .h1, .h2, .h4, .h5, .h6, div.jGrowl div.jGrowl-notification div.jGrowl-header,.box.box-news .box-heading, #tab-description.tab-content b ,.boss_article-detail h3, .boss_productcategory_tabs h3, .blogarticles h3</class>
+				<style>color</style>
+			</item>
+		</page_title>		
+		<bread_crumb_1>
+			<frontend>false</frontend>
+			<text>Breadcrumb color</text>
+			<item>
+				<itemshow>true</itemshow>
+				<text>Normal</text>
+				<name>t_bread_normal</name>
+				<class>#breadcrumb a, #breadcrumb a.breadcrumb_last:hover, #breadcrumb a:hover</class>
+				<style>color</style>
+			</item>							
+		</bread_crumb_1>
+		
+		<block_title>
+			<frontend>false</frontend>
+			<text>Block title text</text>
+			<item>
+				<itemshow>true</itemshow>
+				<text>Text color</text>
+				<name>t_block_text</name>
+				<class>.box-heading,.htabs a.selected, .htabs a:hover, h2.ta-header.selected, h2.ta-header.selected span</class>
+				<style>color</style>
+			</item>
+			<item>
+				<itemshow>true</itemshow>
+				<text>Backgound color [ Block - Tab normal ]</text>
+				<name>t_block_bg</name>
+				<class>.box-heading, .htabs, h2.ta-header</class>
+				<style>background-color</style>
+			</item>
+		</block_title>
+		<block_title_1>
+			<item>
+				<itemshow>true</itemshow>
+				<text>Text color Tab[ Normal ]</text>
+				<name>t_block_text_1</name>
+				<class>.htabs a, h2.ta-header span</class>
+				<style>color</style>
+			</item>
+			
+			<item>
+				<itemshow>true</itemshow>
+				<text>Backgound color tab [ Active - hover ]</text>
+				<name>t_block_bg_1</name>
+				<class>.htabs a.selected, .htabs a:hover, h2.ta-header.selected</class>
+				<style>background-color</style>
+			</item>
+		</block_title_1>
+		
+	</title>
+</items_setting>

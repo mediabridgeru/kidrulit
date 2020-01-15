@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <id>ExcelPort Options Boost</id>
+  <version>1.0.0</version>
+  <vqmver>2.x</vqmver>
+  <author>iSenseLabs Team | http://isenselabs.com</author>
+  
+  <file name="admin/model/module/excelport.php">
+    <operation>
+      <search position="before"><![CDATA[parent::__construct($register);]]></search>
+      <add><![CDATA[$this->productSize += 4;]]></add>
+    </operation>
+  </file>
+  <file name="admin/model/module/excelport_product.php">
+    <operation>
+      <search position="before"><![CDATA[$leftColumnStaticText = array]]></search>
+      <add><![CDATA[
+        $rewards['points'][1] += 4;
+        $dynamicTemplates['option_types'][3] += 4;
+        $dynamicTemplates['option_values'][3] += 4;
+        $dynamicTemplates['discounts'][1] += 4;
+        $dynamicTemplates['discounts'][3] += 4;
+        $dynamicTemplates['specials'][1] += 4;
+        $dynamicTemplates['specials'][3] += 4;
+        $dynamicTemplates['images'][1] += 4;
+        $dynamicTemplates['images'][3] += 4;
+        $dynamicTemplates['reward_points'][1] += 4;
+        $dynamicTemplates['reward_points'][3] += 4;
+        $dynamicTemplates['designs'][1] += 4;
+        $dynamicTemplates['designs'][3] += 4;
+        $merges[19] += 4;
+        $merges[21] += 4;
+        $merges[23] += 4;
+        $merges[25] += 4;
+        $merges[27] += 4;
+        $merges[29] += 4;
+        $merges[31] += 4;
+        $merges[33] += 4;
+        $merges[35] += 4;
+        $merges[37] += 4;
+        $merges[39] += 4;
+      ]]></add>
+    </operation>
+    <operation>
+      <search position="after"><![CDATA[$leftColumnStaticTextColumn4 = array]]></search>
+      <add><![CDATA[
+        for ($i = 0; $i < 4; $i++) {
+            $leftColumnStaticTextColumn1[] = null;
+            $leftColumnStaticTextColumn2[] = null;
+        }
+        $this->array_insert($leftColumnStaticTextColumn3, 8, null);
+        $this->array_insert($leftColumnStaticTextColumn4, 8, 'SKU');
+        $this->array_insert($leftColumnStaticTextColumn3, 8, null);
+        $this->array_insert($leftColumnStaticTextColumn4, 9, 'Image');
+        $this->array_insert($leftColumnStaticTextColumn3, 8, null);
+        $this->array_insert($leftColumnStaticTextColumn4, 10, 'Override');
+        $this->array_insert($leftColumnStaticTextColumn3, 8, null);
+        $this->array_insert($leftColumnStaticTextColumn4, 11, 'Misc Info');
+      ]]></add>
+    </operation>
+    <operation>
+            <search position="after"><![CDATA[$product_option_value['weight_prefix'] . $product_option_value['weight']]]></search>   
+            <add><![CDATA[
+            ,
+            $product_option_value['ob_sku'],
+            $product_option_value['ob_image'],
+            $product_option_value['ob_sku_override'],
+            $product_option_value['ob_info']
+            
+            
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[$productOption['option_value'],]]></search>   
+            <add><![CDATA['',
+            '',
+            '',
+            '',]]></add>
+        </operation>
+        
+        <operation>
+            <search position="before"><![CDATA[$this->productSize*($progress['importedCount'])]]></search>   
+            <add><![CDATA[
+            $map['discount'][1] += 4;
+            $map['special'][1] += 4;
+            $map['product_image'][1] += 4;
+            $map['points'][1] += 4;
+            $map['reward_points'][1] += 4;
+            $map['design'][1] += 4;
+            ]]></add>
+        </operation>
+        
+        <operation><!-- This should match twice. Note this is a partial line match -->
+            <search position="after"><![CDATA[
+            $this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value SET
+            ]]></search>
+            <add><![CDATA[
+                        //Q: Options Boost
+                        if (!isset($product_option_value_id)) {
+                            $product_option_value_id = $this->db->getLastId();
+                        }
+                        if(isset($product_option_value['ob_sku'])) { $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET ob_sku = '" . $this->db->escape($product_option_value['ob_sku']) . "' WHERE product_option_value_id = '" . (int)$product_option_value_id . "'"); }
+                        if(isset($product_option_value['ob_info'])) { $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET ob_info = '" . $this->db->escape($product_option_value['ob_info']) . "' WHERE product_option_value_id = '" . (int)$product_option_value_id . "'"); }
+                        if(isset($product_option_value['ob_image'])) { $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET ob_image = '" . $this->db->escape($product_option_value['ob_image']) . "' WHERE product_option_value_id = '" . (int)$product_option_value_id . "'"); }
+                        if(isset($product_option_value['ob_sku_override'])) { $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET ob_sku_override = '" . $this->db->escape($product_option_value['ob_sku_override']) . "' WHERE product_option_value_id = '" . (int)$product_option_value_id . "'"); }
+                        unset($product_option_value_id); // This will break other mods if they have a similar line
+                        //
+            ]]></add>
+        </operation>
+        
+        <operation>
+            <search position="before"><![CDATA['points_prefix' => $product_option_value_points_prefix,]]></search>   
+            <add><![CDATA[
+            'ob_sku' => trim($productSheetObj->getCell(PHPExcel_Cell::stringFromColumnIndex($source[0] + $map['option'][0] + $i) . ($source[1] + $map['option'][1] + 6))->getValue()),
+            'ob_image' => trim($productSheetObj->getCell(PHPExcel_Cell::stringFromColumnIndex($source[0] + $map['option'][0] + $i) . ($source[1] + $map['option'][1] + 7))->getValue()),
+            'ob_sku_override' => (int)trim($productSheetObj->getCell(PHPExcel_Cell::stringFromColumnIndex($source[0] + $map['option'][0] + $i) . ($source[1] + $map['option'][1] + 8))->getValue()),
+            'ob_info' => trim($productSheetObj->getCell(PHPExcel_Cell::stringFromColumnIndex($source[0] + $map['option'][0] + $i) . ($source[1] + $map['option'][1] + 9))->getValue()),
+            ]]></add>
+        </operation>
+  </file>
+  
+</modification>

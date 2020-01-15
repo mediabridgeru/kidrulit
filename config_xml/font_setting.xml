@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<items_setting>
+	<general>
+		<item>
+			<frontend>true</frontend>
+			<text>General</text>
+			<style>g_fstyle</style>
+			<size>g_fsize</size>
+			<weight>g_fweight</weight>
+			<transform>g_ftrans</transform>
+			<class_name>body,a,.product-list .price-tax,#content-login,.ui-notify .boss_text h3</class_name>
+		</item>
+		<item>
+			<frontend>true</frontend>
+			<text>Button</text>
+			<style>g_addcart_fstyle</style>
+			<size>g_addcart_fsize</size>
+			<weight>g_addcart_fweight</weight>
+			<transform>g_addcart_ftrans</transform>
+			<class_name>.btn, .btn-color, .checkout a.btn, #boss_login a.btn</class_name>
+		</item>
+	</general>
+	<header>
+		<item>
+			<frontend>false</frontend>
+			<text>Header 1</text>
+			<style>h_fstyle_1</style>
+			<size>h_fsize_1</size>
+			<weight>h_fweight_1</weight>
+			<transform>h_ftrans_1</transform>
+			<class_name>#boss_cart  .heading h4 a, #boss_login h3, #header-top .links a</class_name>
+		</item>		
+		
+	</header>
+	<footer>
+		<item>
+			<frontend>true</frontend>
+			<text>Footer</text>
+			<style>f_fstyle_2</style>
+			<size>f_fsize_2</size>
+			<weight>f_fweight_2</weight>
+			<transform>f_ftrans_2</transform>
+			<class_name>.boss-static-footer-2 .delivery  span , #footer h3</class_name>
+		</item>
+		<item>
+			<frontend>false</frontend>
+			<text>Footer 1</text>
+			<style>f_fstyle_1</style>
+			<size>f_fsize_1</size>
+			<weight>f_fweight_1</weight>
+			<transform>f_ftrans_1</transform>
+			<class_name>#footer .column ul li a</class_name>
+		</item>
+		
+	</footer>
+	<menu>
+		<item>
+			<frontend>true</frontend>
+			<text>Menu</text>
+			<style>m_fstyle_1</style>
+			<size>m_fsize_1</size>
+			<weight>m_fweight_1</weight>
+			<transform>m_ftrans_1</transform>
+			<class_name>.navbar ul.nav > li > a, #megamenu-responsive .root ul li a, #megamenu-responsive .root > ul > li > ul > li > a</class_name>
+		</item>
+		<item>
+			<frontend>false</frontend>
+			<text>Menu 1</text>
+			<style>m_fstyle_2</style>
+			<size>m_fsize_2</size>
+			<weight>m_fweight_2</weight>
+			<transform>m_ftrans_2</transform>
+			<class_name>#boss_menu div.option div.staticblock h3, #boss_menu ul li.menu_item a.parent</class_name>
+		</item>
+		<item>
+			<frontend>false</frontend>
+			<text>Menu 2</text>
+			<style>m_fstyle_3</style>
+			<size>m_fsize_3</size>
+			<weight>m_fweight_3</weight>
+			<transform>m_ftrans_3</transform>
+			<class_name>#boss_menu ul > li ul > li a, #boss_menu div.option div.staticblock p, #boss_menu div.option ul.product li a.product_name</class_name>
+		</item>
+	</menu>
+	<product>
+		<item>
+			<frontend>true</frontend>
+			<text>Product Name</text>
+			<style>p_name_fstyle</style>
+			<size>p_name_fsize</size>
+			<weight>p_name_fweight</weight>
+			<transform>p_name_ftrans</transform>
+			<class_name>.name a, .name span, .mini-cart-info .name .desc, a.product_name, .article-name h2 a,.block .article-title, .block .comment-title,.checkout-content .name a, .article-name h2 a , .article-name h2 span, .article-title h2 a, a.article-title ,	a.comment-title</class_name>
+		</item>
+		<item>
+			<frontend>true</frontend>
+			<text>Product Description</text>
+			<style>p_des_fstyle</style>
+			<size>p_des_fsize</size>
+			<weight>p_des_fweight</weight>
+			<transform>p_des_ftrans</transform>
+			<class_name>.product-list .description, .product-grid .description, .boss-static p, .boss_article-items .article-title, .blogarticles h4, .boss-static.boss-home-brands p</class_name>
+		</item>
+		<item>
+			<frontend>false</frontend>
+			<text>Product Price</text>
+			<style>p_price_fstyle</style>
+			<size>vp_price_fsize</size>
+			<weight>p_price_fweight</weight>
+			<transform>p_price_ftrans</transform>
+			<class_name>span.price,div.price</class_name>
+		</item>
+	</product>
+	<title>
+		<item>
+			<frontend>true</frontend>
+			<text>Page Title</text>
+			<style>t_page_fstyle</style>
+			<size>t_page_fsize</size>
+			<weight>t_page_fweight</weight>
+			<transform>t_page_ftrans</transform>
+			<class_name>h1, h2, h4, h5, h6, .h1, .h2, .h4, .h5, .h6, div.jGrowl div.jGrowl-notification div.jGrowl-header,.box.box-news .box-heading, #tab-description.tab-content b ,.boss_article-detail h3, .boss_productcategory_tabs h3, .blogarticles h3</class_name>
+		</item>
+		<item>
+			<frontend>false</frontend>
+			<text>Block Title</text>
+			<style>t_block_fstyle</style>
+			<size>t_block_fsize</size>
+			<weight>t_block_fweight</weight>
+			<transform>t_block_ftrans</transform>
+			<class_name>.box-heading,.htabs a.selected,  h2.ta-header.selected, h2.ta-header.selected span, .htabs a, h2.ta-header span</class_name>
+		</item>
+		<item>
+			<frontend>false</frontend>
+			<text>Breadcrumb</text>
+			<style>t_bread_fstyle</style>
+			<size>t_bread_fsize</size>
+			<weight>t_bread_fweight</weight>
+			<transform>t_bread_ftrans</transform>
+			<class_name>#breadcrumb a</class_name>
+		</item>
+	</title>
+</items_setting>

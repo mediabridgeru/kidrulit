@@ -1,0 +1,34 @@
+@media print {
+
+	body {
+        color: #000;
+        background: #fff;
+    }
+    #header,
+    #header-top,
+    .page-product div#column-left,
+    #breadcrumb
+    {
+    	display:none;
+    }
+	
+	div.boss-banner,
+    .page-product div#tab-related,
+    div.tags,
+    div.box.box-recent,
+    div.product-info div.review,
+    div.container > div.col-xs-24.col-sm-24.col-md-24,
+    div.boss_zoom .list_carousel,
+    div.col-lg-11.col-md-11.col-sm-24.col-xs-24 span,
+    div.cart,
+    #footer,
+    #footer_bottom
+    {
+    	display:none;
+    }
+	
+	.product-info .image img{
+		
+	}
+
+}

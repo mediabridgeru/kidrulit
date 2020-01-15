@@ -1,0 +1,174 @@
+
+div.jGrowl {
+	z-index: 			9999;
+	color: 				#fff;
+	font-size: 			12px;
+}
+
+/** Special IE6 Style Positioning **/
+div.ie6 {
+	position: 			absolute;
+}
+
+div.ie6.top-right {
+	right: 				auto;
+	bottom: 			auto;
+	left: 				expression( ( 0 - jGrowl.offsetWidth + ( document.documentElement.clientWidth ? document.documentElement.clientWidth : document.body.clientWidth ) + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
+	top: 				expression( ( 0 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
+}
+
+div.ie6.top-left {
+	left: 				expression( ( 0 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
+	top: 				expression( ( 0 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
+}
+
+div.ie6.bottom-right {
+	left: 				expression( ( 0 - jGrowl.offsetWidth + ( document.documentElement.clientWidth ? document.documentElement.clientWidth : document.body.clientWidth ) + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
+	top: 				expression( ( 0 - jGrowl.offsetHeight + ( document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight ) + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
+}
+
+div.ie6.bottom-left {
+	left: 				expression( ( 0 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
+	top: 				expression( ( 0 - jGrowl.offsetHeight + ( document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight ) + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
+}
+
+div.ie6.center {
+	left: 				expression( ( 0 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
+	top: 				expression( ( 0 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
+	width: 				100%;
+}
+
+/** Normal Style Positions **/
+div.jGrowl {
+	position:			absolute;
+}
+
+body > div.jGrowl {
+	position:			fixed;
+}
+
+div.jGrowl.top-left {
+	left: 				0px;
+	top: 				0px;
+}
+
+div.jGrowl.top-right {
+	right: 				0px;
+	top: 				0px;
+}
+
+div.jGrowl.bottom-left {
+	left: 				0px;
+	bottom:				0px;
+}
+
+div.jGrowl.bottom-right {
+	right: 				0px;
+	bottom: 			0px;
+}
+
+div.jGrowl.center {
+	top: 				0px;
+	width: 				50%;
+	left: 				25%;
+}
+
+/** Cross Browser Styling **/
+div.center div.jGrowl-notification, div.center div.jGrowl-closer {
+	margin-left: 		auto;
+	margin-right: 		auto;
+}
+
+div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
+	zoom: 					1;
+	width: 					266px;
+	padding: 				10px;
+	margin-top: 			5px;
+	margin-bottom: 			5px;
+	font-size: 				14px;
+	text-align: 			left;
+	display: 				none;
+	-moz-border-radius: 	2px;
+	-webkit-border-radius:	2px;
+	border-radius:			2px;
+	
+	border: 				1px solid #B3B3B3;
+    overflow: 				hidden;
+    padding: 				10px;
+	background:				#fff
+}
+
+div.jGrowl div.jGrowl-notification {
+	min-height: 			40px;
+}
+
+div.jGrowl div.jGrowl-notification,
+div.jGrowl div.jGrowl-closer {
+	margin: 				10px 15px;
+}
+
+div.jGrowl div.jGrowl-notification div.jGrowl-header {
+	background:				url(../../image/success.png) no-repeat left ;
+	padding-left:			20px;
+	font-size:				13px;	
+	font-weight:			700;
+	font-family:			'Lato', Arial;
+	padding:				9px 0 9px 22px;
+	text-transform: 		uppercase;
+	margin: 				-8px 0 0;
+}
+div.jGrowl div.jGrowl-notification div.jGrowl-message img { 
+	float:					left; 
+	margin-right:			15px
+}
+div.jGrowl div.jGrowl-notification div.jGrowl-message a, div.jGrowl div.jGrowl-notification div.jGrowl-message h3 {
+	font-size:				14px
+}
+div.jGrowl div.jGrowl-notification div.jGrowl-message h3  a:hover, div.jGrowl div.jGrowl-notification div.jGrowl-message a:hover {
+	font-weight:			700
+}
+div.jGrowl div.jGrowl-notification div.jGrowl-close {
+	z-index:				99;
+	float: 					right;
+	font-weight: 			bold;
+	font-size: 				1em;
+	cursor:					pointer;
+	
+	background:			url(../../image/icons.png) 0 0 no-repeat; 
+	width:				20px; 
+	height:				20px;
+	display:			inline-block; 
+	text-indent:		-9999px;
+	opacity:			0.5;
+	filter:				alpha(opacity=50)
+}
+.touch div.jGrowl div.jGrowl-notification div.jGrowl-close {
+    background: url("../../image/icons.png") no-repeat scroll 8px 8px rgba(0, 0, 0, 0);
+    height: 35px;
+    margin: -10px -10px 0 0;
+    padding: 10px;
+    width: 35px;
+}
+div.jGrowl div.jGrowl-notification div.jGrowl-close:hover {
+	opacity:			1;
+	filter:				alpha(opacity=100)
+}
+div.jGrowl div.jGrowl-closer {
+	padding-top: 			6px;
+	padding-bottom: 		6px;
+	cursor: 				pointer;
+	font-size:				.9em;
+	font-weight: 			bold;
+	text-align: 			center;
+	color:					#202020
+}
+div.jGrowl div.jGrowl-closer:hover {
+
+	text-decoration:		underline
+}
+/** Hide jGrowl when printing **/
+@media print {
+	div.jGrowl {
+		display: 			none;
+	}
+}

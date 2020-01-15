@@ -1,0 +1,430 @@
+/*******menu*******/
+ul.navbar-nav {
+	display: block;
+	float: none
+}
+/*.navbar-nav > li { float:none; display:inline-block;padding: 0 0 34px;}*/
+.navbar-nav > li:hover .sub_menu_default {
+}
+.dropdown:hover > .dropdown-menu {
+
+}
+#boss_menu {
+	position: relative;
+	float: right;
+	margin-bottom: 30px;
+}
+#boss_menu div.boss-menu {
+	border-radius: 4px;
+	padding-right: 175px;
+}
+#menu {
+	position: relative;
+	z-index: 99
+}
+.navbar-nav > li {
+	padding-bottom: 34px;
+	float: none;
+	display: inline-block
+}
+#boss_menu ul li.menu_item.active .dropdown-menu, #menu > ul > li.active .dropdown-menu {
+	display: block;
+	overflow: visible !important
+}
+
+.navbar ul.nav > li > a {
+	z-index: 0;
+	text-transform: uppercase;
+	color: #fff;
+	margin: 0 0px;
+	font-size: 14px;
+	line-height: 16px;
+	padding: 0
+}
+.navbar .nav > li:hover > a {
+	background: none;
+}
+.navbar .nav > li > a:hover, .navbar .nav > li.active > a {
+	/*font-weight: 700;*/
+}
+
+#boss_menu  ul.nav {
+}
+#boss_menu  ul.ul_mega_menu {
+	border: none;
+	height: 55px;
+	float: none;
+	display: table;
+	width: 100%;
+}
+
+#boss_menu   #menu_default ul.nav {
+	display: table
+}
+#boss_menu ul  li.menu_item {
+	width: auto;
+	display: table-cell;
+	position: relative;
+	float: none;
+	vertical-align: middle;
+	padding: 0 10px;
+}
+#boss_menu ul  li.menu_item + li.menu_item:before {
+	content: "";
+	width: 2px;
+	height: 42px;
+	position: absolute;
+	left: -1px;
+	top: 6.5px;
+	background: url(../../image/menu-divider.png) 0 0 no-repeat;
+}
+#menu > ul > li {
+	width: auto;
+	display: inline-block;
+	position: relative;
+	float: none;
+	padding: 0 0 39px 0;
+}
+#menu > ul > li {
+	padding-bottom: 10px
+}
+#boss_menu  li:hover {
+	z-index: 1010
+}
+#boss_menu ul > li.menu_item > a, #menu > ul > li > a {
+	position: relative;
+	text-decoration: none;
+	white-space: normal;
+	z-index: 6;
+}
+
+#boss_menu ul  li.menu_item.active a.title_menu_parent {
+	/*font-weight: 700;*/
+}
+#boss_menu > ul > li:last-child {
+	padding-right: 0
+}
+#boss_menu > ul > li ul > li, #menu > ul > li ul li {
+	margin: 0 13px 21px 15px;
+	display: block;
+	width: auto;
+	position: relative;
+	z-index: 20;
+}
+#boss_menu > ul > li ul > li.parent {
+	z-index: 100
+}
+#boss_menu > ul > li:hover > a {
+	transition: all 0.5s ease 0s;
+	color: #fcd4d4;
+	text-decoration: none;
+}
+#menu > ul > li > div {
+	width: auto;
+	min-width: 200px;
+	top: 40px
+}
+
+#menu > ul > li:hover > div > ul {
+	display: inline-block;
+	margin-right: -4px;
+	vertical-align: top;
+	min-width: 100px;
+}
+#menu > ul > li > div ul li a {
+	white-space: nowrap
+}
+
+#boss_menu > ul li.menu_item > div  ul li a img {
+	margin-bottom: 5px
+}
+#boss_menu > ul > li > div > ul {
+	display: table-cell;
+}
+#boss_menu > ul > li .options_list ul.category {
+	margin-bottom: 20px
+}
+#boss_menu > ul > li div a.cat_parent {
+	padding: 7px 0 0;
+	display: block;
+}
+#boss_menu > ul > li div a.cat_parent img {
+	display: block;
+	margin-bottom: 10px;
+	max-width: 100%
+}
+
+#boss_menu > ul > li > div > ul > li > a {
+	color: #FFFFFF;
+}
+#boss_menu ul > li ul > li {
+	position: relative;
+	padding: 4px 20px;
+	display: block
+}
+#boss_menu ul > li ul > li a {
+	display: inline-block
+}
+#boss_menu ul > li ul > li.sub_category {
+	background: url(../../image/arr_readmore.png) no-repeat 14px 11px;
+}
+
+#boss_menu  div.option div.staticblock {
+	padding: 0 20px 20px
+}
+#boss_menu  div.option div.staticblock  p {
+	line-height: 16px;
+	font-size: 13px;
+	margin-bottom: 15px
+}
+#boss_menu  div.option div.staticblock h3 {
+	font-size: 18px;
+	font-weight: 700;
+	margin: 6px 0 13px 0
+}
+#boss_menu  div.option div.staticblock img {
+	max-width: 100%;
+	margin-bottom: 10px;
+}
+#boss_menu ul li.menu_item a.parent {
+	color: #202020;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: 700;
+	margin: 5px 20px 4px;
+	white-space: normal;
+}
+#boss_menu ul li.menu_item a.parent img {
+	display: block;
+	margin-bottom: 5px
+}
+
+#boss_menu  div.option ul.product li + li {
+	padding-top: 40px;
+	overflow: hidden
+}
+#boss_menu  div.option ul.product li  div.name {
+	display: block;
+	margin-bottom: 9px
+}
+#boss_menu  div.option ul.product li  a {
+	font-size: 16px;
+}
+#boss_menu  div.option ul.product li  a.product_name {
+	line-height: 19px;
+	display: inline-block
+}
+
+#boss_menu  div.option ul.product li  a.img {
+	display: block;
+	margin-bottom: 0
+}
+#boss_menu  div.option ul li  a.image {
+	display: inline-block;
+	margin-bottom: 10px
+}
+#boss_menu  div.option ul li  a.image img {
+	text-align: center;
+	max-width: 100%;
+	width: 100%;
+	background-color: #fff
+}
+#boss_menu  div.option ul li:hover > a.product_name {
+	font-weight: normal;
+	color: #505050
+}
+#boss_menu  div.option ul li:hover > a.product_name:hover {
+	font-weight: 700;
+	color: #202020
+}
+#boss_menu ul > li ul.manufacturer > li {
+	margin: 4px 20px;
+	padding: 0
+}
+#boss_menu ul > li ul.manufacturer > li a.image {
+	display: block
+}
+
+#boss_menu  div.option ul li a.image:hover {
+	opacity: 0.7;
+	filter: alpha ( opacity=70)
+}
+
+/* Responsive Menu */
+#megamenu-responsive {
+	width: 100%;
+	position: relative;
+	z-index: 98;
+	clear: both;
+	line-height: 17px;
+	text-align: left;
+}
+
+.menu-toggle > p {
+	display: block;
+	float: left;
+	margin: -6px 10px 0 0;
+	background: url('../../image/menu_res.png') no-repeat 50%;
+	height: 30px;
+	width: 30px;
+}
+
+.menu-toggle {
+	padding: 5px;
+	margin: 0 !important;
+	background: #F7F7F7;
+	color: #000;
+	font-size: 17px;
+	cursor: pointer;
+}
+
+.navbar {
+	margin-bottom: 0;
+	min-height: 0
+}
+.navbar-header {
+	width: 20%;
+	margin-top: -50px;
+	margin-bottom: 15px
+}
+.navbar-header b {
+	display: none
+}
+.navbar-inverse .navbar-toggle {
+	float: left;
+	background-color: #333
+}
+
+#megamenu-responsive-root > li {
+	padding: 10px 0;
+	display: block;
+}
+#megamenu-responsive-root  div.root {
+	display: none;
+	margin-bottom: 10px
+}
+
+#megamenu-responsive-root div.root.open {
+	display: block;
+}
+
+#megamenu-responsive-root li.parent > ul {
+	display: none;
+}
+#megamenu-responsive .root > ul {
+	width: 100%
+}
+
+#megamenu-responsive li.parent {
+	clear: both
+}
+#megamenu-responsive .root li {
+	padding: 10px 0;
+	margin-bottom: 3px;
+}
+#megamenu-responsive .root > ul > li {
+	border: 1px solid #ebebeb;
+	padding-left: 8px;
+	position: relative
+}
+
+#megamenu-responsive .root li a:hover {
+	font-weight: 700
+}
+
+#megamenu-responsive li.parent ul {
+	margin: 10px 0 -10px;
+	clear: both;
+}
+#megamenu-responsive .root li ul {
+	padding: 0 0 0 20px;
+	overflow: hidden
+}
+#megamenu-responsive .root li ul li {
+	background: none;
+	margin: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-khtml-border-radius: 0;
+	border-radius: 0;
+}
+#megamenu-responsive ul span {
+}
+
+#megamenu-responsive .root  ul  li  a, #megamenu-responsive .root > ul > li > ul > li > a {
+	font-size: 16px;
+	color: #fff
+}
+
+#megamenu-responsive a {
+}
+
+#megamenu-responsive li.parent > a span {
+	display: block;
+}
+
+#megamenu-responsive li.parent > p {
+	display: inline-block;
+	float: right;
+	padding: 10px;
+	width: 40px;
+	text-align: center;
+	cursor: pointer;
+	font-size: 14px;
+	margin: 0;
+	color: #fff;
+	position: absolute;
+	top: 0;
+	right: 0
+}
+a.product_image img {
+	max-width: 100%;
+}
+#boss_menu ul ul {
+	width: 100%;
+	display: block
+}
+div.dropdown-menu, #boss_menu ul li div.sub_menu {
+	border: none;
+	background: #fff;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-box-shadow: 0 0 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 0 12px rgba(0, 0, 0, 0.175);
+	font-size: 14px;
+	position: absolute;
+	top: 49px;
+	left: 0;
+	display: none;
+	z-index: 1000;
+	padding: 20px 0;
+	font-size: 14px;
+	text-align: left
+}
+#boss_menu  ul ul  li:hover > div.sub_menu {
+	left: 100%;
+	top: -20px;
+	z-index: 100;
+	width: 100%;
+	min-width: 200px;
+	display: block;
+	overflow: visible !important
+}
+#boss_menu ul li div.sub_menu ul {
+	width: 100% !important
+}
+#boss_menu .option ul.category li.sub_category:hover > a, #boss_menu ul > li ul > li > a:hover {
+	font-weight: 700;
+	color: #202020;
+	font-size: 99%;
+}
+#boss_menu .option ul.information {
+	padding: 0;
+	margin: 0
+}
+
+.dropdown-menu-inner {
+	display: inline-block;
+	background: #fff
+}

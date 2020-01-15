@@ -1,0 +1,72 @@
+<modification>
+    <id>Boss Rich Snippets</id>
+    <version>1.0.0</version>
+    <vqmver>2.3.0</vqmver>
+    <author>bossthemes</author>
+	<file name="/catalog/controller/product/product.php">
+		<operation>
+			<search position="after"><![CDATA[$this->data['points']]]></search>
+			<add>
+			<![CDATA[
+				$this->data['review_no'] = $product_info['reviews'];		
+				$this->data['quantity'] = $product_info['quantity'];						
+			]]>
+			</add>
+		</operation>
+	</file>
+	<file name="catalog/view/theme/*/template/product/product.tpl">
+        <operation>
+            <search position="before"><![CDATA[<h1]]>
+			</search>
+            <add>
+			<![CDATA[
+				<span xmlns:v="http://rdf.data-vocabulary.org/#">
+				<?php foreach ($breadcrumbs as $breadcrumb) { ?>
+				<span typeof="v:Breadcrumb"><a rel="v:url" property="v:title" href="<?php echo $breadcrumb['href']; ?>" ></a></span>
+				<?php } ?>				
+				</span>	
+			
+				<span itemscope itemtype="http://schema.org/Product">
+				<meta itemprop="url" content="<?php echo $breadcrumb['href']; ?>" >
+				<meta itemprop="name" content="<?php echo $heading_title; ?>" >
+				<meta itemprop="model" content="<?php echo $model; ?>" >
+				<meta itemprop="manufacturer" content="<?php echo $manufacturer; ?>" >
+				
+				<?php if ($thumb) { ?>
+				<meta itemprop="image" content="<?php echo $thumb; ?>" >
+				<?php } ?>
+				
+				<?php if ($images) { foreach ($images as $image) {?>
+				<meta itemprop="image" content="<?php echo $image['thumb']; ?>" >
+				<?php } } ?>
+				
+				<span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+				<meta itemprop="price" content="<?php echo ($special ? $special : $price); ?>" />
+				<meta itemprop="priceCurrency" content="<?php echo $this->currency->getCode(); ?>" />
+				<link itemprop="availability" href="http://schema.org/<?php echo (($quantity > 0) ? "InStock" : "OutOfStock") ?>" />
+				</span>
+				
+				<span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+				<meta itemprop="reviewCount" content="<?php echo $review_no; ?>">
+				<meta itemprop="ratingValue" content="<?php echo $rating; ?>">
+				</span></span>
+            ]]>
+			</add>
+        </operation>               
+    </file>
+	<file name="catalog/view/theme/*/template/product/category.tpl">
+        <operation>
+            <search position="before"><![CDATA[<h1]]>
+			</search>
+            <add>
+			<![CDATA[
+				<span xmlns:v="http://rdf.data-vocabulary.org/#">
+				<?php foreach ($breadcrumbs as $breadcrumb) { ?>
+				<span typeof="v:Breadcrumb"><a rel="v:url" property="v:title" href="<?php echo $breadcrumb['href']; ?>"></a></span>
+				<?php } ?>				
+				</span>			
+            ]]>
+			</add>
+        </operation>               
+    </file>
+</modification>

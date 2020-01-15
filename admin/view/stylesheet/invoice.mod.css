@@ -1,0 +1,51 @@
+body, td, th, input, select, textarea, option, optgroup {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #000000;
+}
+.invoice-heading {
+    text-align: center;
+}
+.invoice-company-info {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+.invoice-company-info tr td {
+    border: 1px solid #000;
+}
+.invoice-account {
+    padding-bottom: 10px;
+    border-bottom: 2px solid #000;
+}
+.invoice-products {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #000;
+}
+.invoice-products tr th {
+    border: 1px solid #000;
+}
+.invoice-products tr td {
+    border: 1px solid #000;
+}
+.underscore {
+    position: relative;
+    width: 165px;
+    text-align: center;
+    border-bottom: 1px solid #000;
+    padding-top: 10px;
+}
+.position {
+    position: absolute;
+    font-size: 9px;
+    left: 130px;
+    bottom: -10px;
+}
+.sign {
+    position: absolute;
+    display: table;
+    font-size: 9px;
+    width: 100%;
+    bottom: -13px;
+}

@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <id>Первичные документы в модуле заказа</id>
+    <version>1.0</version>
+    <vqmver>2.1.7</vqmver>
+    <author>@balukoff</author>
+    <file name="admin/view/template/sale/order_info.tpl">
+        <operation>
+            <search position="after" index="1"><![CDATA[<div class="buttons">]]></search>
+            <add><![CDATA[
+<div class="buttons invoice-buttons">
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=pko'" target="_blank" class='button'>ПКО</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=pko&excel'" target="_blank" class='button'>ПКО Excel</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=torg12'" target="_blank">Товарная накладная(ТОРГ-12)</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=torg12&excel'" target="_blank">ТОРГ-12 Excel</a>
+    <a class='button' onclick="location.href='<?php echo $invoice; ?>&doctype=paycheck'" target="_blank">Скачать счет на оплату в формате Excel</a>
+    <a class='button' onclick="location.href='<?php echo $invoice; ?>&doctype=paycheck&excel'" target="_blank">Скачать счет на оплату в формате Excel Excel</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=fact'" target="_blank" class='button'>Счет-фактура</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=fact&excel'" target="_blank" class='button'>Счет-фактура Excel</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=real'" target="_blank" class='button'>Реализация товаров</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=real&excel'" target="_blank" class='button'>Реализация товаров Excel</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=akt'" target="_blank" class='button'>Акт выполненных работ</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=akt&excel'" target="_blank" class='button'>Акт Excel</a>
+</div>
+                   ]]>
+            </add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[<?php echo $header; ?>]]></search>
+            <add><![CDATA[<link rel="stylesheet" href="view/stylesheet/invoice-documents.css">]]></add>
+        </operation>
+        <operation>
+            <search position="bottom"><![CDATA[<?php echo $header; ?>]]></search>
+            <add><![CDATA[<script language='javascript'>
+		                jQuery('.droplink')
+						 .hover(function(){$('.drop-ul').addClass('show'); });
+						 $('.drop-ul')
+						  .hover(function(){$(this).addClass('show');});
+					  </script>]]></add>
+        </operation>
+    </file>
+    <file name="admin/view/template/sale/order_list.tpl" error="log">
+        <operation>
+            <search position='before'><![CDATA[</form>]]></search>
+            <add><![CDATA[<input type='hidden' name='doctype_template' >]]>
+            </add>
+        </operation>
+
+        <operation>
+            <search position="replace"><![CDATA[<div class="buttons">]]></search>
+            <add><![CDATA[
+			<style>
+			.triangle-up {
+               width: 0px;
+               height: 0px;
+               border-left: 10px solid transparent;
+               border-right: 10px solid transparent;
+               border-bottom: 10px solid #5C4A4A;
+               margin-left: 26px;
+               background: transparent url("../image/transparent.png") repeat scroll 0% 0%;
+			  }
+			</style>
+			<div class="buttons">
+					<a class='button droplink' href='#' onclick="return false;">ПКО</a>
+					<div class="drop-ul">
+					<div class='triangle-up'></div>
+					<ul>
+                     <li class="document">
+					  <a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=pko'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">ПКО</a>
+					  </li>
+					  <li class='document'><a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=pko&excel7'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">ПКО Excel</a>
+					  </li>
+					  </ul>
+					  </div>
+				<a class='button droplink' href='#' onclick="return false;">Торг 12</a>
+					<div class="drop-ul">
+					<div class='triangle-up'></div>
+					<ul>
+                     <li class="document">
+					 <a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=torg12'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">ТОРГ-12</a></li>
+					 <li class="document">
+					  <a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=torg12&excel7'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">ТОРГ-12 Excel</a>
+					  </li>
+					 </ul> 
+					 </div>
+					 <a class='button droplink' href='#' onclick="return false;">Счет</a>
+					<div class="drop-ul">
+					<div class='triangle-up'></div>
+					<ul>
+                     <li class="document">
+					 <a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=invoice'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">Счет</a></li>
+					 <li class="document">
+					 <a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=paycheck&excel7'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">Счет Excel</a>
+					 </li>
+					 </ul>
+					 </div>
+					  <a class='button droplink' href='#' onclick="return false;">Счет-фактура</a>
+					<div class="drop-ul">
+					<div class='triangle-up'></div>
+					<ul>
+                     <li class="document">
+					 <a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=fact'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">Счет-фактура</a>
+					 </li>
+					 <li class="document">
+					 <a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=fact&excel7'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">Счет-фактура Excel</a>
+					</li>
+					</ul>
+					</div>
+					<a class='button droplink' href='#' onclick="return false;">Реализация</a>
+					<div class="drop-ul">
+					<div class='triangle-up'></div>
+					<ul>
+                     <li class="document">
+					 <a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=real'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">Реализация товаров</a>
+					 </li>
+					<li class="document">
+					<a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=real&excel7'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">Реализация товаров Excel</a>
+					</li>
+					</ul>
+					</div>
+					<a class='button droplink' href='#' onclick="return false;">Акт</a>
+					<div class="drop-ul">
+					<div class='triangle-up'></div>
+					<ul>
+                     <li class="document">
+					<a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=akt'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">Акт выполненных работ</a></li>
+					 <li class="document">
+					<a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=akt&excel7'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">Акт Excel</a>
+					</li>
+					</ul>
+					</div>
+				   
+                   ]]>
+            </add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[<?php echo $header; ?>]]></search>
+            <add><![CDATA[<link rel="stylesheet" href="view/stylesheet/invoice-documents.css">]]></add>
+        </operation>
+        <operation>
+            <search position="bottom"><![CDATA[<?php echo $header; ?>]]></search>
+            <add><![CDATA[<script language='javascript'>
+		                jQuery('.droplink').hover(function(){
+						  jQuery('.drop-ul').removeClass('show');
+						  var drop = $(this).next();
+						  var self = $(this);
+						  drop.addClass('show').css({left:self.position().left, top: self.position().top+20}); 
+						 });
+						  $("body").click(function(e) {
+							if (e.target.className!='document')
+							{
+								$('.drop-ul').removeClass('show');
+							}
+});
+					  </script>]]></add>
+        </operation>
+    </file>
+    <file name="admin/controller/sale/order.php" error="log">
+        <operation>
+            <search position="before"><![CDATA[foreach ($products as $product) {]]></search>
+            <add><![CDATA[
+			        $clean_products_total = 0; $clean_products_nds = 0; $products_total = 0;
+			]]></add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[foreach ($products as $product) {]]></search>
+            <add><![CDATA[
+                        $c_temp_total = ($product['total'] + ($this->config->get('config_tax') ? ($product['tax'] * $product['quantity']) : 0));
+                        $clean_products_total += $c_temp_total;
+                        $clean_products_nds += round($c_temp_total*18/118,2);
+			]]></add>
+        </operation>
+        <operation>
+            <search position="before"><![CDATA[$this->language->load('sale/order');]]></search>
+            <add><![CDATA[      $this->language->load('sale/documents');]]>
+            </add>
+        </operation>
+        <operation>
+            <search position="replace"><![CDATA[$this->template = 'sale/order_invoice.tpl';]]></search>
+            <add><![CDATA[
+            if(isset($this->request->get['doctype'])) {
+                $doctype = $this->request->get['doctype'];
+                $this->template = 'sale/documents/order_'.$doctype.'.tpl';
+            } else {
+                $this->template = 'sale/order_invoice.tpl';
+            }]]>
+            </add>
+        </operation>
+        <operation>
+            <search position="before" error="log"><![CDATA[public function insert() {]]></search>
+            <add><![CDATA[
+		public function num2str2($inns, $stripkop = false) {
+		$num = str_replace(' ', '', $inns);
+        $num = str_replace('р.', '', $num);
+		$num = str_replace('.', ',', $num);
+		//print $num.'<br>';
+		$inn = $num;
+		$nol = 'ноль';
+		$str[100] = array('', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот');
+		$str[11] = array('', 'десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать', 'двадцать');
+		$str[10] = array('', 'десять', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто');
+		$sex = array(
+			array('', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'), // m
+			array('', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять') // f
+		);
+		$forms = array(
+			array('копейка', 'копейки', 'копеек', 1), // 10^-2
+			array('рубль', 'рубля', 'рублей', 0), // 10^ 0
+			array('тысяча', 'тысячи', 'тысяч', 1), // 10^ 3
+			array('миллион', 'миллиона', 'миллионов', 0), // 10^ 6
+			array('миллиард', 'миллиарда', 'миллиардов', 0), // 10^ 9
+			array('триллион', 'триллиона', 'триллионов', 0), // 10^12
+		);
+		$out = $tmp = array();
+		
+		$tmp = explode('.', str_replace(',', '.', $inn));
+		$rub = number_format((float)$tmp[0], 0, '', '-');
+		if ($rub == 0) $out[] = $nol;
+		// нормализация копеек
+		$kop = isset($tmp[1]) ? substr(str_pad($tmp[1], 2, '0', STR_PAD_RIGHT), 0, 2) : '00';
+		$segments = explode('-', $rub);
+		$offset = sizeof($segments);
+		if ((int)$rub == 0) { // если 0 рублей
+			$o[] = $nol;
+			$o[] = $this->morph2(0, $forms[1][0], $forms[1][1], $forms[1][2]);
+		}
+		else {
+			foreach ($segments as $k => $lev) {
+				$sexi = (int)$forms[$offset][3]; // определяем род
+				$ri = (int)$lev; // текущий сегмент
+				if ($ri == 0 && $offset > 1) { // если сегмент==0 & не последний уровень(там Units)
+					$offset--;
+					continue;
+				}
+				// нормализация
+				$ri = str_pad($ri, 3, '0', STR_PAD_LEFT);
+				// получаем циферки для анализа
+				$r1 = (int)substr($ri, 0, 1); //первая цифра
+				$r2 = (int)substr($ri, 1, 1); //вторая
+				$r3 = (int)substr($ri, 2, 1); //третья
+				$r22 = (int)$r2 . $r3; //вторая и третья
+				// разгребаем порядки
+				if ($ri > 99) $o[] = $str[100][$r1]; // Сотни
+				if ($r22 > 20) { // >20
+					$o[] = $str[10][$r2];
+					$o[] = $sex[$sexi][$r3];
+				}
+				else { // <=20
+					if ($r22 > 9) $o[] = $str[11][$r22 - 9]; // 10-20
+					elseif ($r22 > 0) $o[] = $sex[$sexi][$r3]; // 1-9
+				}
+				// Рубли
+				$o[] = $this->morph2($ri, $forms[$offset][0], $forms[$offset][1], $forms[$offset][2]);
+				$offset--;
+			}
+		}
+		// Копейки
+		if (!$stripkop) {
+			$o[] = $kop;
+			$o[] = $this->morph2($kop, $forms[0][0], $forms[0][1], $forms[0][2]);
+		}
+		return preg_replace("/s{2,}/", ' ', implode(' ', $o));
+	}
+
+	/**
+	 * Склоняем словоформу
+	 */
+	private function morph2($n, $f1, $f2, $f5) {
+		$n = abs($n) % 100;
+		$n1 = $n % 10;
+		if ($n > 10 && $n < 20) return $f5;
+		if ($n1 > 1 && $n1 < 5) return $f2;
+		if ($n1 == 1) return $f1;
+		return $f5;
+	}
+	private function prop($num){ 
+ # Все варианты написания чисел прописью от 0 до 999 скомпонуем в один небольшой массив 
+  $m=array( array('ноль'), 
+  array('-','один','два','три','четыре','пять','шесть','семь','восемь','девять'), 
+  array('десять','одиннадцать','двенадцать','тринадцать','четырнадцать','пятнадцать','шестнадцать','семнадцать','восемнадцать','девятнадцать'), 
+  array('-','-','двадцать','тридцать','сорок','пятьдесят','шестьдесят','семьдесят','восемьдесят','девяносто'), 
+  array('-','сто','двести','триста','четыреста','пятьсот','шестьсот','семьсот','восемьсот','девятьсот'), 
+  array('-','одна','две') ); # Все варианты написания разрядов прописью скомпануем в один небольшой массив 
+  $r=array( array('...ллион','','а','ов'), // используется для всех неизвестно больших разрядов 
+  array('тысяч','а','и',''), array('миллион','','а','ов'), array('миллиард','','а','ов'), array('триллион','','а','ов'), array('квадриллион','','а','ов'), 
+  array('квинтиллион','','а','ов')); // ,array(... список можно продолжить ); 
+  if ($num==0) return $m[0][0]; # Если число ноль, сразу сообщить об этом и выйти 
+  $o=array(); # Сюда записываем все получаемые результаты преобразования 
+  # Разложим исходное число на несколько трехзначных чисел и каждое полученное такое число обработаем отдельно 
+  foreach(array_reverse(str_split(str_pad($num,ceil(strlen($num)/3)*3,'0',STR_PAD_LEFT),3)) as $k=>$p)
+   { 
+    $o[$k]=array(); 
+  # Алгоритм, преобразующий трехзначное число в строку прописью 
+  foreach($n=str_split($p) as $kk=>$pp) 
+  if(!$pp) continue;
+   else 
+	switch($kk)
+   { 
+     case 0:$o[$k][]=$m[4][$pp];break; 
+     case 1:if($pp==1)
+	  {
+		 $o[$k][]=$m[2][$n[2]]; break 2;
+	  }
+	   else
+		 $o[$k][]=$m[3][$pp];break; 
+     case 2:if(($k==1)&&($pp<=2))
+	   $o[$k][]=$m[5][$pp];
+       else
+	   $o[$k][]=$m[1][$pp];break;
+      }
+	   $p*=1;
+	    if(!$r[$k]) $r[$k]=reset($r); 
+  # Алгоритм, добавляющий разряд, учитывающий окончание руского языка 
+  if($p&&$k)
+	   switch(true){ 
+    case preg_match("/^[1]$|^\\d*[0,2-9][1]$/",$p): $o[$k][]=$r[$k][0].$r[$k][1];break; 
+    case preg_match("/^[2-4]$|\\d*[0,2-9][2-4]$/",$p):$o[$k][]=$r[$k][0].$r[$k][2];break; 
+    default:$o[$k][]=$r[$k][0].$r[$k][3];break; } 
+	 $o[$k]=implode(' ',$o[$k]); 
+	 } 
+     return implode(' ',array_reverse($o)); 
+	}
+	
+	private function russian_date($date){
+      $date=explode(".", $date);
+      switch ($date[1]){
+      case 1: $m='января'; break;
+      case 2: $m='февраля'; break;
+      case 3: $m='марта'; break;
+      case 4: $m='апреля'; break;
+      case 5: $m='мая'; break;
+      case 6: $m='июня'; break;
+      case 7: $m='июля'; break;
+      case 8: $m='августа'; break;
+      case 9: $m='сентября'; break;
+      case 10: $m='октября'; break;
+      case 11: $m='ноября'; break;
+      case 12: $m='декабря'; break;
+    }
+    return $date[0].'&nbsp;'.$m.'&nbsp;'.$date[2];
+   }
+]]></add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[$store_fax = $store_info['config_fax'];]]></search>
+            <add><![CDATA[
+                        $store_buh = isset($store_info['config_glbuh']) ? $store_info['config_glbuh'] : '';
+                        $store_kass = isset($store_info['config_kass']) ? $store_info['config_kass'] : '';
+                        $store_owner = isset($store_info['config_owner']) ? $store_info['config_owner'] : '';
+                        $store_manager = isset($store_info['config_manager']) ? $store_info['config_manager'] : '';
+                        $store_rk_dov = isset($store_info['config_rk_dov']) ? $store_info['config_rk_dov'] : '';
+                        $store_buh_dov = isset($store_info['config_buh_dov']) ? $store_info['config_buh_dov'] : '';
+                        $store_org = isset($store_info['config_org']) ? $store_info['config_org'] : '';
+                        $store_inn = isset($store_info['config_inn']) ? $store_info['config_inn'] : '';
+                        $store_requisites = isset($store_info['config_requisites']) ? $store_info['config_requisites'] : '';
+                        ]]></add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[$store_fax = $this->config->get('config_fax');]]></search>
+            <add><![CDATA[
+                        $store_buh = $this->config->get('config_glbuh');
+                        $store_kass = $this->config->get('config_kass');
+                        $store_owner = $this->config->get('config_owner');
+                        $store_manager = $this->config->get('config_manager');
+                        $store_rk_dov = $store_info['config_rk_dov'];
+                        $store_buh_dov = $store_info['config_buh_dov'];
+                        $store_org = $store_info['config_org'];
+                        $store_inn = $store_info['config_inn'];
+                        $store_requisites = $store_info['config_requisites'];
+                        ]]></add>
+        </operation>
+        <operation>
+            <search position="before"><![CDATA[$this->data['orders'][] = array(]]></search>
+            <add><![CDATA[
+                    $shipping_cost = $ind = 0;
+                    if (isset($total_data)){
+                        foreach ( $total_data as $total_d ) {
+                            if ( $total_d['code'] == 'total' ){
+                                $ind = $total_d['text'];
+                            }
+                            if ($total_d['code'] == 'shipping') {
+                                $shipping_cost = $total_d['value'];
+                            }
+                        }
+                    }
+        ]]></add>
+        </operation>
+        <operation>
+            <search position="before"><![CDATA[=> $total_data,]]></search>
+            <add><![CDATA[
+                        'firstname'         => $order_info['firstname'],
+                        'lastname'          => $order_info['lastname'],
+                        'buh'               => isset($store_buh)?$store_buh:'',
+                        'kass'              => isset($store_kass)?$store_kass:'',
+                        'owner'             => isset($store_owner)?$store_owner:'',
+                        'manager'           => isset($store_manager)?$store_manager:'',
+                        'store_rk_dov'      => isset($store_rk_dov)?$store_rk_dov:'',
+                        'store_buh_dov'     => isset($store_buh_dov)?$store_buh_dov:'',
+                        'store_org'         => isset($store_org) ? $store_org : '',
+                        'store_inn'         => isset($store_inn) ? $store_inn : '',
+                        'store_requisites'  => isset($store_requisites) ? $store_requisites : '',
+             ]]></add>
+        </operation>
+        <operation>
+            <search position="before"><![CDATA[$product_data[] = array(]]></search>
+            <add><![CDATA[
+                        if ($product['tax']!=0)
+                            $nds = $this->currency->format(round(($product['total']*1.18-$product['total']),2), $order_info['currency_code'], $order_info['currency_value'], '', false); // Считаем НДС - 18%
+                        else
+                            $nds = $this->currency->format(0, $order_info['currency_code'], $order_info['currency_value'], '', false); // Считаем НДС - 0%
+
+                        $free_nds = $this->currency->format(round(($product['total'])/$product['quantity'],2), $order_info['currency_value'], '', false);
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="replace">
+                <![CDATA[=> $this->currency->format($product['total'] + ($this->config->get('config_tax') ? ($product['tax'] * $product['quantity']) : 0), $order_info['currency_code'], $order_info['currency_value'])]]></search>
+            <add>
+                <![CDATA[=> $this->currency->format($product['total'] + ($this->config->get('config_tax') ? ($product['tax'] * $product['quantity']) : 0), $order_info['currency_code'], '', false)]]></add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA['quantity'    => $product['quantity'],]]></search>
+            <add><![CDATA[
+                            'nds'        => $nds ,
+                            'free_nds'   => $free_nds ,
+                            'kod'        => $kod,
+                            'color'      => $color,
+                            'sku'        => $sku[0]['sku'],
+                            'tax'        => $product['tax'],
+                         ]]></add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[foreach ($products as $product) {]]></search>
+            <add><![CDATA[
+                        $products_total++;
+                        $kod = '';
+                        $sku = $this->model_sale_order->getProductSKU($product['product_id']);
+                        if (!empty($sku[0]['sku'])) {
+                            $kod = $sku[0]['sku'];
+                        }
+                        $color = '';
+                        $attributes = $this->model_sale_order->getProductAttributes($product['product_id']);
+                        if (!empty($attributes)) {
+                            foreach ($attributes as $attribute) {
+                                if ($attribute['name'] == 'Цвет') {
+                                    $color = $attribute['attribute'][0]['text'];
+                                }
+                            }
+                        }
+			]]></add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[$this->data['orders'][] = array(]]></search>
+            <add><![CDATA[
+                        'total_2_str' => $this->mb_ucfirst($this->num2str2($ind)),
+                        'products_order_total' => isset($clean_products_total)?$clean_products_total:'',
+                        'products_order_total_valute' => $this->currency->format(isset($clean_products_total)?$clean_products_total:'0'),
+                        'products_order_total_prop' => $this->mb_ucfirst($this->num2str2(isset($clean_products_total) ? $clean_products_total : 0)),
+                        'products_total'      => $this->mb_ucfirst($this->prop(isset($products_total) ? $products_total : 0)),
+                        'clean_products_nds' => isset($clean_products_nds)?$clean_products_nds:'0',
+                        'shipping_cost'      => $shipping_cost,
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="before"><![CDATA[=> $total_data,]]></search>
+            <add><![CDATA[
+                        'all_nds'=> $this->currency->format(round((($ind*18)/118),2), $order_info['currency_code'], $order_info['currency_value']), // Считаем полный НДС - 18%,
+                        'free_all_sum'=> $ind,
+                        'date_rus'=> $this->russian_date(date($this->language->get('date_format_short'), strtotime($order_info['date_added']))),
+                        'index_nova' => str_replace(',', '-', str_replace('.', '-', str_replace('р.', '',$ind))),
+                        'full_total_text' => $this->num2str2($ind),
+            ]]></add>
+        </operation>
+    </file>
+    <file name="admin/controller/setting/setting.php" error="log">
+        <operation>
+            <search position="before"><![CDATA[$this->language->load('setting/setting');]]></search>
+            <add><![CDATA[      $this->language->load('sale/documents');]]>
+            </add>
+        </operation>
+    </file>
+    <file name="admin/language/russian/setting/setting.php" error="log">
+        <operation>
+            <search position="after"><![CDATA[$_['heading_title'] ]]></search>
+            <add><![CDATA[
+                        $_['entry_glbuh'] = 'Главный бухгалтер';
+                        $_['entry_kass'] = 'Кассир';
+                        $_['entry_manager'] = 'Менеджер:';
+                        $_['entry_rk_dov'] = 'Доверенность руководителя:';
+                        $_['entry_buh_dov'] = 'Доверенность бухгалтера:';
+                        ]]></add>
+        </operation>
+    </file>
+    <file name="admin/model/sale/order.php" error="log">
+        <operation>
+            <search position="before"><![CDATA[public function deleteOrder($order_id)]]></search>
+            <add><![CDATA[
+			public function getProductSKU($product_id){
+			       $query = $this->db->query("SELECT sku FROM " . DB_PREFIX . "product WHERE product_id = '" . (int)$product_id . "'");
+		  		   return $query->rows;
+			}]]>
+            </add>
+        </operation>
+    </file>
+    <file name="admin/controller/sale/order.php" error="log">
+        <operation>
+            <search position="after">
+                <![CDATA[$this->data['text_invoice'] = $this->language->get('text_invoice');]]></search>
+            <add><![CDATA[
+			$this->language->load('sale/documents');
+			$this->data['heading_title_pko']             = $this->language->get('heading_title_pko');
+			$this->data['ko1']                           = $this->language->get('ko1');
+			$this->data['header_second']                 = $this->language->get('header_second');
+			$this->data['entry_org']                     = $this->language->get('entry_org');
+			$this->data['entry_codes']  				 = $this->language->get('entry_codes');
+			$this->data['entry_kwit']  					 = $this->language->get('entry_kwit');
+			$this->data['entry_okud_form']  			 = $this->language->get('entry_okud_form') ;
+			$this->data['entry_to_pko']  				 = $this->language->get('entry_to_pko');
+			$this->data['entry_okpo']  					 = $this->language->get('entry_okpo');
+			$this->data['entry_get_from']  				 = $this->language->get('entry_get_from');
+			$this->data['entry_struct']  				 = $this->language->get('entry_struct');
+			$this->data['entry_pko']  					 = $this->language->get('entry_pko');
+			$this->data['entry_num']  					 = $this->language->get('entry_num');
+			$this->data['entry_date']  					 = $this->language->get('entry_date');
+			$this->data['entry_osn']  					 = $this->language->get('entry_osn');
+			$this->data['entry_debet']  				 = $this->language->get('entry_debet');
+			$this->data['entry_kredit']  				 = $this->language->get('entry_kredit');
+			$this->data['entry_sum']  					 = $this->language->get('entry_sum');
+			$this->data['entry_kcn']  					 = $this->language->get('entry_kcn');
+			$this->data['entry_order_no']  				 = $this->language->get('entry_order_no');
+			$this->data['entry_ksp']  					 = $this->language->get('entry_ksp');
+			$this->data['entry_ksss']  					 = $this->language->get('entry_ksss');
+			$this->data['entry_au']  					 = $this->language->get('entry_au');
+			$this->data['entry_sum_prop']  				 = $this->language->get('entry_sum_prop');
+			$this->data['entry_from']  					 = $this->language->get('entry_from');
+			$this->data['entry_digits']  				 = $this->language->get('entry_digits');
+			$this->data['entry_also'] 	  				 = $this->language->get('entry_also');
+			$this->data['entry_prop']	  				 = $this->language->get('entry_prop');
+			$this->data['entry_nds']		  			 = $this->language->get('entry_nds');
+			$this->data['entry_mp']		  				 = $this->language->get('entry_mp');
+			$this->data['entry_pril']	  				 = $this->language->get('entry_pril');
+			$this->data['entry_buh']  					 = $this->language->get('entry_buh');
+			$this->data['entry_podp_ras'] 	 			 = $this->language->get('entry_podp_ras');
+			$this->data['entry_podp'] 	 			     = $this->language->get('entry_podp');
+			$this->data['entry_kass'] 	 				 = $this->language->get('entry_kass');
+			$this->data['entry_get_kass'] 				 = $this->language->get('entry_get_kass');
+			$this->data['entry_not_selected']			 = $this->language->get('entry_not_selected');
+			$this->data['entry_payer']			         = $this->language->get('entry_payer');
+			$this->data['entry_products']			     = $this->language->get('entry_products');
+			$this->data['entry_kolvo']			         = $this->language->get('entry_kolvo');
+			$this->data['entry_price']			         = $this->language->get('entry_price');
+			$this->data['entry_manager']		    	 = $this->language->get('entry_manager');
+			$this->data['entry_rk']			             = $this->language->get('entry_rk');
+			$this->data['entry_pbuh']			         = $this->language->get('entry_pbuh');
+			$this->data['entry_itog']			         = $this->language->get('entry_itog');
+			$this->data['entry_vtch']			         = $this->language->get('entry_vtch');
+			$this->data['entry_itog_s_nds']		    	 = $this->language->get('entry_itog_s_nds');
+			$this->data['entry_post']			         = $this->language->get('entry_post');
+			$this->data['osn']			                 = $this->language->get('osn');
+			$this->data['entry_kod_au']		        	 = $this->language->get('entry_kod_au');
+			$this->data['entry_paycheck']		    	 = $this->language->get('entry_paycheck');
+			$this->data['entry_all_naim']		    	 = $this->language->get('entry_all_naim');
+			$this->data['entry_to_summ']		    	 = $this->language->get('entry_to_summ');
+			$this->data['entry_who_gave']		    	 = $this->language->get('entry_who_gave');
+			$this->data['entry_who_receive']			 = $this->language->get('entry_who_receive');
+			$this->data['entry_product']		    	 = $this->language->get('entry_product');
+			$this->data['entry_real_text']		    	 = $this->language->get('entry_real_text');
+			$this->data['entry_buh_dov']		    	 = $this->language->get('entry_buh_dov');
+			$this->data['entry_rk_dov']			         = $this->language->get('entry_rk_dov');
+			$this->data['entry_inn']		        	 = $this->language->get('entry_inn');
+			$this->data['entry_requisites']			     = $this->language->get('entry_requisites');
+			]]>
+            </add>
+        </operation>
+    </file>
+</modification>

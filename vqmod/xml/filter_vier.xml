@@ -1,0 +1,449 @@
+<modification>
+	<id><![CDATA[filter_vier (Opencart 1.5.x___OcStore 1.5.x)]]></id>
+	<version><![CDATA[1.5.10]]></version>
+	<vqmver><![CDATA[2.5.0]]></vqmver>
+	<author><![CDATA[Vier]]></author>
+	<!-- catalog/controller/product/category -->
+	<file name="catalog/controller/product/category.php">
+        <operation error="log">
+			<search position="after"><![CDATA[public function index() {]]></search>
+			<add><![CDATA[
+			/*start FilterVier*/
+            $this->load->model('module/filter_vier');
+            $url_plus = $this->model_module_filter_vier->genUrlPlus();
+			$cpu_fv = $this->model_module_filter_vier->flagCanonic();
+			/*end FilterVier*/
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace" index="2"><![CDATA[$product_total =]]></search>
+			<add><![CDATA[//$product_total =]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA[$results = $this->model_catalog_product]]></search>
+			<add><![CDATA[//$results = $this->model_catalog_product]]></add>
+		</operation>
+		<operation error="log">
+			<search position="after"><![CDATA[$results = $this->model_catalog_product]]></search>
+			<add><![CDATA[
+			/*start FilterVier*/
+			$results = $this->model_module_filter_vier->getProductsByCategorys($data);$product_total = $this->model_module_filter_vier->getTotalProducts();
+			/*end FilterVier*/
+			]]></add>
+		</operation>
+		
+		<operation error="log">
+			<search position="replace"><![CDATA['&sort=p.sort_order&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.sort_order&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=pd.name&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=pd.name&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=pd.name&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=pd.name&order=DESC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=p.price&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.price&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=p.price&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.price&order=DESC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=rating&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=rating&order=DESC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=rating&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=rating&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=p.model&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.model&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=p.model&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.model&order=DESC']]></add>
+		</operation>
+	</file>
+    <file name="catalog/controller/product/category.php">
+        <operation error="log">
+			<search position="replace"><![CDATA[$url . '&limit=]]></search>
+			<add><![CDATA[$url_plus . $url . '&limit=]]></add>
+		</operation>
+	</file>
+    <file name="catalog/controller/product/category.php">
+        <operation error="log">
+			<search position="replace"><![CDATA[$url . '&page={page}]]></search>
+			<add><![CDATA[$url_plus . $url . '&page={page}]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/product/category.php">
+        <operation error="log">
+			<search position="before"><![CDATA[$results = $this->model_catalog_category->getCategories($category_id);]]></search>
+			<add><![CDATA[
+			/*start FilterVier*/
+            $results = array();
+            if(!$url_plus) {
+            /*end FilterVier*/
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="after"><![CDATA[$results = $this->model_catalog_category->getCategories($category_id);]]></search>
+			<add><![CDATA[
+            /*start FilterVier*/
+            }
+			/*end FilterVier*/]]>
+            </add>
+		</operation>
+	</file>
+    <!-- end catalog/controller/product/category -->
+    <file name="catalog/view/theme/*/template/product/category.tpl">
+        <operation error="log">
+			<search position="after"><![CDATA[<?php echo $header; ?>]]></search>
+			<add><![CDATA[<?php if(is_string($this->config->get('h_head'))) {$heading_title = $this->config->get('h_head');} if(is_string($this->config->get('h_descript'))) {$description = $this->config->get('h_descript'); $thumb = '';$description_bottom = '';} if($breadcrumb_fv = $this->config->get('breadcrumb_fv')) {$breadcrumbs = array_merge($breadcrumbs, $breadcrumb_fv);} ?>]]></add>
+		</operation>
+    </file>
+    <!-- end catalog/view/theme/*/template/product/category.tpl -->
+    <!-- catalog/controller/product/manufacturer/info -->
+    <file name="catalog/controller/product/manufacturer.php">
+        <operation error="log">
+			<search position="after"><![CDATA[public function info() {]]></search>
+			<add><![CDATA[
+			/*start FilterVier*/
+            $this->load->model('module/filter_vier');
+            $url_plus = $this->model_module_filter_vier->genUrlPlus();
+			$cpu_fv = $this->model_module_filter_vier->flagCanonic();
+			/*end FilterVier*/
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA[$product_total = $this->model_catalog_product]]></search>
+			<add><![CDATA[//$product_total = $this->model_catalog_product]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA[$results = $this->model_catalog_product]]></search>
+			<add><![CDATA[//$results = $this->model_catalog_product]]></add>
+		</operation>
+		<operation error="log">
+			<search position="after"><![CDATA[$product_total = $this->model_catalog_product]]></search>
+			<add><![CDATA[
+			/*start FilterVier*/
+			$results = $this->model_module_filter_vier->getProductsByCategorys($data);$product_total = $this->model_module_filter_vier->getTotalProducts();
+			/*end FilterVier*/
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA['&sort=p.sort_order&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.sort_order&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=pd.name&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=pd.name&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=pd.name&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=pd.name&order=DESC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=p.price&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.price&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=p.price&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.price&order=DESC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=rating&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=rating&order=DESC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=rating&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=rating&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=p.model&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.model&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['&sort=p.model&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.model&order=DESC']]></add>
+		</operation>
+	</file>
+    <file name="catalog/controller/product/manufacturer.php">
+        <operation error="log">
+			<search position="replace"><![CDATA[$url . '&limit=]]></search>
+			<add><![CDATA[$url_plus . $url . '&limit=]]></add>
+		</operation>
+	</file>
+    <file name="catalog/controller/product/manufacturer.php">
+        <operation error="log">
+			<search position="replace"><![CDATA[$url . '&page={page}]]></search>
+			<add><![CDATA[$url_plus . $url . '&page={page}]]></add>
+		</operation>
+	</file>
+    
+    <!-- end catalog/controller/product/manufacturer/info -->
+    <!-- OR -->
+    <!-- catalog/controller/product/manufacturer/product -->
+    <file name="catalog/controller/product/manufacturer.php">
+        <operation error="log">
+			<search position="after"><![CDATA[public function product() {]]></search>
+			<add><![CDATA[
+			/*start FilterVier*/
+            $this->load->model('module/filter_vier');
+            $url_plus = $this->model_module_filter_vier->genUrlPlus();
+            $cpu_fv = $this->model_module_filter_vier->flagCanonic();
+			/*end FilterVier*/
+			]]></add>
+		</operation>
+	</file>
+    <!-- end catalog/controller/product/manufacturer/product -->
+    <!-- catalog/view/theme/*/template/product/manufacturer_info.tpl -->
+    <file name="catalog/view/theme/*/template/product/manufacturer_info.tpl">
+        <operation error="log">
+			<search position="after"><![CDATA[<?php echo $header; ?>]]></search>
+			<add><![CDATA[<?php if(is_string($this->config->get('h_head'))) {$heading_title = $this->config->get('h_head');} if(is_string($this->config->get('h_descript'))) {$description = $this->config->get('h_descript'); $thumb = '';$description_bottom = '';} if($breadcrumb_fv = $this->config->get('breadcrumb_fv')) {$breadcrumbs = array_merge($breadcrumbs, $breadcrumb_fv);} ?>]]></add>
+		</operation>
+    </file>
+    <!-- end catalog/view/theme/*/template/product/manufacturer_info.tpl -->
+	<!-- catalog/controller/product/special -->
+	<file name="catalog/controller/product/special.php">
+        <operation error="log">
+			<search position="after"><![CDATA[public function index() {]]></search>
+			<add><![CDATA[
+			/*start FilterVier*/
+            $this->load->model('module/filter_vier');
+            $url_plus = $this->model_module_filter_vier->genUrlPlus();
+            $cpu_fv = $this->model_module_filter_vier->flagCanonic();
+			/*end FilterVier*/
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA[$product_total =]]></search>
+			<add><![CDATA[//$product_total =]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA[$results = $this->model_catalog_product]]></search>
+			<add><![CDATA[//$results = $this->model_catalog_product]]></add>
+		</operation>
+		<operation error="log">
+			<search position="after"><![CDATA[$results = $this->model_catalog_product]]></search>
+			<add><![CDATA[
+			/*start FilterVier*/
+			$results = $this->model_module_filter_vier->getProductsByCategorys($data);$product_total = $this->model_module_filter_vier->getTotalProducts();
+			/*end FilterVier*/
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA['sort=p.sort_order&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.sort_order&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['sort=pd.name&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=pd.name&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['sort=pd.name&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=pd.name&order=DESC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['sort=p.price&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.price&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['sort=p.price&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.price&order=DESC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['sort=rating&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=rating&order=DESC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['sort=rating&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=rating&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['sort=p.model&order=ASC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.model&order=ASC']]></add>
+		</operation>
+        <operation error="log">
+			<search position="replace"><![CDATA['sort=p.model&order=DESC']]></search>
+			<add><![CDATA[$url_plus . '&sort=p.model&order=DESC']]></add>
+		</operation>
+	</file>
+    <file name="catalog/controller/product/special.php">
+        <operation error="log">
+			<search position="replace"><![CDATA[$url . '&limit=]]></search>
+			<add><![CDATA[$url_plus . $url . '&limit=]]></add>
+		</operation>
+	</file>
+    <file name="catalog/controller/product/special.php">
+        <operation error="log">
+			<search position="replace"><![CDATA[$url . '&page={page}]]></search>
+			<add><![CDATA[$url_plus . $url . '&page={page}]]></add>
+		</operation>
+	</file>
+	<!-- end catalog/controller/product/special -->
+	<!-- catalog/view/theme/*/template/product/special.tpl -->
+    <file name="catalog/view/theme/*/template/product/special.tpl">
+        <operation error="log">
+			<search position="after"><![CDATA[<?php echo $header; ?>]]></search>
+			<add><![CDATA[<?php if(is_string($this->config->get('h_head'))) {$heading_title = $this->config->get('h_head');} if(is_string($this->config->get('h_descript'))) {$description = $this->config->get('h_descript'); $thumb = '';$description_bottom = '';} if($breadcrumb_fv = $this->config->get('breadcrumb_fv')) {$breadcrumbs = array_merge($breadcrumbs, $breadcrumb_fv);} ?>]]></add>
+		</operation>
+    </file>
+    <!-- end catalog/view/theme/*/template/product/special.tpl -->
+	<!-- catalog/controller/common/seo_url.php -->
+	<file name="catalog/controller/common/seo_url.php">
+		<operation error="log">
+			<search position="after"><![CDATA[public function index() {]]></search>
+			<add><![CDATA[
+        /*start FilterVier*/
+        $this->load->model('module/filter_vier');
+		/*end FilterVier*/]]>
+            </add>
+		</operation>
+        <operation error="log">
+			<search position="after" offset="1"><![CDATA[$this->db->escape($part) . "'");]]></search>
+			<add><![CDATA[
+                /*start FilterVier*/
+                if($part && !$query->num_rows) {
+                    if($this->model_module_filter_vier->parseUrlSeoFV( $part )) {
+                        continue;
+                    }
+                }
+        		/*end FilterVier*/]]>
+            </add>
+		</operation>
+        <operation error="log">
+			<search position="after"><![CDATA[public function rewrite($link) {]]></search>
+			<add><![CDATA[
+        /*start FilterVier*/
+        $this->load->model('module/filter_vier');
+        /*end FilterVier*/]]>
+            </add>
+		</operation>
+        <operation error="log">
+			<search position="before"><![CDATA[} elseif ($key == 'path') {]]></search>
+			<add><![CDATA[
+                /*start FilterVier*/
+                } elseif($url_temp = $this->model_module_filter_vier->getUrlSeoFV($key, $value)) {
+					if(isset($url_temp['seo_url'])) {
+                        $url = $this->model_module_filter_vier->delPostfixSlashe( $url );
+                        $url .= '/'.$url_temp['seo_url'];
+                        unset($data[$key]);
+                    }
+                    if(isset($url_temp['arr_val_i'])) {
+                        $data = array_merge($data, $url_temp['arr_val_i']);
+                    }
+    			/*end FilterVier*/]]>
+            </add>
+		</operation>
+        <operation error="log">
+			<search position="after"><![CDATA[if ($data) {]]></search>
+			<add><![CDATA[
+                /*start FilterVier*/
+                $query .= '?' . urldecode(http_build_query($data, '', '&'));
+                /*end FilterVier*/
+                /*
+            ]]></add>
+		</operation>
+		<operation error="log">
+			<search position="after" offset="1"><![CDATA[$query = '?']]></search>
+			<add><![CDATA[
+        		*/
+    			/*end FilterVier*/]]>
+            </add>
+		</operation>
+	</file>
+	<!-- end catalog/controller/common/seo_url.php -->
+	<!-- catalog/controller/common/seo_pro.php -->
+	<file name="catalog/controller/common/seo_pro.php">
+		<operation>
+			<search position="before"><![CDATA[if (!isset($this->request->get['_route_'])) {]]></search>
+			<add><![CDATA[
+        /*start FilterVier*/
+        $this->load->model('module/filter_vier');
+        $actions_get = $this->model_module_filter_vier->actionsGet();
+		/*end FilterVier*/]]>
+            </add>
+		</operation>
+        <operation>
+			<search position="after" offset="1"><![CDATA[$this->cache_data['keywords'][$keyword]);]]></search>
+			<add><![CDATA[
+                /*start FilterVier*/
+                else {  
+                    if($temp_key = $this->model_module_filter_vier->parseUrlSeoFV($keyword, true, $rows)) {
+                        $rows[] = array('keyword' => $keyword, 'query' => $temp_key);
+                    }
+                }
+                /*end FilterVier*/]]>
+            </add>
+		</operation>
+        <operation>
+			<search position="before"><![CDATA[$url = explode('=', $queries[$part], 2);]]></search>
+			<add><![CDATA[
+                    /*start FilterVier*/
+                    if(is_array($queries[$part]) && in_array(key($queries[$part]), $actions_get)) {
+                        continue;
+                    }
+                    /*end FilterVier*/]]>
+            </add>
+		</operation>
+        <operation>
+			<search position="after"><![CDATA[(!$this->config->get('config_seo_url')) return $link;]]></search>
+			<add><![CDATA[
+        /*start FilterVier*/
+        $this->load->model('module/filter_vier');
+        /*end FilterVier*/]]>
+            </add>
+		</operation>
+        <operation>
+			<search position="before"><![CDATA[if(substr($seo_url, -2) == '//')]]></search>
+			<add><![CDATA[
+        /*start FilterVier*/
+        if(count($data)) {
+            foreach($data as $key => $value) {
+                if($url_temp = $this->model_module_filter_vier->getUrlSeoFV($key, $value)) {
+                    if(isset($url_temp['seo_url'])) {
+                        $seo_url = $this->model_module_filter_vier->delPostfixSlashe( $seo_url );
+                        $seo_url .= '/'.$url_temp['seo_url'];
+                        unset($data[$key]);
+                    }
+                    if(isset($url_temp['arr_val_i'])) {
+                        $data = array_merge($data, $url_temp['arr_val_i']);
+                    }
+                }
+            }
+        }
+        /*end FilterVier*/]]>
+           </add>
+		</operation>
+        <operation>
+			<search position="before"><![CDATA[if (rawurldecode($url) != rawurldecode($seo)]]></search>
+			<add><![CDATA[
+        /*start FilterVier*/
+        $this->load->model('module/filter_vier');
+        if($this->model_module_filter_vier->redirUrl()) return;
+		/*end FilterVier*/]]>
+           </add>
+		</operation>
+	</file>
+	<!-- end catalog/controller/common/seo_pro.php -->
+	<!-- catalog/controller/feed/*sitemap*.php -->
+	<file name="catalog/controller/feed/*sitemap*.php">
+		<operation>
+			<search position="before"><![CDATA[$output .= '</urlset>';]]></search>
+			<add><![CDATA[
+			/*start FilterVier*/
+            $this->load->model('module/filter_vier');
+            $output .= $this->model_module_filter_vier->genSiteMapFV();
+			/*end FilterVier*/]]>
+            </add>
+		</operation>
+	</file>
+	<!-- end catalog/controller/feed/*sitemap*.php -->
+</modification>

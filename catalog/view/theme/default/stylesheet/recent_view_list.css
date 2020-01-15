@@ -1,0 +1,8 @@
+.recent_view_list  {
+	list-style-type: none;
+	padding-left: 0px;
+}
+
+.recent_view_list li  {
+	padding: 2px 0 2px 0;
+}

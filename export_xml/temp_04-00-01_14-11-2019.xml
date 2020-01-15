@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shop>
+	<name>ИП Масенко Елена Владимировна</name>
+	<company>ИП Масенко Елена Владимировна</company>
+	<url>ud-linden.ru</url>
+	<currencies>
+		<currency id="RUR" rate="1" plus="0"/>
+	</currencies>
+	<categories/>
+	<offers><offer>
+<name>Чехол от дождя и снега на детскую коляску (ткань) Ruivo Салатовый</name>
+<quantum>0</quantum>
+<price>500.0000</price>
+<mrc>850.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R005-SA</vendorCode>
+</offer>
+<offer>
+<name>Чехол от дождя и снега на детскую коляску (ткань) Ruivo Коричневый</name>
+<quantum>2</quantum>
+<price>500.0000</price>
+<mrc>850.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R005-BR</vendorCode>
+</offer>
+<offer>
+<name>Чехол от дождя и снега на детскую коляску (ткань) Ruivo Светло серый</name>
+<quantum>0</quantum>
+<price>500.0000</price>
+<mrc>850.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R005-LG</vendorCode>
+</offer>
+<offer>
+<name>Чехол от дождя и снега на детскую коляску (ткань) Ruivo Красный</name>
+<quantum>5</quantum>
+<price>500.0000</price>
+<mrc>850.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R005-RE</vendorCode>
+</offer>
+<offer>
+<name>Чехол от дождя и снега на детскую коляску (ткань) Ruivo Темно синий</name>
+<quantum>6</quantum>
+<price>500.0000</price>
+<mrc>850.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R005-NA</vendorCode>
+</offer>
+<offer>
+<name>Чехол от дождя и снега на детскую коляску (ткань) Ruivo Светло бежевый</name>
+<quantum>3</quantum>
+<price>500.0000</price>
+<mrc>850.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R005-LB</vendorCode>
+</offer>
+<offer>
+<name>Чехол от дождя и снега на детскую коляску (ткань) Ruivo Серый</name>
+<quantum>0</quantum>
+<price>500.0000</price>
+<mrc>850.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R005-GR</vendorCode>
+</offer>
+<offer>
+<name>Тент от солнца на детскую коляску Ruivo Темно синий</name>
+<quantum>29</quantum>
+<price>200.0000</price>
+<mrc>350.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R004-NA</vendorCode>
+</offer>
+<offer>
+<name>Тент от солнца на детскую коляску Ruivo Светло серый</name>
+<quantum>0</quantum>
+<price>200.0000</price>
+<mrc>350.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R004-LG</vendorCode>
+</offer>
+<offer>
+<name>Тент от солнца на детскую коляску Ruivo Серый</name>
+<quantum>51</quantum>
+<price>200.0000</price>
+<mrc>350.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R004-GR</vendorCode>
+</offer>
+<offer>
+<name>Тент от солнца на детскую коляску Ruivo Светло бежевый</name>
+<quantum>250</quantum>
+<price>200.0000</price>
+<mrc>350.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R004-LB</vendorCode>
+</offer>
+<offer>
+<name>Тент от солнца на детскую коляску Ruivo Красный</name>
+<quantum>25</quantum>
+<price>200.0000</price>
+<mrc>350.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R004-RE</vendorCode>
+</offer>
+<offer>
+<name>Чехлы на колеса детской коляски 12&amp;quot; (30см) Ruivo Цвет:ЧЕРНЫЙ</name>
+<quantum>158</quantum>
+<price>162.0000</price>
+<mrc>280.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R001-D30</vendorCode>
+</offer>
+<offer>
+<name>Чехлы на колеса детской коляски 14&amp;quot; (36см) Ruivo</name>
+<quantum>3</quantum>
+<price>225.0000</price>
+<mrc>380.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R001-D36</vendorCode>
+</offer>
+<offer>
+<name>Чехлы на детскую коляску с поворотными колесами 10/12&amp;quot; (25/30см) Ruivo</name>
+<quantum>17</quantum>
+<price>190.0000</price>
+<mrc>330.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R001-NP</vendorCode>
+</offer>
+<offer>
+<name>Москитная сетка на детскую коляску-люльку Ruivo Черный</name>
+<quantum>4</quantum>
+<price>170.0000</price>
+<mrc>300.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R002-LB</vendorCode>
+</offer>
+<offer>
+<name>Москитная сетка на детскую коляску-люльку Ruivo Белый</name>
+<quantum>13</quantum>
+<price>170.0000</price>
+<mrc>300.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R002-LW</vendorCode>
+</offer>
+<offer>
+<name>Чехол защитный для хранения детской коляски в подъезде (ткань) Ruivo</name>
+<quantum>10</quantum>
+<price>430.0000</price>
+<mrc>750.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R006-LG</vendorCode>
+</offer>
+<offer>
+<name>Москитка на прогулочную детскую коляску Ruivo</name>
+<quantum>57</quantum>
+<price>230.0000</price>
+<mrc>390.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R002-PB</vendorCode>
+</offer>
+<offer>
+<name>Чехол от дождя на детскую коляску-люльку Ruivo</name>
+<quantum>10</quantum>
+<price>280.0000</price>
+<mrc>560.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R003-LS</vendorCode>
+</offer>
+<offer>
+<name>Чехол от дождя на прогулочную коляску Ruivo</name>
+<quantum>0</quantum>
+<price>280.0000</price>
+<mrc>560.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R003-PS</vendorCode>
+</offer>
+<offer>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ БЕЛАЯ U.D.LINDEN &amp;quot;POLAR BEAR DOUBLE&amp;quot;</name>
+<quantum>5</quantum>
+<price>3000.0000</price>
+<mrc>4500.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>POLAR BEAR DOUBLE</vendorCode>
+</offer>
+<offer>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ БЕЛАЯ U.D.LINDEN &amp;quot;POLAR BEAR&amp;quot;</name>
+<quantum>0</quantum>
+<price>3000.0000</price>
+<mrc>4500.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>POLAR BEAR</vendorCode>
+</offer>
+<offer>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ БЕЛАЯ ЭКОКОЖА U.D.LINDEN &amp;quot;WHITE MERINO DOUBLE&amp;quot;</name>
+<quantum>4</quantum>
+<price>3300.0000</price>
+<mrc>4950.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>WHITE MERINO DOUBLE</vendorCode>
+</offer>
+<offer>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ БЕЛАЯ ЭКОКОЖА U.D.LINDEN &amp;quot;WHITE MERINO&amp;quot;</name>
+<quantum>18</quantum>
+<price>3300.0000</price>
+<mrc>4950.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>WHITE MERINO</vendorCode>
+</offer>
+<offer>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ U.D.LINDEN &amp;quot;WALROSS DOUBLE&amp;quot;</name>
+<quantum>5</quantum>
+<price>3000.0000</price>
+<mrc>4500.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>WALROSS DOUBLE</vendorCode>
+</offer>
+<offer>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ U.D.LINDEN &amp;quot;WALROSS&amp;quot;</name>
+<quantum>64</quantum>
+<price>3000.0000</price>
+<mrc>4500.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>WALROSS</vendorCode>
+</offer>
+<offer>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ ЭКОКОЖА U.D.LINDEN &amp;quot;BLACK MERINO DOUBLE&amp;quot;</name>
+<quantum>16</quantum>
+<price>3300.0000</price>
+<mrc>4950.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>BLACK MERINO DOUBLE</vendorCode>
+</offer>
+<offer>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ ЭКОКОЖА U.D.LINDEN &amp;quot;BLACK MERINO&amp;quot;</name>
+<quantum>6</quantum>
+<price>3300.0000</price>
+<mrc>4950.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>BLACK MERINO</vendorCode>
+</offer>
+<offer>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ U.D.LINDEN &amp;quot;BLACK-FLEECE DOUBLE&amp;quot;</name>
+<quantum>20</quantum>
+<price>2300.0000</price>
+<mrc>3300.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>BLACK-FLEECE DOUBLE</vendorCode>
+</offer>
+<offer>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ U.D.LINDEN &amp;quot;BLACK-FLEECE&amp;quot;</name>
+<quantum>69</quantum>
+<price>2300.0000</price>
+<mrc>3300.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>BLACK-FLEECE</vendorCode>
+</offer>
+<offer>
+<name>СУМКА ПЕРЕНОСКА ДЛЯ НОВОРОЖДЕННЫХ СЕРАЯ U.D.LINDEN EINZELBOOT &amp;quot;STEEL GREY&amp;quot;</name>
+<quantum>0</quantum>
+<price>9500.0000</price>
+<mrc>12500.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>EINZELBOOT STEEL GREY</vendorCode>
+</offer>
+<offer>
+<name>СУМКА ПЕРЕНОСКА ДЛЯ НОВОРОЖДЕННЫХ ЧЕРНАЯ U.D.LINDEN EINZELBOOT &amp;quot;BLACK&amp;quot;</name>
+<quantum>1</quantum>
+<price>9500.0000</price>
+<mrc>12500.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>EINZELBOOT BLACK</vendorCode>
+</offer>
+<offer>
+<name>СУМКА ПЕРЕНОСКА ДЛЯ НОВОРОЖДЕННЫХ БЕЛАЯ U.D.LINDEN EINZELBOOT &amp;quot;WHITE&amp;quot;</name>
+<quantum>2</quantum>
+<price>9500.0000</price>
+<mrc>12500.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>EINZELBOOT WHITE</vendorCode>
+</offer>
+<offer>
+<name>Чехлы на колеса детской коляски 12&amp;quot; (30см) Ruivo Цвет:СЕРЫЙ</name>
+<quantum>10</quantum>
+<price>140.0000</price>
+<mrc>240.0000</mrc>
+<currencyId>RUR</currencyId>
+<categoryId/>
+<vendor>ИП Масенко Елена Владимировна</vendor>
+<vendorCode>R001-D30GR</vendorCode>
+</offer>
+</offers>
+</shop>

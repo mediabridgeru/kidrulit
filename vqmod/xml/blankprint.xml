@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>Printblank</id>
+	<version>1.0</version>
+	<author>batov</author>
+	
+	<file name="admin/view/template/sale/order_info.tpl">
+		<operation error="skip">
+			<search position="before"><![CDATA[<?php echo $footer; ?>]]></search>
+			<add><![CDATA[
+				<script type="text/javascript">
+				$(document).ready(function() { $('.heading .buttons').prepend('<a href="javascript:void(0);" class="button" onclick="showPrintBlankForm();">Печать почтовых бланков</a>');
+})
+function showPrintBlankForm() {
+$('#content').prepend('<div id="postform-dialog" style="padding: 3px 0px 0px 0px;"><iframe src="<?echo substr($_SERVER["HTTP_REFERER"],0,(strripos($_SERVER["HTTP_REFERER"],'route='))) . 'route=' . 'module/blankprint/formBlankPrint&amp;token=' . $token . '&amp;order_id=' . $order_id ;?>" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+$('#postform-dialog').dialog({
+title: 'Форма почтового отправления',
+width: 780,
+height: 650,
+resizable: false,
+modal: true,
+closeOnEscape: true,
+autoOpen: false,
+close: function(event, ui) { $('#wrap').show(); },
+open: function(event, ui) { $('.ui-widget-overlay').bind('click', function(){ $('#postform-dialog').dialog('close'); }); }
+});
+$('#postform-dialog').dialog('open');
+}
+</script>
+				]]></add>
+		</operation>
+	</file>
+</modification>

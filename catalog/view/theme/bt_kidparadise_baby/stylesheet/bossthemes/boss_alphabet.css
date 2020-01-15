@@ -1,0 +1,49 @@
+.boss-alphabet {
+	overflow: hidden;
+	margin:14px -4px 13px
+}
+.boss-alphabet ul{
+	padding-left:0
+}
+.box-content .boss-alphabet ul li{
+	list-style:none;
+	display:inline;
+	float: left;
+	text-align: center;	
+	margin:0 3px 6px;
+	padding:0!important
+}
+.boss-alphabet a{
+	background:#fff;
+	border:1px solid #f1f1f1;
+    color: #5b5b5b;
+    display: inline-block;
+    font-size: 10px;
+    height: 22px;
+    line-height: 20px;
+    text-transform: uppercase;
+    transition-duration: 0s;
+    width: 22px;
+}
+.boss-alphabet a:hover{
+	color:#fff;
+	background:#71cb2b;
+	border-color:transparent;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

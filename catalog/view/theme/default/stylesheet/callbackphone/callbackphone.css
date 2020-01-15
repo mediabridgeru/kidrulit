@@ -1,0 +1,91 @@
+/* callbackphone-modal */
+
+#callbackphone {min-height: 380px;min-width:300px;max-width:600px;background: #fff;border: 1px solid #DCDCDC;position: relative;box-shadow: 0 2px 15px rgba(0,0,0, 0.2);margin: 50px auto;}
+#callbackphone .showtwosides {width: 600px;}
+#callbackphone .showonesides {width: 300px;}
+#callbackphone-left {width: 300px;height:380px;float: left;background: #f4f4f4;}
+#callbackphone-right {width: 299px;height:380px;float: right;border-left: 1px solid #DCDCDC;}
+#callbackphone-left-head, #callbackphone-right-head {font-family: Tahoma, Arial;font-size: 14px;text-transform: uppercase;text-align: left;margin: 10px 0 0 15px;float:left;color: #000;}
+#closecallbackphone {position: absolute;right: 8px;top: 8px;}
+#closecallbackphone img{cursor: pointer;opacity: 0.5;}
+#closecallbackphone img:hover{cursor: pointer;opacity: 1;}
+
+#callbackphone-left-forma {text-align: left;margin:60px 0 25px 15px;position: relative;padding: 0;}
+#callbackphone-left-required {text-align: left;font-size: 12px;color: #777;font-family: Tahoma, Arial;border-left: 3px solid #f00;padding-left: 10px; position: absolute;bottom: 15px;left: 15px;width: 260px; }
+
+input.callbackphone-left-forma-input {border-right:none !important;border: 1px solid #DCDCDC;width: 246px;font-size: 12px; height:24px;font-family: Tahoma, Arial;color: #222;padding: 0px 10px;background: #fff;margin-bottom: 10px;outline:none;}
+input.callbackphone-left-forma-input:focus {border: 1px solid #afafaf;box-shadow: 0 0 5px rgba(0,0,0, 0.1) inset;outline:none;}
+input.callbackphone-left-forma-inputtime {border: 1px solid #DCDCDC;width: 111.5px;font-size: 12px; font-family: Tahoma, Arial;color: #222;padding: 4px 10px;background: #fff;margin-bottom: 10px;outline:none;}
+input.callbackphone-left-forma-inputtime:focus {border: 1px solid #afafaf;box-shadow: 0 0 5px rgba(0,0,0, 0.1) inset;outline:none;}
+textarea.callbackphone-left-forma-input {border: 1px solid #DCDCDC;width: 249px;height:100px;resize:none;font-size: 12px; font-family: Tahoma, Arial;color: #222;padding: 5px 10px;background: #fff;margin-bottom: 10px;outline:none;}
+textarea.callbackphone-left-forma-input:focus {border: 1px solid #afafaf;box-shadow: 0 0 5px rgba(0,0,0, 0.1) inset;overflow: hidden;outline:none;}
+.callbackphone-left-forma-input-req {float:right;width:3px;background:#f00;height:26px;margin-right:15px;}
+
+#callbackphone-right-contacts {text-align: left;margin:42px 0 0px 13px;position: relative;padding: 0;color: #000;}
+#callbackphone-right-contacts td.callbackphone-right-contacts-td-email, #callbackphone-right-contacts td.callbackphone-right-contacts-td-tel, #callbackphone-right-contacts td.callbackphone-right-contacts-td-address {padding-right: 10px;height: 26px;}
+#callbackphone-right-contacts td.callbackphone-right-contacts-td-email, #callbackphone-right-contacts td.callbackphone-right-contacts-address {padding-top: 5px !important;}
+#callbackphone-right-contacts td.callbackphone-right-contacts-tel, #callbackphone-right-contacts td.callbackphone-right-contacts-email, #callbackphone-right-contacts td.callbackphone-right-contacts-address {font-family: Tahoma, Arial;font-size: 14px;text-transform: uppercase;text-align: left;vertical-align: top;padding-top: 5px;}
+#callbackphone-right-contacts td.callbackphone-right-contacts-email, #callbackphone-right-contacts td.callbackphone-right-contacts-address {text-transform: none;padding-right: 25px;}
+#callbackphone-right-map img {border:2px solid rgba(0,0,0, 0.2);margin-top:15px;opacity:0.8;}
+
+#callbackphone-result {text-align: left;font-size: 12px;color: #777;font-family: Tahoma, Arial;padding-left: 15px; position: relative;float: left;margin-top: 27px;}
+
+/* callbackphone-simplemodal */
+
+#callbackphone {display:none;}
+#simplemodal-overlay {background-color:#000; cursor:default;}
+#simplemodal-container {}
+#simplemodal-container .simplemodal-data{padding:0px}
+#simplemodal-container code{background:#141414;color:#bbb;display:block;font-size:12px;margin-bottom:12px;padding:4px 6px 6px}
+#simplemodal-container a{color:#ddd}
+#simplemodal-container span.modalCloseImg{background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAACXBIWXMAAAsTAAALEwEAmpwYAAABNmlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjarY6xSsNQFEDPi6LiUCsEcXB4kygotupgxqQtRRCs1SHJ1qShSmkSXl7VfoSjWwcXd7/AyVFwUPwC/0Bx6uAQIYODCJ7p3MPlcsGo2HWnYZRhEGvVbjrS9Xw5+8QMUwDQCbPUbrUOAOIkjvjB5ysC4HnTrjsN/sZ8mCoNTIDtbpSFICpA/0KnGsQYMIN+qkHcAaY6addAPAClXu4vQCnI/Q0oKdfzQXwAZs/1fDDmADPIfQUwdXSpAWpJOlJnvVMtq5ZlSbubBJE8HmU6GmRyPw4TlSaqo6MukP8HwGK+2G46cq1qWXvr/DOu58vc3o8QgFh6LFpBOFTn3yqMnd/n4sZ4GQ5vYXpStN0ruNmAheuirVahvAX34y/Axk/96FpPYgAAACBjSFJNAAB6JQAAgIMAAPn/AACA6AAAUggAARVYAAA6lwAAF2/XWh+QAAAARUlEQVR42mJgYGB4zcDAYM+AH9hD1cEZ9gQU2uMUICCOIUHIRriCPCL9wpDHwMDwF0oT5es8Yp1gT6rnSA42rPJExyBgANMaHPIWqdIEAAAAAElFTkSuQmCC);
+    width:11px;height:11px;display:inline;z-index:3200;position:absolute;top:7px;right:7px;cursor:pointer}
+.dialogContentText h2{color:#BBBBBB}
+.callbackForm{text-align: left;}
+
+.rc5{border-radius:5px 5px 5px 5px}
+.cb-txt,.cb-txt-290,.cb-area{background:#fff;border:1px solid #b2b5b7;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;-khtml-border-radius:5px;color:#000;font-size:14px;height:24px;line-height:24px;padding:0 4px;width:180px}
+.fb-send{margin:0}
+.cb-txt-290{margin:0 14px 0 0;width:290px}
+.cb-area{margin:0 14px 0 0;width:480px;height:70px}
+.cb-send{background:#18a6e5;border:0;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;-khtml-border-radius:5px;color:#000;cursor:pointer;font-size:14px;height:24px;padding-bottom:3px;text-align:center;width:125px}
+.cb-send:hover{background:#0e6389}
+
+/* ui-datepicker-div */
+
+#ui-datepicker-div {font-size: 12px;}
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
+/* simple-modal-overlay */
+
+#simple-modal-overlay {position: fixed ;display: block;z-index: 99998;top: 0;left: 0;width: 100%;height: 100%;background-color: #000000;background-position: center center;background-repeat: no-repeat;background: -webkit-gradient(radial, center center, 0, center center, 460, from(#ffffff), to(#291a49));background: -webkit-radial-gradient(circle, #ffffff, #291a49);background: -moz-radial-gradient(circle, #ffffff, #291a49);background: -ms-radial-gradient(circle, #ffffff, #291a49);}
+.simple-modal {width: 600px;left: 20px;top: 20px;position: absolute;position: fixed;margin: 0;color: #808080;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size: 13px;font-weight: normal;line-height: 18px;background-color: #FFFFFF; border: 1px solid #EAEEFA; border: 1px solid rgba(234, 238, 250, 0.6); -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.6); -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.6); box-shadow: 0 0 3px rgba(0, 0, 0, 0.6); z-index: 99999;border-radius: 6px;-webkit-border-radius: 6px;-moz-border-radius: 6px;}
+.simple-modal .simple-modal-header {padding: 5px 15px;margin: 0;border-bottom: 1px solid #EEEEEE;}
+.simple-modal .simple-modal-header h1 {margin: 0;color: #404040;font-size: 18px; font-weight: bold; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 36px;}
+.simple-modal a.close { position: absolute;right: 15px;top: 15px;color: #999;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size: 17px;font-weight: normal;line-height: 10px;text-decoration: none;}
+.simple-modal a.close:hover {color: #444;}
+.simple-modal .simple-modal-body {padding: 15px;}
+.simple-modal .simple-modal-body div.contents {overflow: hidden;}
+.simple-modal .simple-modal-body p {font-size: 13px;font-weight: normal; color: #606060; line-height: 18px;}
+.simple-modal .simple-modal-body p img {display: block;margin: 0 auto 10px auto;}
+.simple-modal .simple-modal-footer {display: block;background-color: #F5F5F5;padding: 14px 15px 15px; border-top: 1px solid #EEEEEE; -webkit-border-radius: 0 0 6px 6px; -moz-border-radius: 0 0 6px 6px; border-radius: 0 0 6px 6px; -webkit-box-shadow: inset 0 1px 0 #FFF; -moz-box-shadow: inset 0 1px 0 #FFF; box-shadow: inset 0 1px 0 #FFF;zoom: 1; margin-bottom: 0; text-align: center;}
+.simple-modal .simple-modal-footer a.btn {text-decoration: none;cursor: pointer;display: inline-block;background-repeat: no-repeat;padding: 5px 14px 6px;color: #333;font-size: 13px;line-height: normal;border: 1px solid transparent;-webkit-transition: 0.2s linear all;-moz-transition: 0.2s linear all;transition: 0.2s linear all;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;}
+.simple-modal .simple-modal-footer a.btn.primary {color: #FFF;text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25); background-color: #999; background-repeat: repeat-x; margin-right: 15px;}
+.simple-modal .simple-modal-footer a.btn.primary:hover {border: 1px solid #444;background-color: #444;}
+.simple-modal .simple-modal-footer a.btn.secondary {padding: 5px 2px 6px;}
+.simple-modal .simple-modal-footer a.btn.secondary:hover {color: #999;}
+.simple-modal.draggable .simple-modal-header:hover {cursor: move;background-color: #f8f8f8;-webkit-border-top-left-radius: 6px;-webkit-border-top-right-radius: 6px;-moz-border-radius-topleft: 6px;-moz-border-radius-topright: 6px;border-top-left-radius: 6px; border-top-right-radius: 6px;}
+.simple-modal.loading .simple-modal-body {min-height: 60px;background: transparent url("../images/loader.gif") no-repeat center center;}
+.simple-modal.loading .simple-modal-body div.contents {display: none;}
+.simple-modal.loading .close, .simple-modal.loading .simple-modal-header, .simple-modal.loading .simple-modal-footer {display: none;}
+.simple-modal.hide-header .simple-modal-header {display: none;}
+.simple-modal.hide-footer .simple-modal-footer {display: none;
+}

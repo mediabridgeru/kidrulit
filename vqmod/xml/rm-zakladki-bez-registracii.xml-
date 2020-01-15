@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <id>Закладки без регистрации</id>
+    <version>1.0.0</version>
+    <vqmver>2.2.1</vqmver>
+    <author>Renat Mukhamedzhanov beatific.ru@gmail.com</author>
+
+    <file name="catalog/controller/account/wishlist.php">
+        <operation>
+            <search position="replace" index="1">
+                <![CDATA[}]]></search>
+            <add><![CDATA[
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="replace">
+                <![CDATA[if (!$this->customer->isLogged()) {]]></search>
+            <add><![CDATA[
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="replace">
+                <![CDATA[$this->session->data['redirect'] = $this->url->link('account/wishlist', '', 'SSL');]]></search>
+            <add><![CDATA[
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="replace">
+                <![CDATA[$this->redirect($this->url->link('account/login', '', 'SSL'));]]></search>
+            <add><![CDATA[
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="replace">
+                <![CDATA[$this->data['continue'] = $this->url->link('account/account', '', 'SSL');]]></search>
+            <add><![CDATA[$this->data['continue'] = $this->url->link('common/home');]]></add>
+        </operation>
+    </file>
+
+    <file name="catalog/controller/account/wishlist.php">
+        <operation>
+            <search position="replace">
+                <![CDATA[
+                $json['success'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', '', 'SSL'), $this->url->link('account/register', '', 'SSL'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('account/wishlist'));
+                ]]></search>
+            <add><![CDATA[
+            $json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('account/wishlist'));
+            ]]></add>
+        </operation>
+    </file>
+    
+</modification>

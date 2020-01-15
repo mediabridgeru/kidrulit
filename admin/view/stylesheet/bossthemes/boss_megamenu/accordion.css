@@ -1,0 +1,4 @@
+.megamenu_option  li { padding:10px 20px ; border-top:1px solid #ccc;margin: 0 3px 3px; list-style:none;}
+.megamenu_option  li span {cursor:pointer;}
+.megamenu_option {padding:0}
+.content_option {padding:25px 50px;color:#000;font-weight:normal;}

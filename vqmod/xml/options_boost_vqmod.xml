@@ -1,0 +1,586 @@
+<modification>
+	<id>Options Boost - separated from Batch Copy</id>
+	<version>v156.7</version>
+	<vqmver>2.4.1</vqmver>
+	<author>qphoria</author>
+	<file name="admin/controller/catalog/product.php">
+
+		<!-- This adds the new checkdb function for the database tables 1.5.5+ -->
+		<operation  info="1.5.5 change for load-language to language-load" error="skip">
+            <search position="after"><![CDATA[
+            $this->language->load('catalog/product');
+            ]]></search>
+            <add><![CDATA[
+        $this->load->language('catalog/options_boost');
+        $this->data['entry_info'] = $this->language->get('entry_info');
+		$this->data['text_sku_override'] = $this->language->get('text_sku_override');
+        $this->checkdb_ob(); //Q: Options Boost
+            ]]></add>
+        </operation>
+
+        <!-- This adds the new checkdb function for the database tables 1.5.0-to-1.5.4-->
+		<operation error="skip">
+            <search position="after"><![CDATA[
+            $this->load->language('catalog/product');
+            ]]></search>
+            <add><![CDATA[
+        $this->load->language('catalog/options_boost');
+        $this->data['entry_info'] = $this->language->get('entry_info');
+		$this->data['text_sku_override'] = $this->language->get('text_sku_override');
+        $this->checkdb_ob(); //Q: Options Boost
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[
+            function getForm()
+            ]]></search>
+            <add><![CDATA[
+		$this->checkdb_ob(); //Q: Options Boost
+        $this->load->language('catalog/options_boost');
+        $this->data['entry_info'] = $this->language->get('entry_info');
+		$this->data['text_sku_override'] = $this->language->get('text_sku_override');
+            ]]></add>
+        </operation>
+
+		<!-- This is the check that adds the new fields to the database -->
+		<operation>
+            <search position="before"><![CDATA[
+            public function insert()
+            ]]></search>
+            <add><![CDATA[
+    //Q: Options Boost
+    private function checkdb_ob() {
+
+        $fields = array();
+
+        $fields[] = array(
+            'table'     => 'product_option_value',
+            'column'    => 'ob_sku',
+            'sql'       => "ALTER TABLE `" . DB_PREFIX . "product_option_value` ADD `ob_sku` VARCHAR(64) NOT NULL DEFAULT ''"
+        );
+        $fields[] = array(
+            'table'     => 'product_option_value',
+            'column'    => 'ob_upc',
+            'sql'       => "ALTER TABLE `" . DB_PREFIX . "product_option_value` ADD `ob_upc` VARCHAR(64) NOT NULL DEFAULT ''"
+        );
+        $fields[] = array(
+            'table'     => 'product_option_value',
+            'column'    => 'ob_quantity',
+            'sql'       => "ALTER TABLE `" . DB_PREFIX . "product_option_value` ADD `ob_quantity` int(3) NOT NULL DEFAULT '0'"
+        );
+        $fields[] = array(
+            'table'     => 'product_option_value',
+            'column'    => 'ob_kod',
+            'sql'       => "ALTER TABLE `" . DB_PREFIX . "product_option_value` ADD `ob_kod` VARCHAR(64) NOT NULL DEFAULT ''"
+        );
+        $fields[] = array(
+            'table'     => 'product_option_value',
+            'column'    => 'ob_info',
+            'sql'       => "ALTER TABLE `" . DB_PREFIX . "product_option_value` ADD `ob_info` VARCHAR(255) NOT NULL DEFAULT ''"
+        );
+        $fields[] = array(
+            'table'     => 'product_option_value',
+            'column'    => 'ob_image',
+            'sql'       => "ALTER TABLE `" . DB_PREFIX . "product_option_value` ADD `ob_image` VARCHAR(255) NOT NULL DEFAULT ''"
+        );
+		$fields[] = array(
+            'table'     => 'product_option_value',
+            'column'    => 'ob_sku_override',
+            'sql'       => "ALTER TABLE `" . DB_PREFIX . "product_option_value` ADD `ob_sku_override` int(1) NOT NULL DEFAULT '0'"
+        );
+
+        foreach ($fields as $field) {
+            $sql = "DESC `" . DB_PREFIX . "$field[table]` $field[column]";
+		    $query = $this->db->query($sql);
+		    if (!$query->num_rows) {
+				$this->db->query($field['sql']);
+		    }
+        }
+	}//
+            ]]></add>
+        </operation>
+
+		<!-- This part handles the option image preview in the admin -->
+		<operation>
+           <search position="before"><![CDATA[
+           $this->load->model('sale/customer_group');
+          ]]></search>
+            <add><![CDATA[
+        //Q: Options Boost
+        foreach ($this->data['product_options'] as $k1 => $product_option) {
+			if (isset($product_option['product_option_value'])) {
+	            foreach ($product_option['product_option_value'] as $k2 => $product_option_value) {
+	                if (isset($product_option_value['ob_image']) && file_exists(DIR_IMAGE . $product_option_value['ob_image']) && is_file(DIR_IMAGE . $product_option_value['ob_image'])) {
+	                    $this->data['product_options'][$k1]['product_option_value'][$k2]['preview'] = $this->model_tool_image->resize($product_option_value['ob_image'], 38, 38);
+	                } else {
+	                    $this->data['product_options'][$k1]['product_option_value'][$k2]['preview'] = $this->model_tool_image->resize('no_image.jpg', 38, 38);
+	                }
+	            }
+	        }
+        }//
+            ]]></add>
+        </operation>
+
+	</file>
+
+	<file name="admin/view/template/catalog/product_form.tpl">
+		<operation>
+            <search position="after" index="1"><![CDATA[
+            <td class="right"><?php echo $entry_weight; ?></td>
+            ]]></search>
+            <add><![CDATA[
+            <td class="right" style="width:10%;"><?php echo $entry_sku; ?></td>
+            <td class="right">Код товара:</td>
+            <td class="right"><?php echo $entry_image; ?></td>
+            ]]></add>
+        </operation>
+        <operation><!-- Add info tr -->
+            <search position="after" offset="2"><![CDATA[
+            [<?php echo $option_value_row; ?>][weight]
+            ]]></search>
+            <add><![CDATA[
+					<tr><td class="left"><?php echo $entry_info; ?></td><td colspan="11" class="left"><input name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][ob_info]" value="<?php echo $product_option_value['ob_info']; ?>" size="100"></td></tr>
+            ]]></add>
+        </operation>
+        <operation><!-- Add info tr to add button -->
+            <search position="after" offset="2"><![CDATA[
+            option_value_row + '][weight]
+            ]]></search>
+            <add><![CDATA[
+			html += '  <tr><td class="left"><?php echo $entry_info; ?></td><td colspan="11" class="left"><input name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][ob_info]" value="" size="100"></td></tr>';
+            ]]></add>
+        </operation>
+		<operation><!-- partial match. Add sku and image fields -->
+            <search position="after"><![CDATA[
+            <?php echo $product_option_value['weight']; ?>
+            ]]></search>
+            <add><![CDATA[
+					<td class="right">
+					  <input type="text" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][ob_sku]" value="<?php echo $product_option_value['ob_sku']; ?>" size="4" />
+					  <br/><input type="checkbox" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][ob_sku_override]" value="1" size="4" id="sku_override_<?php echo $option_row; ?>_<?php echo $option_value_row; ?>" <?php echo (isset($product_option_value['ob_sku_override']) && $product_option_value['ob_sku_override']) ? 'checked="checked"' : ''; ?>/><lable for="sku_override_<?php echo $option_row; ?>_<?php echo $option_value_row; ?>"><?php echo $text_sku_override; ?></label>
+					</td>
+					<td class="right">
+					  <input type="text" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][ob_kod]" value="<?php echo $product_option_value['ob_kod']; ?>" size="4" />
+					</td>
+					<td>
+					  <img src="<?php echo $product_option_value['preview']; ?>" alt="<?php echo $product_option_value['ob_image']; ?>" id="preview_<?php echo $option_row; ?>_<?php echo $option_value_row; ?>" onclick="image_upload('image_<?php echo $option_row; ?>_<?php echo $option_value_row; ?>', 'preview_<?php echo $option_row; ?>_<?php echo $option_value_row; ?>');"/>
+			    	  <input type="hidden" id="image_<?php echo $option_row; ?>_<?php echo $option_value_row; ?>" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][ob_image]" value="<?php echo $product_option_value['ob_image']; ?>" />
+					  <br/><a onclick="$('#preview_<?php echo $option_row; ?>_<?php echo $option_value_row; ?>').attr('src', '<?php echo $this->model_tool_image->resize('no_image.jpg', 38, 38); ?>'); $('#image_<?php echo $option_row; ?>_<?php echo $option_value_row; ?>').attr('value', '');">Clear</a>
+                	</td>
+            ]]></add>
+        </operation>
+		<operation>
+            <search position="replace" offset="9"><![CDATA[
+            <?php if ($product_option_value['price_prefix'] == '+') { ?>
+            ]]></search>
+            <add><![CDATA[
+			<option value="+" <?php echo ($product_option_value['price_prefix'] == '+') ? 'selected="selected"' : '' ?>>+</option>
+            <option value="-" <?php echo ($product_option_value['price_prefix'] == '-') ? 'selected="selected"' : '' ?>>-</option>
+            <option value="*" <?php echo ($product_option_value['price_prefix'] == '*') ? 'selected="selected"' : '' ?>>*</option>
+            <option value="%" <?php echo ($product_option_value['price_prefix'] == '%') ? 'selected="selected"' : '' ?>>%</option>
+			<option value="=" <?php echo ($product_option_value['price_prefix'] == '=') ? 'selected="selected"' : '' ?>>=</option>
+			<option value="1" <?php echo ($product_option_value['price_prefix'] == '1') ? 'selected="selected"' : '' ?>>1</option>
+            ]]></add>
+        </operation>
+		<operation error="skip"><!-- partial match -->
+            <search position="replace" index="1"><![CDATA[
+            <td colspan="6"></td>
+            ]]></search>
+            <add><![CDATA[
+			<td colspan="11"></td>
+            ]]></add>
+        </operation>
+		<operation error="skip"><!-- partial match -->
+            <search position="replace"><![CDATA[
+            html += '        <td colspan="6"></td>';
+            ]]></search>
+            <add><![CDATA[
+			html += '        <td colspan="11"></td>';
+            ]]></add>
+        </operation>
+
+		<operation><!-- partial match -->
+            <search position="after"><![CDATA[
+            html += '        <td class="right"><?php echo $entry_weight; ?></td>';
+            ]]></search>
+            <add><![CDATA[
+			html += '        <td class="right" style="width:10%;"><?php echo $entry_sku; ?></td>';
+			html += '        <td class="right">Код товара:</td>';
+			html += '        <td class="right"><?php echo $entry_image; ?></td>';
+            ]]></add>
+        </operation>
+
+		<operation>
+            <search position="after" offset="2"><![CDATA[
+			html += '    <td class="right"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][price_prefix]">';
+			]]></search>
+            <add><![CDATA[
+			html += '      <option value="*">*</option>';
+			html += '      <option value="%">%</option>';
+			html += '      <option value="=">=</option>';
+			html += '      <option value="1">1</option>';
+            ]]></add>
+        </operation>
+
+		<operation><!-- partial match -->
+            <search position="after"><![CDATA[
+            html += '    <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][weight]" value="" size="5" /></td>';
+            ]]></search>
+            <add><![CDATA[
+			html += '    <td class="right">';
+			html += '      <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][ob_sku]" value="" size="3" />';
+			html += '      <br/><input type="checkbox" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][ob_sku_override]" value="1" size="4" id="sku_override_'+ option_row + '_' + option_value_row + '" /><lable for="sku_override_'+ option_row + '_' + option_value_row + '"><?php echo $text_sku_override; ?></label>';
+			html += '    </td>';
+			html += '    <td class="right">';
+			html += '      <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][ob_kod]" value="" size="3" />';
+			html += '    </td>';
+			html += '    <td>';
+			html += '      <img src="<?php echo HTTPS_SERVER; ?>../image/cache/no_image-38x38.jpg" alt="" id="preview_'+ option_row + '_' + option_value_row + '" onclick="image_upload(\'image_'+ option_row + '_' + option_value_row + '\', \'preview_'+ option_row + '_' + option_value_row + '\');" />';
+			html += '      <input type="hidden" id="image_' + option_row + '_' + option_value_row + '" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][ob_image]" value="" />';
+            html += '    </td>';
+            ]]></add>
+        </operation>
+
+	</file>
+
+	<!-- START CATALOG CHANGES -->
+
+	<!-- Replace smaller option data call with full select * to get all fields dynamically -->
+	<file name="system/library/cart.php">
+		<operation>
+            <search position="after"><![CDATA[
+            WHERE pov.product_option_value_id = '" . (int)$option_value . "'
+            ]]></search>
+            <add><![CDATA[
+        		 	//Q: Options Boost - Override default query for select/radio/image
+        		 	$option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (pov.option_value_id = ovd.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) WHERE pov.product_option_value_id = '" . (int)$option_value . "' AND pov.product_option_id = '" . (int)$product_option_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+            ]]></add>
+        </operation>
+		<operation>
+            <search position="after"><![CDATA[
+            WHERE pov.product_option_value_id = '" . (int)$product_option_value_id . "'
+            ]]></search>
+            <add><![CDATA[
+        		 	//Q: Options Boost - Override default query for checkbox
+        		 	$option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (pov.option_value_id = ovd.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) WHERE pov.product_option_value_id = '" . (int)$product_option_value_id . "' AND pov.product_option_id = '" . (int)$product_option_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+            ]]></add>
+        </operation>
+		<operation>
+            <search position="after"><![CDATA[
+            $option_data = array();
+            ]]></search>
+            <add><![CDATA[
+            	//Q: Options Boost - overwrite product image with option image for cart (pt1)
+				$option_price_only = false;
+				$option_already_disc = false;
+      			$prod_image = $product_query->row['image'];
+
+				//Q: Options Boost (cloned pricing code for convenience. Not best way. Should move the code below)
+				if ($this->customer->isLogged()) {
+					$customer_group_id = $this->customer->getCustomerGroupId();
+				} else {
+					$customer_group_id = $this->config->get('config_customer_group_id');
+				}
+
+				// Get original price directly to see if qty discount is in effect already
+				$default_price_query = $this->db->query("SELECT price FROM " . DB_PREFIX . "product WHERE product_id = '" . (int)$product_id . "'");
+				$obOrigPrice = $default_price_query->row['price'];
+
+				$price = $product_query->row['price'];
+
+				// Product Discounts
+				$discount_quantity = 0;
+
+				foreach ($this->session->data['cart'] as $key_2 => $quantity_2) {
+					$product_2 = explode(':', $key_2);
+
+					if ($product_2[0] == $product_id) {
+						$discount_quantity += $quantity_2;
+					}
+				}
+
+				$product_discount_query = $this->db->query("SELECT price FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$customer_group_id . "' AND quantity <= '" . (int)$discount_quantity . "' AND ((date_start = '0000-00-00' OR date_start < NOW()) AND (date_end = '0000-00-00' OR date_end > NOW())) ORDER BY quantity DESC, priority ASC, price ASC LIMIT 1");
+
+				if ($product_discount_query->num_rows) {
+					$price = $product_discount_query->row['price'];
+				}
+
+				// Product Specials
+				$product_special_query = $this->db->query("SELECT price FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$customer_group_id . "' AND ((date_start = '0000-00-00' OR date_start < NOW()) AND (date_end = '0000-00-00' OR date_end > NOW())) ORDER BY priority ASC, price ASC LIMIT 1");
+
+				$disc_factor = 1;
+				if ($product_special_query->num_rows) {
+					$price = $product_special_query->row['price'];
+					$disc_factor = ((float)$product_special_query->row['price'] / (float)$product_query->row['price']);
+				} elseif ($obOrigPrice > 0 && $obOrigPrice != $price) {
+					$disc_factor = ((float)$price / (float)$obOrigPrice);
+				}
+				//$disc_factor = false;
+            ]]></add>
+        </operation>
+		<operation>
+            <search position="before"><![CDATA[
+            $option_data[] = array(
+            ]]></search>
+            <add><![CDATA[
+						//Q: Options Boost - Support additional price prefixes
+        				if (!empty($option_value_query)) {
+							if ($option_value_query->row['price_prefix'] == '%') {
+								$option_price = $option_price + ($price * ($option_value_query->row['price']/100));
+								$option_already_disc = true;
+								$option_value_query->row['price_prefix'] = '+';
+							} elseif ($option_value_query->row['price_prefix'] == '=') {
+								$option_price = $option_value_query->row['price'];
+								$option_value_query->row['price_prefix'] = '';
+								$option_price_only = true;
+							} elseif ($option_value_query->row['price_prefix'] == '*') {
+								$option_price += $option_value_query->row['price'] * $price;
+								$option_already_disc = true;
+								$option_value_query->row['price_prefix'] = '+';
+							} elseif ($option_value_query->row['price_prefix'] == '1') {
+								$option_price += $option_value_query->row['price'];
+								$option_value_query->row['price_prefix'] = '1';
+							}
+
+							// Add sku to to option name ONLY if not overriding the main product model
+							if (!empty($option_value_query->row['ob_sku']) && !empty($option_value_query->row['ob_sku_override']) && $option_value_query->row['ob_sku_override']) {
+								$product_query->row['model'] = $option_value_query->row['ob_sku'];
+							} else { // leave as part of option name
+								$option_value_query->row['name'] = ($option_value_query->row['ob_sku']) ? ($option_value_query->row['name'] . ' ['.$option_value_query->row['ob_sku'].']') : $option_value_query->row['name'];
+							}
+						}
+						//
+
+        				//Q: Options Boost - overwrite product image with option image for cart (pt2)
+        				if (isset($option_value_query->row['ob_image']) && $option_value_query->row['ob_image']) {
+        					$prod_image = $option_value_query->row['ob_image'];
+        				}//
+            ]]></add>
+        </operation>
+		<operation>
+            <search position="after"><![CDATA[
+            => $product_query->row['image']
+            ]]></search>
+            <add trim="true"><![CDATA[
+			'image'        => $prod_image, //Q: Options Boost - overwrite product image with option image for cart (pt3)
+            ]]></add>
+        </operation>
+		<operation>
+            <search position="after"><![CDATA[
+            $download_data = array();
+            ]]></search>
+            <add trim="false"><![CDATA[
+            		// Options Boost - Added support for = prefix to force the option price to override the product price.
+					if ($option_price_only) {
+						$price = 0;
+					}
+					if ($option_price && !$option_already_disc && $disc_factor) {
+						$option_price *= $disc_factor;
+					}
+
+					// Options Boost - Added support for 1 prefix to only add option price once. Corresponding part in the checkout/cart controller as well.
+					$opt1xdisc = 0;
+					foreach ($option_data as $o => $od) {
+						if ($od['price_prefix'] == '1') {
+							$option_data[$o]['price_prefix'] == '+';
+							if ($quantity > 1) {
+								$opt1xdisc += $od['price'] * $disc_factor * ($quantity-1);
+							}
+						}
+					}
+					$prod_total = (($price + $option_price) * $quantity) - $opt1xdisc;
+
+            ]]></add>
+        </operation>
+	</file>
+
+<!-- Not sure why I added this. Don't think I need it.
+	<file name="catalog/controller/checkout/cart.php">
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+            $total = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity']);
+            ]]></search>
+            <add><![CDATA[
+   		 	//Q: Options Boost - change to use total instead of product price * qty on cart page.
+        	$total = $this->currency->format($this->tax->calculate($product['total'], $product['tax_class_id'], $this->config->get('config_tax')));
+            ]]></add>
+        </operation>
+	</file>
+-->
+
+	<file name="catalog/controller/product/product.php">
+		<operation><!-- pulled from the old opr controller file to keep extra files down -->
+            <search position="before"><![CDATA[
+            public function index()
+            ]]></search>
+            <add><![CDATA[
+        //Q: Options Boost - Ajax image update
+        public function updateImage() {
+			$json = array();
+            $post_option = array();
+			file_put_contents(DIR_LOGS . 'ob_debug.txt', "updateImage() callback initialized\r\n");
+
+			$this->load->model('tool/image');
+            $product_id = 0;
+            if (isset($this->request->post['product_id'])) {
+				$product_id = $this->request->post['product_id'];
+			}
+
+			// AceShop\Mijoshop Support
+			if (isset($this->request->post['option_oc']) && is_array($this->request->post['option_oc'])) {
+				$post_option = $this->request->post['option_oc'];
+			} elseif (isset($this->request->post['option']) && is_array($this->request->post['option'])) {
+				$post_option = $this->request->post['option'];
+			}
+			file_put_contents(DIR_LOGS . 'ob_debug.txt', "POST OPTION: " . print_r($post_option,1) . "\r\n", FILE_APPEND);
+
+			# Get product options and add it to the current price
+			if (!empty($post_option)) {
+				foreach ($post_option as $option_id => $option_value_id) {
+
+					//checkbox massaging
+					if (is_array($option_value_id)) {
+						$option_value_id = end($option_value_id);
+					}
+
+					if ($option_value_id != $this->request->post['option_value_id']) { continue; }
+					//$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value WHERE product_option_value_id = '" . (int)$option_value_id . "' AND product_id = '" . (int)$product_id . "'");
+					//$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (pov.option_value_id = ovd.option_value_id) WHERE pov.product_option_value_id = '" . (int)$option_value_id . "' AND pov.product_id = '" . (int)$product_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (pov.option_value_id = ovd.option_value_id) WHERE pov.product_option_value_id = '" . (int)$option_value_id . "' AND pov.product_id = '" . (int)$product_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+					if ($query->num_rows) {
+
+						// Allow html in misc info field
+						$query->row['ob_info'] = html_entity_decode($query->row['ob_info']);
+
+						$json = $query->row;
+
+						if ($query->row['ob_image']) {
+							$json['ob_swatch'] = $this->model_tool_image->resize($query->row['ob_image'], 40, 40);
+							$json['ob_thumb']  = $this->model_tool_image->resize($query->row['ob_image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
+							$json['ob_popup']  = $this->model_tool_image->resize($query->row['ob_image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height'));
+						} elseif (isset($query->row['image']) && $query->row['image'] != 'no_image.jpg') {
+							$json['ob_swatch'] = $this->model_tool_image->resize($query->row['image'], 40, 40);
+							$json['ob_thumb']  = $this->model_tool_image->resize($query->row['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
+							$json['ob_popup']  = $this->model_tool_image->resize($query->row['image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height'));
+						} else {
+							$json['ob_swatch'] = '';
+							$json['ob_thumb']  = '';
+							$json['ob_popup']  = '';
+						}
+					}
+				}
+			}
+
+			if (!method_exists($this->tax, 'getRates')) { //v1.5.1.2 or earlier
+				$this->load->library('json');
+				$this->response->setOutput(Json::encode($json));
+			} else {
+				$this->response->setOutput(json_encode($json));
+			}
+
+			file_put_contents(DIR_LOGS . 'ob_debug.txt', "JSON OUTPUT: " . print_r($json,1), FILE_APPEND);
+
+		}
+            ]]></add>
+        </operation>
+
+		<operation>
+            <search position="before"><![CDATA[
+            $this->data['products'] = array();
+            ]]></search>
+            <add><![CDATA[
+			include(DIR_SYSTEM . '../catalog/controller/product/options_boost.inc.php'); //Q: Options Boost
+            ]]></add>
+        </operation>
+
+        <!-- NEW STUFF -->
+        <operation info="Add additional image adjustments for options boost">
+            <search position="after"><![CDATA[
+            $option_value_data[] = array(
+            ]]></search>
+            <add><![CDATA[
+			'ob_sku' => $option_value['ob_sku'],
+			'ob_info' => $option_value['ob_info'],
+			'ob_image' => $option_value['ob_image'],
+			'ob_sku_override' => $option_value['ob_sku_override'],
+			'quantity' => $option_value['quantity'],
+			'raw_image'		=> $option_value['image'],
+			'raw_price'		=> $option_value['price'],
+            ]]></add>
+        </operation>
+        <!-- END NEW STUFF -->
+
+	</file>
+
+    <file name="catalog/controller/module/boss_quick_shop_product.php">
+        <operation>
+            <search position="before"><![CDATA[
+            $this->data['review_status']    = $this->config->get('config_review_status');
+            ]]></search>
+            <add><![CDATA[
+            include(DIR_SYSTEM . '../catalog/controller/product/options_boost.inc.php'); //Q: Options Boost
+            ]]></add>
+        </operation>
+        <operation info="Add additional image adjustments for options boost">
+            <search position="after"><![CDATA[
+            $option_value_data[] = array(
+            ]]></search>
+            <add><![CDATA[
+            'ob_sku'          => $option_value['ob_sku'],
+            'ob_info'         => $option_value['ob_info'],
+            'ob_image'        => $option_value['ob_image'],
+            'ob_sku_override' => $option_value['ob_sku_override'],
+            'quantity'        => $option_value['quantity'],
+            'raw_image'       => $option_value['image'],
+            'raw_price'       => $option_value['price'],
+            ]]></add>
+        </operation>
+    </file>
+
+	<file name="catalog/view/theme/bt_kidparadise_baby/template/product/product.tpl" error="skip">
+        <operation error="skip">
+            <search position="replace" index="1"><![CDATA[
+            <img src="<?php echo $option_value['image']; ?>"
+            ]]></search>
+            <add><![CDATA[
+            <img src="<?php echo $option_value['ob_thumb']; ?>"
+            ]]></add>
+        </operation>
+	</file>
+
+    <file name="catalog/view/theme/bt_kidparadise_baby/template/module/boss_quick_shop_product.tpl" error="skip">
+        <operation error="skip">
+            <search position="replace" index="1"><![CDATA[
+            <img src="<?php echo $option_value['image']; ?>"
+            ]]></search>
+            <add><![CDATA[
+            <img src="<?php echo $option_value['ob_thumb']; ?>"
+            ]]></add>
+        </operation>
+    </file>
+
+	<!-- New model adjustments using vQmod instead of override function -->
+
+	<file name="catalog/model/catalog/product.php">
+		<operation info="Add additional image adjustments for options boost">
+            <search position="before"><![CDATA[
+            $product_option_value_data[] = array(
+            ]]></search>
+            <add><![CDATA[
+				$this->load->model('tool/image');
+			]]></add>
+        </operation>
+		<operation info="Add additional db fields to the returned option value array">
+            <search position="after"><![CDATA[
+            $product_option_value_data[] = array(
+            ]]></search>
+            <add><![CDATA[
+					'ob_sku'                  => $product_option_value['ob_sku'],
+					'ob_info'                 => $product_option_value['ob_info'],
+					'ob_image'                => $product_option_value['ob_image'],
+					'ob_sku_override'         => $product_option_value['ob_sku_override'],
+			]]></add>
+        </operation>
+	</file>
+
+</modification>

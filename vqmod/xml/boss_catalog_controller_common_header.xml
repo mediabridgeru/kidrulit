@@ -1,0 +1,16 @@
+<modification>
+	<id>Bossthemes - catalog - controller - common - header</id>
+	<version>1.5.6</version>
+	<vqmver>2.4.1</vqmver>
+	<author>bossthemes</author>
+	<file name="catalog/controller/common/header.php">
+		<operation>
+			<search position="before"><![CDATA[
+				if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/header.tpl')) {
+			]]></search>
+			<add><![CDATA[
+				$this->children[] = 'module/boss_login';
+			]]></add>
+		</operation>
+	</file>
+</modification>
