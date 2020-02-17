@@ -168,9 +168,13 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
 #header div.header-time{
     color:#ffcbff; font-size:16px; line-height:26px; padding:11px 0 7px 0;
 }
-#header div.header-phone{
+#header div.header-phone a{
     color:#000; font-size:28px; line-height:43px; margin-left:30px;
 }
+#header div.header-phone a:hover{
+    color:#fff;
+}
+
 .header-bottom{
     clear:both;
     margin:5px 0 0 0;

@@ -350,11 +350,22 @@ class ModelSaleOrder extends Model
             foreach ($data['order_product'] as $order_product) {
                 $this->db->query("INSERT INTO " . DB_PREFIX . "order_product SET order_product_id = '" . (int)$order_product['order_product_id'] . "', order_id = '" . (int)$order_id . "', product_id = '" . (int)$order_product['product_id'] . "', name = '" . $this->db->escape($order_product['name']) . "', products = '" . $this->db->escape($order_product['products']) . "', model = '" . $this->db->escape($order_product['model']) . "', quantity = '" . (int)$order_product['quantity'] . "', price = '" . (float)$order_product['price'] . "', total = '" . (float)$order_product['total'] . "', tax = '" . (float)$order_product['tax'] . "', reward = '" . (int)$order_product['reward'] . "'");
 
-                $order_product_id = $this->db->getLastId();
+                $order_product_id = $order_product['order_product_id'] = $this->db->getLastId();
 
                 if (isset($order_product['order_option'])) {
-                    foreach ($order_product['order_option'] as $order_option) {
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "order_option SET order_option_id = '" . (int)$order_option['order_option_id'] . "', order_id = '" . (int)$order_id . "', order_product_id = '" . (int)$order_product_id . "', product_option_id = '" . (int)$order_option['product_option_id'] . "', product_option_value_id = '" . (int)$order_option['product_option_value_id'] . "', name = '" . $this->db->escape($order_option['name']) . "', `value` = '" . $this->db->escape($order_option['value']) . "', `type` = '" . $this->db->escape($order_option['type']) . "'");
+                    foreach ($order_product['order_option'] as $oo => $order_option) {
+                        if (!empty($order_option['order_option_id'])) {
+                            $this->db->query("INSERT INTO " . DB_PREFIX . "order_option SET order_option_id = '" . (int)$order_option['order_option_id'] . "', order_id = '" . (int)$order_id . "', order_product_id = '" . (int)$order_product_id . "', product_option_id = '" . (int)$order_option['product_option_id'] . "', product_option_value_id = '" . (int)$order_option['product_option_value_id'] . "', name = '" . $this->db->escape($order_option['name']) . "', `value` = '" . $this->db->escape($order_option['value']) . "', `type` = '" . $this->db->escape($order_option['type']) . "'");
+                        } else {
+                            $this->db->query("INSERT INTO " . DB_PREFIX . "order_option SET order_id = '" . (int)$order_id . "', order_product_id = '" . (int)$order_product_id . "', product_option_id = '" . (int)$order_option['product_option_id'] . "', product_option_value_id = '" . (int)$order_option['product_option_value_id'] . "', name = '" . $this->db->escape($order_option['name']) . "', `value` = '" . $this->db->escape($order_option['value']) . "', `type` = '" . $this->db->escape($order_option['type']) . "'");
+
+                            $order_option_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_option WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$order_product['order_product_id'] . "'");
+
+                            if ($order_option_query->num_rows) {
+                                $order_product['order_option'][$oo]['order_product_id'] = $order_product_id;
+                                $order_product['order_option'][$oo]['order_option_id'] = $order_option_query->row['order_option_id'];
+                            }
+                        }
                     }
                 }
 
@@ -1021,6 +1032,63 @@ class ModelSaleOrder extends Model
         $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_option WHERE order_id = '" . (int)$order_id . "' AND order_option_id = '" . (int)$order_option_id . "'");
 
         return $query->row;
+    }
+
+    /**
+     * @param $order_product
+     * @param $current_order_products
+     * @return bool
+     */
+    public function getOrderOptionStock($order_product, $current_order_products) {
+        $stock = true;
+        $product_id = $order_product['product_id'];
+        $quantity = (int)$order_product['quantity'];
+
+        foreach ($order_product['order_option'] as $order_option) {
+            $option_query = $this->db->query("SELECT po.product_option_id, po.option_id, od.name, o.type FROM " . DB_PREFIX . "product_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.product_option_id = '" . (int)$order_option['product_option_id'] . "' AND po.product_id = '" . (int)$product_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+            if ($option_query->num_rows) {
+                if ($option_query->row['type'] == 'select' || $option_query->row['type'] == 'radio' || $option_query->row['type'] == 'image') {
+                    $option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (pov.option_value_id = ovd.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) WHERE pov.product_option_value_id = '" . (int)$order_option['product_option_value_id'] . "' AND pov.product_option_id = '" . (int)$order_option['product_option_id'] . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+                    if ($option_value_query->num_rows) {
+                        $option_value_quantity = (int)$option_value_query->row['quantity'];
+
+                        if (!empty($current_order_products[$product_id . ($option_value_query->row['ob_sku'] ?: '')])) {
+                            $q = (int)$current_order_products[$product_id . ($option_value_query->row['ob_sku'] ?: '')]; // количество товара в корзине
+                            if ($option_value_query->row['subtract'] && ($option_value_quantity  + $q < $quantity)) {
+                                $stock = false;
+                            }
+                        } else {
+                            if ($option_value_query->row['subtract'] && ($option_value_quantity < $quantity)) {
+                                $stock = false;
+                            }
+                        }
+                    }
+                } elseif ($option_query->row['type'] == 'checkbox' && is_array($order_option)) {
+                    foreach ($order_option as $order_option_value) {
+                        $option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (pov.option_value_id = ovd.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) WHERE pov.product_option_value_id = '" . (int)$order_option_value['product_option_value_id'] . "' AND pov.product_option_id = '" . (int)$order_option_value['product_option_id'] . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+                        if ($option_value_query->num_rows) {
+                            $option_value_quantity = (int)$option_value_query->row['quantity'];
+
+                            if (!empty($current_order_products[$product_id . ($option_value_query->row['ob_sku'] ?: '')])) {
+                                $q = (int)$current_order_products[$product_id . ($option_value_query->row['ob_sku'] ?: '')];
+                                if ($option_value_query->row['subtract'] && ($option_value_quantity  + $q < $quantity)) {
+                                    $stock = false;
+                                }
+                            } else {
+                                if ($option_value_query->row['subtract'] && ($option_value_quantity < $quantity)) {
+                                    $stock = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $stock;
     }
 
     public function getOrderOptions($order_id, $order_product_id) {

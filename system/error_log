@@ -1,3 +1,0 @@
-[24-Nov-2019 14:41:06 Europe/Moscow] PHP Notice:  Use of undefined constant DIR_SYSTEM - assumed 'DIR_SYSTEM' in /home/kidrulit/domains/kidrulit.ru/public_html/system/startup.php on line 77
-[24-Nov-2019 14:41:06 Europe/Moscow] PHP Warning:  require_once(DIR_SYSTEMhelper/json.php): failed to open stream: No such file or directory in /home/kidrulit/domains/kidrulit.ru/public_html/system/startup.php on line 77
-[24-Nov-2019 14:41:06 Europe/Moscow] PHP Fatal error:  require_once(): Failed opening required 'DIR_SYSTEMhelper/json.php' (include_path='.:/opt/alt/php56/usr/share/pear:/opt/alt/php56/usr/share/php') in /home/kidrulit/domains/kidrulit.ru/public_html/system/startup.php on line 77

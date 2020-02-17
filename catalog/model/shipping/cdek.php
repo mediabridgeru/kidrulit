@@ -1,4 +1,6 @@
 <?php /* 05.12.18 убрал лишние переводы строки */
+require_once('response_parser.php');
+
 class ModelShippingCdek extends Model
 {
     private $length_class_id = 1; // cm
@@ -51,7 +53,7 @@ class ModelShippingCdek extends Model
 
         $this->load->language('shipping/cdek');
 
-        $quote_data = array();
+        $quote_data = [];
 
         $status = TRUE;
 
@@ -82,7 +84,11 @@ class ModelShippingCdek extends Model
             $status = false;
         }
 
+        $cart_init = 0; // корзина открыта в первый раз?
 
+        if (isset($this->session->data['cart_init'])) {
+            $cart_init = (int)$this->session->data['cart_init'];
+        }
 
         $products = $this->cart->getProducts();
 
@@ -192,386 +198,343 @@ class ModelShippingCdek extends Model
             $status = false;
         }
 
-        $countries = array();
-        $empty_country = false;
+        if ($cart_init) {
+            $params = [];
 
-        if (empty($address['country_id'])) {
-            $address['country_id'] = $this->config->get('config_country_id');
-        }
+            $params['total'] = $total;
+            $params['products'] = $products;
+            $params['address'] = $address;
+            $params['city_from'] = $city_from;
+            $params['weight'] = $weight;
 
-        $to_data = $this->db->query("SELECT name FROM " . DB_PREFIX . "country WHERE country_id = '" . (int)$address['country_id'] . "' LIMIT 1")->row;
+            $load_url = 'index.php?route=shipping/cdek/getCdek';
+            $title = '<script>
+                            $.ajax({
+                              type: "POST",
+                              url: "'.$load_url.'",
+                              dataType: "json",
+                              data: '.json_encode($params).'
+                            }).done(function( quotes ) {
+                                if (quotes) {
+                                    let $cdek = $("body").find(".load_cdek");
+                                    let cdek_html = getCdekHtml(quotes);
+                                    $cdek.replaceWith(cdek_html);
+                                }
+                            });
+                            </script>';
 
-        if ($to_data) {
-            $countries = $this->prepareCountry($to_data['name']);
+            $title .= '<div class="cdek-info">Получаем данные от СДЭК</div>';
+
+            $quote_data['empty'] = array(
+                'code'         => 'cdek.load',
+                'load'         => 1,
+                'title'        => $title,
+                'cost'         => 0,
+                'tax_class_id' => $this->config->get('cdek_tax_class_id'),
+                'text'         => ''
+            );
         } else {
-            $empty_country = TRUE;
-        }
+            $countries = [];
+            $empty_country = false;
 
-        $regions = array();
-        $empty_zone = false;
+            if (empty($address['country_id'])) {
+                $address['country_id'] = $this->config->get('config_country_id');
+            }
 
-        if (empty($address['zone_id'])) {
-            $empty_zone = TRUE;
-        } elseif (is_array($this->config->get('cdek_use_region')) && in_array($address['country_id'], $this->config->get('cdek_use_region'))) {
-            $empty_zone = TRUE;
-        }
-
-        if (!$empty_zone) {
-
-            $to_data = $this->db->query("SELECT name FROM " . DB_PREFIX . "zone WHERE zone_id = '" . (int)$address['zone_id'] . "' LIMIT 1")->row;
+            $to_data = $this->db->query("SELECT name FROM " . DB_PREFIX . "country WHERE country_id = '" . (int)$address['country_id'] . "' LIMIT 1")->row;
 
             if ($to_data) {
-                $regions = $this->prepareRegion($to_data['name']);
+                $countries = $this->prepareCountry($to_data['name']);
             } else {
+                $empty_country = TRUE;
+            }
+
+            $regions = [];
+            $empty_zone = false;
+
+            if (empty($address['zone_id'])) {
+                $empty_zone = TRUE;
+            } elseif (is_array($this->config->get('cdek_use_region')) && in_array($address['country_id'], $this->config->get('cdek_use_region'))) {
                 $empty_zone = TRUE;
             }
 
-        }
+            if (!$empty_zone) {
 
-        $address['city'] = $this->clearText($address['city']);
+                $to_data = $this->db->query("SELECT name FROM " . DB_PREFIX . "zone WHERE zone_id = '" . (int)$address['zone_id'] . "' LIMIT 1")->row;
 
-        if ('' != $address['city']) {
-
-            $cities = array($address['city']);
-            $cities[] = preg_replace('|[^a-zа-яё]|isu', ' ', $address['city']);
-            $cities[] = preg_replace('|[^a-zа-яё]|isu', '-', $address['city']);
-
-            $cities = array_map('trim', $cities);
-            $cities = array_filter($cities);
-
-            foreach ($cities as $city) {
-
-                $cdek_cities = $this->getCity($city);
-
-                if (is_array($cdek_cities) && isset($cdek_cities['geonames']) && count($cdek_cities['geonames'])) {
-
-                    $address['city'] = $city;
-
-                    break;
+                if ($to_data) {
+                    $regions = $this->prepareRegion($to_data['name']);
+                } else {
+                    $empty_zone = TRUE;
                 }
+
             }
-        }
 
-        $city_ignore = array();
+            $address['city'] = $this->clearText($address['city']);
 
-        if ($this->config->get('cdek_city_ignore')) {
+            if ('' != $address['city']) {
 
-            $city_ignore = explode(', ', $this->config->get('cdek_city_ignore'));
-            $city_ignore = array_map('trim', $city_ignore);
-            $city_ignore = array_filter($city_ignore);
-            $city_ignore = array_map(array($this, 'clearText'), $city_ignore);
+                $cities = array($address['city']);
+                $cities[] = preg_replace('|[^a-zа-яё]|isu', ' ', $address['city']);
+                $cities[] = preg_replace('|[^a-zа-яё]|isu', '-', $address['city']);
 
-        }
+                $cities = array_map('trim', $cities);
+                $cities = array_filter($cities);
 
-        if (empty($cdek_cities['geonames']) && !empty($address['postcode'])) {
+                foreach ($cities as $city) {
 
-            $address_list = $this->getAddressByPostcode($address['postcode']);
-
-            if ($address_list) {
-
-                foreach ($address_list as $address_item) {
-
-                    $cdek_cities = $this->getCity($address_item['city']);
+                    $cdek_cities = $this->getCity($city);
 
                     if (is_array($cdek_cities) && isset($cdek_cities['geonames']) && count($cdek_cities['geonames'])) {
 
-                        $address['city'] = $this->clearText($address_item['city']);
-
-                        if (!empty($address_item['zone'])) {
-                            $regions = $this->prepareRegion($address_item['zone']);
-                        }
-
-                        $empty_country = true;
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (empty($cdek_cities['geonames']) && $this->config->get('cdek_check_ip')) {
-
-            $id_address = $this->getAddressByIP();
-
-            if ($id_address) {
-
-                $cdek_cities = $this->getCity($id_address['city']);
-
-                if (is_array($cdek_cities) && isset($cdek_cities['geonames']) && count($cdek_cities['geonames'])) {
-
-                    $address['city'] = $this->clearText($id_address['city']);
-                    $regions = $this->prepareRegion($id_address['zone']);
-
-                    $empty_country = true;
-                }
-            }
-        }
-
-        if (in_array($this->clearText($address['city']), $city_ignore)) {
-
-            if ($this->config->get('cdek_log')) {
-                $this->log->write('СДЭК: город «' . $address['city'] . '» доставка запрещена!');
-            }
-
-            return false;
-        }
-
-        $empty_info = $this->config->get('cdek_empty');
-
-        if (!empty($cdek_cities['geonames'])) {
-
-            $available = array();
-
-            if ($status) {
-
-                foreach ($cdek_cities['geonames'] as $city_info) {
-
-                    if (!empty($address['postcode']) && !empty($city_info['postCodeArray']) && in_array($address['postcode'], $city_info['postCodeArray'])) {
-
-                        $city_info['relevance'] = 1;
-
-                        $available[] = $city_info;
+                        $address['city'] = $city;
 
                         break;
-
-                    }
-
-                    if (!$empty_country && !in_array($this->clearText($city_info['countryName']), $countries)) {
-                        continue;
-                    }
-
-                    if (!$empty_zone && !empty($city_info['regionName'])) {
-
-                        list($region) = explode(' ', str_replace('обл.', '', trim($city_info['regionName'])));
-
-                        if (!in_array($this->clearText($region), $regions)) {
-                            continue;
-                        }
-                    }
-
-                    list($city)= explode(',', $city_info['name']);
-
-                    $relevance = 0;
-
-                    if ($this->clearText($city) == $this->clearText($address['city'])) {
-                        $relevance = 1;
-                    } elseif (mb_strpos($this->clearText($city), $this->clearText($address['city'])) === 0) {
-                        $relevance = 0.5;
-                    }
-
-                    if (0 < $relevance) {
-
-                        $city_info['relevance'] = $relevance;
-
-                        $available[] = $city_info;
                     }
                 }
             }
 
-            if ($count = count($available)) {
+            $city_ignore = [];
 
-                if ($count > 1) {
+            if ($this->config->get('cdek_city_ignore')) {
 
-                    $sort_order = array();
+                $city_ignore = explode(', ', $this->config->get('cdek_city_ignore'));
+                $city_ignore = array_map('trim', $city_ignore);
+                $city_ignore = array_filter($city_ignore);
+                $city_ignore = array_map(array($this, 'clearText'), $city_ignore);
 
-                    foreach ($available as $key => $value) {
-                        $sort_order[$key] = $value['relevance'] + (int)($this->clearText($address['city']) == $this->clearText($value['cityName']));
-                    }
+            }
 
-                    array_multisort($sort_order, SORT_DESC, $available);
+            if (empty($cdek_cities['geonames']) && !empty($address['postcode'])) {
 
-                    $available = array($available[0]);
-                }
+                $address_list = $this->getAddressByPostcode($address['postcode']);
 
-                $available_city = reset($available);
+                if ($address_list) {
 
-                $city_to = $available_city['id'];
+                    foreach ($address_list as $address_item) {
 
-                if ($this->config->get('cdek_log')) {
-                    $this->log->write('СДЭК: Город получателя «' . $available_city['name'] . '» (' . $city_to . ')');
-                }
+                        $cdek_cities = $this->getCity($address_item['city']);
 
-                $calc = new CalculatePriceDeliveryCdek();
+                        if (is_array($cdek_cities) && isset($cdek_cities['geonames']) && count($cdek_cities['geonames'])) {
 
-                $calc->setSenderCityId($city_from);
-                $calc->setReceiverCityId($city_to);
+                            $address['city'] = $this->clearText($address_item['city']);
 
-                $day = (is_numeric($this->config->get('cdek_append_day'))) ? trim($this->config->get('cdek_append_day')) : 0;
-                $date = date('Y-m-d', strtotime('+' . (float)$day . ' day'));
-                $calc->setDateExecute($date);
-
-                if ($this->config->get('cdek_login') != '' && $this->config->get('cdek_password') != '') {
-                    $calc->setAuth($this->config->get('cdek_login'), $this->config->get('cdek_password'));
-                }
-
-                $cdek_default_size = $this->config->get('cdek_default_size');
-
-                $volume = 0;
-
-                if ($cdek_default_size['use']) {
-
-                    $default_volume = 0;
-
-                    switch ($cdek_default_size['type']) {
-                        case 'volume':
-                            $default_volume = (float)$cdek_default_size['volume'];
-                            break;
-                        case 'size':
-                            $default_volume = $this->getVolume(array($cdek_default_size['size_a'], $cdek_default_size['size_b'], $cdek_default_size['size_c']), $this->length_class_id);
-                            break;
-                    }
-
-                    switch ($cdek_default_size['work_mode']) {
-                        case 'order':
-                            $volume = $default_volume;
-                            break;
-                        case 'all':
-                        case 'optional':
-
-                            foreach ($products as $product) {
-
-                                if ($cdek_default_size['work_mode'] == 'all') {
-                                    $product_volume = $default_volume;
-                                } else {
-
-                                    $product_volume = $this->getVolume(array($product['length'], $product['width'], $product['height']), $product['length_class_id']);
-
-                                    if (!$product_volume) {
-                                        $product_volume = $default_volume;
-                                    }
-
-                                }
-
-                                $volume += $product['quantity'] * (float)$product_volume;
-
+                            if (!empty($address_item['zone'])) {
+                                $regions = $this->prepareRegion($address_item['zone']);
                             }
 
+                            $empty_country = true;
                             break;
-                    }
-
-                } else {
-
-                    foreach ($products as $product) {
-
-                        $product_volume = $this->getVolume(array($product['length'], $product['width'], $product['height']), $product['length_class_id']);
-
-                        if (!$product_volume) {
-                            $product_volume = 0;
                         }
-
-                        $volume += $product['quantity'] * $product_volume;
                     }
-
                 }
+            }
+
+            if (empty($cdek_cities['geonames']) && $this->config->get('cdek_check_ip')) {
+
+                $id_address = $this->getAddressByIP();
+
+                if ($id_address) {
+
+                    $cdek_cities = $this->getCity($id_address['city']);
+
+                    if (is_array($cdek_cities) && isset($cdek_cities['geonames']) && count($cdek_cities['geonames'])) {
+
+                        $address['city'] = $this->clearText($id_address['city']);
+                        $regions = $this->prepareRegion($id_address['zone']);
+
+                        $empty_country = true;
+                    }
+                }
+            }
+
+            if (in_array($this->clearText($address['city']), $city_ignore)) {
 
                 if ($this->config->get('cdek_log')) {
-                    $this->log->write('СДЭК: объем ' . $volume);
+                    $this->log->write('СДЭК: город «' . $address['city'] . '» доставка запрещена!');
                 }
 
-                if (!$volume) {
+                return false;
+            }
 
-                    if ($this->config->get('cdek_log')) {
-                        $this->log->write('СДЭК: не удалось рассчитать объем, возможно не заданы размеры товара или не установлено значение по умолчанию в настройках модуля!');
-                    }
+            $empty_info = $this->config->get('cdek_empty');
 
-                    /*$status = false;*/
-                }
+            if (!empty($cdek_cities['geonames'])) {
 
-                if (!$weight) {
-
-                    if ($this->config->get('cdek_log')) {
-                        $this->log->write('СДЭК: не заполнен вес у товара!');
-                    }
-
-                    /*$status = false;*/
-                }
+                $available = [];
 
                 if ($status) {
 
-                    $calc->addGoodsItemByVolume($weight, $volume);
+                    foreach ($cdek_cities['geonames'] as $city_info) {
 
-                    if (!$this->config->get('cdek_custmer_tariff_list')) {
+                        if (!empty($address['postcode']) && !empty($city_info['postCodeArray']) && in_array($address['postcode'], $city_info['postCodeArray'])) {
 
-                        if ($this->config->get('cdek_log')) {
-                            $this->log->write('СДЭК: список тарифов пуст!');
+                            $city_info['relevance'] = 1;
+
+                            $available[] = $city_info;
+
+                            break;
+
                         }
 
-                        $status = false;
+                        if (!$empty_country && !in_array($this->clearText($city_info['countryName']), $countries)) {
+                            continue;
+                        }
+
+                        if (!$empty_zone && !empty($city_info['regionName'])) {
+
+                            list($region) = explode(' ', str_replace('обл.', '', trim($city_info['regionName'])));
+
+                            if (!in_array($this->clearText($region), $regions)) {
+                                continue;
+                            }
+                        }
+
+                        list($city)= explode(',', $city_info['name']);
+
+                        $relevance = 0;
+
+                        if ($this->clearText($city) == $this->clearText($address['city'])) {
+                            $relevance = 1;
+                        } elseif (mb_strpos($this->clearText($city), $this->clearText($address['city'])) === 0) {
+                            $relevance = 0.5;
+                        }
+
+                        if (0 < $relevance) {
+
+                            $city_info['relevance'] = $relevance;
+
+                            $available[] = $city_info;
+                        }
+                    }
+                }
+
+                if ($count = count($available)) {
+
+                    if ($count > 1) {
+
+                        $sort_order = [];
+
+                        foreach ($available as $key => $value) {
+                            $sort_order[$key] = $value['relevance'] + (int)($this->clearText($address['city']) == $this->clearText($value['cityName']));
+                        }
+
+                        array_multisort($sort_order, SORT_DESC, $available);
+
+                        $available = array($available[0]);
+                    }
+
+                    $available_city = reset($available);
+
+                    $city_to = $available_city['id'];
+
+                    if ($this->config->get('cdek_log')) {
+                        $this->log->write('СДЭК: Город получателя «' . $available_city['name'] . '» (' . $city_to . ')');
+                    }
+
+                    $calc = new CalculatePriceDeliveryCdek();
+
+                    $calc->setSenderCityId($city_from);
+                    $calc->setReceiverCityId($city_to);
+
+                    $day = (is_numeric($this->config->get('cdek_append_day'))) ? trim($this->config->get('cdek_append_day')) : 0;
+                    $date = date('Y-m-d', strtotime('+' . (float)$day . ' day'));
+                    $calc->setDateExecute($date);
+
+                    if ($this->config->get('cdek_login') != '' && $this->config->get('cdek_password') != '') {
+                        $calc->setAuth($this->config->get('cdek_login'), $this->config->get('cdek_password'));
+                    }
+
+                    $cdek_default_size = $this->config->get('cdek_default_size');
+
+                    $volume = 0;
+
+                    if ($cdek_default_size['use']) {
+
+                        $default_volume = 0;
+
+                        switch ($cdek_default_size['type']) {
+                            case 'volume':
+                                $default_volume = (float)$cdek_default_size['volume'];
+                                break;
+                            case 'size':
+                                $default_volume = $this->getVolume(array($cdek_default_size['size_a'], $cdek_default_size['size_b'], $cdek_default_size['size_c']), $this->length_class_id);
+                                break;
+                        }
+
+                        switch ($cdek_default_size['work_mode']) {
+                            case 'order':
+                                $volume = $default_volume;
+                                break;
+                            case 'all':
+                            case 'optional':
+
+                                foreach ($products as $product) {
+
+                                    if ($cdek_default_size['work_mode'] == 'all') {
+                                        $product_volume = $default_volume;
+                                    } else {
+
+                                        $product_volume = $this->getVolume(array($product['length'], $product['width'], $product['height']), $product['length_class_id']);
+
+                                        if (!$product_volume) {
+                                            $product_volume = $default_volume;
+                                        }
+
+                                    }
+
+                                    $volume += $product['quantity'] * (float)$product_volume;
+
+                                }
+
+                                break;
+                        }
+
+                    } else {
+
+                        foreach ($products as $product) {
+
+                            $product_volume = $this->getVolume(array($product['length'], $product['width'], $product['height']), $product['length_class_id']);
+
+                            if (!$product_volume) {
+                                $product_volume = 0;
+                            }
+
+                            $volume += $product['quantity'] * $product_volume;
+                        }
+
+                    }
+
+                    if ($this->config->get('cdek_log')) {
+                        $this->log->write('СДЭК: объем ' . $volume);
+                    }
+
+                    if (!$volume) {
+
+                        if ($this->config->get('cdek_log')) {
+                            $this->log->write('СДЭК: не удалось рассчитать объем, возможно не заданы размеры товара или не установлено значение по умолчанию в настройках модуля!');
+                        }
+
+                        /*$status = false;*/
+                    }
+
+                    if (!$weight) {
+
+                        if ($this->config->get('cdek_log')) {
+                            $this->log->write('СДЭК: не заполнен вес у товара!');
+                        }
+
+                        /*$status = false;*/
                     }
 
                     if ($status) {
 
-                        $geo_zones = array();
+                        $calc->addGoodsItemByVolume($weight, $volume);
 
-                        $query = $this->db->query("SELECT DISTINCT geo_zone_id FROM " . DB_PREFIX . "zone_to_geo_zone WHERE country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
-
-                        if ($query->num_rows) {
-                            foreach ($query->rows as $row) {
-                                $geo_zones[$row['geo_zone_id']] = $row['geo_zone_id'];
-                            }
-
-                        }
-
-                        if ($this->customer->isLogged()) {
-                            $customer_group_id = $this->customer->getCustomerGroupId();
-                        } else {
-                            $customer_group_id = $this->config->get('config_customer_group_id');
-                        }
-
-                        $cdek_tariff_list = $this->config->get('cdek_tariff_list');
-
-                        $results = $tariff_list = array();
-
-                        foreach ($this->config->get('cdek_custmer_tariff_list') as $key => $tariff_info) {
-
-                            if (empty($cdek_tariff_list[$tariff_info['tariff_id']])) continue;
-
-                            $tariff_title = !empty($tariff_info['title'][$this->config->get('config_language_id')]) ? $tariff_info['title'][$this->config->get('config_language_id')] : $cdek_tariff_list[$tariff_info['tariff_id']]['title'];
-
-                            if (!empty($tariff_info['customer_group_id']) && !in_array($customer_group_id, $tariff_info['customer_group_id'])) continue;
-
-                            $min_weight = (float)$tariff_info['min_weight'];
-                            $max_weight = (float)$tariff_info['max_weight'];
-
-                            if (($min_weight > 0 && $weight < $min_weight) || ($max_weight > 0 && $weight > $max_weight)) {
-
-                                if ($this->config->get('cdek_log')) {
-                                    $this->log->write('СДЭК: Тариф «' . $tariff_title . '» превышены ограничения по весу!');
-                                }
-
-                                continue;
-                            }
-
-                            $min_total = (float)$tariff_info['min_total'];
-                            $max_total = (float)$tariff_info['max_total'];
-
-                            if (($min_total > 0 && $total < $min_total) || ($max_total > 0 && $total > $max_total)) {
-
-                                if ($this->config->get('cdek_log')) {
-                                    $this->log->write('СДЭК: Тариф «' . $tariff_title . '» превышены ограничения по стоимости!');
-                                }
-
-                                continue;
-                            }
-
-                            if (!empty($tariff_info['geo_zone'])) {
-
-                                $intersect = array_intersect($tariff_info['geo_zone'], $geo_zones);
-
-                                if (!$intersect) {
-                                    continue;
-                                }
-
-                            } else {
-                                $key = 'all';
-                            }
-
-                            $tariff_list[$tariff_info['tariff_id']][$key] = $tariff_info;
-                        }
-
-                        if (!$tariff_list) {
+                        if (!$this->config->get('cdek_custmer_tariff_list')) {
 
                             if ($this->config->get('cdek_log')) {
-                                $this->log->write('СДЭК: Не сформирован список тарифов для текущей географической зоны!');
+                                $this->log->write('СДЭК: список тарифов пуст!');
                             }
 
                             $status = false;
@@ -579,278 +542,369 @@ class ModelShippingCdek extends Model
 
                         if ($status) {
 
-                            foreach ($tariff_list as $tariff_id => &$items) {
+                            $geo_zones = [];
 
-                                if (count($items) > 1) {
+                            $query = $this->db->query("SELECT DISTINCT geo_zone_id FROM " . DB_PREFIX . "zone_to_geo_zone WHERE country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 
-                                    if (array_key_exists('all', $items)) unset($items['all']);
+                            if ($query->num_rows) {
+                                foreach ($query->rows as $row) {
+                                    $geo_zones[$row['geo_zone_id']] = $row['geo_zone_id'];
+                                }
 
-                                    $sort_order = array();
+                            }
 
-                                    foreach ($items as $key => $item) {
-                                        $sort_order[$key] = $item['sort_order'];
+                            if ($this->customer->isLogged()) {
+                                $customer_group_id = $this->customer->getCustomerGroupId();
+                            } else {
+                                $customer_group_id = $this->config->get('config_customer_group_id');
+                            }
+
+                            $cdek_tariff_list = $this->config->get('cdek_tariff_list');
+
+                            $results = $tariff_list = [];
+
+                            foreach ($this->config->get('cdek_custmer_tariff_list') as $key => $tariff_info) {
+
+                                if (empty($cdek_tariff_list[$tariff_info['tariff_id']])) continue;
+
+                                $tariff_title = !empty($tariff_info['title'][$this->config->get('config_language_id')]) ? $tariff_info['title'][$this->config->get('config_language_id')] : $cdek_tariff_list[$tariff_info['tariff_id']]['title'];
+
+                                if (!empty($tariff_info['customer_group_id']) && !in_array($customer_group_id, $tariff_info['customer_group_id'])) continue;
+
+                                $min_weight = (float)$tariff_info['min_weight'];
+                                $max_weight = (float)$tariff_info['max_weight'];
+
+                                if (($min_weight > 0 && $weight < $min_weight) || ($max_weight > 0 && $weight > $max_weight)) {
+
+                                    if ($this->config->get('cdek_log')) {
+                                        $this->log->write('СДЭК: Тариф «' . $tariff_title . '» превышены ограничения по весу!');
                                     }
 
-                                    array_multisort($sort_order, SORT_ASC, $items);
-
-                                    $items = reset($items);
-
-                                } elseif (count($items) == 1)  {
-                                    $items = reset($items);
-                                } else {
                                     continue;
                                 }
 
-                                if ($this->config->get('cdek_work_mode') == 'single') {
-                                    $calc->addTariffPriority($tariff_id, $items['sort_order']);
+                                $min_total = (float)$tariff_info['min_total'];
+                                $max_total = (float)$tariff_info['max_total'];
+
+                                if (($min_total > 0 && $total < $min_total) || ($max_total > 0 && $total > $max_total)) {
+
+                                    if ($this->config->get('cdek_log')) {
+                                        $this->log->write('СДЭК: Тариф «' . $tariff_title . '» превышены ограничения по стоимости!');
+                                    }
+
+                                    continue;
                                 }
+
+                                if (!empty($tariff_info['geo_zone'])) {
+
+                                    $intersect = array_intersect($tariff_info['geo_zone'], $geo_zones);
+
+                                    if (!$intersect) {
+                                        continue;
+                                    }
+
+                                } else {
+                                    $key = 'all';
+                                }
+
+                                $tariff_list[$tariff_info['tariff_id']][$key] = $tariff_info;
                             }
 
-                            if ($this->config->get('cdek_work_mode') == 'single') {
+                            if (!$tariff_list) {
 
-                                if ($result = $this->getResult($calc, $total)) {
-                                    $results[] = $result;
+                                if ($this->config->get('cdek_log')) {
+                                    $this->log->write('СДЭК: Не сформирован список тарифов для текущей географической зоны!');
                                 }
 
-                            } else {
+                                $status = false;
+                            }
 
-                                foreach ($tariff_list as $tariff_info) {
+                            if ($status) {
 
-                                    $calc->setTariffId($tariff_info['tariff_id']);
+                                foreach ($tariff_list as $tariff_id => &$items) {
+
+                                    if (count($items) > 1) {
+
+                                        if (array_key_exists('all', $items)) unset($items['all']);
+
+                                        $sort_order = [];
+
+                                        foreach ($items as $key => $item) {
+                                            $sort_order[$key] = $item['sort_order'];
+                                        }
+
+                                        array_multisort($sort_order, SORT_ASC, $items);
+
+                                        $items = reset($items);
+
+                                    } elseif (count($items) == 1)  {
+                                        $items = reset($items);
+                                    } else {
+                                        continue;
+                                    }
+
+                                    if ($this->config->get('cdek_work_mode') == 'single') {
+                                        $calc->addTariffPriority($tariff_id, $items['sort_order']);
+                                    }
+                                }
+
+                                if ($this->config->get('cdek_work_mode') == 'single') {
 
                                     if ($result = $this->getResult($calc, $total)) {
                                         $results[] = $result;
-                                    } elseif (!empty($tariff_info['empty'])) {
+                                    }
 
-                                        $results[] = array(
-                                            'tariffId' => $tariff_info['tariff_id'],
-                                            'currency' => $this->config->get('config_currency'),
-                                            'empty' => true,
-                                            'priceByCurrency' => 0,
-                                            'deliveryPeriodMin' => '',
-                                            'deliveryPeriodMax' => '',
-                                            'deliveryDateMin' => '',
-                                            'deliveryDateMax' => ''
-                                        );
+                                } else {
+
+                                    foreach ($tariff_list as $tariff_info) {
+
+                                        $calc->setTariffId($tariff_info['tariff_id']);
+
+                                        if ($result = $this->getResult($calc, $total)) {
+                                            $results[] = $result;
+                                        } elseif (!empty($tariff_info['empty'])) {
+
+                                            $results[] = array(
+                                                'tariffId' => $tariff_info['tariff_id'],
+                                                'currency' => $this->config->get('config_currency'),
+                                                'empty' => true,
+                                                'priceByCurrency' => 0,
+                                                'deliveryPeriodMin' => '',
+                                                'deliveryPeriodMax' => '',
+                                                'deliveryDateMin' => '',
+                                                'deliveryDateMax' => ''
+                                            );
+                                        }
                                     }
                                 }
-                            }
 
-                            if (!empty($results)) {
+                                if (!empty($results)) {
 
-                                $sub_total = $this->cart->getSubTotal();
+                                    $sub_total = $this->cart->getSubTotal();
 
-                                foreach ($results as $shipping_info) {
+                                    foreach ($results as $shipping_info) {
 
-                                    if (array_key_exists($shipping_info['tariffId'], $cdek_tariff_list)) {
+                                        if (array_key_exists($shipping_info['tariffId'], $cdek_tariff_list)) {
 
-                                        $tariff_info = $cdek_tariff_list[$shipping_info['tariffId']];
+                                            $tariff_info = $cdek_tariff_list[$shipping_info['tariffId']];
 
-                                        $type = 'PVZ';
+                                            $type = 'PVZ';
 
-                                        if (isset($tariff_info['postomat'])) {
-                                            $type = 'POSTOMAT';
-                                        }
-
-                                        $usePVZ = in_array($tariff_info['mode_id'], array(2, 4)) && (isset($tariff_info['postomat']) || $this->config->get('cdek_weight_limit') || $this->config->get('cdek_show_pvz'));
-
-                                        if ($usePVZ) {
-                                            $pvz_list = $this->getPVZList($type, $city_to, $weight);
-                                        } else {
-                                            $pvz_list = array();
-                                        }
-
-                                        if (!$this->config->get('cdek_empty_address') && trim($address['address_1']) == '' && in_array($tariff_info['mode_id'], array(1, 3))) {
-
-                                            if ($this->config->get('cdek_log')) {
-                                                $this->log->write('СДЭК: пустой адрес доставки для тарифа ' . $shipping_info['tariffId']);
+                                            if (isset($tariff_info['postomat'])) {
+                                                $type = 'POSTOMAT';
                                             }
 
-                                            continue;
-                                        }
+                                            $usePVZ = in_array($tariff_info['mode_id'], array(2, 4)) && (isset($tariff_info['postomat']) || $this->config->get('cdek_weight_limit') || $this->config->get('cdek_show_pvz'));
 
-                                        if (!$this->currency->getId($shipping_info['currency'])) {
-
-                                            if ($this->config->get('cdek_log')) {
-                                                $this->log->write('СДЭК: не найдена валюта на сайте (' . $shipping_info['currency'] . ')');
-                                            }
-
-                                            continue;
-
-                                        }
-
-                                        if ($this->config->get('config_currency') == $shipping_info['currency']) {
-                                            $price = $shipping_info['priceByCurrency'];
-                                        } else {
-                                            $price = $this->currency->convert($shipping_info['priceByCurrency'], $shipping_info['currency'], $this->config->get('config_currency'));
-                                        }
-
-                                        if ($this->config->get('cdek_insurance')) {
-                                            $price += ($sub_total / 100) * 0.75;
-                                        }
-
-                                        $customer_tariff_info = $tariff_list[$shipping_info['tariffId']];
-
-                                        $discounts = $this->getDiscount($sub_total, $shipping_info['tariffId'], $geo_zones);
-
-                                        foreach ($discounts as $discount_info) {
-
-                                            $markup = (float)$discount_info['value'];
-
-                                            switch ($discount_info['mode']) {
-                                                case 'percent':
-                                                    $markup = ($sub_total / 100) * $markup;
-                                                    break;
-                                                case 'percent_shipping':
-                                                    $markup = ($price / 100) * $markup;
-                                                    break;
-                                                case 'percent_cod':
-                                                    $markup = (($sub_total + $price) / 100) * $markup;
-                                                    break;
-                                            }
-
-                                            if ($discount_info['prefix'] == '+') {
-                                                $price += (float)$markup;
+                                            if ($usePVZ) {
+                                                $pvz_list = $this->getPVZList($type, $city_to, $weight);
                                             } else {
-                                                $price -= (float)$markup;
+                                                $pvz_list = [];
                                             }
 
-                                            if ($price < 0) {
-                                                $price = 0;
-                                            }
-
-                                        }
-
-                                        // Округление
-                                        if ($this->config->get('cdek_rounding')) {
-
-                                            switch ($this->config->get('cdek_rounding_type')) {
-                                                case 'floor':
-                                                    $price = floor($price);
-                                                    break;
-                                                case 'ceil':
-                                                    $price = ceil($price);
-                                                    break;
-                                                default:
-                                                    $price = round($price);
-                                            }
-
-                                        }
-
-                                        if (!empty($customer_tariff_info['title'][$this->config->get('config_language_id')])) {
-                                            $description = $customer_tariff_info['title'][$this->config->get('config_language_id')];
-                                        } else {
-
-                                            $description = $tariff_info['title'];
-
-                                            if (in_array($tariff_info['mode_id'], array(2, 4))) {
-                                                $description .= ' (до пункта выдачи)';
-                                            } else {
-                                                $description .= ' (курьером до двери)';
-                                            }
-                                        }
-
-                                        $tariff_title_clear = $tariff_title_short = $description;
-
-                                        if ($this->config->get('cdek_period') || (!empty($pvz_list) && in_array($tariff_info['mode_id'], array(2, 4)))) {
-                                            $description .= ':';
-                                        }
-
-                                        if ($this->config->get('cdek_period')) {
-
-                                            $period = array_unique(array($shipping_info['deliveryPeriodMin'], $shipping_info['deliveryPeriodMax']));
-
-                                            if (reset($period)) {
-
-                                                if ((float)$this->config->get('cdek_more_days')) {
-                                                    foreach ($period as &$period_item) $period_item += (float)$this->config->get('cdek_more_days');
-                                                }
-
-                                                $description .= ' Срок доставки ' . implode('–', $period) . ' ' . $this->declination(max($period), array('день', 'дня', 'дней')) . '.';
-
-                                            }
-
-                                        }
-
-                                        if ($this->config->get('cdek_delivery_data')) {
-
-                                            $period = array_unique(array_map(array($this, 'normalizeDate'), array($shipping_info['deliveryDateMin'], $shipping_info['deliveryDateMax'])));
-
-                                            if (reset($period)) {
-
-                                                if ((float)$this->config->get('cdek_more_days')) {
-                                                    foreach ($period as &$delivery_date) $delivery_date = date('Y.m.d', strtotime('+' . (int)$this->config->get('cdek_more_days') . ' day', strtotime(implode('.', array_reverse(explode('.', $delivery_date))))));
-                                                }
-
-                                                if (count($period) == 1) {
-                                                    $description .= ' Планируемая дата доставки ' . $period[0] . '.';
-                                                } else {
-                                                    $description .= ' Планируемая дата доставки с ' . $period[0] . ' по ' . $period[1] . '.';
-                                                }
-
-                                            }
-                                        }
-
-                                        $names = array();
-
-                                        $quote_description = '';
-
-                                        $empty_description = !empty($shipping_info['empty']) ? $this->text_tariff_empty : '';
-
-                                        if (in_array($tariff_info['mode_id'], array(2, 4))) {
-
-                                            if ($usePVZ && !$pvz_list) {
+                                            if (!$this->config->get('cdek_empty_address') && trim($address['address_1']) == '' && in_array($tariff_info['mode_id'], array(1, 3))) {
 
                                                 if ($this->config->get('cdek_log')) {
-                                                    $this->log->write('СДЭК: не удалось получить список ПВЗ для тарифа «' . $tariff_info['title'] . '»');
+                                                    $this->log->write('СДЭК: пустой адрес доставки для тарифа ' . $shipping_info['tariffId']);
                                                 }
 
                                                 continue;
                                             }
 
-                                            if ($this->config->get('cdek_show_pvz')) {
+                                            if (!$this->currency->getId($shipping_info['currency'])) {
 
-                                                if (in_array($this->config->get('cdek_view_type'), array('group', 'map'))) {
+                                                if ($this->config->get('cdek_log')) {
+                                                    $this->log->write('СДЭК: не найдена валюта на сайте (' . $shipping_info['currency'] . ')');
+                                                }
 
-                                                    $first_pvz = null;
+                                                continue;
 
-                                                    if (isset($this->session->data['cdek_last_pvz'][$shipping_info['tariffId']])) {
+                                            }
 
-                                                        $active = $this->session->data['cdek_last_pvz'][$shipping_info['tariffId']];
+                                            if ($this->config->get('config_currency') == $shipping_info['currency']) {
+                                                $price = $shipping_info['priceByCurrency'];
+                                            } else {
+                                                $price = $this->currency->convert($shipping_info['priceByCurrency'], $shipping_info['currency'], $this->config->get('config_currency'));
+                                            }
 
-                                                        foreach ($pvz_list as $item) {
+                                            if ($this->config->get('cdek_insurance')) {
+                                                $price += ($sub_total / 100) * 0.75;
+                                            }
 
-                                                            if ($item['code'] == $active) {
-                                                                $first_pvz = $item;
+                                            $customer_tariff_info = $tariff_list[$shipping_info['tariffId']];
+
+                                            $discounts = $this->getDiscount($sub_total, $shipping_info['tariffId'], $geo_zones);
+
+                                            foreach ($discounts as $discount_info) {
+
+                                                $markup = (float)$discount_info['value'];
+
+                                                switch ($discount_info['mode']) {
+                                                    case 'percent':
+                                                        $markup = ($sub_total / 100) * $markup;
+                                                        break;
+                                                    case 'percent_shipping':
+                                                        $markup = ($price / 100) * $markup;
+                                                        break;
+                                                    case 'percent_cod':
+                                                        $markup = (($sub_total + $price) / 100) * $markup;
+                                                        break;
+                                                }
+
+                                                if ($discount_info['prefix'] == '+') {
+                                                    $price += (float)$markup;
+                                                } else {
+                                                    $price -= (float)$markup;
+                                                }
+
+                                                if ($price < 0) {
+                                                    $price = 0;
+                                                }
+
+                                            }
+
+                                            // Округление
+                                            if ($this->config->get('cdek_rounding')) {
+
+                                                switch ($this->config->get('cdek_rounding_type')) {
+                                                    case 'floor':
+                                                        $price = floor($price);
+                                                        break;
+                                                    case 'ceil':
+                                                        $price = ceil($price);
+                                                        break;
+                                                    default:
+                                                        $price = round($price);
+                                                }
+
+                                            }
+
+                                            if (!empty($customer_tariff_info['title'][$this->config->get('config_language_id')])) {
+                                                $description = $customer_tariff_info['title'][$this->config->get('config_language_id')];
+                                            } else {
+
+                                                $description = $tariff_info['title'];
+
+                                                if (in_array($tariff_info['mode_id'], array(2, 4))) {
+                                                    $description .= ' (до пункта выдачи)';
+                                                } else {
+                                                    $description .= ' (курьером до двери)';
+                                                }
+                                            }
+
+                                            $tariff_title_clear = $tariff_title_short = $description;
+
+                                            if ($this->config->get('cdek_period') || (!empty($pvz_list) && in_array($tariff_info['mode_id'], array(2, 4)))) {
+                                                $description .= ':';
+                                            }
+
+                                            if ($this->config->get('cdek_period')) {
+
+                                                $period = array_unique(array($shipping_info['deliveryPeriodMin'], $shipping_info['deliveryPeriodMax']));
+
+                                                if (reset($period)) {
+
+                                                    if ((float)$this->config->get('cdek_more_days')) {
+                                                        foreach ($period as &$period_item) $period_item += (float)$this->config->get('cdek_more_days');
+                                                    }
+
+                                                    $description .= ' Срок доставки ' . implode('–', $period) . ' ' . $this->declination(max($period), array('день', 'дня', 'дней')) . '.';
+
+                                                }
+
+                                            }
+
+                                            if ($this->config->get('cdek_delivery_data')) {
+
+                                                $period = array_unique(array_map(array($this, 'normalizeDate'), array($shipping_info['deliveryDateMin'], $shipping_info['deliveryDateMax'])));
+
+                                                if (reset($period)) {
+
+                                                    if ((float)$this->config->get('cdek_more_days')) {
+                                                        foreach ($period as &$delivery_date) $delivery_date = date('Y.m.d', strtotime('+' . (int)$this->config->get('cdek_more_days') . ' day', strtotime(implode('.', array_reverse(explode('.', $delivery_date))))));
+                                                    }
+
+                                                    if (count($period) == 1) {
+                                                        $description .= ' Планируемая дата доставки ' . $period[0] . '.';
+                                                    } else {
+                                                        $description .= ' Планируемая дата доставки с ' . $period[0] . ' по ' . $period[1] . '.';
+                                                    }
+
+                                                }
+                                            }
+
+                                            $names = [];
+
+                                            $quote_description = '';
+
+                                            $empty_description = !empty($shipping_info['empty']) ? $this->text_tariff_empty : '';
+
+                                            if (in_array($tariff_info['mode_id'], array(2, 4))) {
+
+                                                if ($usePVZ && !$pvz_list) {
+
+                                                    if ($this->config->get('cdek_log')) {
+                                                        $this->log->write('СДЭК: не удалось получить список ПВЗ для тарифа «' . $tariff_info['title'] . '»');
+                                                    }
+
+                                                    continue;
+                                                }
+
+                                                if ($this->config->get('cdek_show_pvz')) {
+
+                                                    if (in_array($this->config->get('cdek_view_type'), array('group', 'map'))) {
+
+                                                        $first_pvz = null;
+
+                                                        if (isset($this->session->data['cdek_last_pvz'][$shipping_info['tariffId']])) {
+
+                                                            $active = $this->session->data['cdek_last_pvz'][$shipping_info['tariffId']];
+
+                                                            foreach ($pvz_list as $item) {
+
+                                                                if ($item['code'] == $active) {
+                                                                    $first_pvz = $item;
+
+                                                                }
 
                                                             }
 
                                                         }
 
-                                                    }
+                                                        if (empty($first_pvz)) {
+                                                            $first_pvz = reset($pvz_list);
+                                                        }
 
-                                                    if (empty($first_pvz)) {
-                                                        $first_pvz = reset($pvz_list);
-                                                    }
+                                                        if ('map' == $this->config->get('cdek_view_type')) {
 
-                                                    if ('map' == $this->config->get('cdek_view_type')) {
+                                                            $data = array(
+                                                                'tariff_id' => $shipping_info['tariffId'],
+                                                                'city'		=> $available_city,
+                                                                'pvz'		=> $pvz_list,
+                                                                'description' => $empty_description
+                                                            );
 
-                                                        $data = array(
-                                                            'tariff_id' => $shipping_info['tariffId'],
-                                                            'city'		=> $available_city,
-                                                            'pvz'		=> $pvz_list,
-                                                            'description' => $empty_description
-                                                        );
+                                                            $quote_description = $this->getMap($data);
+                                                        } else {
+                                                            $quote_description = $this->getHTML($shipping_info['tariffId'], $pvz_list, $empty_description);
+                                                        }
 
-                                                        $quote_description = $this->getMap($data);
+                                                        $names[$first_pvz['code']] = $description;
+
+                                                        $tariff_title_short .= ': ' . $first_pvz['address'];
+
+
                                                     } else {
-                                                        $quote_description = $this->getHTML($shipping_info['tariffId'], $pvz_list, $empty_description);
+
+                                                        if ($empty_description) {
+                                                            $quote_description = $this->getBlankDescription($empty_description);
+                                                        }
+
+                                                        foreach ($pvz_list as $pvz_info) {
+                                                            $names[$pvz_info['code']] = $description . ' '/*' Пункт выдачи заказов: '*/ . $pvz_info['address_full'];
+                                                        }
+
                                                     }
-
-                                                    $names[$first_pvz['code']] = $description;
-
-                                                    $tariff_title_short .= ': ' . $first_pvz['address'];
-
 
                                                 } else {
 
@@ -858,10 +912,7 @@ class ModelShippingCdek extends Model
                                                         $quote_description = $this->getBlankDescription($empty_description);
                                                     }
 
-                                                    foreach ($pvz_list as $pvz_info) {
-                                                        $names[$pvz_info['code']] = $description . ' '/*' Пункт выдачи заказов: '*/ . $pvz_info['address_full'];
-                                                    }
-
+                                                    $names[] = $description;
                                                 }
 
                                             } else {
@@ -873,95 +924,87 @@ class ModelShippingCdek extends Model
                                                 $names[] = $description;
                                             }
 
-                                        } else {
+                                            $cod = !isset($shipping_info['cashOnDelivery']) || ((float)$shipping_info['cashOnDelivery'] && $total >= (float)$shipping_info['cashOnDelivery']);
 
-                                            if ($empty_description) {
-                                                $quote_description = $this->getBlankDescription($empty_description);
-                                            }
+                                            foreach ($names as $key => $description) {
 
-                                            $names[] = $description;
-                                        }
+                                                if (in_array($tariff_info['mode_id'], array(2, 4))) {
+                                                    $code = 'pvz_';
+                                                } else {
+                                                    $code = 'cur_';
+                                                }
 
-                                        $cod = !isset($shipping_info['cashOnDelivery']) || ((float)$shipping_info['cashOnDelivery'] && $total >= (float)$shipping_info['cashOnDelivery']);
+                                                $code .= $shipping_info['tariffId'];
+                                                $cdek_code = 'cdek.' . $code;
 
-                                        foreach ($names as $key => $description) {
+                                                if (!is_numeric($key) && (!$this->config->get('cdek_hide_pvz') || ($this->config->get('cdek_hide_pvz') && !in_array($this->config->get('cdek_view_type'), array('group', 'map'))))) {
+                                                    $code .= '_' . $key;
+                                                }
 
-                                            if (in_array($tariff_info['mode_id'], array(2, 4))) {
-                                                $code = 'pvz_';
-                                            } else {
-                                                $code = 'cur_';
-                                            }
+                                                if ($this->customer->isLogged()) {
+                                                    $customer_group_id = $this->customer->getCustomerGroupId();
+                                                } else {
+                                                    $customer_group_id = $this->config->get('config_customer_group_id');
+                                                }
 
-                                            $code .= $shipping_info['tariffId'];
-                                            $cdek_code = 'cdek.' . $code;
-
-                                            if (!is_numeric($key) && (!$this->config->get('cdek_hide_pvz') || ($this->config->get('cdek_hide_pvz') && !in_array($this->config->get('cdek_view_type'), array('group', 'map'))))) {
-                                                $code .= '_' . $key;
-                                            }
-
-                                            if ($this->customer->isLogged()) {
-                                                $customer_group_id = $this->customer->getCustomerGroupId();
-                                            } else {
-                                                $customer_group_id = $this->config->get('config_customer_group_id');
-                                            }
-
-                                            $quote_data_item = array(
-                                                'code'			=> $cdek_code,
-                                                'cod'			=> $cod,
-                                                'pvz'			=> $key,
-                                                'title'			=> $description,
-												'cost'			=> 0,
-                                                'tax_class_id'	=> $this->config->get('cdek_tax_class_id'),
-                                                'text'	        => ($customer_group_id == 2 ? '<b>оценочно</b> ' : '') . $this->currency->format($this->tax->calculate($price, $this->config->get('cdek_tax_class_id'), $this->config->get('config_tax')))
-                                            );
-
-                                            if ('' != $quote_description) {
-
-                                                $quote_data_item['title'] = $tariff_title_short;
-
-                                                $quote_data_item += array(
-                                                    'title_sub'		=> $description,
-                                                    'title_clear'	=> $tariff_title_clear,
-                                                    'description'	=> $quote_description
+                                                $quote_data_item = array(
+                                                    'code'			=> $cdek_code,
+                                                    'cod'			=> $cod,
+                                                    'pvz'			=> $key,
+                                                    'title'			=> $description,
+                                                    'cost'			=> 0,
+                                                    'tax_class_id'	=> $this->config->get('cdek_tax_class_id'),
+                                                    'text'	        => ($customer_group_id == 2 ? '<b>оценочно</b> ' : '') . $this->currency->format($this->tax->calculate($price, $this->config->get('cdek_tax_class_id'), $this->config->get('config_tax')))
                                                 );
 
+                                                if ('' != $quote_description) {
+
+                                                    $quote_data_item['title'] = $tariff_title_short;
+
+                                                    $quote_data_item += array(
+                                                        'title_sub'		=> $description,
+                                                        'title_clear'	=> $tariff_title_clear,
+                                                        'description'	=> $quote_description
+                                                    );
+
+                                                }
+
+                                                $quote_data[$code] = $quote_data_item;
                                             }
 
-                                            $quote_data[$code] = $quote_data_item;
                                         }
 
                                     }
 
+                                } else {
+
+                                    if ($this->config->get('cdek_log')) {
+                                        $this->log->write('СДЭК: нет результатов для вывода!');
+                                    }
+
                                 }
-
-                            } else {
-
-                                if ($this->config->get('cdek_log')) {
-                                    $this->log->write('СДЭК: нет результатов для вывода!');
-                                }
-
                             }
                         }
                     }
+
+                } else {
+
+                    if ($this->config->get('cdek_log')) {
+                        $this->log->write('СДЭК: не определен подходящий город!');
+                    }
+
                 }
 
             } else {
 
                 if ($this->config->get('cdek_log')) {
-                    $this->log->write('СДЭК: не определен подходящий город!');
+                    $this->log->write('СДЭК: город доставки не определен!');
                 }
 
             }
-
-        } else {
-
-            if ($this->config->get('cdek_log')) {
-                $this->log->write('СДЭК: город доставки не определен!');
-            }
-
         }
 
-        $method_data = array();
+        $method_data = [];
 
         if (!$quote_data && !empty($empty_info['use']) && $address['country_id'] == 176) {
 
@@ -1222,19 +1265,19 @@ class ModelShippingCdek extends Model
 
     private function getPVZList($type, $city_id, $weight = 0)
     {
-        static $all = array();
+        static $all = [];
 
         if (!$all) {
             $all = $this->getPVZAll($weight);
         }
 
-        $pvz_list = array();
+        $pvz_list = [];
 
         if (isset($all[$type][$city_id])) {
 
             $pvz_list = $all[$type][$city_id];
 
-            $sort_order = array();
+            $sort_order = [];
 
             foreach ($pvz_list as $key => $pvz_info) {
                 $sort_order[$key] = $pvz_info['address'];
@@ -1263,7 +1306,7 @@ class ModelShippingCdek extends Model
 
         if (!$pvz_list) {
 
-            $pvz_list = array();
+            $pvz_list = [];
 
             $servers = array(
                 'http://integration.cdek.ru/',
@@ -1287,7 +1330,7 @@ class ModelShippingCdek extends Model
 
                 $use_limit = $this->config->get('cdek_weight_limit');
 
-                $ignore = array();
+                $ignore = [];
 
                 if ($this->config->get('cdek_pvz_ignore')) {
 
@@ -1372,9 +1415,9 @@ class ModelShippingCdek extends Model
         return $pvz_list;
     }
 
-    private function getDiscount($total, $tariff_Id = 0, $geo_zones = array())
+    private function getDiscount($total, $tariff_Id = 0, $geo_zones = [])
     {
-        $discounts = array();
+        $discounts = [];
 
         $cdek_discounts = $this->config->get('cdek_discounts');
 
@@ -1404,7 +1447,7 @@ class ModelShippingCdek extends Model
 
                 }
 
-                if (!isset($discount_info['tariff_id'])) $discount_info['tariff_id'] = array();
+                if (!isset($discount_info['tariff_id'])) $discount_info['tariff_id'] = [];
 
                 if ($item_status && (float)$discount_info['total'] <= $total && (!$discount_info['tariff_id'] || in_array($tariff_Id, $discount_info['tariff_id']))) {
                     $discounts[$discount_info['prefix'] . '_' . $discount_info['mode']] = $discount_info;
@@ -1417,7 +1460,7 @@ class ModelShippingCdek extends Model
 
     private function prepareRegion($name = '')
     {
-        $regions = array();
+        $regions = [];
 
         $parts = explode(' ', $name);
         $parts = array_map(array($this, 'clearText'), $parts);
@@ -1452,7 +1495,7 @@ class ModelShippingCdek extends Model
 
     private function prepareCountry($name = '')
     {
-        $countries = array();
+        $countries = [];
 
         $name = $this->clearText($name);
 
@@ -1567,7 +1610,7 @@ class ModelShippingCdek extends Model
                     return false;
                 }
 
-                $address_list = array();
+                $address_list = [];
 
                 if (empty($response['city']) && !empty($response['region'])) {
                     $response['city'] = $response['region'];
@@ -1670,7 +1713,7 @@ class ModelShippingCdek extends Model
 
     private function getIpFromText($str = '')
     {
-        $ips = array();
+        $ips = [];
 
         if (!is_scalar($str) || '' == trim($str)) {
             return $ips;
@@ -1690,53 +1733,5 @@ class ModelShippingCdek extends Model
         }
 
         return $ips;
-    }
-}
-
-interface response_parser
-{
-    public static function convert($data = '');
-}
-
-class parser_factoty
-{
-    private static $defaultType = 'xml';
-
-    public static function convert($type, $data)
-    {
-        $class = 'parser_' . $type;
-
-        if (!class_exists($class)) {
-            $class = 'parser_' . self::$defaultType;
-        }
-
-        return $class::convert($data);
-    }
-}
-
-class parser_json implements response_parser
-{
-    public static function convert($data = '')
-    {
-        return json_decode($data, TRUE);
-    }
-}
-
-class parser_xml implements response_parser
-{
-    public static function convert($data = '')
-    {
-        $response = '';
-
-        if (strpos($data, '<?xml') !== false) {
-
-            libxml_use_internal_errors(true);
-
-            try {
-                $response = new SimpleXMLElement($data);
-            } catch (Exception $e) {}
-        }
-
-        return $response;
     }
 }

@@ -115,7 +115,7 @@
 <?php } ?>
 <?php if (isset($modules['coupon']) || isset($modules['reward']) || isset($modules['voucher'])) { ?>
     <div class="simplecheckout-cart-total simplecheckout-cart-buttons">
-        <div class="checkout_button"><a id="button_clear_cart" onclick="simplecheckout_cart_clear();"><i class="checkout_button_overlay"></i>Очистить корзину</a></div>
+        <div class="checkout_button"><a href="<?php echo $cart_clear ?>" id="button_clear_cart" onclick="return simplecheckout_cart_clear();"><i class="checkout_button_overlay"></i>Очистить корзину</a></div>
         <div class="checkout_button<?php echo ($update_required) ? ' update_required' : ' disabled'; ?>"><a id="simplecheckout_button_cart" <?php echo ($update_required) ? 'onclick="simplecheckout_reload(\'cart_changed\');"' : ''; ?>><i class="checkout_button_overlay"></i><?php echo $button_update; ?></a></div>
     </div>
 <?php } ?>

@@ -47,25 +47,30 @@
                 <?php } ?>
                 <?php if (empty($shipping_method['error'])) { ?>
                     <?php foreach ($shipping_method['quote'] as $quote) { ?>
-                        <tr>
-                            <td class="code">
-                                <input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" id="<?php echo $quote['code']; ?>" <?php if ($quote['code'] == $code) { ?>checked="checked"<?php } ?> onchange="simplecheckout_reload('shipping_changed');" />
-                            </td>
-                            <td class="title" valign="middle">
-                                <label for="<?php echo $quote['code']; ?>">
-                                    <?php echo (isset($quote['title_sub']) ? $quote['title_sub'] : $quote['title']); ?>
-                                </label>
-                                <?php if (!empty($quote['img'])) { ?>
-                                <label for="<?php echo $quote['code']; ?>">
-                                    <img src="<?php echo $quote['img']; ?>" width="60" height="32" border="0" style="display:block;margin:3px;">
-                                </label>
-                                <?php } ?>
-                            </td>
-                            <td class="quote">
-                                <label for="<?php echo $quote['code']; ?>"><?php echo $quote['text']; ?></label>
-                            </td>
-                        </tr>
-                        <?php if (!empty($quote['description'])) { ?>
+                        <?php if (!empty($quote['load'])) : ?>
+                            <tr class="load_cdek">
+                                <td colspan="3"><div class="loading"><?php echo $quote['title']; ?></div></td>
+                            </tr>
+                        <?php else : ?>
+                            <tr>
+                                <td class="code">
+                                    <input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" id="<?php echo $quote['code']; ?>" <?php if ($quote['code'] == $code) { ?>checked="checked"<?php } ?> onchange="simplecheckout_reload('shipping_changed');" />
+                                </td>
+                                <td class="title" valign="middle">
+                                    <label for="<?php echo $quote['code']; ?>">
+                                        <?php echo (isset($quote['title_sub']) ? $quote['title_sub'] : $quote['title']); ?>
+                                    </label>
+                                    <?php if (!empty($quote['img'])) { ?>
+                                    <label for="<?php echo $quote['code']; ?>">
+                                        <img src="<?php echo $quote['img']; ?>" width="60" height="32" border="0" style="display:block;margin:3px;">
+                                    </label>
+                                    <?php } ?>
+                                </td>
+                                <td class="quote">
+                                    <label for="<?php echo $quote['code']; ?>"><?php echo $quote['text']; ?></label>
+                                </td>
+                            </tr>
+                            <?php if (!empty($quote['description'])) { ?>
                             <tr>
                                 <td class="code">
                                 </td>
@@ -75,7 +80,8 @@
                                 <td class="quote">
                                 </td>
                             </tr>
-                        <?php } ?>
+                            <?php } ?>
+                        <?php endif; ?>
                     <?php } ?>
                 <?php } else { ?>
                     <tr>

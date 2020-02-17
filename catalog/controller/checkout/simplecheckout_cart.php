@@ -97,6 +97,7 @@ class ControllerCheckoutSimpleCheckoutCart extends Controller {
         }
         
         $this->data['action'] = $this->url->link('checkout/simplecheckout_cart');
+        $this->data['cart_clear'] = $this->url->link('checkout/simplecheckout_cart/clear');
 
         $this->data['update_required'] = 0;
 
@@ -344,6 +345,11 @@ class ControllerCheckoutSimpleCheckoutCart extends Controller {
                 $this->simple->redirect = $this->url->link('checkout/simplecheckout', '', 'SSL');    
             }
         }
+    }
+
+    public function clear() {
+        $this->cart->clear();
+        $this->response->redirect($this->url->link('checkout/simplecheckout'));
     }
     
     private function validateCoupon() {

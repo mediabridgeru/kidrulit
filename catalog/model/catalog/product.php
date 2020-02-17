@@ -1324,4 +1324,122 @@ class ModelCatalogProduct extends Model {
 
         return $product;
     }
+
+    public function getPodStatus() {
+        $extension_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "extension WHERE `code` = 'myocpod'");
+
+        return $extension_query->num_rows;
+    }
+
+    /**
+     * @param $sku
+     * @param $quantity
+     *
+     * @return mixed
+     */
+    public function checkGroupOptionValueQuantity($sku, $quantity) {
+        $ob_quantity = 0;
+
+        $product_option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov WHERE pov.ob_sku = '" . $sku . "' AND pov.ob_quantity > '0' ORDER BY pov.product_id");
+
+        if ($product_option_value_query->num_rows) {
+            foreach ($product_option_value_query->rows as $product_option_value) {
+                $ob_quantity += $product_option_value['ob_quantity'];
+            }
+        }
+
+        $res = ((int)$quantity == $ob_quantity) ? 0 : 1;
+
+        return $res;
+    }
+
+    /**
+     * @param $product_id
+     * @param $model
+     * @param $upc_quantity
+     * @return mixed
+     */
+    public function setProductGtdQuantity($product_id, $model, $upc_quantity) {
+        $quantity = $upc_quantity;
+
+        $this->db->query("UPDATE " . DB_PREFIX . "product SET upc_quantity = '" . (int)$upc_quantity . "' WHERE product_id = '" . $product_id . "'");
+
+        $product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product WHERE product_id <> '" . $product_id . "' AND model = '" . $model . "' AND upc_quantity > '0' ORDER BY product_id");
+
+        if ($product_query->num_rows) {
+            foreach ($product_query->rows as $product) {
+                $quantity += $product['upc_quantity'];
+            }
+        }
+
+        $this->db->query("UPDATE " . DB_PREFIX . "product SET quantity = '" . (int)$quantity . "' WHERE model = '" . $model . "'");
+
+        return $quantity;
+    }
+
+    /**
+     * @param $product_id
+     * @param $model
+     * @param $quantity
+     *
+     * @return void
+     */
+    public function setProductQuantity($product_id, $model, $quantity) {
+        $product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product WHERE product_id <> '" . $product_id . "' AND model = '" . $model . "' AND upc_quantity > '0' ORDER BY product_id");
+
+        if ($product_query->num_rows) {
+            foreach ($product_query->rows as $product) {
+                $quantity += $product['upc_quantity'];
+            }
+        }
+
+        $this->db->query("UPDATE " . DB_PREFIX . "product SET quantity = '" . (int)$quantity . "' WHERE model = '" . $model . "'");
+    }
+
+    /**
+     * @param $product_id
+     * @param $model
+     *
+     * @return void
+     */
+    public function setGroupProductQuantity($product_id, $model) {
+        $product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product WHERE product_id <> '" . $product_id . "' AND model = '" . $model . "' ORDER BY product_id");
+
+        if ($product_query->num_rows) {
+            foreach ($product_query->rows as $product) {
+                $upc_quantity = 0;
+
+                $product_option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov WHERE pov.product_id = '" . $product['product_id'] . "' AND pov.ob_quantity > '0' ORDER BY pov.ob_sku");
+
+                if ($product_option_value_query->num_rows) {
+                    foreach ($product_option_value_query->rows as $product_option_value) {
+                        $upc_quantity += $product_option_value['ob_quantity'];
+                    }
+                }
+
+                $this->db->query("UPDATE " . DB_PREFIX . "product SET upc_quantity = '" . (int)$upc_quantity . "' WHERE product_id = '" . $product['product_id'] . "'");
+            }
+        }
+    }
+
+    /**
+     * @param $product_id
+     * @param $sku
+     * @param $quantity
+     *
+     * @return mixed
+     */
+    public function setGroupOptionQuantity($product_id, $sku, $quantity) {
+        $product_option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value pov WHERE pov.product_id <> '" . $product_id . "' AND pov.ob_sku = '" . $sku . "' AND pov.ob_quantity > '0' ORDER BY pov.product_id");
+
+        if ($product_option_value_query->num_rows) {
+            foreach ($product_option_value_query->rows as $product_option_value) {
+                $quantity += $product_option_value['ob_quantity'];
+            }
+        }
+
+        $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET quantity = '" . (int)$quantity . "' WHERE ob_sku = '" . $sku . "'");
+
+        return $quantity;
+    }
 }

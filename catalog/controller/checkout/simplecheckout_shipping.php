@@ -11,6 +11,14 @@ class ControllerCheckoutSimpleCheckoutShipping extends Controller {
         if (!$this->cart->hasShipping()) {
             return;
         }
+
+        if (isset($this->session->data['cart_init'])) {
+            $this->session->data['cart_init'] = 0;
+        } else {
+            if (isset($this->session->data['cart'])) {
+                $this->session->data['cart_init'] = 1;
+            }
+        }
         
         $this->language->load('checkout/simplecheckout');
 

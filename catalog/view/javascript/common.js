@@ -99,11 +99,12 @@ $(document).ready(function() {
 });
 
 function simplecheckout_cart_clear() {
-    var clear_cart = confirm("Вы уверены, что хотите очистить всю корзину?");
-    if (clear_cart) {
+	const clear_cart = confirm("Вы уверены, что хотите очистить всю корзину?");
+	if (clear_cart) {
         $('body').find('.quantity input').val(0);
-        simplecheckout_reload('');
-    }
+    } else {
+		return false;
+	}
 }
 
 function getURLVar(key) {
@@ -199,4 +200,45 @@ function addToCompare(product_id) {
 			}	
 		}
 	});
+}
+
+function getCdekHtml(quotes) {
+	let html = '';
+	const code = '';
+
+	$.each(quotes, function(i, quote) {
+		let quote_code = quote['code'];
+		let checked = (quote_code === code) ? 'checked="checked"' : '';
+		let title = (quote['title_sub']) ? quote['title_sub'] : quote['title'];
+		html += '<tr>';
+		html += '<td class="code">';
+		html += '<input type="radio" name="shipping_method" value="'+quote_code+'" id="'+quote_code+'" '+checked+' onchange="simplecheckout_reload(\'shipping_changed\');" />';
+		html += '</td>';
+		html += '<td class="title" valign="middle">';
+		html += '<label for="'+quote_code+'">';
+		html += title;
+		html += '</label>';
+		if (quote['img']) {
+			html += '<label for="'+quote_code+'">';
+			html += '<img src="'+ quote['img']+'" width="60" height="32" border="0" style="display:block;margin:3px;">';
+			html += '</label>';
+		}
+		html += '</td>';
+		html += '<td class="quote">';
+		html += '<label for="'+quote_code+'">'+ quote['text']+'</label>';
+		html += '</td>';
+		html += '</tr>';
+
+		if (quote['description']) {
+			html += '<tr>';
+			html += '<td class="code"></td>';
+			html += '<td class="title">';
+			html += '<label for="'+quote_code+'">'+ quote['description']+'</label>';
+			html += '</td>';
+			html += '<td class="quote"></td>';
+			html += '</tr>';
+		}
+	});
+
+	return html;
 }

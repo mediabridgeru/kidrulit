@@ -602,6 +602,12 @@ class ControllerSaleOrder extends Controller {
     		$this->data['error_warning'] = '';
     	}
 
+        if (isset($this->error['stock'])) {
+            $this->data['error_stock'] = $this->error['stock'];
+        } else {
+            $this->data['error_stock'] = '';
+        }
+
     	if (isset($this->error['firstname'])) {
     		$this->data['error_firstname'] = $this->error['firstname'];
     	} else {
@@ -1146,7 +1152,17 @@ class ControllerSaleOrder extends Controller {
         }
         //
 
+        $current_order_products = [];
+
     	if (isset($this->request->post['order_product'])) {
+            $order_products = $this->model_sale_order->getOrderProducts($this->request->get['order_id']);
+
+            if (!empty($order_products)) {
+                foreach ($order_products as $order_product) {
+                    $current_order_products[$order_product['product_id'] . ($order_product['model'] ?: '')] = $order_product['quantity'];
+                }
+            }
+
     		$order_products = $this->request->post['order_product'];
     	} elseif (isset($this->request->get['order_id'])) {
     		$order_products = $this->model_sale_order->getOrderProducts($this->request->get['order_id']);
@@ -1161,13 +1177,59 @@ class ControllerSaleOrder extends Controller {
     	$this->data['order_products'] = array();
 
     	foreach ($order_products as $order_product) {
+            $stock = true; // товар есть в наличии
+            $db_quantity = 0; // количество товара в базе
+
+            $product_info = $this->model_catalog_product->getProduct($order_product['product_id']);
+
+            if ($product_info) {
+                $db_quantity = $product_quantity = (int)$product_info['quantity']; // количество товара в базе
+                $quantity = (int)$order_product['quantity'];
+
+                if (isset($this->request->post['order_product'])) {
+                    $db_quantity = $db_quantity - $quantity;
+
+                    if (!empty($current_order_products[$product_info['product_id'] . ($product_info['model'] ?: '')])) {
+                        $q = (int)$current_order_products[$product_info['product_id'] . ($product_info['model'] ?: '')];
+
+                        $db_quantity = $db_quantity + $q;
+                    }
+                }
+
+                if ($db_quantity <= 0) {
+                    $stock = false;
+                }
+            }
+
     		if (isset($order_product['order_option'])) {
-    			$order_option = $order_product['order_option'];
+                $order_options = $order_product['order_option'];
     		} elseif (isset($this->request->get['order_id'])) {
-    			$order_option = $this->model_sale_order->getOrderOptions($this->request->get['order_id'], $order_product['order_product_id']);
+                $order_options = $this->model_sale_order->getOrderOptions($this->request->get['order_id'], $order_product['order_product_id']);
     		} else {
-    			$order_option = array();
+                $order_options = array();
     		}
+
+    		if (!empty($order_options)) {
+                foreach ($order_options as $order_option) {
+                    $order_option_value = $this->model_catalog_product->getProductOptionValue($order_option);
+
+                    $db_quantity = $option_value_quantity = (int)$order_option_value['quantity'];
+
+                    if (isset($this->request->post['order_product'])) {
+                        $db_quantity = $db_quantity - $quantity;
+
+                        if (!empty($current_order_products[$order_product['product_id'] . ($order_option_value['ob_sku'] ?: '')])) {
+                            $q = (int)$current_order_products[$order_product['product_id'] . ($order_option_value['ob_sku'] ?: '')]; // количество товара в корзине
+
+                            $db_quantity = $db_quantity + $q;
+                        }
+                    }
+
+                    if ($db_quantity <= 0) {
+                        $stock = false;
+                    }
+                }
+            }
 
     		if (isset($order_product['order_download'])) {
     			$order_download = $order_product['order_download'];
@@ -1192,10 +1254,12 @@ class ControllerSaleOrder extends Controller {
                 'product_id'          => $order_product['product_id'],
                 'name'                => $order_product['name'],
                 'model'               => $order_product['model'],
-                'option'              => $order_option,
+                'option'              => $order_options,
                 'download'            => $order_download,
                 'quantity'            => $order_product['quantity'],
                 'products'            => $order_product['products'],
+                'stock'               => $stock,
+                'db_quantity'         => $db_quantity,
                 'subtracted_products' => $subtracted_products,
                 'price'               => $order_product['price'],
                 'total'               => $order_product['total'],
@@ -1306,16 +1370,56 @@ class ControllerSaleOrder extends Controller {
 
 		// Check if any products require shipping
     	$shipping = false;
+        $stock = true; // все товары есть на складе
+
+        $current_order_products = [];
+
+        $order_products = $this->model_sale_order->getOrderProducts($this->request->get['order_id']);
+
+        if (!empty($order_products)) {
+            foreach ($order_products as $order_product) {
+                $current_order_products[$order_product['product_id'] . ($order_product['model'] ?: '')] = $order_product['quantity'];
+            }
+        }
 
     	if (isset($this->request->post['order_product'])) {
     		$this->load->model('catalog/product');
 
-    		foreach ($this->request->post['order_product'] as $order_product) {
+    		foreach ($this->request->post['order_product'] as $i => $order_product) {
     			$product_info = $this->model_catalog_product->getProduct($order_product['product_id']);
 
-    			if ($product_info && $product_info['shipping']) {
-    				$shipping = true;
-    			}
+                if ($product_info) {
+                    if ($product_info['shipping']) {
+                        $shipping = true;
+                    }
+
+                    $product_quantity = (int)$product_info['quantity']; // количество товара в базе
+                    $quantity = (int)$order_product['quantity'];
+
+                    // Stock
+                    if (!empty($current_order_products[$product_info['product_id'] . ($product_info['model'] ?: '')])) {
+                        $q = (int)$current_order_products[$product_info['product_id'] . ($product_info['model'] ?: '')];
+                        if (!$product_quantity || ($product_quantity + $q < $quantity)) {
+                            $stock = false;
+                        }
+                    } else {
+                        if (!$product_quantity || ($product_quantity < $quantity)) {
+                            $stock = false;
+                        }
+                    }
+
+                    if (!empty($order_product['order_option'])) {
+                        $product_options = $this->model_catalog_product->getProductOptions($order_product['product_id']);
+
+                        if (!empty($product_options)) {
+                            $stock = $this->model_sale_order->getOrderOptionStock($order_product, $current_order_products);
+                        }
+                    }
+
+                    if (!$stock) {
+                        $this->error['stock'] = $this->language->get('error_stock');
+                    }
+                }
     		}
     	}
 

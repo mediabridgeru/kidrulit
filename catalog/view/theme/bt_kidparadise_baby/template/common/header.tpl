@@ -177,9 +177,12 @@ if(!isset($b_Mode_CSS)){
 	<section id="page-top">	</section>
 	<div class="container">
 		<div class="header-phone middle">
+		<a href="tel:+79850929291">+7 (985) 092-92-91</a>
 		</div>
 		<div class="header-time middle">
-			<?php echo $config_time; ?>
+			<?php echo $config_time; ?><br>
+			
+			
 		</div>
 	</div>
 	<div class="container">

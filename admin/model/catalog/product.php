@@ -1005,6 +1005,22 @@ class ModelCatalogProduct extends Model {
 		return $product_option_data;
 	}
 
+    /**
+     * @param $order_option
+     * @return array
+     */
+	public function getProductOptionValue($order_option) {
+        $product_option_value_data = [];
+
+        $product_option_value_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option_value WHERE product_option_id = '" . (int)$order_option['product_option_id'] . "' AND product_option_value_id = '" . (int)$order_option['product_option_value_id'] . "' ORDER BY ob_sku");
+
+        if ($product_option_value_query->num_rows) {
+            $product_option_value_data = $product_option_value_query->row;
+        }
+
+        return $product_option_value_data;
+    }
+
 	public function getProductImages($product_id) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_image WHERE product_id = '" . (int)$product_id . "'");
 

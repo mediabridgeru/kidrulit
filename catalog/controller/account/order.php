@@ -174,7 +174,7 @@ class ControllerAccountOrder extends Controller {
 	        $this->data['do_hidesbrf_card'] = 0;
 	        //if ( $this->customer->isLogged() ) {
 
-	            $scd_tmp = $this->model_account_order->getOrderScd(1, $order_id, $this->customer->isLogged());
+	            $scd_tmp = $this->model_account_order->getOrderScd(1, $order_id);
 
 				$scd = unserialize($scd_tmp[0]['data']);
 	            if(!empty($scd['custom_customer_type']['value'])) {

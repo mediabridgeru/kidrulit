@@ -18,12 +18,12 @@ class Cart {
 		}
 	}
 
-	public function getProducts($order_products = array()) {
+	public function getProducts($current_order_products = array()) {
 		if (!$this->data) {
 			foreach ($this->session->data['cart'] as $key => $quantity) {
 				$product = explode(':', $key);
 				$product_id = $product[0];
-				$stock = true;
+                $stock = true; // товар есть в наличии
 
 				// Options
 				if (!empty($product[1])) {
@@ -51,6 +51,24 @@ class Cart {
 					$option_points = 0;
 					$option_weight = 0;
 
+                    $db_quantity = $product_quantity = (int)$product_query->row['quantity']; // количество товара в базе
+
+                    // Stock
+                    if (!empty($current_order_products[$product_query->row['product_id'] . ($product_query->row['model'] ?: '')])) {
+                        $q = (int)$current_order_products[$product_query->row['product_id'] . ($product_query->row['model'] ?: '')];
+                        if (!$product_quantity || ($product_quantity + $q < $quantity)) {
+                            $stock = false;
+                        }
+
+                        $db_quantity = $db_quantity - $quantity + $q;
+                    } else {
+                        if (!$product_quantity || ($product_quantity < $quantity)) {
+                            $stock = false;
+                        }
+
+                        $db_quantity = $db_quantity - $quantity;
+                    }
+
 					$option_data = array();
 
 					foreach ($options as $product_option_id => $option_value) {
@@ -61,6 +79,8 @@ class Cart {
 								$option_value_query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.product_option_value_id = '" . (int)$option_value . "' AND pov.product_option_id = '" . (int)$product_option_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 								if ($option_value_query->num_rows) {
+                                    $db_quantity = $option_value_quantity = (int)$option_value_query->row['quantity'];
+
 									if ($option_value_query->row['price_prefix'] == '+') {
 										$option_price += $option_value_query->row['price'];
 									} elseif ($option_value_query->row['price_prefix'] == '-') {
@@ -79,15 +99,19 @@ class Cart {
 										$option_weight -= $option_value_query->row['weight'];
 									}
 
-                                    if (!empty($order_products[$product_query->row['product_id'] . ($option_value_query->row['ob_sku'] ?: '')])) {
-                                        $q = $order_products[$product_query->row['product_id'] . ($option_value_query->row['ob_sku'] ?: '')];
-                                        if ($option_value_query->row['subtract'] && (!$option_value_query->row['quantity'] || ($option_value_query->row['quantity']  + $q < $quantity))) {
+                                    if (!empty($current_order_products[$product_query->row['product_id'] . ($option_value_query->row['ob_sku'] ?: '')])) {
+                                        $q = (int)$current_order_products[$product_query->row['product_id'] . ($option_value_query->row['ob_sku'] ?: '')]; // количество товара в корзине
+                                        if ($option_value_query->row['subtract'] && ($option_value_quantity  + $q < $quantity)) {
                                             $stock = false;
                                         }
+
+                                        $db_quantity = $db_quantity - $quantity + $q;
                                     } else {
-                                        if ($option_value_query->row['subtract'] && (!$option_value_query->row['quantity'] || ($option_value_query->row['quantity'] < $quantity))) {
+                                        if ($option_value_query->row['subtract'] && ($option_value_quantity < $quantity)) {
                                             $stock = false;
                                         }
+
+                                        $db_quantity = $db_quantity - $quantity;
                                     }
 
 									$option_data[] = array(
@@ -113,6 +137,8 @@ class Cart {
 									$option_value_query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.product_option_value_id = '" . (int)$product_option_value_id . "' AND pov.product_option_id = '" . (int)$product_option_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 									if ($option_value_query->num_rows) {
+                                        $db_quantity = $option_value_quantity = (int)$option_value_query->row['quantity'];
+
 										if ($option_value_query->row['price_prefix'] == '+') {
 											$option_price += $option_value_query->row['price'];
 										} elseif ($option_value_query->row['price_prefix'] == '-') {
@@ -131,15 +157,19 @@ class Cart {
 											$option_weight -= $option_value_query->row['weight'];
 										}
 
-                                        if (!empty($order_products[$product_query->row['product_id'] . ($option_value_query->row['ob_sku'] ?: '')])) {
-                                            $q = $order_products[$product_query->row['product_id'] . ($option_value_query->row['ob_sku'] ?: '')];
-                                            if ($option_value_query->row['subtract'] && (!$option_value_query->row['quantity'] || ($option_value_query->row['quantity']  + $q < $quantity))) {
+                                        if (!empty($current_order_products[$product_query->row['product_id'] . ($option_value_query->row['ob_sku'] ?: '')])) {
+                                            $q = (int)$current_order_products[$product_query->row['product_id'] . ($option_value_query->row['ob_sku'] ?: '')];
+                                            if ($option_value_query->row['subtract'] && ($option_value_quantity  + $q < $quantity)) {
                                                 $stock = false;
                                             }
+
+                                            $db_quantity = $db_quantity - $quantity + $q;
                                         } else {
-                                            if ($option_value_query->row['subtract'] && (!$option_value_query->row['quantity'] || ($option_value_query->row['quantity'] < $quantity))) {
+                                            if ($option_value_query->row['subtract'] && ($option_value_quantity < $quantity)) {
                                                 $stock = false;
                                             }
+
+                                            $db_quantity = $db_quantity - $quantity;
                                         }
 
 										$option_data[] = array(
@@ -239,18 +269,6 @@ class Cart {
 						);
 					}
 
-					// Stock
-                    if (!empty($order_products[$product_query->row['product_id'] . ($product_query->row['model'] ?: '')])) {
-                        $q = $order_products[$product_query->row['product_id'] . ($product_query->row['model'] ?: '')];
-                        if (!$product_query->row['quantity'] || ($product_query->row['quantity'] + $q < $quantity)) {
-                            $stock = false;
-                        }
-                    } else {
-                        if (!$product_query->row['quantity'] || ($product_query->row['quantity'] < $quantity)) {
-                            $stock = false;
-                        }
-                    }
-
 					$recurring = false;
 					$recurring_frequency = 0;
 					$recurring_price = 0;
@@ -305,8 +323,10 @@ class Cart {
 						'option'                    => $option_data,
 						'download'                  => $download_data,
 						'quantity'                  => $quantity,
+                        'db_quantity'               => $db_quantity,
 						'minimum'                   => $product_query->row['minimum'],
 						'subtract'                  => $product_query->row['subtract'],
+                        'upc_more'                  => $product_query->row['upc_more'],
 						'stock'                     => $stock,
 						'price'                     => ($price + $option_price),
 						'total'                     => ($price + $option_price) * $quantity,
@@ -401,6 +421,9 @@ class Cart {
 
 	public function clear() {
 		$this->session->data['cart'] = array();
+        if (isset($this->session->data['cart_init'])) {
+            unset($this->session->data['cart_init']);
+        }
 		$this->data = array();
 	}
 
@@ -476,10 +499,10 @@ class Cart {
 		return count($this->getRecurringProducts());
 	}
 
-	public function hasStock($order_products = array()) {
+	public function hasStock($current_order_products = array()) {
 		$stock = true;
 
-		foreach ($this->getProducts($order_products) as $product) {
+		foreach ($this->getProducts($current_order_products) as $product) {
 			if (!$product['stock']) {
 				$stock = false;
 			}

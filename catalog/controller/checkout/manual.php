@@ -51,19 +51,37 @@ class ControllerCheckoutManual extends Controller {
 
 			// Product
 			$this->load->model('catalog/product');
+            $this->load->model('sale/order');
+
+            $order_id = 0;
+
+            if (isset($this->request->post['order_id'])) {
+                $order_id = $this->request->post['order_id'];
+            }
 
 			$order_product_ids = array();
-            $order_products = array();
+            $current_order_products = array();
 
-			if (isset($this->request->post['order_product'])) {
-				foreach ($this->request->post['order_product'] as $order_product) {
-					$product_info = $this->model_catalog_product->getProduct($order_product['product_id']);
+            $order_product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
+
+            if ($order_product_query->num_rows) {
+                foreach ($order_product_query->rows as $order_product) {
+                    /* FIX: Сохраняем ид продуктов заказа и формируем уникальный индекс состоящий из ид и модели */
+                    /* Если модель отсутствует, то order_product_id не будет найден. */
+                    $order_product_ids[$order_product['product_id'] . ($order_product['model'] ?: '')] = $order_product['order_product_id'];
+                    $current_order_products[$order_product['product_id'] . ($order_product['model'] ?: '')] = $order_product['quantity'];
+                }
+            }
+
+			if (isset($this->request->post['order_product'])) { // товары, которые были на странице заказа до добавления текущего товара
+				foreach ($this->request->post['order_product'] as $order_page_product) {
+					$product_info = $this->model_catalog_product->getProduct($order_page_product['product_id']);
 
 					if ($product_info) {	
 						$option_data = array();
 
-						if (isset($order_product['order_option'])) {
-							foreach ($order_product['order_option'] as $option) {
+						if (isset($order_page_product['order_option'])) {
+							foreach ($order_page_product['order_option'] as $option) {
 								if ($option['type'] == 'select' || $option['type'] == 'radio' || $option['type'] == 'image') { 
 									$option_data[$option['product_option_id']] = $option['product_option_value_id'];
 								} elseif ($option['type'] == 'checkbox') {
@@ -74,17 +92,12 @@ class ControllerCheckoutManual extends Controller {
 							}
 						}
 
-						/* FIX: Сохраняем ид продуктов заказа и формируем уникальный индекс состоящий из ид и модели */
-						/* Если модель отсутствует, то order_product_id не будет найден. */
-						$order_product_ids[$order_product['product_id'] . ($order_product['model'] ?: '')] = $order_product['order_product_id'];
-                        $order_products[$order_product['product_id'] . ($order_product['model'] ?: '')] = $order_product['quantity'];
-
-						$this->cart->add($order_product['product_id'], $order_product['quantity'], $option_data);
+						$this->cart->add($order_page_product['product_id'], $order_page_product['quantity'], $option_data);
 					}
 				}
 			}
 
-			if (isset($this->request->post['product_id'])) {
+			if (isset($this->request->post['product_id'])) { // товары, которые добавлены в заказ по кнопке Добавить товар
 				$product_info = $this->model_catalog_product->getProduct($this->request->post['product_id']);
 
 				if ($product_info) {
@@ -115,7 +128,7 @@ class ControllerCheckoutManual extends Controller {
 			}
 
 			// Stock
-			if (!$this->cart->hasStock($order_products) && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
+			if (!$this->cart->hasStock($current_order_products) && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
 				$json['error']['product']['stock'] = $this->language->get('error_stock');
 			}		
 
@@ -132,10 +145,15 @@ class ControllerCheckoutManual extends Controller {
 			// Products
 			$json['order_product'] = array();
 
-			$products = $this->cart->getProducts($order_products);
+			$products = $this->cart->getProducts($current_order_products);
 
 			foreach ($products as $product) {
 				$product_total = 0;
+                $gtd = (int)$product['upc_more']; // включена галка Имеются товары этой модели с другим ГТД
+                $product_model = $product['model'];
+
+                $subtracted_product_quantity = $subtracted_option_quantity = (int)$product['quantity']; // количество товаров, которое списано у всей группы
+                $order_subtracted_products = []; // массив товаров, у которых списано количество
 
 				foreach ($products as $product_2) {
 					if ($product_2['product_id'] == $product['product_id']) {
@@ -145,19 +163,31 @@ class ControllerCheckoutManual extends Controller {
 
 				if ($product['minimum'] > $product_total) {
 					$json['error']['product']['minimum'][] = sprintf($this->language->get('error_minimum'), $product['name'], $product['minimum']);
-				}	
-
-				$option_data = array();
-
-				foreach ($product['option'] as $option) {
-					$option_data[] = array(
-						'product_option_id'       => $option['product_option_id'],
-						'product_option_value_id' => $option['product_option_value_id'],
-						'name'                    => $option['name'],
-						'value'                   => $option['option_value'],
-						'type'                    => $option['type']
-					);
 				}
+
+                $option_data = array();
+
+                foreach ($product['option'] as $option) {
+                    $order_option_id  = '';
+                    $order_product_id = '';
+
+                    $order_option = $this->model_sale_order->getOrderOptionByProductOptionValueId($order_id, $option['product_option_value_id']);
+
+                    if (!empty($order_option)) {
+                        $order_option_id  = $order_option['order_option_id'];
+                        $order_product_id = $order_option['order_product_id'];
+                    }
+
+                    $option_data[] = array(
+                        'order_option_id'         => $order_option_id,
+                        'order_product_id'        => $order_product_id,
+                        'product_option_id'       => $option['product_option_id'],
+                        'product_option_value_id' => $option['product_option_value_id'],
+                        'name'                    => $option['name'],
+                        'value'                   => $option['option_value'],
+                        'type'                    => $option['type'],
+                    );
+                }
 
 				$download_data = array();
 
@@ -170,20 +200,21 @@ class ControllerCheckoutManual extends Controller {
 					);
 				}
 
-				$json['order_product'][] = array(
-					'order_product_ids' => $order_product_ids,
-					'product_id' => $product['product_id'],
-					'name'       => $product['name'],
-					'model'      => $product['model'],
-					'option'     => $option_data,
-					'download'   => $download_data,
-					'quantity'   => $product['quantity'],
-					'stock'      => $product['stock'],
-					'price'      => $product['price'],
-					'total'      => $product['total'],
-					'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),
-					'reward'     => $product['reward']
-				);
+                $json['order_product'][] = array(
+                    'order_product_ids' => $order_product_ids,
+                    'product_id'        => $product['product_id'],
+                    'name'              => $product['name'],
+                    'model'             => $product['model'],
+                    'option'            => $option_data,
+                    'download'          => $download_data,
+                    'quantity'          => $product['quantity'],
+                    'stock'             => $product['stock'],
+                    'db_quantity'       => $product['db_quantity'],
+                    'price'             => $product['price'],
+                    'total'             => $product['total'],
+                    'tax'               => $this->tax->getTax($product['price'], $product['tax_class_id']),
+                    'reward'            => $product['reward'],
+                );
 			}
 
 			// Voucher
