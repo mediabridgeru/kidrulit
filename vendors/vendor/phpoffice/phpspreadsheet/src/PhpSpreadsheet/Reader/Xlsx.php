@@ -388,6 +388,7 @@ class Xlsx extends BaseReader
      */
     public function load($pFilename)
     {
+        global $log;
         File::assertFile($pFilename);
 
         // Initialisations
@@ -1643,39 +1644,45 @@ class Xlsx extends BaseReader
                                                     $hlinkClick = $oneCellAnchor->pic->nvPicPr->cNvPr->children('http://schemas.openxmlformats.org/drawingml/2006/main')->hlinkClick;
 
                                                     $objDrawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-                                                    $objDrawing->setName((string) self::getArrayItem($oneCellAnchor->pic->nvPicPr->cNvPr->attributes(), 'name'));
+                                                    $name = (string) self::getArrayItem($oneCellAnchor->pic->nvPicPr->cNvPr->attributes(), 'name');
+                                                    $objDrawing->setName($name);
                                                     $objDrawing->setDescription((string) self::getArrayItem($oneCellAnchor->pic->nvPicPr->cNvPr->attributes(), 'descr'));
-                                                    $objDrawing->setPath(
-                                                        'zip://' . File::realpath($pFilename) . '#' .
-                                                        $images[(string) self::getArrayItem(
-                                                            $blip->attributes('http://schemas.openxmlformats.org/officeDocument/2006/relationships'),
-                                                            'embed'
-                                                        )],
-                                                        false
-                                                    );
-                                                    $objDrawing->setCoordinates(Coordinate::stringFromColumnIndex(((string) $oneCellAnchor->from->col) + 1) . ($oneCellAnchor->from->row + 1));
-                                                    $objDrawing->setOffsetX(Drawing::EMUToPixels($oneCellAnchor->from->colOff));
-                                                    $objDrawing->setOffsetY(Drawing::EMUToPixels($oneCellAnchor->from->rowOff));
-                                                    $objDrawing->setResizeProportional(false);
-                                                    $objDrawing->setWidth(Drawing::EMUToPixels(self::getArrayItem($oneCellAnchor->ext->attributes(), 'cx')));
-                                                    $objDrawing->setHeight(Drawing::EMUToPixels(self::getArrayItem($oneCellAnchor->ext->attributes(), 'cy')));
-                                                    if ($xfrm) {
-                                                        $objDrawing->setRotation(Drawing::angleToDegrees(self::getArrayItem($xfrm->attributes(), 'rot')));
-                                                    }
-                                                    if ($outerShdw) {
-                                                        $shadow = $objDrawing->getShadow();
-                                                        $shadow->setVisible(true);
-                                                        $shadow->setBlurRadius(Drawing::EMUTopixels(self::getArrayItem($outerShdw->attributes(), 'blurRad')));
-                                                        $shadow->setDistance(Drawing::EMUTopixels(self::getArrayItem($outerShdw->attributes(), 'dist')));
-                                                        $shadow->setDirection(Drawing::angleToDegrees(self::getArrayItem($outerShdw->attributes(), 'dir')));
-                                                        $shadow->setAlignment((string) self::getArrayItem($outerShdw->attributes(), 'algn'));
-                                                        $shadow->getColor()->setRGB(self::getArrayItem($outerShdw->srgbClr->attributes(), 'val'));
-                                                        $shadow->setAlpha(self::getArrayItem($outerShdw->srgbClr->alpha->attributes(), 'val') / 1000);
+                                                    $attributes = $blip->attributes('http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+                                                    $index = self::getArrayItem($attributes, 'embed');
+                                                    if ($index) {
+                                                        $objDrawing->setPath(
+                                                            'zip://' . File::realpath($pFilename) . '#' .
+                                                            $images[(string) $index],
+                                                            false
+                                                        );
+                                                        $objDrawing->setCoordinates(Coordinate::stringFromColumnIndex(((string) $oneCellAnchor->from->col) + 1) . ($oneCellAnchor->from->row + 1));
+                                                        $objDrawing->setOffsetX(Drawing::EMUToPixels($oneCellAnchor->from->colOff));
+                                                        $objDrawing->setOffsetY(Drawing::EMUToPixels($oneCellAnchor->from->rowOff));
+                                                        $objDrawing->setResizeProportional(false);
+                                                        $objDrawing->setWidth(Drawing::EMUToPixels(self::getArrayItem($oneCellAnchor->ext->attributes(), 'cx')));
+                                                        $objDrawing->setHeight(Drawing::EMUToPixels(self::getArrayItem($oneCellAnchor->ext->attributes(), 'cy')));
+                                                        if ($xfrm) {
+                                                            $objDrawing->setRotation(Drawing::angleToDegrees(self::getArrayItem($xfrm->attributes(), 'rot')));
+                                                        }
+                                                        if ($outerShdw) {
+                                                            $shadow = $objDrawing->getShadow();
+                                                            $shadow->setVisible(true);
+                                                            $shadow->setBlurRadius(Drawing::EMUTopixels(self::getArrayItem($outerShdw->attributes(), 'blurRad')));
+                                                            $shadow->setDistance(Drawing::EMUTopixels(self::getArrayItem($outerShdw->attributes(), 'dist')));
+                                                            $shadow->setDirection(Drawing::angleToDegrees(self::getArrayItem($outerShdw->attributes(), 'dir')));
+                                                            $shadow->setAlignment((string) self::getArrayItem($outerShdw->attributes(), 'algn'));
+                                                            $shadow->getColor()->setRGB(self::getArrayItem($outerShdw->srgbClr->attributes(), 'val'));
+                                                            $shadow->setAlpha(self::getArrayItem($outerShdw->srgbClr->alpha->attributes(), 'val') / 1000);
+                                                        }
+
+                                                        $this->readHyperLinkDrawing($objDrawing, $oneCellAnchor, $hyperlinks);
+
+                                                        $objDrawing->setWorksheet($docSheet);
+
+                                                    } else {
+                                                        $log->write('Ошибка изображения - ' . $name);
                                                     }
 
-                                                    $this->readHyperLinkDrawing($objDrawing, $oneCellAnchor, $hyperlinks);
-
-                                                    $objDrawing->setWorksheet($docSheet);
                                                 } else {
                                                     //    ? Can charts be positioned with a oneCellAnchor ?
                                                     $coordinates = Coordinate::stringFromColumnIndex(((string) $oneCellAnchor->from->col) + 1) . ($oneCellAnchor->from->row + 1);

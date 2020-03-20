@@ -1,10 +1,15 @@
+<?php
+/*
+    @author: Igor Mirochnik
+    @copyright:  Igor Mirochnik
+    Site: http://ida-freewares.ru
+    Site: http://im-cloud.ru
+    Email: dev.imirochnik@gmail.com
+    Type: commercial
+*/
+
+?>
 <?php 
-	/*
-		Author: Igor Mirochnik
-		Site: http://ida-freewares.ru
-		Email: dev.imirochnik@gmail.com
-		Type: commercial
-	*/
 
 	if (!function_exists('echoText'))
 	{
@@ -154,7 +159,7 @@
 ?>
 
 <!-- ------------ -->
-<!-- Client Group -->
+<!-- Client Orders -->
 <!-- ------------ -->
 <div class="tab-pane" id="client_orders">
 	<form class="form" 
@@ -269,13 +274,7 @@
 				    </div>
 			  	</div>
 			  </div>
-			  <div class="col-sm-6">
-					<div class="form-group">
-						<label class="control-label">
-							<?php echo label($module_label, 'label_filter_sort') ?>
-						</label>
-						<?php echo echoSelect('IMReport[sort][]', $list_client_orders_sort, '', ''); ?>
-					</div>
+			 	<div class="col-sm-12 report-btn-group">
 					<button type="button"  
 					  		class="btn btn-success pull-right button-csv">
 						<i class="fa fa-copy"></i> 
@@ -334,44 +333,11 @@
 		}
 	;
 	
-	function formLink(link, name, param_name, param_id) {
-		var result = '<a target="_blank" ';
-		result += ' href="' + link + '&' + param_name + '=' + param_id  + '" >';
-		//result += decodeURIComponent(name);
-		result += name;
-		return result + '</a>';
-	}
-	
-	function IMR_parseDate(date) {
-		// Если нечего парсить
-		if (!date) return null;
-		// Если код изначально был в формате C#
-		if (typeof(date) === 'string' && date.indexOf('/Date(') === 0) return new Date(parseInt(date.substring(6)));
-		// Если мы взяли iso формат
-		else if (typeof(date) === 'string' && date.replace('-', '').length != date.length) {
-			return new Date(date.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
-		}
-		// Если мы взяли русский формат
-		else if (typeof(date) === 'string' && date.replace('.', '').length != date.length) {
-			return new Date(date.replace(/(\d+)\.(\d+)\.(\d+)/, '$2/$1/$3'));
-		}
-		// Если передан готовый объект
-		else if (typeof(date) === 'object' && date.constructor === Date) return date;
-		// Пришел некорректный параметр отдаем пустой объект
-		return null;
-	}
-
-	function IMR_toDate(_date) {
-		var date;
-		// Если входной формат не корректен,
-		// то возвращаем пустую строку
-		if (!(date = IMR_parseDate(_date))) return '';
-		return (date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate()) + '.' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : '' + (date.getMonth() + 1)) + '.' + date.getFullYear() + ' ' + (date.getHours() < 10 ? '0' + date.getHours() : '' + date.getHours()) + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : '' + date.getMinutes());
-	}
-	
-	function loadClientOrders(form) {
-		jQuery('#save_status_client_orders').removeClass('fail').removeClass('success')
-		.html(ajaxStatusSpan.getData);
+	function IMR_loadClientOrders(form) {
+		imrep.setTextStatus(form, {
+			selector: '#save_status_client_orders',
+			text: ajaxStatusSpan.getData
+		});
 		
 		jQuery.ajax({
 			url: form.attr('action'),
@@ -380,8 +346,10 @@
 			dataType: 'json',
 			success: function (json) {
 				if (json['success']) {
-					jQuery('#save_status_client_orders').removeClass('fail').addClass('success')
-					.html(ajaxStatusSpan.ok);
+					imrep.setTextSuccess(form, {
+						selector: '#save_status_client_orders',
+						text: ajaxStatusSpan.ok
+					});
 					
 					var tbody = form.find('table.table-results tbody'),
 						all_count = 0,
@@ -405,7 +373,7 @@
 						
 						row.html(
 							'<td class="text-left">'
-								+ formLink(link_to_client, item['name'], 
+								+ IMR_formLink(link_to_client, item['name'], 
 										'customer_id', item['customer_id'])
 							+ '</td>'
 							+ '<td class="text-left">'
@@ -425,7 +393,7 @@
 							+ '</td>'
 							+ '<td class="text-right">'
 								+ ('' + item['last_order'] != '0' && '' + item['last_order'] != 'null'
-									? formLink(link_to_order, 
+									? IMR_formLink(link_to_order, 
 										item['last_order'] + ' # ' + IMR_toDate(item['last_order_date']) + '  ', 
 										'order_id', item['last_order'])
 									: '')
@@ -445,10 +413,19 @@
 						);
 					}
 					
-					tuneUpTable(form, 9, all_count, all_cost, json['currency_pattern']);
+					//tuneUpTable(form, 9, all_count, all_cost, json['currency_pattern']);
+					IMR_tuneUpTable(form, {
+						colspan: 9,
+						count: all_count,
+						cost: all_cost,
+						pattern: json['currency_pattern'],
+						num_rows_displayed: module_config.user.table_default_num_rows_displayed
+					});
 				} else {
-					jQuery('#save_status_client_orders').removeClass('success').addClass('fail')
-					.html(ajaxStatusSpan.fail);
+					imrep.setTextFail(form, {
+						selector: '#save_status_client_orders',
+						text: ajaxStatusSpan.fail
+					});
 				}
 			}
 		});

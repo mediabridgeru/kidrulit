@@ -1,10 +1,15 @@
+<?php
+/*
+    @author: Igor Mirochnik
+    @copyright:  Igor Mirochnik
+    Site: http://ida-freewares.ru
+    Site: http://im-cloud.ru
+    Email: dev.imirochnik@gmail.com
+    Type: commercial
+*/
+
+?>
 <?php 
-	/*
-		Author: Igor Mirochnik
-		Site: http://ida-freewares.ru
-		Email: dev.imirochnik@gmail.com
-		Type: commercial
-	*/
 
 	if (!function_exists('echoText'))
 	{
@@ -231,12 +236,8 @@
 					      	</span>
 					    </div>
 				  	</div>
-					<div class="form-group">
-						<label class="control-label">
-							<?php echo label($module_label, 'label_filter_sort') ?>
-						</label>
-						<?php echo echoSelect('IMReport[sort][]', $list_stock_control_set_sort, '', ''); ?>
-					</div>
+				</div>
+				<div class="col-sm-12 report-btn-group">
 					<button type="button"  
 					  		class="btn btn-warning pull-right button-save">
 						<i class="fa fa-save"></i> 
@@ -256,6 +257,9 @@
 			<table class="table table-bordered table-results">
 				<thead>
 					<tr>
+						<?php if ($is_product_image_display) { ?>
+							<th><i class="fa fa-camera"></i></th>
+						<?php } ?>
 						<th><?php echo label($module_table_header, 'table_stock_control_set_name'); ?></th>
 						<th><?php echo label($module_table_header, 'table_stock_control_set_option'); ?></th>
 						<th><?php echo label($module_table_header, 'table_stock_control_set_cat'); ?></th>
@@ -283,20 +287,16 @@
 		link_to_client = "<?php echo $report_links['link_to_client'];  ?>",
 		table_footer_all = "<?php echo label($module_table_header, 'table_footer_all');  ?>",
 		previousPoint = null, 
-		previousLabel = null
+		previousLabel = null,
+		// 2.1.0
+		is_product_image_display = <?php echo $is_product_image_display; ?>
 	;
 	
-	function formLink(link, name, param_name, param_id) {
-		var result = '<a target="_blank" ';
-		result += ' href="' + link + '&' + param_name + '=' + param_id  + '" >';
-		//result += decodeURIComponent(name);
-		result += name;
-		return result + '</a>';
-	}
-	
-	function loadStockControlSet(form) {
-		jQuery('#save_status_stock_control_set').removeClass('fail').removeClass('success')
-		.html(ajaxStatusSpan.getData);
+	function IMR_loadStockControlSet(form) {
+		imrep.setTextStatus(form, {
+			selector: '#save_status_stock_control_set',
+			text: ajaxStatusSpan.getData
+		});
 		
 		jQuery.ajax({
 			url: form.attr('action'),
@@ -305,8 +305,10 @@
 			dataType: 'json',
 			success: function (json) {
 				if (json['success']) {
-					jQuery('#save_status_stock_control_set').removeClass('fail').addClass('success')
-					.html(ajaxStatusSpan.ok);
+					imrep.setTextSuccess(form, {
+						selector: '#save_status_stock_control_set',
+						text: ajaxStatusSpan.ok
+					});
 					
 					var tbody = form.find('table.table-results tbody'),
 						last_id = -1,
@@ -348,7 +350,15 @@
 							all_need_count += parseInt(item['need_quantity']);
 							
 							row.html(
-								'<td class="text-left">'
+								(is_product_image_display
+									? (
+										'<td class="text-center">'
+											+ '<img src="' + item['product_image_mini'] + '" />'
+										+ '</td>'
+									)
+									: ''
+								)
+								+ '<td class="text-left">'
 									+ formLink(link_to_product, item['product_name'], 
 												'product_id', item['product_id'])
 								+ '</td>'
@@ -360,7 +370,7 @@
 								+ '</td>'
 								+ '<td class="text-left category">'
 									+ (item['category_id'] 
-										? formLink(link_to_category, 
+										? IMR_formLink(link_to_category, 
 												jQuery(form
 													.find('select.filter-category option[value="' 
 															+ item['category_id'] + '"]')
@@ -394,7 +404,7 @@
 										: parseInt(item['product_quantity'])
 									)
 								+ '</td>'
-								+ '<td class="text-right">'
+								+ '<td class="text-right input-style-min">'
 									+ '<input type="text" '
 										+ ' class="form-control text-right" '
 										+ ' name="IMReport[array_need_quantity][' + cntDataRow + '][need]" '
@@ -408,6 +418,9 @@
 										+ ' name="IMReport[array_need_quantity][' + cntDataRow + '][product_option_value_id]" '
 										+ ' value="' + item['product_option_value_id'] + '" '
 									+ '/>'
+									+ '<span class="need-info">' 
+										+ item['need_quantity'] 
+									+ '</span>'
 								+ '</td>'
 							);
 							
@@ -425,7 +438,7 @@
 								cellCat.html()
 								+ (item['category_id'] 
 										? '<br/>' 
-											+ formLink(link_to_category, 
+											+ IMR_formLink(link_to_category, 
 												jQuery(form
 													.find('select.filter-category option[value="' 
 															+ item['category_id'] + '"]')
@@ -438,35 +451,50 @@
 					
 					all_curr_count = all_count;
 					
-					tuneUpTable(form, 5, ('' + all_curr_count + ' ( ' + all_need_count + ' ) '), 0, 
-								json['currency_pattern'], true, true);
+					//tuneUpTable(form, 5, ('' + all_curr_count + ' ( ' + all_need_count + ' ) '), 0, json['currency_pattern'], true, true);
+					IMR_tuneUpTable(form, {
+						colspan: 5 + (!!is_product_image_display),
+						count: ('' + all_curr_count + ' ( ' + all_need_count + ' ) '),
+						cost: 0,
+						pattern: json['currency_pattern'],
+						not_need_cost: true,
+						not_need_footer: true,
+						num_rows_displayed: module_config.user.table_default_num_rows_displayed
+					});
 					
 				} else {
-					jQuery('#save_status_stock_control_set').removeClass('success').addClass('fail')
-					.html(ajaxStatusSpan.fail);
+					imrep.setTextFail(form, {
+						selector: '#save_status_stock_control_set',
+						text: ajaxStatusSpan.fail
+					});
 				}
 			}
 		});
 	}
 	
-	function stockControlSetData(form)
+	function IMR_stockControlSetData(form)
 	{
-		jQuery('#save_status_stock_control_set').removeClass('fail').removeClass('success')
-		.html(ajaxStatusSpan.save);
+		imrep.setTextStatus(form, {
+			selector: '#save_status_stock_control_set',
+			text: ajaxStatusSpan.getData
+		});
 		
 		jQuery.ajax({
 			url: form.attr('actionsave'),
 			type: 'post',
-			data: form.serializeArray(),
+			//data: form.serializeArray(),
+			data: $.tablesorter.serializeArray(form.find('table.table-results')),
 			dataType: 'json',
 			success: function (json) {
 				if (json['success']) {
-					jQuery('#save_status_stock_control_set').removeClass('fail').addClass('success')
-					.html(ajaxStatusSpan.ok);
+					// Перезагрузка формы
+					IMR_loadStockControlSet(form);
 					
 				} else {
-					jQuery('#save_status_stock_control_set').removeClass('success').addClass('fail')
-					.html(ajaxStatusSpan.fail);
+					imrep.setTextFail(form, {
+						selector: '#save_status_stock_control_set',
+						text: ajaxStatusSpan.fail
+					});
 				}
 			}
 		});
@@ -475,7 +503,7 @@
 	
 	jQuery(function () {
 		jQuery('#form_stock_control_set button.button-save').click(function () {
-			stockControlSetData(jQuery(this).closest('form'));
+			IMR_stockControlSetData(jQuery(this).closest('form'));
 		});
 	});
 				
@@ -546,10 +574,21 @@
 		font-weight: bold;
 	}
 	
-	#form_stock_control_set table.table-results input.form-control {
+	#form_stock_control_set table.table-results tbody tr input.form-control 
+	{
 	    line-height: 10px;
 	    height: 25px;
 	    margin-top: -3px;
+	    max-width: 70px;
+		display: inline-block;
+		float: left;
+	}
+	
+	#form_stock_control_set table.table-results tbody tr span.need-info
+	{
+		display: inline-block;
+		padding-left: 6px;
+		color: #3C8EBB;
 	}
 	
 	#save_status_stock_control_set.success

@@ -1,10 +1,15 @@
+<?php
+/*
+    @author: Igor Mirochnik
+    @copyright:  Igor Mirochnik
+    Site: http://ida-freewares.ru
+    Site: http://im-cloud.ru
+    Email: dev.imirochnik@gmail.com
+    Type: commercial
+*/
+
+?>
 <?php 
-	/*
-		Author: Igor Mirochnik
-		Site: http://ida-freewares.ru
-		Email: dev.imirochnik@gmail.com
-		Type: commercial
-	*/
 
 	if (!function_exists('echoText'))
 	{
@@ -236,12 +241,8 @@
 					      	</span>
 					    </div>
 				  	</div>
-					<div class="form-group">
-						<label class="control-label">
-							<?php echo label($module_label, 'label_filter_sort') ?>
-						</label>
-						<?php echo echoSelect('IMReport[sort][]', $list_option_sales_sort, '', ''); ?>
-					</div>
+				</div>
+				<div class="col-sm-12 report-btn-group">
 					<button type="button"  
 					  		class="btn btn-success pull-right button-csv">
 						<i class="fa fa-copy"></i> 
@@ -284,17 +285,11 @@
 		previousLabel = null
 	;
 	
-	function formLink(link, name, param_name, param_id) {
-		var result = '<a target="_blank" ';
-		result += ' href="' + link + '&' + param_name + '=' + param_id  + '" >';
-		//result += decodeURIComponent(name);
-		result += name;
-		return result + '</a>';
-	}
-	
-	function loadOptionSales(form) {
-		jQuery('#save_status_option_sales').removeClass('fail').removeClass('success')
-		.html(ajaxStatusSpan.getData);
+	function IMR_loadOptionSales(form) {
+		imrep.setTextStatus(form, {
+			selector: '#save_status_option_sales',
+			text: ajaxStatusSpan.getData
+		});
 		
 		jQuery.ajax({
 			url: form.attr('action'),
@@ -303,8 +298,10 @@
 			dataType: 'json',
 			success: function (json) {
 				if (json['success']) {
-					jQuery('#save_status_option_sales').removeClass('fail').addClass('success')
-					.html(ajaxStatusSpan.ok);
+					imrep.setTextSuccess(form, {
+						selector: '#save_status_option_sales',
+						text: ajaxStatusSpan.ok
+					});
 					
 					var tbody = form.find('table.table-results tbody'),
 						all_count = 0,
@@ -343,10 +340,20 @@
 						);
 					}
 					
-					tuneUpTable(form, 1, all_count, all_cost, json['currency_pattern'], true);
+					//tuneUpTable(form, 1, all_count, all_cost, json['currency_pattern'], true);
+					IMR_tuneUpTable(form, {
+						colspan: 1,
+						count: all_count,
+						cost: all_cost,
+						pattern: json['currency_pattern'],
+						not_need_cost: true,
+						num_rows_displayed: module_config.user.table_default_num_rows_displayed
+					});
 				} else {
-					jQuery('#save_status_option_sales').removeClass('success').addClass('fail')
-					.html(ajaxStatusSpan.fail);
+					imrep.setTextFail(form, {
+						selector: '#save_status_option_sales',
+						text: ajaxStatusSpan.fail
+					});
 				}
 			}
 		});

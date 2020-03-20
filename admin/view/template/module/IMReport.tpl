@@ -1,12 +1,17 @@
+<?php
+/*
+    @author: Igor Mirochnik
+    @copyright:  Igor Mirochnik
+    Site: http://ida-freewares.ru
+    Site: http://im-cloud.ru
+    Email: dev.imirochnik@gmail.com
+    Type: commercial
+*/
+
+?>
 <?php echo $header; ?><?php //echo $column_left; ?>
 
 <?php 
-	/*
-		Author: Igor Mirochnik
-		Site: http://ida-freewares.ru
-		Email: dev.imirochnik@gmail.com
-		Type: commercial
-	*/
 
 	if (!function_exists('echoText'))
 	{
@@ -70,7 +75,7 @@
 		}
 	}
 	
-	// 1.3.0
+	// 1.7.0
 	if (!function_exists('echoSelectMonth'))
 	{
 		// Месяца
@@ -94,7 +99,7 @@
 				array('id' => 11, 'name' => 'Ноябрь'),
 				array('id' => 12, 'name' => 'Декабрь'),
 			);
-
+			
 			if (isset($module_months) && is_array($module_months))
 			{
 				for($cnt = 0; $cnt < count($module_months); $cnt++)
@@ -153,6 +158,27 @@
 		    return $name;
 		}
 	}
+
+
+	// Распечатка js текстов
+	if (!function_exists('echoModuleJSText'))
+	{
+		function echoModuleJSText($data)
+		{
+			if (!isset($data) || !is_array($data) || count($data) == 0) {
+				return '';
+			}
+			
+			$resultArray = array();
+			
+			foreach($data as $key => $item) {
+				$resultArray[] = '\'' . $key . '\'' . ': \'' . $item . '\'';
+			}
+			
+			return join(", ", $resultArray);
+		}
+	}
+
 ?>
 
 <div id="content">
@@ -166,23 +192,45 @@
 		</div>
 	<!--</div>-->
 
-	<?php if ($error_warning) { ?>
-		<div class="warning">
-			<?php echo $error_warning; ?>
-		</div>
-	<?php } ?>
+	<?php 
+		if (isset($error_messages) && is_array($error_messages)) { 
+			foreach($error_messages as $err) {
+	?>
+			<div class="container-fluid">
+				<div class="alert alert-danger">
+					<?php echo $err; ?>
+				</div>
+			</div>
+	<?php 
+			}
+		} 
+	?>
+
+	<?php 
+		if (isset($warning_messages) && is_array($warning_messages)) { 
+			foreach($warning_messages as $err) {
+	?>
+			<div class="container-fluid">
+				<div class="alert alert-warning">
+					<?php echo $err; ?>
+				</div>
+			</div>
+	<?php 
+			}
+		} 
+	?>
 
 	<div class="box">
 		<div class="container-fluid">
 		  	<div class="heading">
-		    	<h1>
-		    		<?php echo $h1_text; ?> - <small><?php echo $h2_text; ?></small>
-		    	</h1>
+				<h3>
+					<?php echo $h1_text; ?>
+				</h3>
 				<br/>
 		  	</div>
 		</div>
 	  	<div style="clear:both;"></div>
-		<div class="content" >
+		<div class="content IMReport" >
 			<!-- --------------------------------------------------- -->
 			<!-- OpenCart Style Start -->
 			<!-- --------------------------------------------------- -->
@@ -196,6 +244,39 @@
 									<?php echo label($module_label, 'label_order_sales'); ?>
 								</a>
 							</li>
+							<!-- Заказы -->
+							<li class="dropdown">
+								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+									<?php echo label($module_label, 'label_ul_gr_orders'); ?>
+									<b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a class="menu-order-sales-by-day" href="#order_sales_by_day" data-toggle="tab">
+											<i class="fa fa-bar-chart"></i>
+											<?php echo label($module_label, 'label_order_sales_by_day'); ?>
+										</a>
+									</li>
+									<li>
+										<a href="#order_ps" data-toggle="tab">
+											<i class="fa fa-bar-chart"></i>
+											<?php echo label($module_label, 'label_order_ps'); ?>
+										</a>
+									</li>
+									<li>
+										<a href="#ship_region" data-toggle="tab">
+											<i class="fa fa-bar-chart"></i>
+											<?php echo label($module_label, 'label_ship_region'); ?>
+										</a>
+									</li>
+									<li>
+										<a href="#order_ship" data-toggle="tab">
+											<i class="fa fa-bar-chart"></i>
+											<?php echo label($module_label, 'label_order_ship'); ?>
+										</a>
+									</li>
+								</ul>
+							</li>							
 							<!-- Продукты и опции -->
 							<li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -213,6 +294,12 @@
 										<a href="#product_option_sales" data-toggle="tab">
 											<i class="fa fa-bar-chart"></i>
 											<?php echo label($module_label, 'label_product_option_sales'); ?>
+										</a>
+									</li>
+									<li>
+										<a href="#product_nosales" data-toggle="tab">
+											<i class="fa fa-bar-chart"></i>
+											<?php echo label($module_label, 'label_product_nosales'); ?>
 										</a>
 									</li>
 									<li>
@@ -279,18 +366,18 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="#ship_region" data-toggle="tab">
-											<i class="fa fa-bar-chart"></i>
-											<?php echo label($module_label, 'label_ship_region'); ?>
-										</a>
-									</li>
-									<li>
 										<a href="#man_product" data-toggle="tab">
 											<i class="fa fa-bar-chart"></i>
 											<?php echo label($module_label, 'label_man_product'); ?>
 										</a>
 									</li>
 								</ul>
+							</li>
+							<li >
+								<a href="#module_settings" data-toggle="tab">
+									<i class="fa fa-cogs"></i>
+									<?php echo label($module_label, 'label_module_settings'); ?>
+								</a>
 							</li>
 						</ul>
 						
@@ -346,7 +433,7 @@
 												    						'', '', true); ?>
 												</div>
 											</div>
-											<div class="col-sm-3">
+											<div class="col-sm-3 clear">
 											  	<div class="form-group">
 												    <label class="control-label" for="input-date-start">
 												    	<?php echo label($module_label, 'label_filter_date_start_month'); ?>
@@ -355,7 +442,8 @@
 											    		echo 
 											    		echoSelectMonth($module_months, 
 											    			'IMReport[filter_date_start_month]', 
-											    			(date('m') == '12' ? '1' : date('m') + 1),
+															(12 + (int)date('m') - (int)$module_config['user']['report_order_sales_months'] % 12 ) % 12 + 1,
+											    			//(date('m') == '12' ? '1' : date('m') + 1),
 											    			'select-months'
 											    		); ?>
 											  	</div>
@@ -369,8 +457,16 @@
 											    		echo 
 											    		echoSelectYear(
 											    			'IMReport[filter_date_start_year]', 
-											    			(date('m') == '12' ? date('Y') :  (date('Y') - 1))
-											    		); ?>
+																(
+																	(int)date('Y')
+																	- (int)(
+																			( 12 - (int)date('m') - 1 + (int)$module_config['user']['report_order_sales_months'] )
+																			/ 12
+																	)
+																)
+											    			//(date('m') == '12' ? date('Y') :  (date('Y') - 1))
+											    		);
+													?>
 											  	</div>
 											</div>
 											<div class="col-sm-3">
@@ -399,7 +495,7 @@
 											    		); ?>
 											  	</div>
 											</div>
-											<div class="col-sm-12">
+											<div class="col-sm-12 report-btn-group">
 												<button type="button"  
 												  		class="btn btn-success pull-right button-csv">
 													<i class="fa fa-copy"></i> 
@@ -521,12 +617,8 @@
 												      	</span>
 												    </div>
 											  	</div>
-												<div class="form-group">
-													<label class="control-label">
-														<?php echo label($module_label, 'label_filter_sort') ?>
-													</label>
-													<?php echo echoSelect('IMReport[sort][]', $list_top_sort, '', ''); ?>
-												</div>
+											</div>
+											<div class="col-sm-12 report-btn-group">
 												<button type="button"  
 												  		class="btn btn-success pull-right button-csv">
 													<i class="fa fa-copy"></i> 
@@ -546,10 +638,14 @@
 										<table class="table table-bordered table-results">
 											<thead>
 												<tr>
+													<?php if ($is_product_image_display) { ?>
+														<th><i class="fa fa-camera"></i></th>
+													<?php } ?>
 													<th><?php echo label($module_table_header, 'table_top_product_name'); ?></th>
 													<th><?php echo label($module_table_header, 'table_top_product_cat'); ?></th>
 													<th><?php echo label($module_table_header, 'table_top_product_model'); ?></th>
 													<th><?php echo label($module_table_header, 'table_top_product_manufact'); ?></th>
+													<th><?php echo label($module_table_header, 'table_top_product_count_orders'); ?></th>
 													<th><?php echo label($module_table_header, 'table_top_product_count'); ?></th>
 													<th><?php echo label($module_table_header, 'table_top_product_cost'); ?></th>
 												</tr>	
@@ -567,9 +663,31 @@
 							<?php echo $product_option_sales_view; ?>
 
 							<!-- ------------ -->
+							<!-- Product No Sales -->
+							<!-- ------------ -->
+							<?php echo $product_nosales_view; ?>
+
+							<!-- ------------ -->
 							<!-- Product Option Quantity -->
 							<!-- ------------ -->
 							<?php echo $product_option_quantity_view; ?>
+
+							<!-- ------------ -->
+							<!-- Order PS (payment, shipping) -->
+							<!-- ------------ -->
+							<?php echo $order_ps_view; ?>
+
+							<!-- ------------ -->
+							<!-- 2.5.0 -->
+							<!-- Shipping -->
+							<!-- ------------ -->
+							<?php echo $order_ship_view; ?>
+
+							<!-- ------------ -->
+							<!-- 2.4.0 -->
+							<!-- Order Sales By Day -->
+							<!-- ------------ -->
+							<?php echo $order_sales_by_day_view; ?>
 
 							<!-- ------------ -->
 							<!-- Stock Control -->
@@ -674,12 +792,8 @@
 												      	</span>
 												    </div>
 											  	</div>
-												<div class="form-group">
-													<label class="control-label">
-														<?php echo label($module_label, 'label_filter_sort') ?>
-													</label>
-													<?php echo echoSelect('IMReport[sort][]', $list_client_sort, '', ''); ?>
-												</div>
+											</div>
+											<div class="col-sm-12 report-btn-group">
 												<button type="button"  
 												  		class="btn btn-success pull-right button-csv">
 													<i class="fa fa-copy"></i> 
@@ -793,12 +907,8 @@
 												      	</span>
 												    </div>
 											  	</div>
-												<div class="form-group">
-													<label class="control-label">
-														<?php echo label($module_label, 'label_filter_sort') ?>
-													</label>
-													<?php echo echoSelect('IMReport[sort][]', $list_ship_region_sort, '', ''); ?>
-												</div>
+											</div>
+											<div class="col-sm-12 report-btn-group">
 												<button type="button"  
 												  		class="btn btn-success pull-right button-csv">
 													<i class="fa fa-copy"></i> 
@@ -906,12 +1016,8 @@
 												      	</span>
 												    </div>
 											  	</div>
-												<div class="form-group">
-													<label class="control-label">
-														<?php echo label($module_label, 'label_filter_sort') ?>
-													</label>
-													<?php echo echoSelect('IMReport[sort][]', $list_man_product_sort, '', ''); ?>
-												</div>
+											</div>
+											<div class="col-sm-12 report-btn-group">
 												<button type="button"  
 												  		class="btn btn-success pull-right button-csv">
 													<i class="fa fa-copy"></i> 
@@ -943,14 +1049,74 @@
 									</div>
 								</form>
 							</div>
+						
+							<!-- ------------ -->
+							<!-- Module Settings -->
+							<!-- ------------ -->
+							<div class="tab-pane" id="module_settings">
+								<?php echo $module_settings_view; ?>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
+			<!-- ------------ -->
+			<!-- Copy -->
+			<!-- ------------ -->
+			<div class="container-fluid imreport-copyright">
+				<div class="panel panel-default">
+					<div class="panel-body">
+					Igor Mirochnik &copy; IMReport <?php echo $module_version; ?>
+					| <a href="mailto:dev.imirochnik@gmail.com"><i class="fa fa-envelope-o fa-fw"></i> dev.imirochnik@gmail.com</a>
+					| <a href="http://im-cloud.ru/" target="_blank"><i class="fa fa-cloud-download fa-fw"></i> IM-Cloud.ru</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- ------------ -->
+			<!-- Filter Source -->
+			<!-- ------------ -->
+			<div class="hidden filter-source">
+				<div class="filter-cust col-sm-6">
+					<div class="form-group">
+						<label class="control-label">
+							<?php echo label($module_label, 'label_filter_cust'); ?>
+						</label>
+						<?php echo echoSelect('IMReport[cust][]', $list_cust, '', '', true); ?>
+					</div>
+				</div>
+				<div class="filter-cust-group col-sm-6">
+					<div class="form-group">
+						<label class="control-label">
+							<?php echo label($module_label, 'label_filter_cust_group'); ?>
+						</label>
+						<?php echo echoSelect('IMReport[cust_group][]', $list_cust_group, '', '', true); ?>
+					</div>
+				</div>
+			</div>
+
 			<script type="text/javascript">
+				var module_config = {
+					dev: {
+						disable_autoload: <?php echo $module_config['dev']['disable_autoload']; ?>
+					},
+					user: {
+						table_default_num_rows_displayed: <?php echo $module_config['user']['table_default_num_rows_displayed']; ?>,
+						ajax_filter_delay: <?php echo $module_config['user']['ajax_filter_delay']; ?>
+					}
+				};
+
+				var module_texts = {
+					<?php echo echoModuleJSText($module_js_texts); ?>
+				};
 				
 				var link_to_product = "<?php echo $report_links['link_to_product'];  ?>",
 					link_to_category = "<?php echo $report_links['link_to_category'];  ?>",
+					link_ajax_load_cust = "<?php echo $report_links['link_ajax_load_cust'];  ?>"
+						.replace('&amp;', '&'),
+					link_ajax_load_cust_group = "<?php echo $report_links['link_ajax_load_cust_group'];  ?>"
+						.replace('&amp;', '&'),
 					table_footer_all = "<?php echo label($module_table_header, 'table_footer_all');  ?>",
 					previousPoint = null, 
 					previousLabel = null,
@@ -968,9 +1134,14 @@
 					tableFieldStatus = {
 						on: "<?php echo label($module_label, 'label_enabled');  ?>",
 						off: "<?php echo label($module_label, 'label_disabled');  ?>"
-					}
+					},
+					// 2.1.0
+					is_product_image_display = <?php echo $is_product_image_display; ?>
 				;
 				
+				// 2.4.0
+				var graphStorage = (graphStorage || {});
+
 				function formLink(link, name, param_name, param_id) {
 					var result = '<a target="_blank" ';
 					result += ' href="' + link + '&' + param_name + '=' + param_id  + '" >';
@@ -979,9 +1150,11 @@
 					return result + '</a>';
 				}
 				
-				function loadTopProduct(form) {
-					jQuery('#save_status').removeClass('fail').removeClass('success')
-					.html(ajaxStatusSpan.getData);
+				function IMR_loadTopProduct(form) {
+					imrep.setTextStatus(form, {
+						selector: '#save_status',
+						text: ajaxStatusSpan.getData
+					});
 					
 					jQuery.ajax({
 						url: form.attr('action'),
@@ -990,8 +1163,10 @@
 						dataType: 'json',
 						success: function (json) {
 							if (json['success']) {
-								jQuery('#save_status').removeClass('fail').addClass('success')
-								.html(ajaxStatusSpan.ok);
+								imrep.setTextSuccess(form, {
+									selector: '#save_status',
+									text: ajaxStatusSpan.ok
+								});
 								
 								var tbody = form.find('table.table-results tbody'),
 									last_id = -1,
@@ -1020,13 +1195,21 @@
 										all_cost += new Number(item['cost']);
 										
 										row.html(
-											'<td class="text-left">'
-												+ formLink(link_to_product, item['product_name'], 
+											(is_product_image_display
+												? (
+													'<td class="text-center">'
+														+ '<img src="' + item['product_image_mini'] + '" />'
+													+ '</td>'
+												)
+												: ''
+											)
+											+ '<td class="text-left">'
+												+ IMR_formLink(link_to_product, item['product_name'], 
 															'product_id', item['product_id'])
 											+ '</td>'
 											+ '<td class="text-left category">'
 												+ (item['category_id'] 
-													? formLink(link_to_category, 
+													? IMR_formLink(link_to_category, 
 															jQuery(form
 																.find('select.filter-category option[value="' 
 																		+ item['category_id'] + '"]')
@@ -1041,6 +1224,9 @@
 												+ (item['manufact'] == 'null' || !item['manufact']
 													? ''
 													: item['manufact']) //decodeURIComponent(item['manufact']))
+											+ '</td>'
+											+ '<td class="text-right">'
+												+ item['count_orders']
 											+ '</td>'
 											+ '<td class="text-right">'
 												+ item['count']
@@ -1070,19 +1256,30 @@
 									}
 								}
 								
-								tuneUpTable(form, 4, all_count, all_cost, json['currency_pattern']);
+								//tuneUpTable(form, 4, all_count, all_cost, json['currency_pattern']);
+								IMR_tuneUpTable(form, {
+									colspan: 5 + (!!is_product_image_display),
+									count: all_count,
+									cost: all_cost,
+									pattern: json['currency_pattern'],
+									num_rows_displayed: module_config.user.table_default_num_rows_displayed
+								});
 								
 							} else {
-								jQuery('#save_status').removeClass('success').addClass('fail')
-								.html(ajaxStatusSpan.fail);
+								imrep.setTextFail(form, {
+									selector: '#save_status',
+									text: ajaxStatusSpan.fail
+								});
 							}
 						}
 					});
 				}
 				
-				function loadClientGroup(form) {
-					jQuery('#save_status_client').removeClass('fail').removeClass('success')
-					.html(ajaxStatusSpan.getData);
+				function IMR_loadClientGroup(form) {
+					imrep.setTextStatus(form, {
+						selector: '#save_status_client',
+						text: ajaxStatusSpan.getData
+					});
 					
 					jQuery.ajax({
 						url: form.attr('action'),
@@ -1091,8 +1288,10 @@
 						dataType: 'json',
 						success: function (json) {
 							if (json['success']) {
-								jQuery('#save_status_client').removeClass('fail').addClass('success')
-								.html(ajaxStatusSpan.ok);
+								imrep.setTextSuccess(form, {
+									selector: '#save_status_client',
+									text: ajaxStatusSpan.ok
+								});
 								
 								var tbody = form.find('table.table-results tbody'),
 									all_count = 0,
@@ -1133,18 +1332,28 @@
 									);
 								}
 								
-								tuneUpTable(form, 1, all_count, all_cost, json['currency_pattern']);
+								IMR_tuneUpTable(form, {
+									colspan: 1,
+									count: all_count,
+									cost: all_cost,
+									pattern: json['currency_pattern'],
+									num_rows_displayed: module_config.user.table_default_num_rows_displayed
+								});
 							} else {
-								jQuery('#save_status_client').removeClass('success').addClass('fail')
-								.html(ajaxStatusSpan.fail);
+								imrep.setTextFail(form, {
+									selector: '#save_status_client',
+									text: ajaxStatusSpan.fail
+								});
 							}
 						}
 					});
 				}
 				
-				function loadShipRegion(form) {
-					jQuery('#save_status_ship_region').removeClass('fail').removeClass('success')
-					.html(ajaxStatusSpan.getData);
+				function IMR_loadShipRegion(form) {
+					imrep.setTextStatus(form, {
+						selector: '#save_status_ship_region',
+						text: ajaxStatusSpan.getData
+					});
 					
 					jQuery.ajax({
 						url: form.attr('action'),
@@ -1153,9 +1362,11 @@
 						dataType: 'json',
 						success: function (json) {
 							if (json['success']) {
-								jQuery('#save_status_ship_region').removeClass('fail').addClass('success')
-								.html(ajaxStatusSpan.ok);
-								
+								imrep.setTextSuccess(form, {
+									selector: '#save_status_ship_region',
+									text: ajaxStatusSpan.ok
+								});
+							
 								var tbody = form.find('table.table-results tbody'),
 									all_count = 0,
 									all_cost = new Number(0)
@@ -1189,18 +1400,29 @@
 									);
 								}
 								
-								tuneUpTable(form, 1, all_count, all_cost, json['currency_pattern']);
+								//tuneUpTable(form, 1, all_count, all_cost, json['currency_pattern']);
+								IMR_tuneUpTable(form, {
+									colspan: 1,
+									count: all_count,
+									cost: all_cost,
+									pattern: json['currency_pattern'],
+									num_rows_displayed: module_config.user.table_default_num_rows_displayed
+								});
 							} else {
-								jQuery('#save_status_ship_region').removeClass('success').addClass('fail')
-								.html(ajaxStatusSpan.fail);
+								imrep.setTextFail(form, {
+									selector: '#save_status_ship_region',
+									text: ajaxStatusSpan.fail
+								});
 							}
 						}
 					});
 				}
 
-				function loadManProduct(form) {
-					jQuery('#save_status_man_product').removeClass('fail').removeClass('success')
-					.html(ajaxStatusSpan.getData);
+				function IMR_loadManProduct(form) {
+					imrep.setTextStatus(form, {
+						selector: '#save_status_man_product',
+						text: ajaxStatusSpan.getData
+					});
 					
 					jQuery.ajax({
 						url: form.attr('action'),
@@ -1209,8 +1431,10 @@
 						dataType: 'json',
 						success: function (json) {
 							if (json['success']) {
-								jQuery('#save_status_man_product').removeClass('fail').addClass('success')
-								.html(ajaxStatusSpan.ok);
+								imrep.setTextSuccess(form, {
+									selector: '#save_status_man_product',
+									text: ajaxStatusSpan.ok
+								});
 								
 								var tbody = form.find('table.table-results tbody'),
 									all_count = 0,
@@ -1245,19 +1469,30 @@
 									);
 								}
 								
-								tuneUpTable(form, 1, all_count, all_cost, json['currency_pattern']);
+								//tuneUpTable(form, 1, all_count, all_cost, json['currency_pattern']);
+								IMR_tuneUpTable(form, {
+									colspan: 1,
+									count: all_count,
+									cost: all_cost,
+									pattern: json['currency_pattern'],
+									num_rows_displayed: module_config.user.table_default_num_rows_displayed
+								});
 							} else {
-								jQuery('#save_status_man_product').removeClass('success').addClass('fail')
-								.html(ajaxStatusSpan.fail);
+								imrep.setTextFail(form, {
+									selector: '#save_status_man_product',
+									text: ajaxStatusSpan.fail
+								});
 							}
 						}
 					});
 				}
 				
-				function loadOrderSalesGraph(form, data, pattern, monthMap) {
+				function IMR_loadOrderSalesGraph(form, data, pattern, monthMap) {
 					if (data.length < 1)
 						return;
 					
+					(window.graphStorage = (graphStorage || {})).order_sales = [];
+
 					var cloneData = $.extend(true, {}, data),
 						series = [{ 
 							data: [],
@@ -1291,7 +1526,19 @@
 						;
 						series[0].data.push([ cnt, data[cnt]['count'] ]);
 						series[1].data.push([ cnt, data[cnt]['cost'] ]);
-						ticks.push(cnt);
+						graphStorage.order_sales.push({
+							month: data[cnt]['month'],
+							year: data[cnt]['year'],
+							count: data[cnt]['count'],
+							cost: data[cnt]['cost']
+						});
+						if (data.length <= 7) {
+							ticks.push(cnt);
+						} else {
+							var moduleVal = parseInt(data.length / 7);
+							if (cnt % moduleVal == 0)
+								ticks.push(cnt);
+						}
 					}
 					
 					jQuery('form .imreport-order-sales').plot(series, {
@@ -1328,8 +1575,8 @@
 						$('<div id="imreport-order-sales-tooltip">' + contents + '</div>').css({
 					        position: 'absolute',
 					        display: 'none',
-					        top: y - 40,
-					        left: x - 60,
+							top: y - 80,
+							left: x - 50,
 					        border: '1px solid ' + color,
 					        padding: '5px 10px',
 					        'font-size': '11px',
@@ -1339,9 +1586,14 @@
 					    }).appendTo("body").fadeIn(200);
 					}
 					
+					jQuery('form .imreport-order-sales').bind('mouseout', function (event, pos, item) {
+						$("#imreport-order-sales-tooltip").remove();
+						previousPoint = null;
+					});
+
 					jQuery('form .imreport-order-sales').bind('plothover', function (event, pos, item) {
 						 if (item) {
-				            if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
+							if (previousPoint != item.dataIndex) {
 				                previousPoint = item.dataIndex;
 				                previousLabel = item.series.label;
 				                $("#imreport-order-sales-tooltip").remove();
@@ -1353,25 +1605,35 @@
 
 				                var color = item.series.color;
 
-				                showTooltip(item.pageX, item.pageY, color,
-				                			"<strong>" + item.series.label + "</strong>"
-				                            + " : <strong>" 
-				                            	+ (seriesIndex == 0 
-				                            		? y 
-				                            		: pattern.replace('[digit]', (new Number(y).toFixed(2))))
-				                            + "</strong> "
-								);
-				            }
-				        } else {
-				            $("#imreport-order-sales-tooltip").remove();
-				            previousPoint = null;
-				        }
+								var tooltip_text =
+									'<strong style="text-decoration: underline;">' + monthMap['' + graphStorage.order_sales[x]['month']]
+									 	+ ' ' + graphStorage.order_sales[x]['year'] + "</strong>"
+									+ "<br/>"
+									+ "<strong style=\"color: #127aa4;\">" + orderSalesGraph.count + "</strong>"
+									+ ": <strong style=\"color: #127aa4;\">" + graphStorage.order_sales[x]['count'] + "</strong>"
+									+ "<br/>"
+									+ "<strong style=\"color: green;\">" + orderSalesGraph.sum + "</strong>"
+									+ ": <strong style=\"color: green;\">"
+									 	+ pattern.replace('[digit]', (new Number(graphStorage.order_sales[x]['cost']).toFixed(2)))
+									+ "</strong>"
+								;
+
+								showTooltip(pos.pageX, pos.pageY, color, tooltip_text);
+							} else {
+								$("#imreport-order-sales-tooltip").css({
+									top: pos.pageY - 80,
+									left: pos.pageX - 50,
+								});
+							}
+						}
 					});
 				}
 				
-				function loadOrderSales(form) {
-					jQuery('#save_status_order_sales').removeClass('fail').removeClass('success')
-					.html(ajaxStatusSpan.getData);
+				function IMR_loadOrderSales(form) {
+					imrep.setTextStatus(form, {
+						selector: '#save_status_order_sales',
+						text: ajaxStatusSpan.getData
+					});
 					
 					var monthMap = {
 							'1': 'Январь', '2': 'Февраль', '3': 'Март',
@@ -1394,8 +1656,10 @@
 						dataType: 'json',
 						success: function (json) {
 							if (json['success']) {
-								jQuery('#save_status_order_sales').removeClass('fail').addClass('success')
-								.html(ajaxStatusSpan.ok);
+								imrep.setTextSuccess(form, {
+									selector: '#save_status_order_sales',
+									text: ajaxStatusSpan.ok
+								});
 								
 								var tbody = form.find('table.table-results tbody'),
 									all_count = 0,
@@ -1427,115 +1691,132 @@
 											+ item['count']
 										+ '</td>'
 										+ '<td class="text-right">'
+											//+ new Number(item['cost']).toFixed(2)
 											+ pattern.replace('[digit]', (new Number(item['cost']).toFixed(2)))
 										+ '</td>'
 									);
 								}
 								
-								tuneUpTable(form, 1, all_count, all_cost, json['currency_pattern']);
+								//tuneUpTable(form, 1, all_count, all_cost, json['currency_pattern']);
+								IMR_tuneUpTable(form, {
+									colspan: 1,
+									count: all_count,
+									cost: all_cost,
+									pattern: json['currency_pattern'],
+									num_rows_displayed: module_config.user.table_default_num_rows_displayed
+								});
 								
-								loadOrderSalesGraph(form, json['data'], json['currency_pattern'], monthMap);
+								IMR_loadOrderSalesGraph(form, json['data'], json['currency_pattern'], monthMap);
 							} else {
-								jQuery('#save_status_order_sales').removeClass('success').addClass('fail')
-								.html(ajaxStatusSpan.fail);
+								imrep.setTextFail(form, {
+									selector: '#save_status_order_sales',
+									text: ajaxStatusSpan.fail
+								});
 							}
 						}
 					});
 				}
 				
-				function loadData(form) {
+				function IMR_loadData(form) {
 					
 					form.find('.input-csv').remove();
 					
 					if (form[0].id == 'form_top_product') {
-						loadTopProduct(form);
+						IMR_loadTopProduct(form);
 					}
 					else if(form[0].id == 'form_client_group') {
-						loadClientGroup(form);
+						IMR_loadClientGroup(form);
 					}
 					else if(form[0].id == 'form_ship_region') {
-						loadShipRegion(form);
+						IMR_loadShipRegion(form);
 					}
 					else if(form[0].id == 'form_man_product') {
-						loadManProduct(form);
+						IMR_loadManProduct(form);
 					}
 					else if(form[0].id == 'form_order_sales') {
-						loadOrderSales(form);
+						IMR_loadOrderSales(form);
 					}
 					else if(form[0].id == 'form_client_orders') {
-						loadClientOrders(form);
+						IMR_loadClientOrders(form);
 					}
 					else if(form[0].id == 'form_option_sales') {
-						loadOptionSales(form);
+						IMR_loadOptionSales(form);
 					}
 					else if(form[0].id == 'form_product_option_sales') {
-						loadProductOptionSales(form);
+						IMR_loadProductOptionSales(form);
 					}
 					else if(form[0].id == 'form_product_option_quantity') {
-						loadProductOptionQuantity(form);
+						IMR_loadProductOptionQuantity(form);
 					}
 					else if(form[0].id == 'form_stock_control') {
-						loadStockControl(form);
+						IMR_loadStockControl(form);
 					}
 					else if(form[0].id == 'form_stock_control_set') {
-						loadStockControlSet(form);
+						IMR_loadStockControlSet(form);
+					}
+					else if(form[0].id == 'form_order_ps') {
+						IMR_loadOrderPaymShip(form);
+					}
+					else if(form[0].id == 'form_product_nosales') {
+						IMR_loadProductNoSales(form);
+					}
+					else if(form[0].id == 'form_order_sales_by_day') {
+						IMR_loadOrderSalesByDay(form);
+					}
+					else if(form[0].id == 'form_order_ship') {
+						IMR_loadOrderShip(form);
 					}
 				}
 				
-				function tuneUpTable(form, colspan, count, cost, pattern, not_need_cost, not_need_footer) {
-					var table = form.find('table.table-results')
-					;
-					
-					// Добавляем автосчетчик
-					table.find('thead th.head-counter').remove();
-					jQuery('<th class="head-counter">#</th>')
-					.insertBefore(table.find('thead tr:eq(0) th:eq(0)'))
-					;
-					
-					table.find('tbody').find('tr').each(function (k, i) {
-						var row = jQuery(this)
-						;
-						jQuery('<td>' + (k + 1) + '</td>').insertBefore(row.find('td:eq(0)'));
-					});
-					
-					// Подвал не нужен
-					if (not_need_footer)
-						return;
-					
-					// Формируем подвал
-					if (table.children('tfoot').length == 0) {
-						table.append('<tfoot>');
-					}
-					
-					var foot = table.children('tfoot')
-					;
-					
-					foot.html('');
-					
-					foot.append(
-						'<tr>'
-							+ '<td colspan="' + (colspan + 1) + '">'
-								+ table_footer_all
-							+ '</td>'
-							+ '<td class="text-right">'
-								+ count
-							+ '</td>'
-							+ ( !not_need_cost
-								?('<td class="text-right">'
-									+ pattern.replace('[digit]', (new Number(cost).toFixed(2)))
-								+ '</td>')
-								: ''
-							)
-						+ '</tr>'
-					);
-				}
-				
-				function loadDataCSV(form) {
+				function IMR_loadDataCSV(form) {
 					form.append(
 						'<input type="hidden" class="input-csv" name="IMReport[is_csv]" value="1" />'
 					);
 					
 					form.submit();
+				}
+				
+				// Добавление фильтров
+				function IMR_appendFiltersToReports() 
+				{
+					var report = jQuery('.IMReport'),
+						supportIds = [
+							'form_option_sales',
+							'form_order_sales',
+							'form_order_ps',
+							'form_ship_region',
+							'form_top_product',
+							'form_product_option_sales',
+							'form_product_nosales',
+							'form_man_product',
+							'form_order_sales_by_day',
+							'form_order_ship'
+						],
+						dataSourceCust = report.find('.filter-source .filter-cust'),
+						dataSourceCustGroup = report.find('.filter-source .filter-cust-group')
+					;
+					
+					report.find('form').each(function () {
+						if (jQuery.inArray(this.id, supportIds) > -1) {
+							var item = jQuery(this),
+								btnGroup = item.find('.report-btn-group'),
+								dataDestCust = dataSourceCust.clone(),
+								dataDestCustGroup = dataSourceCustGroup.clone()
+							;
+							
+							dataDestCust.find('select').addClass('select2-ajax');
+							dataDestCust.find('select').addClass('select2-ajax-cust');
+							dataDestCustGroup.find('select').addClass('select2-ajax');
+							dataDestCustGroup.find('select').addClass('select2-ajax-cust-group');
+
+							// Добавляем очистку выравнивания
+							btnGroup.parent().prepend(jQuery('<div class="clear"></div>'));
+							// Добавляем фильтры
+							btnGroup.parent().prepend(dataDestCust);
+							btnGroup.parent().prepend(dataDestCustGroup);
+
+						}
+					});
 				}
 				
 				jQuery(function () {
@@ -1546,27 +1827,100 @@
 						pickTime: false
 					});
 					
+					// Добавляем фильтры
+					IMR_appendFiltersToReports();
+
+					// Select 2
+					jQuery('.IMReport form').each(function () {
+						var form = jQuery(this)
+						;
+						
+						form.find('.well .row select').addClass('to-select2');
+					});
+
+					// Задержка перед выбором
+					setTimeout(function () {
+						jQuery('.IMReport select.to-select2.disabled')
+						.attr('disabled', 'disabled');
+						
+						jQuery('.IMReport select.to-select2:not(.select2-ajax)').select2({
+							language: "ru", 
+							dropdownAutoWidth: 'true',
+							width: '100%'
+						});
+
+						jQuery('.IMReport select.to-select2.select2-ajax.select2-ajax-cust').select2({
+							language: "ru",
+							dropdownAutoWidth: 'true',
+							width: '100%',
+							ajax: {
+								url: link_ajax_load_cust,
+								delay: module_config.user.ajax_filter_delay,
+								dataType: 'json',
+								processResults: function (data) {
+						      // Tranforms the top-level key of the response object from 'items' to 'results'
+						      return {
+						        results: data.data
+						      };
+						    }
+							}
+						});
+
+						jQuery('.IMReport select.to-select2.select2-ajax.select2-ajax-cust-group').select2({
+							language: "ru",
+							dropdownAutoWidth: 'true',
+							width: '100%',
+							ajax: {
+								url: link_ajax_load_cust_group,
+								delay: module_config.user.ajax_filter_delay,
+								dataType: 'json',
+								processResults: function (data) {
+						      // Tranforms the top-level key of the response object from 'items' to 'results'
+						      return {
+						        results: data.data
+						      };
+						    }
+							}
+						});
+					}, 400);
+
 					// Подгружаем данные
-					loadData(jQuery('#top_product form'));
-					loadData(jQuery('#client_group form'));
-					loadData(jQuery('#ship_region form'));
-					loadData(jQuery('#man_product form'));
-					loadData(jQuery('#order_sales form'));
-					loadData(jQuery('#client_orders form'));
-					loadData(jQuery('#option_sales form'));
-					loadData(jQuery('#product_option_sales form'));
-					loadData(jQuery('#product_option_quantity form'));
-					loadData(jQuery('#stock_control form'));
-					loadData(jQuery('#stock_control_set form'));
+					if (module_config.dev.disable_autoload + '' == '0') {					
+						IMR_loadData(jQuery('#top_product form'));
+						IMR_loadData(jQuery('#client_group form'));
+						IMR_loadData(jQuery('#ship_region form'));
+						IMR_loadData(jQuery('#man_product form'));
+						IMR_loadData(jQuery('#order_sales form'));
+						IMR_loadData(jQuery('#client_orders form'));
+						IMR_loadData(jQuery('#option_sales form'));
+						IMR_loadData(jQuery('#product_option_sales form'));
+						IMR_loadData(jQuery('#product_option_quantity form'));
+						IMR_loadData(jQuery('#stock_control form'));
+						IMR_loadData(jQuery('#stock_control_set form'));
+						IMR_loadData(jQuery('#order_ps form'));
+						IMR_loadData(jQuery('#product_nosales form'));
+						// 2.4.0
+						IMR_loadData(jQuery('#order_sales_by_day form'));
+						// 2.5.0
+						IMR_loadData(jQuery('#order_ship form'));
+					}
 					
 					jQuery('.button-filter').click(function () {
-						loadData(jQuery(this).closest('form'));
+						IMR_loadData(jQuery(this).closest('form'));
 					});
 
 					jQuery('.button-csv').click(function () {
-						loadDataCSV(jQuery(this).closest('form'));
+						IMR_loadDataCSV(jQuery(this).closest('form'));
+					});
+
+					// Сохраняем настройки IMRep
+					jQuery('.IMReport .btn-imrep-settings-save').click(function (e) {
+						e.preventDefault();
+						IMR_saveIMRepSettings(jQuery(this).closest('form'));
+						return false;
 					});
 				});
+
 			</script>
 			<!-- --------------------------------------------------- -->
 			<!-- OpenCart Style End -->
@@ -1577,7 +1931,6 @@
 </div>
 
 <style type="text/css">
-
 	/* Fix */
 	
 	#header .div3 img
@@ -1616,6 +1969,11 @@
 	{
 		text-decoration: underline;
 	}
+
+	.breadcrumb a img
+	{
+		margin-bottom: 2px !important;
+	}
 	
 	.form-group 
 	{
@@ -1623,9 +1981,14 @@
 	    padding-bottom: 15px;
 	    margin-bottom: 0;
 	}
+
+	.input-group.date input.form-control
+	{
+	    padding: 3px;
+	}
 	
 	/* Fix End */
-	
+
 	.form-group span.blue
 	{
 		color: #000042;
@@ -1637,11 +2000,22 @@
 		font-weight: bold;
 	}
 	
+	table.table-results caption .left-part
+	{
+		padding-left: 0px;
+	}
+
+	table.table-results caption .right-part
+	{
+		padding-right: 0px;
+	}
+	
 	#save_status.success,
 	#save_status_client.success,
 	#save_status_ship_region.success,
 	#save_status_man_product.success,
-	#save_status_order_sales.success
+	#save_status_order_sales.success,
+	#save_status_order_sales_by_day.success
 	{
     	color: green;
 	    top: 10px;
@@ -1652,7 +2026,8 @@
 	#save_status_client.fail,
 	#save_status_ship_region.fail,
 	#save_status_man_product.fail,
-	#save_status_order_sales.fail
+	#save_status_order_sales.fail,
+	#save_status_order_sales_by_day.fail
 	{
     	color: red;
 	    top: 10px;
@@ -1668,7 +2043,7 @@
 		background-color: rgb(255, 255, 255);
 	}
 
-	/* 1.3.0 */
+	/* 1.7.0 */
 	.table-results > tbody > tr:nth-child(2n+1) > td 
 	{
 	   background-color: #f2f2f2;
@@ -1676,7 +2051,7 @@
 
 	.table-results thead th.head-counter
 	{
-		width: 10px;
+		width: 35px;
 	}
 
 	.form-group 
@@ -1684,6 +2059,174 @@
 	    padding-top: 5px;
 	    padding-bottom: 5px;
 	    margin-bottom: 0;
+	}
+
+	/* Print */
+
+	@media print  {
+		.panel-body
+		{
+			padding: 0px;
+		}
+		header 
+		{ 
+			background: none !important;
+			display: none !important;
+		}
+		header img { -webkit-filter: invert(100%);
+		filter: invert(100%); }
+		header, footer, nav, .breadcrumb, caption, .well, ul, h1,h2,h3
+		{
+			display: none !important;
+			border: 0px;
+		}
+
+		a[href]:after
+		{
+			content: "" !important;
+		}
+		
+		.container-fluid.page-header,
+		.panel-default
+		{
+			border: 0px !important;
+		}
+		
+		.container-fluid
+		{
+			padding: 0px !important;
+			margin: 0px !important;
+		}
+		
+		table td
+		{
+			font-size: 11px;
+		}
+		
+		.IMReport table.table-results
+		{
+			width: 100%;
+		}
+		
+		table td input,
+		.IMReport table.table-results tbody tr input.form-control
+		{
+			display: none !important;
+		}
+		
+		.imreport-copyright
+		{
+			display: none !important;
+		}
+
+		/* Fix print 1.5 */
+
+		header, 
+		#header, 
+		#header *,
+		#header .div1,
+		#header .div2,
+		#header .div3,
+		#footer,
+		#footer *
+		{ 
+			background: none !important;
+			display: none !important;
+		}
+		
+		.tab-pane,
+		.select2.select2-container,
+		select.form-control,
+		.bootstrap-datetimepicker-widget,
+		.well .form-group,
+		.nav.nav-pills,
+		.filter-source
+		{
+			display: none;
+		}
+		
+		.tab-pane.active
+		{
+			display: block;
+		}
+
+		.box > .content
+		{
+			border: 0px !important;
+		}
+
+		.text-right
+		{
+		    text-align: right;
+		}
+
+		table.table-results
+		{
+			text-align: left;
+		}
+
+		.table-bordered
+		{
+			border-collapse: collapse;
+		}
+
+		.table-bordered,
+		.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, 
+		.table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, 
+		.table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td
+		{
+			border: 1px solid #ddd;
+			padding: 8px;
+			line-height: 1.42857;
+   			page-break-inside: avoid;
+		}
+		
+		.flot-y-axis
+		{
+			display: block;
+		}
+
+		.panel-body
+		{
+			padding: 0px;
+		}
+		
+		.imreport-order-sales
+		{
+			display: none;
+		}
+		
+		table.table-results a:after,
+		table.table-results a[href]:after
+		{
+			content: "" !important;
+		}
+		
+		table.table-results a
+		{
+			text-decoration: none;
+			color: black;
+		}
+		
+		.box > .content
+		{
+		    border: 0px !important;
+		    padding: 0px;
+		}
+		
+		.box > .container-fluid
+		{
+			display: none;
+		}
+		
+		#content
+		{
+			padding: 0px;
+    		margin: 0px;
+		}
+		
+		/* End Fix print 1.5 */
+		
 	}
 
 </style>

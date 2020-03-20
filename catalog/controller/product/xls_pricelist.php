@@ -519,6 +519,8 @@ class ControllerProductXlsPricelist extends Controller
     }
 
     private function upload() {
+        global $log;
+
         $errors = [];
         if (!defined('HTTP_IMAGE')) {
             define('HTTP_IMAGE', HTTP_SERVER . 'image/');
@@ -530,7 +532,7 @@ class ControllerProductXlsPricelist extends Controller
         ));
 
         ini_set("memory_limit", "1536M");
-        ini_set("max_execution_time", 180);
+        ini_set("max_execution_time", 1800);
 
         $_ = [];
         require(DIR_LANGUAGE . $this->xls_pricelist_language['directory'] . '/product/xls_pricelist.php');
@@ -566,26 +568,18 @@ class ControllerProductXlsPricelist extends Controller
 
         // Перемещаем файл, если он прошел все проверки.
         if (move_uploaded_file($_FILES['file']['tmp_name'], $upload_path . $file_strip)) {
+            $inputFileName = $upload_path . $file_strip;
+
             try {
-                $inputFileName = $upload_path . $file_strip;
-
-                /**  Identify the type of $inputFileName  **/
-                $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($inputFileName);
-
-                /**  Create a new Reader of the type that has been identified  **/
-                $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
-
-                /**  Load $inputFileName to a Spreadsheet Object  **/
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
                 $spreadsheet = $reader->load($inputFileName);
-
-                $sheet = $spreadsheet->getActiveSheet();
-
-                /**  Convert Spreadsheet Object to an Array for ease of use  **/
-                $rows = $sheet->toArray();
+                $worksheet = $spreadsheet->getActiveSheet();
             } catch (Exception $e) {
+                $log->write('Ошибка: ' . $e->getMessage());
                 $errors[] = 'Ошибка: ' . $e->getMessage();
             }
         } else {
+            $log->write('Файл ' . $file_strip . ' не загружен. Попробуйте позже.');
             $errors[] = 'Файл ' . $file_strip . ' не загружен. Попробуйте позже.';
         }
 
@@ -596,95 +590,84 @@ class ControllerProductXlsPricelist extends Controller
 
         $language_id = $this->xls_pricelist_language['language_id'];
 
+        $row0 = 1;
         $lines = 0;
 
-        $id_index = 0;
-        $image_index = 1;
-        $model_index = 2;
-        $sku_index = 3;
-        $name_index = 4;
-        $option_index = 5;
-        $attribute_index = 6;
-        $quantity_index = 7;
-        $price_index = 8;
-        $special_index = 9;
-        $manufacturer_index = 10;
-        $related2_index = 11;
-        $status_index = 12;
+        $id_index = 1;
+        $image_index = 2;
+        $model_index = 3;
+        $sku_index = 4;
+        $name_index = 5;
+        $option_index = 6;
+        $attribute_index = 7;
+        $quantity_index = 8;
+        $price_index = 9;
+        $special_index = 10;
+        $manufacturer_index = 11;
+        $related2_index = 12;
+        $status_index = 13;
 
-        if (!empty($rows)) {
-            foreach ($rows as $row) {
-                if ($row[0]) {
-                    if ($row[0] == 'ID') {
-                        $id_index = array_search('ID', $row);
-                        $image_index = array_search('Изображение', $row);
-                        $model_index = array_search('Код', $row);
-                        $sku_index = array_search('SKU', $row);
-                        $name_index = array_search('Наименование', $row);
-                        $option_index = array_search('Опции', $row);
-                        $attribute_index = array_search('Атрибуты', $row);
-                        $quantity_index = array_search('На складе', $row);
-                        $price_index = array_search('Розница', $row);
-                        $special_index = array_search('Опт', $row);
-                        $manufacturer_index = array_search('Производитель', $row);
-                        $related2_index = array_search('Рекомендуемые', $row);
-                        $status_index = array_search('Cтатус', $row);
-                    } else {
-                        $product_id   = (int)$row[$id_index]; // ID
-                        $image        = $row[$image_index]; // Изображение
-                        $model        = $row[$model_index]; // Код
-                        $sku          = $row[$sku_index]; // SKU
-                        $name         = $row[$name_index]; // Наименование
-                        $options      = $row[$option_index]; // Опции
-                        $attributes   = trim($row[$attribute_index]); // Атрибуты
-                        $quantity     = (int)$row[$quantity_index]; // На складе
-                        $price        = (int)$row[$price_index]; // Розница
-                        $special      = (int)$row[$special_index]; // Опт
-                        $manufacturer = $row[$manufacturer_index]; // Производитель
-                        $related2     = trim($row[$related2_index]); // Рекомендуемые
-                        $stock_status = $row[$status_index]; // Cтатус
+        $highestRow = $worksheet->getHighestRow(); // e.g. 10
+        $highestColumn = $worksheet->getHighestColumn(); // e.g 'F'
+        $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn); // e.g. 5
 
-                        $status = 0;
-                        if ($stock_status == 'В наличии') {
-                            $status = 1;
-                        } elseif ($stock_status == 'Отсутствует') {
-                            $stock_status = 'Нет в наличии';
-                        }
+        for ($row = $row0; $row <= $highestRow; ++$row) {
+            $product_id = (int)$worksheet->getCellByColumnAndRow($id_index, $row)->getValue(); // ID
 
-                        $stock_status_id = $this->getStatusId($stock_status);
+            if ($product_id) {
+                //$image = $worksheet->getCellByColumnAndRow($image_index, $row)->getValue(); // Изображение
+                $model = $worksheet->getCellByColumnAndRow($model_index, $row)->getValue(); // Код
+                $sku = $worksheet->getCellByColumnAndRow($sku_index, $row)->getValue(); // SKU
+                $name = $worksheet->getCellByColumnAndRow($name_index, $row)->getValue(); // Наименование
+                //$options = $worksheet->getCellByColumnAndRow($option_index, $row)->getValue(); // Опции
+                $attributes = trim($worksheet->getCellByColumnAndRow($attribute_index, $row)->getValue()); // Атрибуты
+                $quantity = (int)$worksheet->getCellByColumnAndRow($quantity_index, $row)->getValue(); // На складе
+                $price = (int)$worksheet->getCellByColumnAndRow($price_index, $row)->getValue(); // Розница
+                $special = (int)$worksheet->getCellByColumnAndRow($special_index, $row)->getValue(); // Опт
+                $manufacturer = $worksheet->getCellByColumnAndRow($manufacturer_index, $row)->getValue(); // Производитель
+                $related2 = trim($worksheet->getCellByColumnAndRow($related2_index, $row)->getValue()); // Рекомендуемые
+                $stock_status = $worksheet->getCellByColumnAndRow($status_index, $row)->getValue(); // Cтатус
 
-                        $manufacturer_id = $this->getManufacturerId($manufacturer);
-
-                        $option = $this->getOptionBySKU($product_id, $sku);
-
-                        $attribute = $this->getAttributes($attributes);
-
-                        $related  = $this->getRelatedByModel($related2);
-
-                        $data = [
-                            'model'           => $model,
-                            'sku'             => $sku,
-                            'name'            => $name,
-                            'option'          => $option,
-                            'attribute'       => $attribute,
-                            'related'         => $related,
-                            'quantity'        => $quantity,
-                            'price'           => $price,
-                            'special'         => $special,
-                            'manufacturer_id' => $manufacturer_id,
-                            'stock_status_id' => $stock_status_id,
-                            'status'          => $status
-                        ];
-
-                        $this->editProduct($product_id, $data, $language_id);
-
-                        $lines++;
-                    }
+                $status = 0;
+                if ($stock_status == 'В наличии') {
+                    $status = 1;
+                } elseif ($stock_status == 'Отсутствует') {
+                    $stock_status = 'Нет в наличии';
                 }
-            }
 
-            $this->editProductsQuantity();
+                $stock_status_id = $this->getStatusId($stock_status);
+
+                $manufacturer_id = $this->getManufacturerId($manufacturer);
+
+                $option = $this->getOptionBySKU($product_id, $sku);
+
+                $attribute = $this->getAttributes($attributes);
+
+                $related  = $this->getRelatedByModel($related2);
+
+                $data = [
+                    'model'           => $model,
+                    'sku'             => $sku,
+                    'name'            => $name,
+                    'option'          => $option,
+                    'attribute'       => $attribute,
+                    'related'         => $related,
+                    'quantity'        => $quantity,
+                    'price'           => $price,
+                    'special'         => $special,
+                    'manufacturer_id' => $manufacturer_id,
+                    'stock_status_id' => $stock_status_id,
+                    'status'          => $status
+                ];
+
+                $this->editProduct($product_id, $data, $language_id);
+
+                $lines++;
+            }
         }
+
+        $spreadsheet->disconnectWorksheets();
+        $this->editProductsQuantity();
 
         echo json_encode('Загружено ' . $lines . ' строк из таблицы');
         die();
@@ -2029,10 +2012,10 @@ class ControllerProductXlsPricelist extends Controller
                     $this->db->query("INSERT INTO " . DB_PREFIX . "product_related2 SET product_id = '" . (int)$related_id . "', related_id = '" . (int)$product_id . "'");
                 }
             }
-        }
 
-        $product_sql .= "price = '" . (float)$data['price'] . "', date_modified = NOW() WHERE product_id = '" . (int)$product_id . "'";
-        $sql = $this->db->query($product_sql);
+            $product_sql .= "price = '" . (float)$data['price'] . "', date_modified = NOW() WHERE product_id = '" . (int)$product_id . "'";
+            $sql = $this->db->query($product_sql);
+        }
     }
 
     public function editProductsQuantity() {

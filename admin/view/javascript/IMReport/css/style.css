@@ -1,0 +1,104 @@
+/* tables */
+table.tablesorter {
+	width: 100%;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+}
+table.tablesorter thead tr .header {
+	background-image: url(../img/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+	vertical-align: top;
+}
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	background-color: #FFF;
+	vertical-align: top;
+}
+table.tablesorter tbody tr.odd td {
+	background-color:#F0F0F6;
+}
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(../img/asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(../img/desc.gif);
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+
+}
+
+table.tablesorter tbody tr td.auto-add-col
+{
+	white-space: nowrap;
+}
+
+/* Fix Select2 */
+.IMReport .select2-container--default .select2-selection--single
+{
+	border-radius: 0px;
+	height: 36px;
+    line-height: 36px;
+}
+
+.IMReport .select2-container--default .select2-selection--single .select2-selection__rendered
+{
+	height: 36px;
+    line-height: 36px;
+}
+
+.IMReport .select2-container--default .select2-selection--single .select2-selection__arrow
+{
+	height: 34px;
+    line-height: 34px;
+}
+
+.IMReport .select2-container--default .select2-selection--multiple
+{
+	border-radius: 0px;
+	min-height: 35px;
+}
+
+.IMReport .select2-container--default .select2-selection--multiple .select2-selection__choice
+{
+	background-color: #F1F1F1;
+	border: 1px solid #DEDEDE;
+	cursor: default;
+	float: left;
+	margin-right: 5px;
+	margin-top: 5px;
+	padding: 3px 10px;
+	color: #0B2A7D;
+	border-radius: 0px;
+}
+
+.IMReport .select2-container--default .select2-selection--multiple .select2-selection__choice__remove
+{
+	color: #0337C7;
+	margin-right: 0px;
+	padding-right: 6px;
+}
+
+.IMReport .select2-container--default .select2-search--inline .select2-search__field 
+{
+	margin-top: 9px;    
+}
+/* Fix Select2 End */
+
+/* Common */
+.clear
+{
+	clear: both;
+}
+
+/* Report */
+.report-btn-group
+{
+	
+}
+
+.IMReport table.table-results tbody tr td.input-style-min
+{
+	min-width: 135px;
+}

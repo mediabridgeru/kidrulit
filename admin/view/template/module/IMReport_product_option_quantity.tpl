@@ -1,10 +1,15 @@
+<?php
+/*
+    @author: Igor Mirochnik
+    @copyright:  Igor Mirochnik
+    Site: http://ida-freewares.ru
+    Site: http://im-cloud.ru
+    Email: dev.imirochnik@gmail.com
+    Type: commercial
+*/
+
+?>
 <?php 
-	/*
-		Author: Igor Mirochnik
-		Site: http://ida-freewares.ru
-		Email: dev.imirochnik@gmail.com
-		Type: commercial
-	*/
 
 	if (!function_exists('echoText'))
 	{
@@ -230,12 +235,8 @@
 					      	</span>
 					    </div>
 				  	</div>
-					<div class="form-group">
-						<label class="control-label">
-							<?php echo label($module_label, 'label_filter_sort') ?>
-						</label>
-						<?php echo echoSelect('IMReport[sort][]', $list_product_option_quantity_sort, '', ''); ?>
-					</div>
+				</div>
+				<div class="col-sm-12 report-btn-group">
 					<button type="button"  
 					  		class="btn btn-success pull-right button-csv">
 						<i class="fa fa-copy"></i> 
@@ -255,6 +256,9 @@
 			<table class="table table-bordered table-results">
 				<thead>
 					<tr>
+						<?php if ($is_product_image_display) { ?>
+							<th><i class="fa fa-camera"></i></th>
+						<?php } ?>
 						<th><?php echo label($module_table_header, 'table_product_option_quantity_name'); ?></th>
 						<th><?php echo label($module_table_header, 'table_product_option_quantity_option'); ?></th>
 						<th><?php echo label($module_table_header, 'table_product_option_quantity_cat'); ?></th>
@@ -280,20 +284,16 @@
 		link_to_client = "<?php echo $report_links['link_to_client'];  ?>",
 		table_footer_all = "<?php echo label($module_table_header, 'table_footer_all');  ?>",
 		previousPoint = null, 
-		previousLabel = null
+		previousLabel = null,
+		// 2.1.0
+		is_product_image_display = <?php echo $is_product_image_display; ?>
 	;
 	
-	function formLink(link, name, param_name, param_id) {
-		var result = '<a target="_blank" ';
-		result += ' href="' + link + '&' + param_name + '=' + param_id  + '" >';
-		//result += decodeURIComponent(name);
-		result += name;
-		return result + '</a>';
-	}
-	
-	function loadProductOptionQuantity(form) {
-		jQuery('#save_status_product_option_quantity').removeClass('fail').removeClass('success')
-		.html(ajaxStatusSpan.getData);
+	function IMR_loadProductOptionQuantity(form) {
+		imrep.setTextStatus(form, {
+			selector: '#save_status_product_option_quantity',
+			text: ajaxStatusSpan.getData
+		});
 		
 		jQuery.ajax({
 			url: form.attr('action'),
@@ -302,8 +302,10 @@
 			dataType: 'json',
 			success: function (json) {
 				if (json['success']) {
-					jQuery('#save_status_product_option_quantity').removeClass('fail').addClass('success')
-					.html(ajaxStatusSpan.ok);
+					imrep.setTextSuccess(form, {
+						selector: '#save_status_product_option_quantity',
+						text: ajaxStatusSpan.ok
+					});
 					
 					var tbody = form.find('table.table-results tbody'),
 						last_id = -1,
@@ -340,8 +342,16 @@
 							;
 							
 							row.html(
-								'<td class="text-left">'
-									+ formLink(link_to_product, item['product_name'], 
+								(is_product_image_display
+									? (
+										'<td class="text-center">'
+											+ '<img src="' + item['product_image_mini'] + '" />'
+										+ '</td>'
+									)
+									: ''
+								)
+								+ '<td class="text-left">'
+									+ IMR_formLink(link_to_product, item['product_name'], 
 												'product_id', item['product_id'])
 								+ '</td>'
 								+ '<td class="text-left">'
@@ -352,7 +362,7 @@
 								+ '</td>'
 								+ '<td class="text-left category">'
 									+ (item['category_id'] 
-										? formLink(link_to_category, 
+										? IMR_formLink(link_to_category, 
 												jQuery(form
 													.find('select.filter-category option[value="' 
 															+ item['category_id'] + '"]')
@@ -400,7 +410,7 @@
 								cellCat.html()
 								+ (item['category_id'] 
 										? '<br/>' 
-											+ formLink(link_to_category, 
+											+ IMR_formLink(link_to_category, 
 												jQuery(form
 													.find('select.filter-category option[value="' 
 															+ item['category_id'] + '"]')
@@ -411,11 +421,21 @@
 						}
 					}
 					
-					tuneUpTable(form, 6, all_count, all_cost, json['currency_pattern'], true);
+					//tuneUpTable(form, 6, all_count, all_cost, json['currency_pattern'], true);
+					IMR_tuneUpTable(form, {
+						colspan: 6 + (!!is_product_image_display),
+						count: all_count,
+						cost: all_cost,
+						pattern: json['currency_pattern'],
+						not_need_cost: true,
+						num_rows_displayed: module_config.user.table_default_num_rows_displayed
+					});
 					
 				} else {
-					jQuery('#save_status_product_option_quantity').removeClass('success').addClass('fail')
-					.html(ajaxStatusSpan.fail);
+					imrep.setTextFail(form, {
+						selector: '#save_status_product_option_quantity',
+						text: ajaxStatusSpan.fail
+					});
 				}
 			}
 		});

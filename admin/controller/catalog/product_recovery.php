@@ -195,6 +195,20 @@ class ControllerCatalogProductRecovery extends Controller {
         $this->data['button_cancel'] = $this->language->get('button_cancel');
         $this->data['button_remove'] = $this->language->get('button_remove');
 
+        if (isset($this->error['warning'])) {
+            $this->data['error_warning'] = $this->error['warning'];
+        } else {
+            $this->data['error_warning'] = '';
+        }
+
+        if (isset($this->session->data['success'])) {
+            $this->data['success'] = $this->session->data['success'];
+
+            unset($this->session->data['success']);
+        } else {
+            $this->data['success'] = '';
+        }
+
         $this->data['breadcrumbs'] = array();
 
         $this->data['breadcrumbs'][] = array(

@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="content">
-            <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form">
+            <form action="" method="post" enctype="multipart/form-data" id="form">
                 <input hidden id="page" value="1">
                 <input hidden id="sort" value="pd.name">
                 <input hidden id="order" value="ASC">
