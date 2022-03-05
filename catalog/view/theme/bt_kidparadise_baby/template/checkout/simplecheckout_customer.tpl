@@ -27,7 +27,7 @@
     <input type="hidden" name="<?php echo Simple::SET_CHECKOUT_CUSTOMER ?>[address_id]" id="customer_address_id" value="<?php echo $customer_address_id ?>" />
     <?php $split_previous = false; ?>
     <?php $user_choice = false; ?>
-    <div class="simplecheckout-customer-block">
+    <div class="simplecheckout-customer-block customer-block1">
     <table class="<?php echo $simple_customer_two_column ? 'simplecheckout-customer-two-column-left' : 'simplecheckout-customer-one-column' ?>">
         <?php $email_field_exists = false; ?>
         <?php $i = 0; ?>
@@ -53,104 +53,44 @@
                     <?php echo $field['tag_open'] ?><?php echo $field['label'] ?><?php echo $field['tag_close'] ?>
                 </td>
             </tr>
-            <?php } elseif ($field['type'] == 'split') { ?>
-                </table>
-                <table class="<?php echo $simple_customer_two_column ? 'simplecheckout-customer-two-column-right' : 'simplecheckout-customer-one-column' ?>">
-                <?php $split_previous = true; ?>
-            <?php } else { ?> 
-                <?php if ((($user_choice && $i == 1) || (!$user_choice && $i == 0)) && $simple_customer_view_customer_type) { ?>
-					<tr>
-                        <td class="simplecheckout-customer-left">
-                            <span class="simplecheckout-required">*</span>
-                            <?php echo $entry_customer_type ?>
-                        </td>
-                        <td class="simplecheckout-customer-right">
-                            <?php if ($simple_type_of_selection_of_group == 'select') { ?>
-                            <select name="customer_group_id" reload="group_changed">
-                                <?php foreach ($customer_groups as $id => $name) { ?>
-                                <option value="<?php echo $id ?>" <?php echo $id == $customer_group_id ? 'selected="selected"' : '' ?>><?php echo $name ?></option>
-                                <?php } ?>
-                            </select>
-                            <?php } else { ?>
-                                <?php foreach ($customer_groups as $id => $name) { ?>
-                                <label><input type="radio" name="customer_group_id" reload="group_changed" value="<?php echo $id ?>" <?php echo $id == $customer_group_id ? 'checked="checked"' : '' ?>><?php echo $name ?></label><br>
-                                <?php } ?>
+<?php } elseif ($field['type'] == 'split') { ?>
+    </table>
+    <table class="<?php echo $simple_customer_two_column ? 'simplecheckout-customer-two-column-right' : 'simplecheckout-customer-one-column' ?>">
+<?php $split_previous = true; ?>
+<?php } else { ?>
+            <?php if ((($user_choice && $i == 1) || (!$user_choice && $i == 0)) && $simple_customer_view_customer_type) { ?>
+                <tr>
+                    <td class="simplecheckout-customer-left">
+                        <span class="simplecheckout-required">*</span>
+                        <?php echo $entry_customer_type ?>
+                    </td>
+                    <td class="simplecheckout-customer-right">
+                        <?php if ($simple_type_of_selection_of_group == 'select') { ?>
+                        <select name="customer_group_id" reload="group_changed">
+                            <?php foreach ($customer_groups as $id => $name) { ?>
+                            <option value="<?php echo $id ?>" <?php echo $id == $customer_group_id ? 'selected="selected"' : '' ?>><?php echo $name ?></option>
                             <?php } ?>
-                        </td>
-                    </tr>
-                    <?php $i++ ?>
+                        </select>
+                        <?php } else { ?>
+                            <?php foreach ($customer_groups as $id => $name) { ?>
+                            <label><input type="radio" name="customer_group_id" reload="group_changed" value="<?php echo $id ?>" <?php echo $id == $customer_group_id ? 'checked="checked"' : '' ?>><?php echo $name ?></label><br>
+                            <?php } ?>
+                        <?php } ?>
+                    </td>
+                </tr>
+                <?php $i++ ?>
+                <?php $split_previous = false; ?>
+            <?php } ?>
+            <?php if ($field['id'] == 'main_email') { ?>
+                <?php if (!$customer_logged) { ?>
+                    <?php if (!$simple_customer_action_register &&  !$simple_customer_view_email && !$simple_customer_view_customer_type) { continue; } ?>
                     <?php $split_previous = false; ?>
-                <?php } ?>
-                <?php if ($field['id'] == 'main_email') { ?>
-                    <?php if (!$customer_logged) { ?>
-                        <?php if (!$simple_customer_action_register &&  !$simple_customer_view_email && !$simple_customer_view_customer_type) { continue; } ?>
-                        <?php $split_previous = false; ?>
-                        <?php if (!($simple_customer_view_email == Simple::EMAIL_NOT_SHOW && ($simple_customer_action_register == Simple::REGISTER_NO || ($simple_customer_action_register == Simple::REGISTER_USER_CHOICE && !$register)))) { ?>
-                        <?php $email_field_exists = true; ?>
-                        <tr>
-                            <td class="simplecheckout-customer-left">
-                                <?php if ($field['required']) { ?>
-                                    <span class="simplecheckout-required" <?php echo ($simple_customer_view_email == Simple::EMAIL_SHOW_AND_NOT_REQUIRED && ($simple_customer_action_register == Simple::REGISTER_NO || ($simple_customer_action_register == Simple::REGISTER_USER_CHOICE && !$register))) ? ' style="display:none"' : '' ?>>*</span>
-                                <?php } ?>
-                                <?php echo $field['label'] ?>
-                            </td>
-                            <td class="simplecheckout-customer-right">
-                                <?php echo $simple->html_field($field) ?>
-                                <?php if (!empty($field['error']) && $simple_show_errors) { ?>
-                                    <span class="simplecheckout-error-text"><?php echo $field['error']; ?></span>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                        <?php if ($simple_customer_view_email_confirm) { ?>
-                        <tr>
-                            <td class="simplecheckout-customer-left">
-                                <?php if ($field['required']) { ?>
-                                    <span class="simplecheckout-required" <?php echo ($simple_customer_view_email == Simple::EMAIL_SHOW_AND_NOT_REQUIRED && ($simple_customer_action_register == Simple::REGISTER_NO || ($simple_customer_action_register == Simple::REGISTER_USER_CHOICE && !$register))) ? ' style="display:none"' : '' ?>>*</span>
-                                <?php } ?>
-                                <?php echo $entry_email_confirm ?>
-                            </td>
-                            <td class="simplecheckout-customer-right">
-                                <input name="email_confirm" id="email_confirm" type="text" value="<?php echo $email_confirm ?>">
-                                <span class="simplecheckout-error-text" id="email_confirm_error" <?php if (!($email_confirm_error && $simple_show_errors)) { ?>style="display:none;"<?php } ?>><?php echo $error_email_confirm; ?></span>
-                            </td>
-                        </tr>
-                        <?php } ?>
-                        <?php if ($simple_customer_action_register == Simple::REGISTER_YES || ($simple_customer_action_register == Simple::REGISTER_USER_CHOICE && $register)) { ?>
-                            <tr id="password_row" <?php echo $simple_customer_generate_password ? ' style="display:none;"' : '' ?> <?php echo $simple_customer_generate_password ? 'autogenerate="1"' : '' ?>>
-                                <td class="simplecheckout-customer-left">
-                                    <span class="simplecheckout-required">*</span>
-                                    <?php echo $entry_password ?>
-                                </td>
-                                <td class="simplecheckout-customer-right">
-                                    <input <?php echo !empty($error_password) ? 'class="simplecheckout-red-border"' : '' ?> type="password" name="password" value="<?php echo $password ?>">
-                                    <?php if (!empty($error_password) && $simple_show_errors) { ?>
-                                        <span class="simplecheckout-error-text"><?php echo $error_password; ?></span>
-                                    <?php } ?>
-                                </td>
-                            </tr>
-                            <?php if ($simple_customer_view_password_confirm) { ?>
-                            <tr id="confirm_password_row" <?php echo $simple_customer_generate_password ? ' style="display:none;"' : '' ?> <?php echo $simple_customer_generate_password ? 'autogenerate="1"' : '' ?>>
-                                <td class="simplecheckout-customer-left">
-                                    <span class="simplecheckout-required">*</span>
-                                    <?php echo $entry_password_confirm ?>
-                                </td>
-                                <td class="simplecheckout-customer-right">
-                                    <input <?php echo !empty($error_password_confirm) ? 'class="simplecheckout-red-border"' : '' ?> type="password" name="password_confirm" value="<?php echo $password_confirm ?>">
-                                    <?php if (!empty($error_password_confirm) && $simple_show_errors) { ?>
-                                        <span class="simplecheckout-error-text"><?php echo $error_password_confirm; ?></span>
-                                    <?php } ?>
-                                </td>
-                            </tr>
-                            <?php } ?>
-                        <?php } ?>
-                        <?php } ?>
-                    <?php } ?>
-                    <?php if ($customer_logged) { continue; } ?>
-                <?php } else { ?>
-                    <tr class="simple_table_row <?php echo (!empty($field['object_field'])) ? $field['object_field'] : ''; ?>" <?php echo !empty($field['place']) ? 'place="'.$field['place'].'"' : '' ?>>
+                    <?php if (!($simple_customer_view_email == Simple::EMAIL_NOT_SHOW && ($simple_customer_action_register == Simple::REGISTER_NO || ($simple_customer_action_register == Simple::REGISTER_USER_CHOICE && !$register)))) { ?>
+                    <?php $email_field_exists = true; ?>
+                    <tr>
                         <td class="simplecheckout-customer-left">
                             <?php if ($field['required']) { ?>
-                                <span class="simplecheckout-required">*</span>
+                                <span class="simplecheckout-required" <?php echo ($simple_customer_view_email == Simple::EMAIL_SHOW_AND_NOT_REQUIRED && ($simple_customer_action_register == Simple::REGISTER_NO || ($simple_customer_action_register == Simple::REGISTER_USER_CHOICE && !$register))) ? ' style="display:none"' : '' ?>>*</span>
                             <?php } ?>
                             <?php echo $field['label'] ?>
                         </td>
@@ -161,22 +101,82 @@
                             <?php } ?>
                         </td>
                     </tr>
-                    <?php $split_previous = false; ?>
+                    <?php if ($simple_customer_view_email_confirm) { ?>
+                    <tr>
+                        <td class="simplecheckout-customer-left">
+                            <?php if ($field['required']) { ?>
+                                <span class="simplecheckout-required" <?php echo ($simple_customer_view_email == Simple::EMAIL_SHOW_AND_NOT_REQUIRED && ($simple_customer_action_register == Simple::REGISTER_NO || ($simple_customer_action_register == Simple::REGISTER_USER_CHOICE && !$register))) ? ' style="display:none"' : '' ?>>*</span>
+                            <?php } ?>
+                            <?php echo $entry_email_confirm ?>
+                        </td>
+                        <td class="simplecheckout-customer-right">
+                            <input name="email_confirm" id="email_confirm" type="text" value="<?php echo $email_confirm ?>">
+                            <span class="simplecheckout-error-text" id="email_confirm_error" <?php if (!($email_confirm_error && $simple_show_errors)) { ?>style="display:none;"<?php } ?>><?php echo $error_email_confirm; ?></span>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    <?php if ($simple_customer_action_register == Simple::REGISTER_YES || ($simple_customer_action_register == Simple::REGISTER_USER_CHOICE && $register)) { ?>
+                        <tr id="password_row" <?php echo $simple_customer_generate_password ? ' style="display:none;"' : '' ?> <?php echo $simple_customer_generate_password ? 'autogenerate="1"' : '' ?>>
+                            <td class="simplecheckout-customer-left">
+                                <span class="simplecheckout-required">*</span>
+                                <?php echo $entry_password ?>
+                            </td>
+                            <td class="simplecheckout-customer-right">
+                                <input <?php echo !empty($error_password) ? 'class="simplecheckout-red-border"' : '' ?> type="password" name="password" value="<?php echo $password ?>">
+                                <?php if (!empty($error_password) && $simple_show_errors) { ?>
+                                    <span class="simplecheckout-error-text"><?php echo $error_password; ?></span>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        <?php if ($simple_customer_view_password_confirm) { ?>
+                        <tr id="confirm_password_row" <?php echo $simple_customer_generate_password ? ' style="display:none;"' : '' ?> <?php echo $simple_customer_generate_password ? 'autogenerate="1"' : '' ?>>
+                            <td class="simplecheckout-customer-left">
+                                <span class="simplecheckout-required">*</span>
+                                <?php echo $entry_password_confirm ?>
+                            </td>
+                            <td class="simplecheckout-customer-right">
+                                <input <?php echo !empty($error_password_confirm) ? 'class="simplecheckout-red-border"' : '' ?> type="password" name="password_confirm" value="<?php echo $password_confirm ?>">
+                                <?php if (!empty($error_password_confirm) && $simple_show_errors) { ?>
+                                    <span class="simplecheckout-error-text"><?php echo $error_password_confirm; ?></span>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        <?php } ?>
+                    <?php } ?>
+                    <?php } ?>
                 <?php } ?>
-                <?php $i++; ?>
+                <?php if ($customer_logged) { continue; } ?>
+            <?php } else { ?>
+                <tr class="simple_table_row <?php echo (!empty($field['object_field'])) ? $field['object_field'] : ''; ?>" <?php echo !empty($field['place']) ? 'place="'.$field['place'].'"' : '' ?>>
+                    <td class="simplecheckout-customer-left">
+                        <?php if ($field['required']) { ?>
+                            <span class="simplecheckout-required">*</span>
+                        <?php } ?>
+                        <?php echo $field['label'] ?>
+                    </td>
+                    <td class="simplecheckout-customer-right">
+                        <?php echo $simple->html_field($field) ?>
+                        <?php if (!empty($field['error']) && $simple_show_errors) { ?>
+                            <span class="simplecheckout-error-text"><?php echo $field['error']; ?></span>
+                        <?php } ?>
+                    </td>
+                </tr>
+                <?php $split_previous = false; ?>
             <?php } ?>
+            <?php $i++; ?>
         <?php } ?>
-        <?php if ($simple_customer_action_subscribe == Simple::SUBSCRIBE_USER_CHOICE && $email_field_exists) { ?>
-            <tr id="subscribe_row"<?php echo $simple_customer_action_register == Simple::REGISTER_USER_CHOICE && !$register && !$simple_customer_view_email ? ' style="display:none;"' : '' ?>>
-                <td class="simplecheckout-customer-left">
-                   <?php echo $entry_newsletter; ?>
-                </td>
-                <td class="simplecheckout-customer-right">
-                  <label><input type="radio" name="subscribe" value="1" <?php echo $subscribe == 1 ? 'checked="checked"' : ''; ?> /><?php echo $text_yes ?></label>&nbsp;
-                  <label><input type="radio" name="subscribe" value="0" <?php echo $subscribe == 0 ? 'checked="checked"' : ''; ?> /><?php echo $text_no ?></label>
-                </td>
-            </tr>
-        <?php } ?>
+    <?php } ?>
+    <?php if ($simple_customer_action_subscribe == Simple::SUBSCRIBE_USER_CHOICE && $email_field_exists) { ?>
+        <tr id="subscribe_row"<?php echo $simple_customer_action_register == Simple::REGISTER_USER_CHOICE && !$register && !$simple_customer_view_email ? ' style="display:none;"' : '' ?>>
+            <td class="simplecheckout-customer-left">
+               <?php echo $entry_newsletter; ?>
+            </td>
+            <td class="simplecheckout-customer-right">
+              <label><input type="radio" name="subscribe" value="1" <?php echo $subscribe == 1 ? 'checked="checked"' : ''; ?> /><?php echo $text_yes ?></label>&nbsp;
+              <label><input type="radio" name="subscribe" value="0" <?php echo $subscribe == 0 ? 'checked="checked"' : ''; ?> /><?php echo $text_no ?></label>
+            </td>
+        </tr>
+    <?php } ?>
     </table>
     <?php foreach ($checkout_customer_fields as $field) { ?>
         <?php if ($field['type'] == 'hidden') { ?>
@@ -209,7 +209,7 @@
         </div>
     <?php } ?>
     <input type="hidden" name="<?php echo Simple::SET_CHECKOUT_ADDRESS ?>[address_id]" id="shipping_address_id" value="<?php echo $shipping_address_id ?>" />
-    <div class="simplecheckout-customer-block">
+    <div class="simplecheckout-customer-block customer-block2">
     <table class="<?php echo $simple_customer_two_column ? 'simplecheckout-customer-two-column-left' : 'simplecheckout-customer-one-column' ?>">
         <?php foreach ($checkout_address_fields as $field) { ?>
             <?php if ($field['type'] == 'hidden') { ?>

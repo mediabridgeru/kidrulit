@@ -8,6 +8,7 @@
 		<td class="center name"><?php echo $column_cron_name; ?></td>
 		<td class="center sendto"><?php echo $column_send_to; ?></td>
 		<td class="center email-total"><img src="view/image/contacts/customers20.png" title="<?php echo $column_email_total; ?>" /></td>
+		<td class="center send-total"><img src="view/image/contacts/replied20.png" title="<?php echo $column_send_total; ?>" /></td>
 		<td class="center cron-count"><img src="view/image/contacts/count20.png" title="<?php echo $column_cron_count; ?>" /></td>
 		<td class="center cron-status"><?php echo $column_cron_status; ?></td>
 		<td class="center status"><?php echo $column_status; ?></td>
@@ -22,10 +23,15 @@
 			<td class="center td-cdatestart"><?php echo $cron['date_start']; ?></td>
 			<td class="center td-cperiod"><?php echo $cron['period']; ?></td>
 			<td class="center td-cdatenext"><?php echo $cron['date_next']; ?></td>
-			<td class="left"><div class="cname"><?php echo $cron['name']; ?></div>
+			<td class="left">
+				<div class="cname"><?php echo $cron['name']; ?></div>
 				<div class="cron-icons">
 				<?php if($cron['send_region']) { ?>
-					<img src="view/image/contacts/internet16.png" title="<?php echo $column_region; ?>" />
+					<?php if($cron['invers_region']) { ?>
+					<img class="invers-img" src="view/image/contacts/internet16.png" title="<?php echo $cron['country']; ?> - <?php echo $cron['zone']; ?>" />
+					<?php } else { ?>
+					<img src="view/image/contacts/internet16.png" title="<?php echo $cron['country']; ?> - <?php echo $cron['zone']; ?>" />
+					<?php } ?>
 				<?php } ?>
 				<?php if($cron['products']) { ?>
 					<img src="view/image/contacts/nvtv16.png" title="<?php echo $column_products; ?>" />
@@ -39,14 +45,29 @@
 				<?php if($cron['control_unsub']) { ?>
 					<img src="view/image/contacts/spy16.png" title="<?php echo $column_control_unsub; ?>" />
 				<?php } ?>
+				<?php if($cron['language_id']) { ?>
+					<img src="view/image/contacts/language16.png" title="<?php echo $cron['language']; ?>" />
+				<?php } ?>
+				<?php if((int)$cron['fdate_start'] || (int)$cron['fdate_end']) { ?>
+					<img src="view/image/contacts/calendar16.png" title="<?php echo $cron['fdate_start']; ?> - <?php echo $cron['fdate_end']; ?>" />
+				<?php } ?>
+				<?php if($cron['static'] == 'static') { ?>
+					<img src="view/image/contacts/privacy.svg" title="<?php echo $text_static; ?>" />
+				<?php } ?>
+				<?php if($cron['limit_end']) { ?>
+					<img src="view/image/contacts/humans16.png" title="<?php echo $cron['limit_start']; ?> - <?php echo $cron['limit_end']; ?>" />
+				<?php } ?>
 				</div>
 			</td>
-			<td class="left"><?php echo $cron['send_to']; ?>
-				<?php if($cron['send_data']) { ?>
-					(<?php echo $cron['send_data']; ?>)
-				<?php } ?>
+			<td class="left">
+			<?php if ($cron['invers']) { ?>
+				<div class="invers-to"><?php echo $cron['send_to']; ?> <?php if($cron['send_data']) { ?>(<?php echo $cron['send_data']; ?>)<?php } ?></div>
+			<?php } else { ?>
+				<div><?php echo $cron['send_to']; ?> <?php if($cron['send_data']) { ?>(<?php echo $cron['send_data']; ?>)<?php } ?></div>
+			<?php } ?>
 			</td>
 			<td class="center"><?php echo $cron['email_total']; ?></td>
+			<td class="center"><?php echo $cron['send_total']; ?></td>
 			<td class="center">
 				<?php if($cron['cron_count']) { ?>
 					<a onclick="viewhistory('<?php echo $cron['cron_id']; ?>');"><?php echo $cron['cron_count']; ?></a>
@@ -69,7 +90,7 @@
 		<?php } ?>
 	<?php } else { ?>
 		<tr class="nocrons">
-		  <td class="center" colspan="11"><?php echo $text_no_data; ?></td>
+		  <td class="center" colspan="12"><?php echo $text_no_data; ?></td>
 		</tr>
 	<?php } ?>
 	</tbody>

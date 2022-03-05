@@ -17,7 +17,15 @@ class ControllerFeedStats extends Controller {
 			$controlsumm = md5($email . $this->config->get('contacts_unsub_pattern'));
 			
 			if ($controlsumm == $check) {
-                $this->db->query("INSERT INTO " . DB_PREFIX . "contacts_views SET send_id = '" . (int)$send_id . "', customer_id = '" . (int)$customer_id . "', email = '" . $this->db->escape($email) . "', date_added = NOW()");
+				$this->load->model('contacts/ccrons');
+				
+				$data_view = array(
+					'send_id'     => $send_id,
+					'customer_id' => $customer_id,
+					'email'       => $email
+				);
+				
+				$this->model_contacts_ccrons->addView($data_view);
             }
         }
 		
@@ -49,12 +57,42 @@ class ControllerFeedStats extends Controller {
 			$pos = stripos($link, 'account/success');
 			$controlsumm = md5($email . $this->config->get('contacts_unsub_pattern'));
 			
-			if (($controlsumm == $check) && ($pos === false)) {
-                $this->db->query("INSERT INTO " . DB_PREFIX . "contacts_clicks SET send_id = '" . (int)$send_id . "', customer_id = '" . (int)$customer_id . "', email = '" . $this->db->escape($email) . "', target = '" . $this->db->escape($link) . "', date_added = NOW()");
-            }
+			if ($send_id) {
+				if (($controlsumm == $check) && ($pos === false)) {
+					$this->load->model('contacts/ccrons');
+					
+					$data_clk = array(
+						'send_id'     => $send_id,
+						'customer_id' => $customer_id,
+						'email'       => $email,
+						'target'      => $link
+					);
+					
+					$this->model_contacts_ccrons->addClick($data_clk);
 
-			$this->response->redirect($link);
-
+					$dopurl = $this->model_contacts_ccrons->getDopurl($send_id);
+					
+					if ($dopurl) {
+						$dopurl = str_replace('{sid}', $send_id, $dopurl);
+						$dopurl = preg_replace('/^\?/', '', $dopurl);
+						$dopurl = preg_replace('/^&amp;amp;/', '', $dopurl);
+						$dopurl = preg_replace('/^&amp;/', '', $dopurl);
+						
+						$posq = stripos($link, '?');
+						
+						if ($posq === false) {
+							$link .= '?' . $dopurl;
+						} else {
+							$link .= '&amp;' . $dopurl;
+						}
+					}
+				}
+			}
+			
+			$link = str_replace(array('&amp;amp;','&amp;'), '&', $link);
+			
+			header('Location: ' . $link);
+			exit;
         } else {
 			$this->response->redirect($this->url->link('common/home'));
 		}

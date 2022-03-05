@@ -1184,19 +1184,19 @@ class ControllerSaleOrder extends Controller {
 
             if ($product_info) {
                 $db_quantity = $product_quantity = (int)$product_info['quantity']; // количество товара в базе
-                $quantity = (int)$order_product['quantity'];
+                $order_product_quantity = (int)$order_product['quantity'];
 
                 if (isset($this->request->post['order_product'])) {
-                    $db_quantity = $db_quantity - $quantity;
+                    $db_quantity = $db_quantity - $order_product_quantity;
 
                     if (!empty($current_order_products[$product_info['product_id'] . ($product_info['model'] ?: '')])) {
-                        $q = (int)$current_order_products[$product_info['product_id'] . ($product_info['model'] ?: '')];
+                        $current_order_product_quantity = (int)$current_order_products[$product_info['product_id'] . ($product_info['model'] ?: '')];
 
-                        $db_quantity = $db_quantity + $q;
+                        $db_quantity = $db_quantity + $current_order_product_quantity;
                     }
                 }
 
-                if ($db_quantity <= 0) {
+                if ($db_quantity < 0) {
                     $stock = false;
                 }
             }
@@ -1216,16 +1216,16 @@ class ControllerSaleOrder extends Controller {
                     $db_quantity = $option_value_quantity = (int)$order_option_value['quantity'];
 
                     if (isset($this->request->post['order_product'])) {
-                        $db_quantity = $db_quantity - $quantity;
+                        $db_quantity = $db_quantity - $order_product_quantity;
 
                         if (!empty($current_order_products[$order_product['product_id'] . ($order_option_value['ob_sku'] ?: '')])) {
-                            $q = (int)$current_order_products[$order_product['product_id'] . ($order_option_value['ob_sku'] ?: '')]; // количество товара в корзине
+                            $current_order_product_quantity = (int)$current_order_products[$order_product['product_id'] . ($order_option_value['ob_sku'] ?: '')]; // количество товара в корзине
 
-                            $db_quantity = $db_quantity + $q;
+                            $db_quantity = $db_quantity + $current_order_product_quantity;
                         }
                     }
 
-                    if ($db_quantity <= 0) {
+                    if ($db_quantity < 0) {
                         $stock = false;
                     }
                 }
@@ -1393,19 +1393,18 @@ class ControllerSaleOrder extends Controller {
                         $shipping = true;
                     }
 
-                    $product_quantity = (int)$product_info['quantity']; // количество товара в базе
-                    $quantity = (int)$order_product['quantity'];
+                    $db_quantity = (int)$product_info['quantity']; // количество товара в базе
+                    $order_product_quantity = (int)$order_product['quantity']; // количество товара в заказе после изменения заказа
 
                     // Stock
                     if (!empty($current_order_products[$product_info['product_id'] . ($product_info['model'] ?: '')])) {
-                        $q = (int)$current_order_products[$product_info['product_id'] . ($product_info['model'] ?: '')];
-                        if (!$product_quantity || ($product_quantity + $q < $quantity)) {
-                            $stock = false;
-                        }
+                        $current_order_product_quantity = (int)$current_order_products[$product_info['product_id'] . ($product_info['model'] ?: '')];
                     } else {
-                        if (!$product_quantity || ($product_quantity < $quantity)) {
-                            $stock = false;
-                        }
+                        $current_order_product_quantity = 0; // количество товара, которое уже было в заказе
+                    }
+
+                    if (($db_quantity < 0) || ($db_quantity + $current_order_product_quantity < $order_product_quantity)) {
+                        $stock = false;
                     }
 
                     if (!empty($order_product['order_option'])) {
@@ -2135,17 +2134,17 @@ class ControllerSaleOrder extends Controller {
     }
 
     public function ustatus() {
+        $this->language->load('sale/order');
 
-    	$this->language->load('sale/order');
+        if ($this->user->hasPermission('modify', 'sale/order')) {
+            $this->load->model('sale/order');
 
-    	if ($this->user->hasPermission('modify', 'sale/order')) {
-    		$this->load->model('sale/order');
+            $this->model_sale_order->updateStatus($this->request->get['order_id'], $this->request->get['status']);
+        }
 
+        $json['success'] = date("j.m.Y");
 
-    		$this->model_sale_order->updateStatus($this->request->get['order_id'],$this->request->get['status']);		
-    	}
-
-    	$this->response->setOutput(json_encode(true));
+        $this->response->setOutput(json_encode($json));
     }
 
     public function createInvoiceNo() {
@@ -3027,7 +3026,7 @@ class ControllerSaleOrder extends Controller {
             $sheet->mergeCells("B$r:D$r");
             $sheet->setCellValue("B$r", 'ИНН');
             $sheet->mergeCells("E$r:J$r");
-            $sheet->setCellValueExplicit("E$r", '502912149767', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+            $sheet->setCellValueExplicit("E$r", '502919620199', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->getStyle("B$r:J$r")->applyFromArray($border_thin);
             $sheet->mergeCells("K$r:M$r");
             $sheet->setCellValue("K$r", 'КПП');
@@ -3038,13 +3037,13 @@ class ControllerSaleOrder extends Controller {
             $sheet->setCellValue("T$r", 'Сч. №');
             $sheet->getStyle("T$r:V".($r+3))->applyFromArray($border_thin);
             $sheet->mergeCells("W$r:AL".($r+3));
-            $sheet->setCellValue("W$r", '40802810940000010248');
+            $sheet->setCellValue("W$r", '40802810140000117404');
             $sheet->getStyle("W$r:AL".($r+3))->applyFromArray($border_thin);
             $r++;
 
             $sheet->mergeCells("B$r:S".($r+1)); // 8
             $sheet->getStyle("B$r:S$r")->getAlignment()->setWrapText(true);
-            $sheet->setCellValue("B$r", 'Индивидуальный предприниматель Масенко Елена Владимировна');
+            $sheet->setCellValue("B$r", 'Индивидуальный предприниматель Подоляко Александр Валерьевич');
             $sheet->getStyle("B$r:S".($r+2))->applyFromArray($border_thin);
             $r++;
 
@@ -3079,7 +3078,7 @@ class ControllerSaleOrder extends Controller {
             $sheet->getStyle("H$r:AL$r")->applyFromArray($font9b);
             $sheet->mergeCells("H$r:AL$r");
             $sheet->getStyle("H$r:AL$r")->getAlignment()->setWrapText(true);
-            $sheet->setCellValue("H$r", 'Индивидуальный предприниматель Масенко Елена Владимировна, ИНН 502912149767, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40');
+            $sheet->setCellValue("H$r", 'Индивидуальный предприниматель Подоляко Александр Валерьевич, ИНН 502919620199, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: +7 (985) 092-92-91');
             $r++;
 
             $sheet->mergeCells("A$r:AM$r");$sheet->getRowDimension($r)->setRowHeight(6); $r++;
@@ -3091,7 +3090,7 @@ class ControllerSaleOrder extends Controller {
             $sheet->getStyle("H$r:AL$r")->applyFromArray($font9b);
             $sheet->mergeCells("H$r:AL$r");
             $sheet->getStyle("H$r:AL$r")->getAlignment()->setWrapText(true);
-            $sheet->setCellValue("H$r", 'Индивидуальный предприниматель Масенко Елена Владимировна, ИНН 502912149767, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40');
+            $sheet->setCellValue("H$r", 'Индивидуальный предприниматель Подоляко Александр Валерьевич, ИНН 502919620199, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: +7 (985) 092-92-91');
             $r++;
 
             $sheet->mergeCells("A$r:AM$r");$sheet->getRowDimension($r)->setRowHeight(6); $r++;
@@ -3266,7 +3265,7 @@ class ControllerSaleOrder extends Controller {
             $sheet->mergeCells("B$r:F$r");
             $sheet->setCellValue("B$r", 'Руководитель');
             $sheet->mergeCells("AC$r:AL$r");
-            $sheet->setCellValue("AC$r", 'Масенко Е. В.');
+            $sheet->setCellValue("AC$r", 'Подоляко А. В.');
             $r++;
 
             $sheet->getStyle("B$r:AL$r")->applyFromArray($font8);
@@ -3288,7 +3287,7 @@ class ControllerSaleOrder extends Controller {
             $sheet->mergeCells("B$r:L$r");
             $sheet->setCellValue("B$r", 'Главный (старший) бухгалтер');
             $sheet->mergeCells("AC$r:AL$r");
-            $sheet->setCellValue("AC$r", 'Масенко Е. В.');
+            $sheet->setCellValue("AC$r", 'Подоляко А. В.');
             $r++;
 
             $sheet->getStyle("B$r:AL$r")->applyFromArray($font8);
@@ -3309,7 +3308,7 @@ class ControllerSaleOrder extends Controller {
             $sheet->mergeCells("B$r:L$r");
             $sheet->setCellValue("B$r", 'Ответственный');
             $sheet->mergeCells("AC$r:AL$r");
-            $sheet->setCellValue("AC$r", 'Масенко Е. В.');
+            $sheet->setCellValue("AC$r", 'Подоляко А. В.');
             $r++;
 
             $sheet->getStyle("B$r:AL$r")->applyFromArray($font8);
@@ -3388,10 +3387,10 @@ class ControllerSaleOrder extends Controller {
 
         	$r = array_fill(0, 39, "");
         	$r[1] = "ИНН";
-        	$r[3] = "502912149767";
+        	$r[3] = "502919620199";
         	$r[10] = "КПП";
         	$r[19] = "Сч. №";
-        	$r[22] = "40802810940000010248";
+        	$r[22] = "40802810140000117404";
         	$s = array_fill(0,39,array('font-size'=>10, 'valign'=>'top', 'border-style'=>'thin'));
         	$s['height'] = 12;
         	$s[1]['border'] = 'left';
@@ -3410,7 +3409,7 @@ class ControllerSaleOrder extends Controller {
         	$writer->markMergedCell($sheet, $start_row=6, $start_col=22, $end_row=9, $end_col=37);
 
         	$r = array_fill(0, 39, "");
-        	$r[1] = "Индивидуальный предприниматель Масенко Елена Владимировна";
+        	$r[1] = "Индивидуальный предприниматель Подоляко Александр Валерьевич";
         	$s = array_fill(0,39,array('font-size'=>10, 'valign'=>'top', 'border-style'=>'thin','wrap_text'=>true));
         	$s['height'] = 10;
         	$s[1]['border'] = 'left,top';
@@ -3468,7 +3467,7 @@ class ControllerSaleOrder extends Controller {
 
         	$r = array_fill(0, 39, "");
         	$r[1] = "Поставщик:";
-        	$r[7] = "Индивидуальный предприниматель Масенко Елена Владимировна, ИНН 502912149767, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40";
+        	$r[7] = "Индивидуальный предприниматель Подоляко Александр Валерьевич, ИНН 502919620199, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: +7 (985) 092-92-91";
         	$s = array_fill(0, 39, array());
         	$s['height'] = 28;
         	$s[1] =  array('valign'=>'center','font-size'=>9);
@@ -3481,7 +3480,7 @@ class ControllerSaleOrder extends Controller {
 
         	$r = array_fill(0, 39, "");
         	$r[1] = "Грузоотправитель:";
-        	$r[7] = "Индивидуальный предприниматель Масенко Елена Владимировна, ИНН 502912149767, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40";
+        	$r[7] = "Индивидуальный предприниматель Подоляко Александр Валерьевич, ИНН 502919620199, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: +7 (985) 092-92-91";
         	$s = array_fill(0, 39, array());
         	$s['height'] = 28;
         	$s[1] =  array('valign'=>'center','font-size'=>9);
@@ -3640,7 +3639,7 @@ class ControllerSaleOrder extends Controller {
 
         	$r = array_fill(0, 39, "");
         	$r[1] = "Руководитель";
-        	$r[28] = "Масенко Е. В.";
+        	$r[28] = "Подоляко А. В.";
         	$s = array_fill(0, 39,  array('border-style'=>'thin'));
         	for ($i = 7; $i <= 15; $i++)
         		$s[$i]['border'] = 'bottom';
@@ -3676,7 +3675,7 @@ class ControllerSaleOrder extends Controller {
 
         	$r = array_fill(0, 39, "");
         	$r[1] = "Главный (старший) бухгалтер";
-        	$r[28] = "Масенко Е. В.";
+        	$r[28] = "Подоляко А. В.";
         	$s = array_fill(0, 39, array('border-style'=>'thin'));
         	$s['height'] = 14;
         	for ($i = 17; $i <= 26; $i++)
@@ -3704,7 +3703,7 @@ class ControllerSaleOrder extends Controller {
 
         	$r = array_fill(0, 39, "");
         	$r[1] = "Ответственный";
-        	$r[28] = "Масенко Е. В.";
+        	$r[28] = "Подоляко А. В.";
         	$s = array_fill(0, 39, array());
         	$s['height'] = 14;
         	for ($i = 17; $i <= 26; $i++)

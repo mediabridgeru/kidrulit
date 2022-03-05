@@ -92,7 +92,7 @@
                 <?php } ?></td>
               <td class="right"><?php echo $order['order_id']; ?></td>
               <td class="left"><?php echo $order['customer']; ?></td>
-                <td class="left">
+                <td class="left order_status">
                     <select name="order_status" onchange="chOrderStatus(this)" data-id="<?php echo $order['order_id']; ?>">
                         <?php foreach ($order_statuses as $order_status) { ?>
                         <?php if ($order_status['order_status_id'] == $order['status_id']) { ?>
@@ -106,7 +106,7 @@
                 <td class="right"><?php echo $order['cdek']; ?></td>
               <td class="right"><?php echo $order['total']; ?></td>
               <td class="left"><?php echo $order['date_added']; ?></td>
-              <td class="left"><?php echo $order['date_modified']; ?></td>
+              <td class="left date_modified"><?php echo $order['date_modified']; ?></td>
               <td class="right"><?php foreach ($order['action'] as $action) { ?>
                 [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
                 <?php } ?></td>
@@ -128,6 +128,7 @@
     </div>
   </div>
 </div>
+<style>.done{-webkit-box-shadow: inset 0 0 2px 1px #00ff00;box-shadow: inset 0 0 2px 1px #00ff00;}.undone{-webkit-box-shadow: inset 0 0 2px 1px #ff0000;box-shadow: inset 0 0 2px 1px #ff0000;}</style>
 <script>
 function filter() {
 	url = 'index.php?route=sale/order&token=<?php echo $token; ?>';
@@ -201,14 +202,23 @@ $.widget('custom.catcomplete', $.ui.autocomplete, {
 });
 
 function chOrderStatus(el) {
-    console.log($(el).val(), $(el).attr('data-id'))
-    $.ajax({
-        url: 'index.php?route=sale/order/ustatus&token=<?php echo $token; ?>&order_id=' + $(el).attr('data-id') +'&status='+$(el).val(),
-        dataType: 'json',
-        success: function(json) {
-        }
-    });
-
+  $.ajax({
+    url: 'index.php?route=sale/order/ustatus&token=<?php echo $token; ?>&order_id=' + $(el).attr('data-id') +'&status='+$(el).val(),
+    dataType: 'json',
+    beforeSend: function (xhr) {
+      $('.done').removeClass('done');
+      $('.undone').removeClass('undone');
+    }
+  })
+  .done(function (json) {
+    if (json) {
+      $(el).closest('tr').find('.order_status, .date_modified').addClass('done');
+      $(el).closest('tr').find('.date_modified').text(json['success']);
+    }
+  })
+  .fail(function() {
+    $(el).closest('tr').find('.order_status, .date_modified').addClass('undone');
+  });
 }
 
 $('input[name=\'filter_customer\']').catcomplete({

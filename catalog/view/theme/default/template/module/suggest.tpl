@@ -32,7 +32,6 @@ if ($suggest_status == 1) {
 							}
 						}
 						?>
-
                     ],
                     tips: "<?php echo $suggest_tips;?>",
                     correction: "<?php echo $suggest_correction; ?>",
@@ -130,6 +129,7 @@ if ($suggest_status == 1) {
 
         $(document).ready(function (e) {
             initFields();
+
             $(document).ajaxComplete(function (e, xhr, settings) {
                 if (settings.url.indexOf("checkout/") > 0 || settings.url.indexOf("account/") > 0) {
                     initFields(e);

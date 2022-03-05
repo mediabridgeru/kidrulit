@@ -17,3 +17,7 @@ sqlbuddy/
 stats/
 vqmod/vqcache/
 backup-to-our-yandex/
+upload/*.xlsx
+system/storage/cache_fv
+export_xml/*.xml
+vqmod/logs/

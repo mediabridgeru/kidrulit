@@ -826,7 +826,7 @@ class ModelSaleOrder extends Model
             $order_status_id = $order_status_query->row['order_status_id'];
         }
 
-        $this->db->query("UPDATE " . DB_PREFIX . "order SET order_status_id='".(int)$new_status_id."' WHERE order_id = '" . (int)$order_id . "'");
+        $this->db->query("UPDATE `" . DB_PREFIX . "order` SET order_status_id = '" . (int)$new_status_id . "', date_modified = NOW() WHERE order_id = '" . (int)$order_id . "'");
 
         $this->db->query("INSERT INTO " . DB_PREFIX . "order_history SET order_id = '" . (int)$order_id . "', order_status_id = '" . (int)$new_status_id . "', notify = '1', date_added = NOW()");
 

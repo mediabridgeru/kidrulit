@@ -131,13 +131,13 @@ foreach ( $orders as $order ): ?>
           <td>Сч. №</td>
         </tr>
         <tr>
-          <td>ИНН 502912149767</td>
+          <td>ИНН 502919620199</td>
           <td>КПП</td>
           <td rowspan="2">Сч. №</td>
-          <td rowspan="2">40802810940000010248</td>
+          <td rowspan="2">40802810140000117404</td>
         </tr>
         <tr>
-          <td colspan="2">Индивидуальный предприниматель Масенко Елена Владимировна<br/><br/>Получатель</td>
+          <td colspan="2">Индивидуальный предприниматель Подоляко Александр Валерьевич<br/><br/>Получатель</td>
         </tr>
       </table>
       <?php
@@ -149,14 +149,14 @@ foreach ( $orders as $order ): ?>
         <tr>
           <td>Поставщик</td>
           <td>
-            <b>Индивидуальный предприниматель Масенко Елена Владимировна, ИНН 502912149767, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40</b>
+            <b>Индивидуальный предприниматель Подоляко Александр Валерьевич, ИНН 502919620199, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: +7 (985) 092-92-91</b>
           </td>
         </tr>
         <tr></tr>
         <tr>
           <td>Грузоотправитель</td>
           <td>
-            <b>Индивидуальный предприниматель Масенко Елена Владимировна, ИНН 502912149767, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40</b>
+            <b>Индивидуальный предприниматель Подоляко Александр Валерьевич, ИНН 502919620199, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: +7 (985) 092-92-91</b>
           </td>
         </tr>
         <tr></tr>
@@ -234,19 +234,19 @@ foreach ( $orders as $order ): ?>
           <th><b>Руководитель:</b></th>
           <td class="underscore" colspan="2"><b></b><span class="sign">должность</span></td>
           <td class="underscore" colspan="2"><span class="sign">подпись</span></td>
-          <td class="underscore" colspan="2"><b>Масенко Е. В.</b><span class="sign">расшифровка подписи</span></td>
+          <td class="underscore" colspan="2"><b>Подоляко А. В.</b><span class="sign">расшифровка подписи</span></td>
         </tr>
         <tr style="height: 30px;">
           <th><b>Главный (старший) бухгалтер:</b></th>
           <td colspan="2">&nbsp;</td>
           <td class="underscore" colspan="2"><span class="sign">подпись</span></td>
-          <td class="underscore" colspan="2"><b>Масенко Е. В.</b><span class="sign">расшифровка подписи</span></td>
+          <td class="underscore" colspan="2"><b>Подоляко А. В.</b><span class="sign">расшифровка подписи</span></td>
         </tr>
         <tr style="height: 30px;">
           <th><b>Ответственный:</b></th>
           <td colspan="2">&nbsp;</td>
           <td class="underscore" colspan="2"><span class="sign">подпись</span></td>
-          <td class="underscore" colspan="2"><b>Масенко Е. В.</b><span class="sign">расшифровка подписи</span></td>
+          <td class="underscore" colspan="2"><b>Подоляко А. В.</b><span class="sign">расшифровка подписи</span></td>
         </tr>
       </table>
     </div>

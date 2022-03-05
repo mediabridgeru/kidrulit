@@ -1,403 +1,1243 @@
-<?php //004fb
-if(!extension_loaded('ionCube Loader')){$__oc=strtolower(substr(php_uname(),0,3));$__ln='ioncube_loader_'.$__oc.'_'.substr(phpversion(),0,3).(($__oc=='win')?'.dll':'.so');if(function_exists('dl')){@dl($__ln);}if(function_exists('_il_exec')){return _il_exec();}$__ln='/ioncube/'.$__ln;$__oid=$__id=realpath(ini_get('extension_dir'));$__here=dirname(__FILE__);if(strlen($__id)>1&&$__id[1]==':'){$__id=str_replace('\\','/',substr($__id,2));$__here=str_replace('\\','/',substr($__here,2));}$__rd=str_repeat('/..',substr_count($__id,'/')).$__here.'/';$__i=strlen($__rd);while($__i--){if($__rd[$__i]=='/'){$__lp=substr($__rd,0,$__i).$__ln;if(file_exists($__oid.$__lp)){$__ln=$__lp;break;}}}if(function_exists('dl')){@dl($__ln);}}else{die('The file '.__FILE__." is corrupted.\n");}if(function_exists('_il_exec')){return _il_exec();}echo("Site error: the ".(php_sapi_name()=='cli'?'ionCube':'<a href="http://www.ioncube.com">ionCube</a>')." PHP Loader needs to be installed. This is a widely used PHP extension for running ionCube protected PHP code, website security and malware blocking.\n\nPlease visit ".(php_sapi_name()=='cli'?'get-loader.ioncube.com':'<a href="http://get-loader.ioncube.com">get-loader.ioncube.com</a>')." for install assistance.\n\n");exit(199);
+<?php 
+class ModelContactsCcrons extends Model {
+	public function addNewSend($store_id, $type_id) {
+		$this->db->query("INSERT INTO " . DB_PREFIX . "contacts_cache_send SET `store_id` = '" . (int)$store_id . "', `send_type` = '" . (int)$type_id . "', date_added = NOW()");
+		$send_id = $this->db->getLastId();
+		return $send_id;
+	}
+	
+	public function checkFreezeCron($cron_id, $second) {
+		$freeze = false;
+	
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contacts_cron_history WHERE cron_id = '" . (int)$cron_id . "' AND cron_status = '1' ORDER BY date_cronrun DESC LIMIT 1");
+	
+		if ($query->num_rows) {
+			$date_cronrun = strtotime($query->row['date_cronrun']);
+			$date_now = strtotime("now");
+	
+			if (($date_now - $date_cronrun) > $second) {
+				$freeze = true;
+			}
+		}
+	
+		return $freeze;
+	}
+	
+	public function getCronlimit($limit) {
+		$cron_limit = 16;
+	
+		if ($limit) {
+			$result = $limit / 60;
+	
+			if ($result < 1) {
+				$cron_limit = 1;
+			} elseif (floor($result) == 1) {
+				$cron_limit = 1;
+			} elseif (floor($result) == 2) {
+				$cron_limit = 2;
+			} else {
+				$cron_limit = floor($result);
+			}
+	
+			if ($cron_limit > 25) {
+				$cron_limit = 25;
+			}
+		}
+		return $cron_limit;
+	}
+	
+	public function setDataNewSend($send_id, $data) {
+		$sql = "UPDATE " . DB_PREFIX . "contacts_cache_send SET 
+		send_to = '" . $this->db->escape($data['send_to']) . "', 
+		send_to_data = '" . $this->db->escape($data['send_to_data']) . "', 
+		send_region = '" . (int)$data['send_region'] . "', 
+		send_country_id = '" . (int)$data['send_country_id'] . "', 
+		send_zone_id = '" . (int)$data['send_zone_id'] . "', 
+		invers_region = '" . (int)$data['invers_region'] . "', 
+		invers_product = '" . (int)$data['invers_product'] . "', 
+		invers_category = '" . (int)$data['invers_category'] . "', 
+		invers_customer = '" . (int)$data['invers_customer'] . "', 
+		invers_client = '" . (int)$data['invers_client'] . "', 
+		invers_affiliate = '" . (int)$data['invers_affiliate'] . "', 
+		send_products = '" . (int)$data['send_products'] . "', 
+		lang_products = '" . (int)$data['lang_products'] . "', 
+		language_id = '" . (int)$data['language_id'] . "', 
+		subject = '" . $this->db->escape($data['subject']) . "', 
+		message = '" . $this->db->escape($data['message']) . "', 
+		attachments = '" . $this->db->escape($data['attachments']) . "', 
+		attachments_cat = '" . $this->db->escape($data['attachments_cat']) . "', 
+		dopurl = '" . $this->db->escape($data['dopurl']) . "', 
+		email_total = '" . (int)$data['email_total'] . "', 
+		unsub_url = '" . (int)$data['unsub_url'] . "', 
+		control_unsub = '" . (int)$data['control_unsub'] . "' 
+		WHERE send_id = '" . (int)$send_id . "'";
+		
+		$query = $this->db->query($sql);
+		
+		$this->db->query("UPDATE " . DB_PREFIX . "contacts_cron_history SET send_id = '" . (int)$send_id . "' WHERE history_id = '" . (int)$data['history_id'] . "'");
+	}
+	
+	public function setCronNewSend($send_id, $history_id) {
+		$this->db->query("UPDATE " . DB_PREFIX . "contacts_cron_history SET send_id = '" . (int)$send_id . "' WHERE history_id = '" . (int)$history_id . "'");
+	}
+	
+	public function getCronLastSend($cron_id, $history_id) {
+		$query = $this->db->query("SELECT send_id FROM " . DB_PREFIX . "contacts_cron_history WHERE cron_id = '" . (int)$cron_id . "' AND history_id = '" . (int)$history_id . "'");
+		if ($query->num_rows) {
+			return $query->row['send_id'];
+		} else {
+			return false;
+		}
+	}
+	
+	public function setNewMessageDataCron($send_id, $newmessage) {
+		$this->db->query("UPDATE " . DB_PREFIX . "contacts_cache_send SET newmessage = '" . $this->db->escape($newmessage) . "' WHERE send_id = '" . (int)$send_id . "'");
+	}
+	
+	public function delDataSend($send_id) {
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contacts_cache_send WHERE send_id = '" . (int)$send_id . "'");
+	}
+	
+	public function saveEmailsToSend($send_id, $emails) {
+		foreach ($emails as $email => $data) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "contacts_cache_email SET 
+			send_id = '" . (int)$send_id . "', 
+			email = '" . $this->db->escape($email) . "', 
+			customer_id = '" . (int)$data['customer_id'] . "', 
+			firstname = '" . $this->db->escape($data['firstname']) . "', 
+			lastname = '" . $this->db->escape($data['lastname']) . "', 
+			country = '" . $this->db->escape($data['country']) . "', 
+			`zone` = '" . $this->db->escape($data['zone']) . "', 
+			date_added = '" . $this->db->escape($data['date_added']) . "'");
+		}
+	}
+	
+	public function getEmailsToCron($cron_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contacts_cron_emails WHERE cron_id = '" . (int)$cron_id . "'");
+		return $query->rows;
+	}
+	
+	public function saveEmailsToCron($cron_id, $emails) {
+		foreach ($emails as $email => $data) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "contacts_cron_emails SET 
+			cron_id = '" . (int)$cron_id . "', 
+			email = '" . $this->db->escape($email) . "', 
+			customer_id = '" . (int)$data['customer_id'] . "', 
+			firstname = '" . $this->db->escape($data['firstname']) . "', 
+			lastname = '" . $this->db->escape($data['lastname']) . "', 
+			country = '" . $this->db->escape($data['country']) . "', 
+			`zone` = '" . $this->db->escape($data['zone']) . "', 
+			date_added = '" . $this->db->escape($data['date_added']) . "'");
+		}
+	}
+	
+	public function delEmailsToCron($cron_id) {
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contacts_cron_emails WHERE cron_id = '" . (int)$cron_id . "'");
+	}
+	
+	public function getEmailsToSend($send_id, $limit) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contacts_cache_email WHERE send_id = '" . (int)$send_id . "' LIMIT " . $limit);
+		return $query->rows;
+	}
+
+	public function getTotalEmailsToSend($send_id) {
+		$query = $this->db->query("SELECT COUNT(DISTINCT email_id) AS total FROM " . DB_PREFIX . "contacts_cache_email WHERE send_id = '" . (int)$send_id . "'");
+		return $query->row['total'];
+	}
+	
+	public function removeEmailSend($send_id, $email) {
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contacts_cache_email WHERE send_id = '" . (int)$send_id . "' AND LCASE(email) = '" . $this->db->escape(utf8_strtolower($email)) . "'");
+	}
+	
+	public function addCountMails($send_id = 0, $cron_id = 0, $items = 1) {
+		$date = time();
+		$day_date = $date - 86400;
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contacts_count_mails WHERE date_send < '" . (int)$day_date . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "contacts_count_mails SET send_id = '" . (int)$send_id . "', cron_id = '" . (int)$cron_id . "', items = '" . (int)$items . "', date_send = '" . (int)$date . "'");
+	}
+	
+	public function getCountMails() {
+		$totals = array();
+		$date = time();
+		$hour_date = $date - 3600;
+		$day_date = $date - 86400;
+		
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contacts_count_mails WHERE date_send < '" . (int)$day_date . "'");
+		
+		$tquery = $this->db->query("SELECT COUNT(DISTINCT count_id) AS total FROM " . DB_PREFIX . "contacts_count_mails");
+		$totals['day'] = $tquery->row['total'];
+		
+		$hquery = $this->db->query("SELECT COUNT(DISTINCT count_id) AS total FROM " . DB_PREFIX . "contacts_count_mails WHERE date_send > '" . (int)$hour_date . "'");
+		$totals['hour'] = $hquery->row['total'];
+		
+		return $totals;
+	}
+	
+	public function delNewsletterFromEmail($email) {
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contacts_newsletter WHERE LCASE(email) = '" . $this->db->escape(utf8_strtolower($email)) . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contacts_cache_email WHERE LCASE(email) = '" . $this->db->escape(utf8_strtolower($email)) . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "contacts_cron_emails WHERE LCASE(email) = '" . $this->db->escape(utf8_strtolower($email)) . "'");
+	}
+	
+	public function setCheckResult($data) {
+		$query = $this->db->query("UPDATE " . DB_PREFIX . "contacts_cron_emails SET check_status = '" . (int)$data['check_status'] . "', check_text = '" . $this->db->escape($data['check_text']) . "' WHERE cron_id = '" . (int)$data['cron_id'] . "' AND LCASE(email) = '" . $this->db->escape(utf8_strtolower($data['email'])) . "'");
+	}
+	
+	public function addClick($data) {
+		$this->db->query("INSERT INTO " . DB_PREFIX . "contacts_clicks SET send_id = '" . (int)$data['send_id'] . "', customer_id = '" . (int)$data['customer_id'] . "', email = '" . $this->db->escape($data['email']) . "', target = '" . $this->db->escape($data['target']) . "', date_added = NOW()");
+	}
+	
+	public function addView($data) {
+		$this->db->query("INSERT INTO " . DB_PREFIX . "contacts_views SET send_id = '" . (int)$data['send_id'] . "', customer_id = '" . (int)$data['customer_id'] . "', email = '" . $this->db->escape($data['email']) . "', date_added = NOW()");
+	}
+	
+	public function getDopurl($send_id) {
+		$query = $this->db->query("SELECT dopurl FROM " . DB_PREFIX . "contacts_cache_send WHERE send_id = '" . (int)$send_id . "'");
+		if ($query->num_rows) {
+			return $query->row['dopurl'];
+		} else {
+			return false;
+		}
+	}
+	
+	public function getDataCron($cron_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contacts_cron_data WHERE cron_id = '" . (int)$cron_id . "'");
+		return $query->row;
+	}
+	
+	public function getCrons() {
+		if ($this->checkLicense()) {
+			$sql = "SELECT * FROM " . DB_PREFIX . "contacts_cron WHERE status = '1'";
+			$sql .= " ORDER BY cron_id";
+			$sql .= " ASC";
+			
+			$query = $this->db->query($sql);
+			return $query->rows;
+		} else {
+			return array();
+		}
+	}
+	
+	public function getCron($cron_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contacts_cron WHERE cron_id = '" . (int)$cron_id . "'");
+		return $query->row;
+	}
+	
+	public function getRunCron() {
+		$query = $this->db->query("SELECT cron_id FROM " . DB_PREFIX . "contacts_cron_history WHERE cron_status = '1' LIMIT 1");
+		if ($query->num_rows) {
+			return $query->row['cron_id'];
+		} else {
+			return false;
+		}
+	}
+	
+	public function getRunSend() {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contacts_cache_send WHERE send_type = '1' AND `status` = '0' LIMIT 1");
+		if ($query->num_rows) {
+			return $query->rows;
+		} else {
+			return false;
+		}
+	}
+	
+	public function setCompleteCronSend($send_id, $email_total = 0) {
+		if ($email_total) {
+			$this->db->query("UPDATE " . DB_PREFIX . "contacts_cache_send SET `status` = '1', email_total = (email_total + " . (int)$email_total . ") WHERE send_id = '" . (int)$send_id . "'");
+		} else {
+			$this->db->query("UPDATE " . DB_PREFIX . "contacts_cache_send SET `status` = '1' WHERE send_id = '" . (int)$send_id . "'");
+		}
+	}
+	
+	public function setPageCron($cron_id, $page) {
+		$this->db->query("UPDATE " . DB_PREFIX . "contacts_cron SET step = '" . (int)$page . "' WHERE cron_id = '" . (int)$cron_id . "'");
+	}
+	
+	public function addCronHistory($cron_id) {
+		$query = $this->db->query("INSERT " . DB_PREFIX . "contacts_cron_history SET cron_id = '" . (int)$cron_id . "', cron_status = '1', date_cronrun = NOW()");
+		$history_id = $this->db->getLastId();
+		return $history_id;
+	}
+	
+	public function setCronHistory($history_id, $count_emails = 0) {
+		$query = $this->db->query("UPDATE " . DB_PREFIX . "contacts_cron_history SET count_emails = (count_emails + " . (int)$count_emails . ") WHERE history_id = '" . (int)$history_id . "'");
+	}
+	
+	public function getHistorySend($history_id) {
+		$query = $this->db->query("SELECT send_id FROM " . DB_PREFIX . "contacts_cron_history WHERE history_id = '" . (int)$history_id . "'");
+		if ($query->num_rows) {
+			return $query->row['send_id'];
+		} else {
+			return false;
+		}
+	}
+	
+	public function addLastCronHistory($cron_id, $history_id) {
+		$this->db->query("UPDATE " . DB_PREFIX . "contacts_cron SET history_id = '" . (int)$history_id . "' WHERE cron_id = '" . (int)$cron_id . "'");
+	}
+	
+	public function getLastCronHistory($cron_id) {
+		$query = $this->db->query("SELECT history_id FROM " . DB_PREFIX . "contacts_cron WHERE cron_id = '" . (int)$cron_id . "'");
+		if ($query->num_rows) {
+			return $query->row['history_id'];
+		} else {
+			return false;
+		}
+	}
+	
+	public function stopCron($cron_id, $history_id, $cron_status = 0, $step = 0) {
+		$this->db->query("UPDATE " . DB_PREFIX . "contacts_cron_history SET cron_status = '" . (int)$cron_status . "', date_cronstop = NOW() WHERE history_id = '" . (int)$history_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "contacts_cron SET step = '" . (int)$step . "' WHERE cron_id = '" . (int)$cron_id . "'");
+	}
+	
+	public function otcatCron($cron_id, $date_next, $errors = 0) {
+		$this->db->query("UPDATE " . DB_PREFIX . "contacts_cron SET errors = (errors + " . (int)$errors . "), date_next = '" . $this->db->escape($date_next) . "' WHERE cron_id = '" . (int)$cron_id . "'");
+	}
+	
+	public function offCron($cron_id) {
+		$this->db->query("UPDATE " . DB_PREFIX . "contacts_cron SET status = '0', step = '0', history_id = '0' WHERE cron_id = '" . (int)$cron_id . "'");
+	}
+	
+	public function addErrorSend($send_id) {
+		$this->db->query("UPDATE " . DB_PREFIX . "contacts_cache_send SET `errors` = (errors + 1) WHERE send_id = '" . (int)$send_id . "'");
+	}
+	
+	public function ClearErrorsSend($send_id) {
+		$this->db->query("UPDATE " . DB_PREFIX . "contacts_cache_send SET `errors` = '0' WHERE send_id = '" . (int)$send_id . "'");
+	}
+	
+	public function getErrorsSend($send_id) {
+		$query = $this->db->query("SELECT `errors` FROM " . DB_PREFIX . "contacts_cache_send WHERE send_id = '" . (int)$send_id . "'");
+		if ($query->num_rows) {
+			return $query->row['errors'];
+		} else {
+			return false;
+		}
+	}
+	
+	public function getCountry($country_id) {
+		$query = $this->db->query("SELECT name FROM " . DB_PREFIX . "country WHERE country_id = '" . (int)$country_id . "'");
+		if ($query->num_rows) {
+			return $query->row['name'];
+		} else {
+			return false;
+		}
+	}
+	
+	public function getZone($zone_id) {
+		$query = $this->db->query("SELECT name FROM `" . DB_PREFIX . "zone` WHERE zone_id = '" . (int)$zone_id . "'");
+		if ($query->num_rows) {
+			return $query->row['name'];
+		} else {
+			return false;
+		}
+	}
+	
+	public function getProduct($product_id, $language_id = false, $store_id = null) {
+		$time_now = date('Y-m-d H:i') . ':00';
+		
+		if (!$language_id) {
+			$language_id = $this->config->get('config_language_id');
+		}
+
+		$sql = "SELECT DISTINCT *, pd.name AS name, p.image, (SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < '" . $time_now . "') AND (ps.date_end = '0000-00-00' OR ps.date_end > '" . $time_now . "')) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1) AS special, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating FROM " . DB_PREFIX . "product p 
+		LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)";
+	
+		if (!is_null($store_id)) {
+			$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id)";
+		}
+	
+		$sql .= " WHERE p.product_id = '" . (int)$product_id . "' AND p.status = '1' AND p.date_available <= '" . $time_now . "'";
+	
+		if ($this->config->get('contacts_skip_price0')) {
+			$sql .= " AND p.price > '0'";
+		}
+	
+		if ($this->config->get('contacts_skip_qty0')) {
+			$sql .= " AND p.quantity > '0'";
+		}
+	
+		$sql .= " AND pd.language_id = '" . (int)$language_id . "'";
+	
+		if (!is_null($store_id)) {
+			$sql .= " AND p2s.store_id = '" . (int)$store_id . "'";
+		}
+	
+		$query = $this->db->query($sql);
+		
+		if ($query->num_rows) {
+			return array(
+				'product_id'       => $query->row['product_id'],
+				'name'             => $query->row['name'],
+				'model'            => $query->row['model'],
+				'sku'              => $query->row['sku'],
+				'image'            => $query->row['image'],
+				'price'            => $query->row['price'],
+				'special'          => $query->row['special'],
+				'tax_class_id'     => $query->row['tax_class_id'],
+				'rating'           => round($query->row['rating'])
+			);
+		} else {
+			return false;
+		}
+	}
+	
+	public function getProductSend($cron_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "contacts_cache_product WHERE cron_id = '" . (int)$cron_id . "'");
+		return $query->rows;
+	}
+	
+	public function getProductsToSend($cron_id, $type, $language_id = false) {
+		$product_data = array();
+
+		$query = $this->db->query("SELECT prod_id FROM " . DB_PREFIX . "contacts_cache_product WHERE cron_id = '" . (int)$cron_id . "' AND type = '" . $this->db->escape($type) . "'");
+		
+		if ($query->num_rows) {
+			$products = explode(',', $query->row['prod_id']);
+			if (!empty($products)) {
+				foreach ($products as $product_id) {
+					$product_info = $this->getProduct($product_id, $language_id);
+					if ($product_info) {
+						$product_data[$product_id] = $product_info;
+					}
+				}
+			}
+		}
+		return $product_data;
+	}
+	
+	public function getProductsFromCat($category_id, $limit, $language_id, $store_id) {
+		$time_now = date('Y-m-d H:i') . ':00';
+		$product_data = array();
+		
+		$main_category = false;
+		
+		$mquery = $this->db->query("DESCRIBE `" . DB_PREFIX . "product_to_category`");
+		
+		foreach ($mquery->rows as $mresult) {
+			$fields[] = $mresult['Field'];
+		}
+		
+		if (in_array('main_category', $fields)) {
+			$main_category = true;
+		}
+		
+		$sql = "SELECT DISTINCT p2c.product_id FROM " . DB_PREFIX . "product_to_category p2c 
+		LEFT JOIN " . DB_PREFIX . "product p ON (p2c.product_id = p.product_id) 
+		LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) 
+		WHERE p2c.category_id = '" . (int)$category_id . "'";
+	
+		if ($main_category) {
+			$sql .= " AND p2c.main_category = '1'";
+		}
+	
+		$sql .= " AND p.status = '1' AND p.date_available <= '" . $time_now . "'";
+	
+		if ($this->config->get('contacts_skip_price0')) {
+			$sql .= " AND p.price > '0'";
+		}
+	
+		if ($this->config->get('contacts_skip_qty0')) {
+			$sql .= " AND p.quantity > '0'";
+		}
+	
+		$sql .= " AND p2s.store_id = '" . (int)$store_id . "'";
+	
+		$sql .= " ORDER BY p.sort_order ASC LIMIT " . (int)$limit;
+	
+		$query = $this->db->query($sql);
+	
+		foreach ($query->rows as $result) {
+			$product_info = $this->getProduct($result['product_id'], $language_id, $store_id);
+			if ($product_info) {
+				$product_data[$result['product_id']] = $product_info;
+			}
+		}
+	
+		return $product_data;
+	}
+	
+	public function getCatSelectedProducts($category_products, $limit, $language_id, $store_id) {
+		$time_now = date('Y-m-d H:i') . ':00';
+		$product_data = array();
+	
+		$implode = array();
+		$main_category = false;
+	
+		if (!empty($category_products)) {
+			foreach ($category_products as $category_id) {
+				$implode[] = "p2c.category_id = '" . (int)$category_id . "'";
+			}
+	
+			$mquery = $this->db->query("DESCRIBE `" . DB_PREFIX . "product_to_category`");
+	
+			foreach ($mquery->rows as $mresult) {
+				$fields[] = $mresult['Field'];
+			}
+	
+			if (in_array('main_category', $fields)) {
+				$main_category = true;
+			}
+	
+			$sql = "SELECT DISTINCT p2c.product_id FROM " . DB_PREFIX . "product_to_category p2c 
+			LEFT JOIN " . DB_PREFIX . "product p ON (p2c.product_id = p.product_id) 
+			LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) 
+			WHERE p.status = '1' AND p.date_available <= '" . $time_now . "'";
+		
+			if ($this->config->get('contacts_skip_price0')) {
+				$sql .= " AND p.price > '0'";
+			}
+	
+			if ($this->config->get('contacts_skip_qty0')) {
+				$sql .= " AND p.quantity > '0'";
+			}
+	
+			$sql .= " AND p2s.store_id = '" . (int)$store_id . "'";
+			
+			if ($implode) {
+				$sql .= " AND (" . implode(" OR ", $implode) . ")";
+	
+				if ($main_category) {
+					$sql .= " AND p2c.main_category = '1'";
+				}
+			}
+			
+			$sql .= " ORDER BY p.sort_order ASC LIMIT " . (int)$limit;
+
+			$query = $this->db->query($sql);
+			
+			foreach ($query->rows as $result) {
+				$product_info = $this->getProduct($result['product_id'], $language_id, $store_id);
+				if ($product_info) {
+					$product_data[$result['product_id']] = $product_info;
+				}
+			}
+		}
+		return $product_data;
+	}
+	
+	public function getFeaturedProducts($limit, $language_id, $store_id) {
+		$product_data = array();
+
+		$featured_products = explode(',', $this->config->get('featured_product'));
+		$featured_products = array_slice($featured_products, 0, (int)$limit);
+
+		foreach ($featured_products as $product_id) {
+			$product_info = $this->getProduct($product_id, $language_id, $store_id);
+			if ($product_info) {
+				$product_data[$product_id] = $product_info;
+			}
+		}
+
+		return $product_data;
+	}
+	
+	public function getSpecialsProducts($limit, $language_id, $store_id) {
+		$time_now = date('Y-m-d H:i') . ':00';
+		$product_data = array();
+		
+		$sql = "SELECT DISTINCT ps.product_id FROM " . DB_PREFIX . "product_special ps 
+		LEFT JOIN " . DB_PREFIX . "product p ON (ps.product_id = p.product_id) 
+		LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) 
+		WHERE p.status = '1' AND p.date_available <= '" . $time_now . "' 
+		AND p2s.store_id = '" . (int)$store_id . "' 
+		AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' 
+		AND ((ps.date_start = '0000-00-00' OR ps.date_start < '" . $time_now . "') 
+		AND (ps.date_end = '0000-00-00' OR ps.date_end > '" . $time_now . "'))";
+		
+		if ($this->config->get('contacts_skip_price0')) {
+			$sql .= " AND p.price > '0'";
+		}
+		
+		if ($this->config->get('contacts_skip_qty0')) {
+			$sql .= " AND p.quantity > '0'";
+		}
+
+		$sql .= " ORDER BY p.sort_order ASC LIMIT " . (int)$limit;
+		
+		$query = $this->db->query($sql);
+		
+		foreach ($query->rows as $result) {
+			$product_info = $this->getProduct($result['product_id'], $language_id, $store_id);
+			if ($product_info) {
+				$product_data[$result['product_id']] = $product_info;
+			}
+		}
+		return $product_data;
+	}
+	
+	public function getBestSellerProducts($limit, $language_id, $store_id) {
+		$product_data = array();
+		$time_now = date('Y-m-d H:i') . ':00';
+		
+		$sql = "SELECT op.product_id, SUM(op.quantity) AS total FROM " . DB_PREFIX . "order_product op 
+		LEFT JOIN `" . DB_PREFIX . "order` o ON (op.order_id = o.order_id) 
+		LEFT JOIN `" . DB_PREFIX . "product` p ON (op.product_id = p.product_id) 
+		LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) 
+		WHERE o.order_status_id = '" . (int)$this->config->get('config_complete_status_id') . "'";
+		$sql .= " AND o.store_id = '" . (int)$store_id . "'";
+		
+		$sql .= " AND p.status = '1' AND p.date_available <= '" . $time_now . "'";
+		
+		if ($this->config->get('contacts_skip_price0')) {
+			$sql .= " AND p.price > '0'";
+		}
+		
+		if ($this->config->get('contacts_skip_qty0')) {
+			$sql .= " AND p.quantity > '0'";
+		}
+		
+		$sql .= " AND p2s.store_id = '" . (int)$store_id . "'";
+		
+		$sql .= " GROUP BY op.product_id ORDER BY total DESC LIMIT " . (int)$limit;
+		
+		$query = $this->db->query($sql);
+		
+		foreach ($query->rows as $result) {
+			$product_info = $this->getProduct($result['product_id'], $language_id, $store_id);
+			if ($product_info) {
+				$product_data[$result['product_id']] = $product_info;
+			}
+		}
+		return $product_data;
+	}
+	
+	public function getLatestProducts($limit, $language_id, $store_id) {
+		$product_data = array();
+		$time_now = date('Y-m-d H:i') . ':00';
+
+		$sql = "SELECT p.product_id FROM " . DB_PREFIX . "product p 
+		LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) 
+		WHERE p.status = '1' AND p.date_available <= '" . $time_now . "' 
+		AND p2s.store_id = '" . (int)$store_id . "'";
+		
+		if ($this->config->get('contacts_skip_price0')) {
+			$sql .= " AND p.price > '0'";
+		}
+		
+		if ($this->config->get('contacts_skip_qty0')) {
+			$sql .= " AND p.quantity > '0'";
+		}
+		
+		$sql .= " ORDER BY p.date_added DESC LIMIT " . (int)$limit;
+		
+		$query = $this->db->query($sql);
+		
+		foreach ($query->rows as $result) {
+			$product_info = $this->getProduct($result['product_id'], $language_id, $store_id);
+			if ($product_info) {
+				$product_data[$result['product_id']] = $product_info;
+			}
+		}
+		return $product_data;
+	}
+	
+	public function getPurchasedsProducts($data) {
+		$product_data = array();
+		$time_now = date('Y-m-d H:i') . ':00';
+	
+		$sql = "SELECT op.product_id FROM " . DB_PREFIX . "order_product op 
+		LEFT JOIN `" . DB_PREFIX . "order` o ON (op.order_id = o.order_id) 
+		LEFT JOIN `" . DB_PREFIX . "product` p ON (op.product_id = p.product_id) 
+		LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id)";
+	
+		$sql .= " WHERE o.order_status_id = '" . (int)$this->config->get('config_complete_status_id') . "'";
+	
+		$sql .= " AND o.store_id = '" . (int)$data['store_id'] . "'";
+	
+		if ($data['customer_id']) {
+			$sql .= " AND o.customer_id = '" . (int)$data['customer_id'] . "'";
+		} else {
+			$sql .= " AND LCASE(o.email) = '" . $this->db->escape(utf8_strtolower($data['email'])) . "'";
+		}
+	
+		$sql .= " AND p.status = '1' AND p.date_available <= '" . $time_now . "'";
+	
+		if ($this->config->get('contacts_skip_price0')) {
+			$sql .= " AND p.price > '0'";
+		}
+	
+		if ($this->config->get('contacts_skip_qty0')) {
+			$sql .= " AND p.quantity > '0'";
+		}
+	
+		$sql .= " AND p2s.store_id = '" . (int)$data['store_id'] . "'";
+	
+		$sql .= " GROUP BY op.product_id";
+	
+		$sort_purchased_first = $this->config->get('contacts_sort_purchased_first') ? $this->config->get('contacts_sort_purchased_first') : 'DESC';
+		$sort_purchased_last = $this->config->get('contacts_sort_purchased_last') ? $this->config->get('contacts_sort_purchased_last') : 'DESC';
+	
+		$sql .= " ORDER BY DATE(o.date_added) " . $sort_purchased_first . ", p.price " . $sort_purchased_last;
+	
+		$sql .= " LIMIT " . (int)$data['limit'];
+	
+		$query = $this->db->query($sql);
+	
+		foreach ($query->rows as $result) {
+			$product_info = $this->getProduct($result['product_id'], $data['language_id'], $data['store_id']);
+			if ($product_info) {
+				$product_data[$result['product_id']] = $product_info;
+			}
+		}
+		return $product_data;
+	}
+	
+	public function getEmailCustomers($data = array()) {
+		if ($this->checkLicense()) {
+			$customers = array();
+	
+			$sql = "SELECT DISTINCT c.email, c.customer_id, c.firstname, c.lastname, c.date_added, cy.name AS country, zn.name AS zone FROM " . DB_PREFIX . "customer c";
+			
+			if (!empty($data['filter_noorder'])) {
+				$sql .= " LEFT JOIN (SELECT DISTINCT c2.customer_id FROM " . DB_PREFIX . "customer c2 INNER JOIN `" . DB_PREFIX . "order` o ON (c2.customer_id = o.customer_id) WHERE o.order_status_id = '" . (int)$this->config->get('config_complete_status_id') . "'";
+	
+				if (!empty($data['filter_store_id'])) {
+					$sql .= " AND o.store_id = '" . (int)$data['filter_store_id'] . "'";
+				}
+	
+				$sql .= ") n2 ON (c.customer_id = n2.customer_id)";
+			}
+			
+			$sql .= " LEFT JOIN " . DB_PREFIX . "address ad ON (c.customer_id = ad.customer_id)";
+			$sql .= " LEFT JOIN " . DB_PREFIX . "country cy ON (ad.country_id = cy.country_id)";
+			$sql .= " LEFT JOIN `" . DB_PREFIX . "zone` zn ON (ad.zone_id = zn.zone_id)";
+			$sql .= " WHERE c.status = '1' AND c.email <> ''";
+			
+			if (!empty($data['filter_newsletter']) || !empty($data['filter_unsubscribe'])) {
+				$sql .= " AND c.newsletter = '1'";
+			}
+			
+			if (!empty($data['filter_customer_group_id']) && is_array($data['filter_customer_group_id'])) {
+				$gimplode = array();
+				
+				foreach ($data['filter_customer_group_id'] as $customer_group_id) {
+					$gimplode[] = (int)$customer_group_id;
+				}
+			
+				if ($gimplode) {
+					$sql .= " AND c.customer_group_id IN (" . implode(", ", $gimplode) . ")";
+				}
+			}
+			
+			if (!empty($data['filter_customer_id']) && is_array($data['filter_customer_id'])) {
+				$cimplode = array();
+				
+				foreach ($data['filter_customer_id'] as $customer_id) {
+					$cimplode[] = (int)$customer_id;
+				}
+				
+				if ($cimplode) {
+					if (!empty($data['invers_customer'])) {
+						$sql .= " AND c.customer_id NOT IN (" . implode(", ", $cimplode) . ")";
+					} else {
+						$sql .= " AND c.customer_id IN (" . implode(", ", $cimplode) . ")";
+					}
+				}
+			}
+			
+			if (!empty($data['filter_store_id'])) {
+				$sql .= " AND c.store_id = '" . (int)$data['filter_store_id'] . "'";
+			}
+	
+			if (!empty($data['filter_date_start'])) {
+				$sql .= " AND DATE(c.date_added) >= DATE('" . $this->db->escape($data['filter_date_start']) . "')";
+			}
+			
+			if (!empty($data['filter_date_end'])) {
+				$sql .= " AND DATE(c.date_added) <= DATE('" . $this->db->escape($data['filter_date_end']) . "')";
+			}
+			
+			if (!empty($data['filter_noorder'])) {
+				$sql .= " AND n2.customer_id IS NULL";
+			}
+			
+			if (!empty($data['invers_region'])) {
+				if (!empty($data['filter_zone_id'])) {
+					$sql .= " AND ad.zone_id <> '" . (int)$data['filter_zone_id'] . "'";
+				} elseif (!empty($data['filter_country_id'])) {
+					$sql .= " AND ad.country_id <> '" . (int)$data['filter_country_id'] . "'";
+				}
+			} else {
+				if (!empty($data['filter_country_id'])) {
+					$sql .= " AND ad.country_id = '" . (int)$data['filter_country_id'] . "'";
+				}
+				if (!empty($data['filter_zone_id'])) {
+					$sql .= " AND ad.zone_id = '" . (int)$data['filter_zone_id'] . "'";
+				}
+			}
+			
+			$query = $this->db->query($sql);
+	
+			if ($query->num_rows) {
+				$customers = $query->rows;
+			}
+	
+			if ($customers) {
+				if (!empty($data['filter_start']) && ((int)$data['filter_start'] > 0)) {
+					$filter_start = (int)$data['filter_start'];
+				} else {
+					$filter_start = 0;
+				}
+	
+				if (!empty($data['filter_limit']) && ((int)$data['filter_limit'] > $filter_start)) {
+					$filter_limit = (int)$data['filter_limit'] - (int)$filter_start;
+				} elseif (!empty($data['filter_limit']) && ((int)$data['filter_limit'] <= $filter_start)) {
+					$filter_limit = 1;
+				} else {
+					$filter_limit = count($customers);
+				}
+	
+				$customers = array_slice($customers, $filter_start, $filter_limit);
+			}
+	
+			return $customers;
+		} else {
+			return array();
+		}
+	}
+	
+	public function getEmailsByOrdereds($data = array()) {
+		if ($this->checkLicense()) {
+			$mails = array();
+			$main_category = false;
+	
+			if (isset($data['filter_category'])) {
+				$mquery = $this->db->query("DESCRIBE `" . DB_PREFIX . "product_to_category`");
+				
+				foreach ($mquery->rows as $mresult) {
+					$fields[] = $mresult['Field'];
+				}
+				if (in_array('main_category', $fields)) {
+					$main_category = true;
+				}
+			}
+			
+			$sql = "SELECT DISTINCT o.email, c.customer_id, o.firstname, o.lastname, c.date_added, o.shipping_country AS country, o.shipping_zone AS zone FROM `" . DB_PREFIX . "order` o";
+			$sql .= " LEFT JOIN " . DB_PREFIX . "customer c ON (o.customer_id = c.customer_id)";
+			
+			$pimplode = array();
+			if (!empty($data['filter_products']) && is_array($data['filter_products'])) {
+				foreach ($data['filter_products'] as $product_id) {
+					$pimplode[] = (int)$product_id;
+				}
+				
+				if ($pimplode) {
+					if (!empty($data['invers_product'])) {
+						$sql .= " LEFT JOIN (SELECT DISTINCT o2.email FROM `" . DB_PREFIX . "order` o2 INNER JOIN " . DB_PREFIX . "order_product op2 ON (o2.order_id = op2.order_id) WHERE op2.product_id IN (" . implode(", ", $pimplode) . ")) e2 ON (o.email = e2.email)";
+					} else {
+						$sql .= " INNER JOIN " . DB_PREFIX . "order_product op ON (o.order_id = op.order_id)";
+					}
+				}
+			}
+			
+			$cpimplode = array();
+			if (!empty($data['filter_category']) && is_array($data['filter_category'])) {
+				foreach ($data['filter_category'] as $category_id) {
+					$cpimplode[] = (int)$category_id;
+				}
+				
+				if ($cpimplode) {
+					if (!empty($data['invers_category'])) {
+						$sql .= " LEFT JOIN (SELECT DISTINCT o2.email FROM `" . DB_PREFIX . "order` o2";
+						$sql .= " INNER JOIN " . DB_PREFIX . "order_product op ON (o2.order_id = op.order_id)";
+						$sql .= " INNER JOIN " . DB_PREFIX . "product_to_category p2c ON (op.product_id = p2c.product_id) WHERE p2c.category_id IN (" . implode(", ", $cpimplode) . ")";
+						if ($main_category) {
+							$sql .= " AND p2c.main_category = '1'";
+						}
+						$sql .= ") e2 ON (o.email = e2.email)";
+					} else {
+						$sql .= " INNER JOIN " . DB_PREFIX . "order_product op ON (o.order_id = op.order_id)";
+						$sql .= " INNER JOIN " . DB_PREFIX . "product_to_category p2c ON (op.product_id = p2c.product_id)";
+					}
+				}
+			}
+			
+			if ($this->config->get('contacts_client_status')) {
+				$sql .= " WHERE o.order_status_id > '0'";
+			} else {
+				$sql .= " WHERE o.order_status_id = '" . (int)$this->config->get('config_complete_status_id') . "'";
+			}
+			
+			if (!empty($data['filter_store_id'])) {
+				$sql .= " AND o.store_id = '" . (int)$data['filter_store_id'] . "'";
+			}
+			
+			if (!empty($data['filter_date_start'])) {
+				$sql .= " AND DATE(o.date_added) >= DATE('" . $this->db->escape($data['filter_date_start']) . "')";
+			}
+			
+			if (!empty($data['filter_date_end'])) {
+				$sql .= " AND DATE(o.date_added) <= DATE('" . $this->db->escape($data['filter_date_end']) . "')";
+			}
+			
+			if (!empty($data['filter_client']) && is_array($data['filter_client'])) {
+				$cimplode = array();
+				if (!empty($data['invers_client'])) {
+					$cimplode[] = "o.email <> ''";
+					foreach ($data['filter_client'] as $email) {
+						$cimplode[] = "LCASE(o.email) <> '" . $this->db->escape(utf8_strtolower($email)) . "'";
+					}
+					if ($cimplode) {
+						$sql .= " AND (" . implode(" AND ", $cimplode) . ")";
+					}
+				} else {
+					foreach ($data['filter_client'] as $email) {
+						$cimplode[] = "LCASE(o.email) = '" . $this->db->escape(utf8_strtolower($email)) . "'";
+					}
+					if ($cimplode) {
+						$sql .= " AND (" . implode(" OR ", $cimplode) . ")";
+					}
+				}
+			} else {
+				$sql .= " AND o.email <> ''";
+			}
+			
+			if (!empty($data['invers_region'])) {
+				if (!empty($data['filter_zone_id'])) {
+					$sql .= " AND o.shipping_zone_id <> '" . (int)$data['filter_zone_id'] . "'";
+				} elseif (!empty($data['filter_country_id'])) {
+					$sql .= " AND o.shipping_country_id <> '" . (int)$data['filter_country_id'] . "'";
+				}
+			} else {
+				if (!empty($data['filter_country_id'])) {
+					$sql .= " AND o.shipping_country_id = '" . (int)$data['filter_country_id'] . "'";
+				}
+				if (!empty($data['filter_zone_id'])) {
+					$sql .= " AND o.shipping_zone_id = '" . (int)$data['filter_zone_id'] . "'";
+				}
+			}
+			
+			if (!empty($data['filter_language_id'])) {
+				$sql .= " AND o.language_id = '" . (int)$data['filter_language_id'] . "'";
+			}
+			
+			if (!empty($data['filter_customer_group_id']) && is_array($data['filter_customer_group_id'])) {
+				$gimplode = array();
+				
+				foreach ($data['filter_customer_group_id'] as $customer_group_id) {
+					$gimplode[] = (int)$customer_group_id;
+				}
+			
+				if ($gimplode) {
+					$sql .= " AND c.customer_group_id IN (" . implode(", ", $gimplode) . ")";
+				}
+			}
+			
+			if ($pimplode) {
+				if (!empty($data['invers_product'])) {
+					$sql .= " AND e2.email IS NULL";
+				} else {
+					$sql .= " AND op.product_id IN (" . implode(", ", $pimplode) . ")";
+				}
+			}
+			
+			if ($cpimplode) {
+				if (!empty($data['invers_category'])) {
+					$sql .= " AND e2.email IS NULL";
+				} else {
+					$sql .= " AND p2c.category_id IN (" . implode(", ", $cpimplode) . ")";
+					if ($main_category) {
+						$sql .= " AND p2c.main_category = '1'";
+					}
+				}
+			}
+			
+			$query = $this->db->query($sql);
+	
+			if ($query->num_rows) {
+				$mails = $query->rows;
+			}
+	
+			if ($mails) {
+				if (!empty($data['filter_start']) && ((int)$data['filter_start'] > 0)) {
+					$filter_start = (int)$data['filter_start'];
+				} else {
+					$filter_start = 0;
+				}
+	
+				if (!empty($data['filter_limit']) && ((int)$data['filter_limit'] > $filter_start)) {
+					$filter_limit = (int)$data['filter_limit'] - (int)$filter_start;
+				} elseif (!empty($data['filter_limit']) && ((int)$data['filter_limit'] <= $filter_start)) {
+					$filter_limit = 1;
+				} else {
+					$filter_limit = count($mails);
+				}
+	
+				$mails = array_slice($mails, $filter_start, $filter_limit);
+			}
+	
+			return $mails;
+		} else {
+			return array();
+		}
+	}
+	
+	public function addUnsubscribe($email, $send_id = 0, $customer_id = 0) {
+		$query = $this->db->query("SELECT unsubscribe_id FROM " . DB_PREFIX . "contacts_unsubscribe WHERE LCASE(email) = '" . $this->db->escape(utf8_strtolower($email)) . "' LIMIT 1");
+		if ($query->num_rows) {
+			$unsubscribe_id = $query->row['unsubscribe_id'];
+			$this->db->query("UPDATE " . DB_PREFIX . "contacts_newsletter SET unsubscribe_id = '" . (int)$unsubscribe_id . "' WHERE LCASE(email) = '" . $this->db->escape(utf8_strtolower($email)) . "'");
+		} else {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "contacts_unsubscribe SET send_id = '" . (int)$send_id . "', customer_id = '" . (int)$customer_id . "', email = '" . $this->db->escape(utf8_strtolower($email)) . "', date_added = NOW()");
+			$unsubscribe_id = $this->db->getLastId();
+			$this->db->query("UPDATE " . DB_PREFIX . "contacts_newsletter SET unsubscribe_id = '" . (int)$unsubscribe_id . "' WHERE LCASE(email) = '" . $this->db->escape(utf8_strtolower($email)) . "'");
+		}
+
+		if ($customer_id > 0) {
+			$this->db->query("UPDATE " . DB_PREFIX . "customer SET newsletter = '0' WHERE customer_id = '" . (int)$customer_id . "'");
+		} else {
+			$this->db->query("UPDATE " . DB_PREFIX . "customer SET newsletter = '0' WHERE LCASE(email) = '" . $this->db->escape(utf8_strtolower($email)) . "'");
+		}
+	}
+	
+	public function checkEmailUnsubscribe($email) {
+		$check = false;
+		$query = $this->db->query("SELECT unsubscribe_id FROM " . DB_PREFIX . "contacts_unsubscribe WHERE LCASE(email) = '" . $this->db->escape(utf8_strtolower($email)) . "' LIMIT 1");
+		if ($query->num_rows) {
+			$check = true;
+		}
+		return $check;
+	}
+	
+	public function checkCustomerNewsletter($customer_id) {
+		$check = false;
+		$query = $this->db->query("SELECT newsletter FROM " . DB_PREFIX . "customer WHERE customer_id = '" . (int)$customer_id . "' LIMIT 1");
+		if ($query->num_rows) {
+			if ($query->row['newsletter'] == 1) {
+				$check = true;
+			}
+		}
+		return $check;
+	}
+	
+	public function getCustomerData($customer_id) {
+		$sql = "SELECT DISTINCT c.email, c.customer_id, c.firstname, c.lastname, c.date_added, cy.name AS country, zn.name AS zone FROM " . DB_PREFIX . "customer c";
+		$sql .= " LEFT JOIN " . DB_PREFIX . "address ad ON (c.customer_id = ad.customer_id)";
+		$sql .= " LEFT JOIN " . DB_PREFIX . "country cy ON (ad.country_id = cy.country_id)";
+		$sql .= " LEFT JOIN `" . DB_PREFIX . "zone` zn ON (ad.zone_id = zn.zone_id)";
+		$sql .= " WHERE c.customer_id = '" . (int)$customer_id . "' AND c.email <> ''";
+
+		$query = $this->db->query($sql);
+		return $query->row;
+	}
+	
+	public function getNewsletters($data = array()) {
+		if ($this->checkLicense()) {
+			$newsletters = array();
+	
+			$sql = "SELECT DISTINCT(cn.newsletter_id), cn.unsubscribe_id, cn.customer_id, cn.email AS cemail, cn.firstname AS nfirstname, cn.lastname AS nlastname, CONCAT(cn.firstname, ' ', cn.lastname) AS nname, c.newsletter, c.firstname, c.lastname, CONCAT(c.firstname, ' ', c.lastname) AS cname, cgd.name AS customer_group, cgp.name AS cgroup FROM " . DB_PREFIX . "contacts_newsletter cn";
+			$sql .= " LEFT JOIN " . DB_PREFIX . "contacts_group cgp ON (cn.group_id = cgp.group_id)";
+			$sql .= " LEFT JOIN " . DB_PREFIX . "customer c ON (cn.customer_id = c.customer_id)";
+			$sql .= " LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id)";
+			$sql .= " WHERE cn.email <> ''";
+			
+			$implode = array();
+			
+			if (!empty($data['filter_name'])) {
+				$implode[] = "CONCAT(cn.firstname, ' ', cn.lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+				$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+			}
+			
+			if (!empty($data['filter_email'])) {
+				$implode[] = "cn.email LIKE '%" . $this->db->escape($data['filter_email']) . "%'";
+			}
+			
+			if ($implode) {
+				$sql .= " AND " . implode(" OR ", $implode);
+			}
+			
+			if (!empty($data['filter_group_id'])) {
+				if (is_array($data['filter_group_id'])) {
+					$gimplode = array();
+					
+					foreach ($data['filter_group_id'] as $group_id) {
+						$gimplode[] = "cn.group_id = '" . (int)$group_id . "'";
+					}
+				
+					if ($gimplode) {
+						$sql .= " AND (" . implode(" OR ", $gimplode) . ")";
+					}
+				} else {
+					$sql .= " AND cn.group_id = '" . (int)$data['filter_group_id'] . "'";
+				}
+			}
+
+			if (!empty($data['filter_customer_group_id'])) {
+				$sql .= " AND c.customer_group_id = '" . (int)$data['filter_customer_group_id'] . "'";
+			}
+			
+			if (isset($data['filter_unsubscribe']) && !is_null($data['filter_unsubscribe']) && ($data['filter_unsubscribe'] == '0')) {
+				$sql .= " AND cn.unsubscribe_id > '0'";
+			}
+			
+			if (isset($data['filter_unsubscribe']) && !is_null($data['filter_unsubscribe']) && ($data['filter_unsubscribe'] == '1')) {
+				$sql .= " AND cn.unsubscribe_id = '0'";
+			}
+			
+			$sql .= " AND (cgd.language_id = '" . (int)$this->config->get('config_language_id') . "' OR cgd.language_id IS null)";
+			
+			$sort_data = array(
+				'cname',
+				'cemail',
+				'customer_group',
+				'cgroup'
+			);
+			
+			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+				$sql .= " ORDER BY " . $data['sort'];
+			} else {
+				$sql .= " ORDER BY cemail";
+			}
+			
+			if (isset($data['order']) && ($data['order'] == 'DESC')) {
+				$sql .= " DESC";
+			} else {
+				$sql .= " ASC";
+			}
+			
+			if (isset($data['start']) || isset($data['limit'])) {
+				if ($data['start'] < 0) {
+					$data['start'] = 0;
+				}			
+
+				if ($data['limit'] < 1) {
+					$data['limit'] = 10;
+				}	
+				
+				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+			}
+			
+			$query = $this->db->query($sql);
+	
+			if ($query->num_rows) {
+				$newsletters = $query->rows;
+			}
+	
+			if ($newsletters) {
+				if (!empty($data['filter_start']) && ((int)$data['filter_start'] > 0)) {
+					$filter_start = $data['filter_start'];
+				} else {
+					$filter_start = 0;
+				}
+	
+				if (!empty($data['filter_limit']) && ((int)$data['filter_limit'] > $filter_start)) {
+					$filter_limit = (int)$data['filter_limit'] - (int)$filter_start;
+				} elseif (!empty($data['filter_limit']) && ((int)$data['filter_limit'] <= $filter_start)) {
+					$filter_limit = 1;
+				} else {
+					$filter_limit = count($newsletters);
+				}
+	
+				$newsletters = array_slice($newsletters, $filter_start, $filter_limit);
+			}
+	
+			return $newsletters;
+		} else {
+			return array();
+		}
+	}
+	
+	public function getEmailAffiliates($data = array()) {
+		if ($this->checkLicense()) {
+			$affiliates = array();
+	
+			$sql = "SELECT DISTINCT af.email, af.firstname, af.lastname, cy.name AS country, zn.name AS zone FROM " . DB_PREFIX . "affiliate af";
+			$sql .= " LEFT JOIN " . DB_PREFIX . "country cy ON (af.country_id = cy.country_id)";
+			$sql .= " LEFT JOIN `" . DB_PREFIX . "zone` zn ON (af.zone_id = zn.zone_id)";
+			$sql .= " WHERE af.email <> ''";
+			
+			if (!empty($data['filter_affiliate_id']) && is_array($data['filter_affiliate_id'])) {
+				$aimplode = array();
+				
+				if (!empty($data['invers_affiliate'])) {
+					foreach ($data['filter_affiliate_id'] as $affiliate_id) {
+						$aimplode[] = (int)$affiliate_id;
+					}
+					if ($aimplode) {
+						$sql .= " AND af.affiliate_id NOT IN (" . implode(", ", $aimplode) . ")";
+					}
+				} else {
+					foreach ($data['filter_affiliate_id'] as $affiliate_id) {
+						$aimplode[] = (int)$affiliate_id;
+					}
+					if ($aimplode) {
+						$sql .= " AND af.affiliate_id IN (" . implode(", ", $aimplode) . ")";
+					}
+				}
+			}
+			
+			if (!empty($data['invers_region'])) {
+				if (!empty($data['filter_zone_id'])) {
+					$sql .= " AND af.zone_id <> '" . (int)$data['filter_zone_id'] . "'";
+				} elseif (!empty($data['filter_country_id'])) {
+					$sql .= " AND af.country_id <> '" . (int)$data['filter_country_id'] . "'";
+				}
+			} else {
+				if (!empty($data['filter_country_id'])) {
+					$sql .= " AND af.country_id = '" . (int)$data['filter_country_id'] . "'";
+				}
+				if (!empty($data['filter_zone_id'])) {
+					$sql .= " AND af.zone_id = '" . (int)$data['filter_zone_id'] . "'";
+				}
+			}
+			
+			if (!empty($data['filter_date_start'])) {
+				$sql .= " AND DATE(af.date_added) >= DATE('" . $this->db->escape($data['filter_date_start']) . "')";
+			}
+			
+			if (!empty($data['filter_date_end'])) {
+				$sql .= " AND DATE(af.date_added) <= DATE('" . $this->db->escape($data['filter_date_end']) . "')";
+			}
+			
+			$query = $this->db->query($sql);
+	
+			if ($query->num_rows) {
+				$affiliates = $query->rows;
+			}
+	
+			if ($affiliates) {
+				if (!empty($data['filter_start']) && ((int)$data['filter_start'] > 0)) {
+					$filter_start = (int)$data['filter_start'];
+				} else {
+					$filter_start = 0;
+				}
+
+				if (!empty($data['filter_limit']) && ((int)$data['filter_limit'] > $filter_start)) {
+					$filter_limit = (int)$data['filter_limit'] - (int)$filter_start;
+				} elseif (!empty($data['filter_limit']) && ((int)$data['filter_limit'] <= $filter_start)) {
+					$filter_limit = 1;
+				} else {
+					$filter_limit = count($affiliates);
+				}
+
+				$affiliates = array_slice($affiliates, $filter_start, $filter_limit);
+			}
+
+			return $affiliates;
+		} else {
+			return array();
+		}
+	}
+
+	public function getAffiliateData($affiliate_id) {
+		$sql = "SELECT DISTINCT af.email, af.firstname, af.lastname, cy.name AS country, zn.name AS zone FROM " . DB_PREFIX . "affiliate af";
+		$sql .= " LEFT JOIN " . DB_PREFIX . "country cy ON (af.country_id = cy.country_id)";
+		$sql .= " LEFT JOIN `" . DB_PREFIX . "zone` zn ON (af.zone_id = zn.zone_id)";
+		$sql .= " WHERE af.affiliate_id = '" . (int)$affiliate_id . "' AND af.email <> ''";
+		
+		$query = $this->db->query($sql);
+		return $query->row;
+	}
+	
+	public function checkLicense() {
+		$lic = 1;
+		return $lic;
+	}
+	
+	public function getShopStore($store_id) {
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "store WHERE store_id = '" . (int)$store_id . "'");
+		return $query->row;
+	}
+}
 ?>
-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

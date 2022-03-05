@@ -51,8 +51,8 @@
         $no_displ_attib_id = array_merge($displ_param_1, $displ_param_2, $displ_param_3);
         $arr_attrib_url = array(
             'brend' => array(
-                'adamex---adameks' => $displ_param_1
-                ,'bebe-mobile---bebi-mobay' => $displ_param_2
+                'adamex-adameks' => $displ_param_1
+                ,'bebe-mobile-bebi-mobayl' => $displ_param_2
 				,'peg-perego-peg-perego' => $displ_param_3
                 )
         );

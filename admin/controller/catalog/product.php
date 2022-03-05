@@ -1982,7 +1982,7 @@ class ControllerCatalogProduct extends Controller
                 'limit'        => $limit
             );
 
-            $results = $this->model_catalog_product->getProducts($data);
+            $results = $this->model_catalog_product->getExistProducts($data);
 
             foreach ($results as $result) {
                 $option_data = array();

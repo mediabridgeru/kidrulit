@@ -88,7 +88,7 @@
       <td class="left"><?php echo $newsletter['name']; ?></td>
       <td class="left"><?php echo $newsletter['customer_group']; ?></td>
 	  <td class="center"><?php if ($newsletter['subscriber']) { ?><div class="subscriber"></div><?php } else { ?><div class="unsubscriber"></div><?php } ?></td>
-	  <td class="right">
+	  <td class="right action">
 	    <?php foreach ($newsletter['action'] as $action) { ?><a onclick="<?php echo $action['onclk']; ?>" class="<?php echo $action['clss']; ?>" title="<?php echo $action['text']; ?>"></a><?php } ?>
 	  </td>
     </tr>

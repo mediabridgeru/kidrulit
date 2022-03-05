@@ -3122,10 +3122,23 @@ a.btn{
     background-image:linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 100%); /* W3C */
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#8cffffff', GradientType=0); /* IE6-9 */
 }
-.product-grid .image .cart, .box-product .image .cart{ position:absolute; right:50%; bottom:4px; padding:0; margin:0 -82px 0 0; z-index:11; width:77px;
+.product-grid .image .cart, .box-product .image .cart{
+    position:absolute;
+    right:50%;
+    bottom:4px;
+    padding:0;
+    margin:0 -82px 0 0;
+    z-index:11;
+    width:77px;
     border-radius:10px;
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
+}
+.touch .product-grid .image .cart, .touch .box-product .image .cart{
+    left:50%;
+    right:auto;
+    bottom:4px;
+    margin:0 0 0 -38px;
 }
 .product-grid .cart span.btn-color, .product-grid .cart a.btn-color,
 .box-product .cart span.btn-color, .box-product .cart a.btn-color{
@@ -3187,7 +3200,7 @@ div.image div.btn-quickshop, div.image .cart{
     -webkit-transform:scale(.5);
     -o-transform:scale(.5);
 }
-.notouch div.image:hover div.btn-quickshop, .notouch div.image:hover .cart{
+.notouch div.image:hover div.btn-quickshop, .notouch div.image:hover .cart, .touch div.image .cart{
     opacity:1;
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     filter:alpha(opacity=100);

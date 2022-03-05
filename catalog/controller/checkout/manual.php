@@ -59,8 +59,9 @@ class ControllerCheckoutManual extends Controller {
                 $order_id = $this->request->post['order_id'];
             }
 
-			$order_product_ids = array();
-            $current_order_products = array();
+			$current_product_ids = []; // ID товаров, которые были в заказе до добавления
+            $current_products_quantity = []; // количества товаров, которые были в заказе до добавления
+            $order_db_subtracted_products = []; // товары в заказе с гтд, из которых бралось количество
 
             $order_product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
 
@@ -68,17 +69,27 @@ class ControllerCheckoutManual extends Controller {
                 foreach ($order_product_query->rows as $order_product) {
                     /* FIX: Сохраняем ид продуктов заказа и формируем уникальный индекс состоящий из ид и модели */
                     /* Если модель отсутствует, то order_product_id не будет найден. */
-                    $order_product_ids[$order_product['product_id'] . ($order_product['model'] ?: '')] = $order_product['order_product_id'];
-                    $current_order_products[$order_product['product_id'] . ($order_product['model'] ?: '')] = $order_product['quantity'];
+                    $current_product_ids[$order_product['product_id'] . ($order_product['model'] ?: '')] = $order_product['order_product_id'];
+                    $current_products_quantity[$order_product['product_id'] . ($order_product['model'] ?: '')] = $order_product['quantity'];
+
+                    if (!empty($order_product['products'])) {
+                        $order_db_subtracted_products[$order_product['product_id'] . $order_product['model']] = unserialize($order_product['products']); // массив товаров, у которых списано количество
+                    }
                 }
             }
+
+            $order_page_subtracted_products = []; // товары в заказе с гтд, из которых бралось количество до добавления текущего товара
 
 			if (isset($this->request->post['order_product'])) { // товары, которые были на странице заказа до добавления текущего товара
 				foreach ($this->request->post['order_product'] as $order_page_product) {
 					$product_info = $this->model_catalog_product->getProduct($order_page_product['product_id']);
 
-					if ($product_info) {	
-						$option_data = array();
+					if ($product_info) {
+                        if (!empty($order_page_product['products'])) {
+                            $order_page_subtracted_products[$order_page_product['product_id'] . $order_page_product['model']] = unserialize($order_page_product['products']); // массив товаров, у которых списано количество
+                        }
+
+						$option_data = [];
 
 						if (isset($order_page_product['order_option'])) {
 							foreach ($order_page_product['order_option'] as $option) {
@@ -98,11 +109,13 @@ class ControllerCheckoutManual extends Controller {
 			}
 
 			if (isset($this->request->post['product_id'])) { // товары, которые добавлены в заказ по кнопке Добавить товар
-				$product_info = $this->model_catalog_product->getProduct($this->request->post['product_id']);
+				$product_id = $this->request->post['product_id'];
+
+                $product_info = $this->model_catalog_product->getProduct($product_id);
 
 				if ($product_info) {
 					if (isset($this->request->post['quantity'])) {
-						$quantity = $this->request->post['quantity'];
+						$quantity = (int)$this->request->post['quantity'];
 					} else {
 						$quantity = 1;
 					}
@@ -113,7 +126,48 @@ class ControllerCheckoutManual extends Controller {
 						$option = array();	
 					}
 
-					$product_options = $this->model_catalog_product->getProductOptions($this->request->post['product_id']);
+                    $gtd = (int)$product_info['upc_more']; // включена галка Имеются товары этой модели с другим ГТД
+
+                    if ($gtd) {
+                        $product_model = $product_info['model'];
+
+                        if (!empty($order_db_subtracted_products[$product_id . $product_model])) {
+                            $cart_old_subtracted_products = $order_db_subtracted_products[$product_id . $product_model]; // массив товаров, у которых были вычеты количества в заказе
+                            $cart_new_subtracted_products = $order_page_subtracted_products[$product_id . $product_model]; // массив товаров, у которых были вычеты количества на странице заказа до добавления текущего товара
+
+                            $group_product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p WHERE p.model = '" . $product_model . "' AND p.upc_quantity > 0 ORDER BY p.upc, p.date_added");
+
+                            if ($group_product_query->num_rows) { // массив всех товаров с такой моделью
+                                $new_subtracted_product_quantity = $subtracted_option_quantity = $quantity; // количество новых товаров, которое списано у всей группы
+
+                                foreach ($group_product_query->rows as $product) {
+                                    if ($new_subtracted_product_quantity) {
+                                        if (isset($cart_old_subtracted_products[$product['product_id']])) {
+                                            $cart_old_subtracted_quantity = $cart_old_subtracted_products[$product['product_id']];
+                                        } else {
+                                            $cart_old_subtracted_quantity = 0; // количество товаров, которое было отнято у очередного товара
+                                        }
+
+                                        if (isset($cart_new_subtracted_products[$product['product_id']])) {
+                                            $cart_new_subtracted_quantity = $cart_new_subtracted_products[$product['product_id']];
+                                        } else {
+                                            $cart_new_subtracted_quantity = 0; // количество товаров, которое было отнято у очередного товара
+                                        }
+
+                                        if (($cart_new_subtracted_quantity - $cart_old_subtracted_quantity + $new_subtracted_product_quantity) < (int)$product['upc_quantity']) {
+                                            $order_page_subtracted_products[$product_id . $product_model][$product['product_id']] = $cart_new_subtracted_quantity + $new_subtracted_product_quantity;
+                                            $new_subtracted_product_quantity = 0;
+                                        } else {
+                                            $new_subtracted_product_quantity = $cart_new_subtracted_quantity - $cart_old_subtracted_quantity + $new_subtracted_product_quantity - (int)$product['upc_quantity'];
+                                            $order_page_subtracted_products[$product_id . $product_model][$product['product_id']] = $cart_old_subtracted_quantity + (int)$product['upc_quantity'];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+					$product_options = $this->model_catalog_product->getProductOptions($product_id);
 
 					foreach ($product_options as $product_option) {
 						if ($product_option['required'] && empty($option[$product_option['product_option_id']])) {
@@ -122,13 +176,13 @@ class ControllerCheckoutManual extends Controller {
 					}
 
 					if (!isset($json['error']['product']['option'])) {
-						$this->cart->add($this->request->post['product_id'], $quantity, $option);
+						$this->cart->add($product_id, $quantity, $option);
 					}
 				}
 			}
 
 			// Stock
-			if (!$this->cart->hasStock($current_order_products) && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
+			if (!$this->cart->hasStock($current_products_quantity) && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
 				$json['error']['product']['stock'] = $this->language->get('error_stock');
 			}		
 
@@ -143,19 +197,25 @@ class ControllerCheckoutManual extends Controller {
 			$this->tax->setStoreAddress($this->config->get('config_country_id'), $this->config->get('config_zone_id'));	
 
 			// Products
-			$json['order_product'] = array();
+			$json['order_product'] = [];
 
-			$products = $this->cart->getProducts($current_order_products);
+			$cart_products = $this->cart->getProducts($current_products_quantity); // все товары в корзине после добавления
 
-			foreach ($products as $product) {
+			foreach ($cart_products as $product) {
+                $products = [];
+                $subtracted_products = '';
+
+			    if (isset($order_page_subtracted_products[$product['product_id'].$product['model']])) {
+                    $products = $order_page_subtracted_products[$product['product_id'].$product['model']];
+
+                    foreach ($products as $product_id => $qty) {
+                        $subtracted_products .= '<br>' . $product_id . ' - ' . $qty;
+                    }
+                }
+
 				$product_total = 0;
-                $gtd = (int)$product['upc_more']; // включена галка Имеются товары этой модели с другим ГТД
-                $product_model = $product['model'];
 
-                $subtracted_product_quantity = $subtracted_option_quantity = (int)$product['quantity']; // количество товаров, которое списано у всей группы
-                $order_subtracted_products = []; // массив товаров, у которых списано количество
-
-				foreach ($products as $product_2) {
+				foreach ($cart_products as $product_2) {
 					if ($product_2['product_id'] == $product['product_id']) {
 						$product_total += $product_2['quantity'];
 					}
@@ -200,8 +260,14 @@ class ControllerCheckoutManual extends Controller {
 					);
 				}
 
+				if (empty($products)) {
+                    $products = '';
+                } else {
+                    $products = serialize($products);
+                }
+
                 $json['order_product'][] = array(
-                    'order_product_ids' => $order_product_ids,
+                    'order_product_ids' => $current_product_ids,
                     'product_id'        => $product['product_id'],
                     'name'              => $product['name'],
                     'model'             => $product['model'],
@@ -210,6 +276,8 @@ class ControllerCheckoutManual extends Controller {
                     'quantity'          => $product['quantity'],
                     'stock'             => $product['stock'],
                     'db_quantity'       => $product['db_quantity'],
+                    'products'          => $products,
+                    'subtracted_products' => $subtracted_products,
                     'price'             => $product['price'],
                     'total'             => $product['total'],
                     'tax'               => $this->tax->getTax($product['price'], $product['tax_class_id']),

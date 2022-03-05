@@ -598,6 +598,7 @@ class ControllerProductXlsPricelist extends Controller
         $model_index = 3;
         $sku_index = 4;
         $name_index = 5;
+        $report_name_index = 6;
         $option_index = 6;
         $attribute_index = 7;
         $quantity_index = 8;
@@ -619,16 +620,20 @@ class ControllerProductXlsPricelist extends Controller
                 $model = $worksheet->getCellByColumnAndRow($model_index, $row)->getValue(); // Код
                 $sku = $worksheet->getCellByColumnAndRow($sku_index, $row)->getValue(); // SKU
                 $name = $worksheet->getCellByColumnAndRow($name_index, $row)->getValue(); // Наименование
+                $report_name = $worksheet->getCellByColumnAndRow($report_name_index, $row)->getValue(); // Наименование для отчётов
                 //$options = $worksheet->getCellByColumnAndRow($option_index, $row)->getValue(); // Опции
                 $attributes = trim($worksheet->getCellByColumnAndRow($attribute_index, $row)->getValue()); // Атрибуты
                 $quantity = (int)$worksheet->getCellByColumnAndRow($quantity_index, $row)->getValue(); // На складе
-                $price = (int)$worksheet->getCellByColumnAndRow($price_index, $row)->getValue(); // Розница
-                $special = (int)$worksheet->getCellByColumnAndRow($special_index, $row)->getValue(); // Опт
+                $price = $worksheet->getCellByColumnAndRow($price_index, $row)->getValue(); // Розница
+                $price = (float)str_replace(",", ".", $price);
+                $special = $worksheet->getCellByColumnAndRow($special_index, $row)->getValue(); // Опт
+                $special = (float)str_replace(",", ".", $special);
                 $manufacturer = $worksheet->getCellByColumnAndRow($manufacturer_index, $row)->getValue(); // Производитель
                 $related2 = trim($worksheet->getCellByColumnAndRow($related2_index, $row)->getValue()); // Рекомендуемые
                 $stock_status = $worksheet->getCellByColumnAndRow($status_index, $row)->getValue(); // Cтатус
 
                 $status = 0;
+
                 if ($stock_status == 'В наличии') {
                     $status = 1;
                 } elseif ($stock_status == 'Отсутствует') {
@@ -649,6 +654,7 @@ class ControllerProductXlsPricelist extends Controller
                     'model'           => $model,
                     'sku'             => $sku,
                     'name'            => $name,
+                    'report_name'     => $report_name,
                     'option'          => $option,
                     'attribute'       => $attribute,
                     'related'         => $related,
@@ -1113,6 +1119,10 @@ class ControllerProductXlsPricelist extends Controller
                 'check' => true,
                 'width' => $this->xls_pricelist_name_width,
             ], [
+                'name'  => 'Наименование для отчётов',
+                'check' => true,
+                'width' => $this->xls_pricelist_name_width,
+            ], [
                 'name'  => 'Опции',
                 'check' => true,
                 'width' => 20,
@@ -1475,6 +1485,11 @@ class ControllerProductXlsPricelist extends Controller
                         $worksheet->getCellByColumnAndRow($col, $row)->getHyperlink()->setUrl(str_replace('&amp;', '&', $this->url->link('product/product', 'path=' . $path . '&product_id=' . $result['product_id'])));
                         $col++;
 
+                        $worksheet->setCellValueByColumnAndRow($col, $row, html_entity_decode($result['report_name'], ENT_QUOTES, 'UTF-8'));
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_name);
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getAlignment()->setWrapText(true);
+                        $col++;
+
                         $worksheet->setCellValueByColumnAndRow($col, $row, ' ');
                         $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_stock);
                         $col++;
@@ -1701,6 +1716,11 @@ class ControllerProductXlsPricelist extends Controller
                                     $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_name);
                                     $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getAlignment()->setWrapText(true);
                                     $worksheet->getCellByColumnAndRow($col, $row)->getHyperlink()->setUrl(str_replace('&amp;', '&', $this->url->link('product/product', 'path=' . $path . '&product_id=' . $result['product_id'])));
+                                    $col++;
+
+                                    $worksheet->setCellValueByColumnAndRow($col, $row, html_entity_decode($result['report_name'], ENT_QUOTES, 'UTF-8'));
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_name);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getAlignment()->setWrapText(true);
                                     $col++;
 
                                     $worksheet->setCellValueByColumnAndRow($col, $row, html_entity_decode($option['name'] . ': ' . $option_value['name'], ENT_QUOTES, 'UTF-8'));
@@ -1991,6 +2011,10 @@ class ControllerProductXlsPricelist extends Controller
                 $this->db->query("UPDATE " . DB_PREFIX . "product_special SET price = '" . (float)$data['special'] . "' WHERE product_id = '" . (int)$product_id . "'");
 
                 $product_sql .= "quantity = '" . (int)$data['quantity'] . "', upc_quantity = '" . (int)$data['quantity'] . "', ";
+            }
+
+            if ($data['report_name']) {
+                $this->db->query("UPDATE " . DB_PREFIX . "product_description SET report_name = '" . $data['report_name'] . "' WHERE product_id = '" . (int)$product_id . "' AND language_id = '" . (int)$language_id . "'");
             }
 
             if ($data['attribute']) {

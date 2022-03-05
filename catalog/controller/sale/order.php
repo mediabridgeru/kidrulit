@@ -839,7 +839,7 @@ class ControllerSaleOrder extends Controller
         $sheet->mergeCells("B$r:D$r");
         $sheet->setCellValue("B$r", 'ИНН');
         $sheet->mergeCells("E$r:J$r");
-        $sheet->setCellValueExplicit("E$r", '502912149767', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+        $sheet->setCellValueExplicit("E$r", '502919620199', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
         $sheet->getStyle("B$r:J$r")->applyFromArray($border_thin);
         $sheet->mergeCells("K$r:M$r");
         $sheet->setCellValue("K$r", 'КПП');
@@ -850,13 +850,13 @@ class ControllerSaleOrder extends Controller
         $sheet->setCellValue("T$r", 'Сч. №');
         $sheet->getStyle("T$r:V".($r+3))->applyFromArray($border_thin);
         $sheet->mergeCells("W$r:AL".($r+3));
-        $sheet->setCellValue("W$r", '40802810940000010248');
+        $sheet->setCellValue("W$r", '40802810140000117404');
         $sheet->getStyle("W$r:AL".($r+3))->applyFromArray($border_thin);
         $r++;
 
         $sheet->mergeCells("B$r:S".($r+1)); // 8
         $sheet->getStyle("B$r:S$r")->getAlignment()->setWrapText(true);
-        $sheet->setCellValue("B$r", 'Индивидуальный предприниматель Масенко Елена Владимировна');
+        $sheet->setCellValue("B$r", 'Индивидуальный предприниматель Подоляко Александр Валерьевич');
         $sheet->getStyle("B$r:S".($r+2))->applyFromArray($border_thin);
         $r++;
 
@@ -891,7 +891,7 @@ class ControllerSaleOrder extends Controller
         $sheet->getStyle("H$r:AL$r")->applyFromArray($font9b);
         $sheet->mergeCells("H$r:AL$r");
         $sheet->getStyle("H$r:AL$r")->getAlignment()->setWrapText(true);
-        $sheet->setCellValue("H$r", 'Индивидуальный предприниматель Масенко Елена Владимировна, ИНН 502912149767, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40');
+        $sheet->setCellValue("H$r", 'Индивидуальный предприниматель Подоляко Александр Валерьевич, ИНН 502919620199, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40');
         $r++;
 
         $sheet->mergeCells("A$r:AM$r");$sheet->getRowDimension($r)->setRowHeight(6); $r++;
@@ -903,7 +903,7 @@ class ControllerSaleOrder extends Controller
         $sheet->getStyle("H$r:AL$r")->applyFromArray($font9b);
         $sheet->mergeCells("H$r:AL$r");
         $sheet->getStyle("H$r:AL$r")->getAlignment()->setWrapText(true);
-        $sheet->setCellValue("H$r", 'Индивидуальный предприниматель Масенко Елена Владимировна, ИНН 502912149767, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40');
+        $sheet->setCellValue("H$r", 'Индивидуальный предприниматель Подоляко Александр Валерьевич, ИНН 502919620199, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40');
         $r++;
 
         $sheet->mergeCells("A$r:AM$r");$sheet->getRowDimension($r)->setRowHeight(6); $r++;
@@ -1077,7 +1077,7 @@ class ControllerSaleOrder extends Controller
         $sheet->mergeCells("B$r:F$r");
         $sheet->setCellValue("B$r", 'Руководитель');
         $sheet->mergeCells("AC$r:AL$r");
-        $sheet->setCellValue("AC$r", 'Масенко Е. В.');
+        $sheet->setCellValue("AC$r", 'Подоляко А. В.');
         $r++;
 
         $sheet->getStyle("B$r:AL$r")->applyFromArray($font8);
@@ -1099,7 +1099,7 @@ class ControllerSaleOrder extends Controller
         $sheet->mergeCells("B$r:L$r");
         $sheet->setCellValue("B$r", 'Главный (старший) бухгалтер');
         $sheet->mergeCells("AC$r:AL$r");
-        $sheet->setCellValue("AC$r", 'Масенко Е. В.');
+        $sheet->setCellValue("AC$r", 'Подоляко А. В.');
         $r++;
 
         $sheet->getStyle("B$r:AL$r")->applyFromArray($font8);
@@ -1120,7 +1120,7 @@ class ControllerSaleOrder extends Controller
         $sheet->mergeCells("B$r:L$r");
         $sheet->setCellValue("B$r", 'Ответственный');
         $sheet->mergeCells("AC$r:AL$r");
-        $sheet->setCellValue("AC$r", 'Масенко Е. В.');
+        $sheet->setCellValue("AC$r", 'Подоляко А. В.');
         $r++;
 
         $sheet->getStyle("B$r:AL$r")->applyFromArray($font8);
@@ -1196,10 +1196,10 @@ class ControllerSaleOrder extends Controller
 
         $r               = array_fill(0, 39, "");
         $r[1]            = "ИНН";
-        $r[3]            = "502912149767";
+        $r[3]            = "502919620199";
         $r[10]           = "КПП";
         $r[19]           = "Сч. №";
-        $r[22]           = "40802810940000010248";
+        $r[22]           = "40802810140000117404";
         $s               = array_fill(0, 39, array('font-size' => 10, 'valign' => 'top', 'border-style' => 'thin'));
         $s['height']     = 12;
         $s[1]['border']  = 'left';
@@ -1218,7 +1218,7 @@ class ControllerSaleOrder extends Controller
         $writer->markMergedCell($sheet, $start_row = 6, $start_col = 22, $end_row = 9, $end_col = 37);
 
         $r              = array_fill(0, 39, "");
-        $r[1]           = "Индивидуальный предприниматель Масенко Елена Владимировна";
+        $r[1]           = "Индивидуальный предприниматель Подоляко Александр Валерьевич";
         $s              = array_fill(0, 39, array('font-size' => 10, 'valign' => 'top', 'border-style' => 'thin', 'wrap_text' => true));
         $s['height']    = 10;
         $s[1]['border'] = 'left,top';
@@ -1276,7 +1276,7 @@ class ControllerSaleOrder extends Controller
 
         $r           = array_fill(0, 39, "");
         $r[1]        = "Поставщик:";
-        $r[7]        = "Индивидуальный предприниматель Масенко Елена Владимировна, ИНН 502912149767, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40";
+        $r[7]        = "Индивидуальный предприниматель Подоляко Александр Валерьевич, ИНН 502919620199, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40";
         $s           = array_fill(0, 39, array());
         $s['height'] = 28;
         $s[1]        = array('valign' => 'center', 'font-size' => 9);
@@ -1289,7 +1289,7 @@ class ControllerSaleOrder extends Controller
 
         $r           = array_fill(0, 39, "");
         $r[1]        = "Грузоотправитель:";
-        $r[7]        = "Индивидуальный предприниматель Масенко Елена Владимировна, ИНН 502912149767, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40";
+        $r[7]        = "Индивидуальный предприниматель Подоляко Александр Валерьевич, ИНН 502919620199, Московская обл., Мытищи, ул.Колпакова, дом № 40, корпус 3, кв.66, тел.: 8-909-628-81-40";
         $s           = array_fill(0, 39, array());
         $s['height'] = 28;
         $s[1]        = array('valign' => 'center', 'font-size' => 9);
@@ -1448,7 +1448,7 @@ class ControllerSaleOrder extends Controller
 
         $r     = array_fill(0, 39, "");
         $r[1]  = "Руководитель";
-        $r[28] = "Масенко Е. В.";
+        $r[28] = "Подоляко А. В.";
         $s     = array_fill(0, 39, array('border-style' => 'thin'));
         for ($i = 7; $i <= 15; $i++)
             $s[$i]['border'] = 'bottom';
@@ -1484,7 +1484,7 @@ class ControllerSaleOrder extends Controller
 
         $r           = array_fill(0, 39, "");
         $r[1]        = "Главный (старший) бухгалтер";
-        $r[28]       = "Масенко Е. В.";
+        $r[28]       = "Подоляко А. В.";
         $s           = array_fill(0, 39, array('border-style' => 'thin'));
         $s['height'] = 14;
         for ($i = 17; $i <= 26; $i++)
@@ -1512,7 +1512,7 @@ class ControllerSaleOrder extends Controller
 
         $r           = array_fill(0, 39, "");
         $r[1]        = "Ответственный";
-        $r[28]       = "Масенко Е. В.";
+        $r[28]       = "Подоляко А. В.";
         $s           = array_fill(0, 39, array());
         $s['height'] = 14;
         for ($i = 17; $i <= 26; $i++)

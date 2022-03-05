@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+  <name>evotor IM Check</name>
+  <code>evotor</code>
+  <version>1.0.0</version>
+  <author>ARTandPR studio</author>
+  <link>https://store.pe-art.ru</link>
+  <file name="admin/model/sale/order.php">
+      <operation>
+        <search position="before"><![CDATA[
+    // Send out any gift voucher mails
+        ]]></search>
+        <add><![CDATA[
+          $this->load->model('module/evotor');
+          $this->model_module_evotor->evotorcurlito($order_info, (int)$data['order_status_id']);
+        ]]></add>
+      </operation>
+  </file>
+  <file name="catalog/model/checkout/order.php">
+      <operation>
+        <search position="before"><![CDATA[
+    // Send out any gift voucher mails
+        ]]></search>
+        <add><![CDATA[
+          $this->load->model('module/evotor');
+          $this->model_module_evotor->evotorcurlito($order_info, $order_status_id);
+        ]]></add>
+      </operation>
+  </file>
+  <file name="admin/controller/common/header.php">
+    <operation>
+      <search position="before"><![CDATA[$this->data['zone']]]></search>
+      <add><![CDATA[      $this->data['evotorfr'] = $this->url->link('module/evotor/checks', 'token=' . $this->session->data['token'], 'SSL');]]></add>
+    </operation>
+  </file>
+  <file name="admin/view/template/common/header.tpl">
+    <operation>
+      <search position="after"><![CDATA[<a href="<?php echo $contact; ?>"><?php echo $text_contact; ?></a>]]></search>
+      <add><![CDATA[          <li><a href="<?php echo $evotorfr; ?>">Evotor</a></li>]]></add>
+    </operation>
+  </file>
+</modification>

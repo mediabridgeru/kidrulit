@@ -206,6 +206,27 @@ var flag_geo = [];
             FullAddressSuggestions.options = FullAddressSuggestions.options || [];
             FullAddressSuggestions.options[$options.group_key] = [];
             FullAddressSuggestions.options[$options.group_key] = $options;
+            var field_name = $field.name;
+            var constraints = ($field.constraint.length > 0 ? $($field.group_id + " input[name*='" + $field.constraint + "']") : false);
+            if ($field.name === 'city') {
+                constraints = [
+                    {
+                        locations: { country: 'Россия' }
+                    },
+                    {
+                        locations: { country: 'Беларусь' }
+                    },
+                    {
+                        locations: { country: 'Казахстан' }
+                    },
+                    {
+                        locations: { country: 'Армения' }
+                    },
+                    {
+                        locations: { country: 'Кыргызстан' }
+                    }
+                ];
+            }
             var $suggest = $el.suggestions({
                 serviceUrl: "index.php?route=module/suggest/request&r=",
                 type: "ADDRESS",
@@ -214,7 +235,7 @@ var flag_geo = [];
                 count: $options.tips,
                 geoLocation: ($options.geoLocation && (flag_geo[$field.group_key] == undefined || 0)),
                 bounds: $field.parts_suggest.join('-'),
-                constraints: ($field.constraint.length > 0 ? $($field.group_id + " input[name*='" + $field.constraint + "']") : false),
+                constraints: constraints,
                 onSearchStart: function (params) {
                     return params;
                 },
@@ -222,17 +243,16 @@ var flag_geo = [];
                     var $lastfield = FullAddressSuggestions.options[$options.group_key].fields[FullAddressSuggestions.options[$options.group_key].last_active_key];
 
                     $.each(FullAddressSuggestions.options[$options.group_key].fields, function (index, $fieldd) {
-
                         formatSuggestionValues(suggest, $fieldd);
                     });
                     suggest.data.city_type = '';
                     if ($lastfield && changed == true) {
+
                         var from = jQuery($($field.group_id + " input[name*='" + $lastfield.name + "']")).attr('reload');
                         if (from != undefined && from.indexOf('checkout_') == 0) {
                             var event = $options.event || window.event;
 
                             if (event != undefined && event.type != 'readystatechange') {
-
                                 if (typeof simplecheckout_reload !== 'undefined' && $.isFunction(simplecheckout_reload)) {
                                     if (window.needToReload == true) {
                                         window.needToReload = false;
@@ -243,7 +263,6 @@ var flag_geo = [];
                                 }
                             }
                         }
-
                     }
 
                     var result = formatSuggestionValues(suggest, $field);

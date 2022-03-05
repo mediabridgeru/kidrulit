@@ -493,45 +493,6 @@ function simplecheckout_reload(from) {
 
             $('#boss_cart').load('index.php?route=module/cart #boss_cart > *');
             $('#top_cart').load('index.php?route=module/carthead #top_cart > *');
-
-            var $body = $('body');
-
-            var $custom_inn = $body.find('input[name*="custom_inn"]');
-
-            if ($custom_inn.length) {
-                $custom_inn.suggestions({
-                    serviceUrl: "index.php?route=module/suggest/request&r=",
-                    type: "PARTY",
-                    deferRequestBy: 200,
-                    count: 10,
-
-                    onSelect: function(suggestion) {
-                        var data = suggestion.data;
-                        $(this).val(data.inn);
-                        $('input[name*="custom_kpp"]').val(data.kpp);
-                        $('input[name*="custom_law_address"]').val(data.address.value);
-                        $('input[name*="custom_company"]').val(data.name.full_with_opf);
-                    }
-                });
-            }
-
-            var $custom_bank_bic = $body.find('input[name*="custom_bank_bic"]');
-
-            if ($custom_bank_bic.length) {
-                $custom_bank_bic.suggestions({
-                    serviceUrl: "index.php?route=module/suggest/request&r=",
-                    type: "BANK",
-                    deferRequestBy: 200,
-                    count: 10,
-
-                    onSelect: function(suggestion) {
-                        var data = suggestion.data;
-                        $(this).val(data.bic);
-                        $('input[name*="custom_bank_name"]').val(data.name.full);
-                        $('input[name*="custom_cor_account"]').val(data.correspondent_account);
-                    }
-                });
-            }
         },
 		error: function(xhr, ajaxOptions, thrownError) {
 			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);

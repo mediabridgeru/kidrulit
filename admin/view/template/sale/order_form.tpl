@@ -1447,7 +1447,12 @@ $('#button-product, #button-voucher, #button-update').live('click', function() {
 					html += '  </td>';
 					html += '  <td class="left">' + product['model'] + '<input type="hidden" name="order_product[' + product_row + '][model]" value="' + product['model'] + '" /></td>';
 				  html += '  <td class="right">' + product['quantity'] + '<input type="hidden" name="order_product[' + product_row + '][quantity]" value="' + product['quantity'] + '" />';
-				  if (product['stock']) {
+
+                  html += product['subtracted_products'];
+                  html += '  <input type="hidden" name="order_product[' + product_row + '][products]" value="' + product['products'] + '" />';
+
+
+                  if (product['stock']) {
                     html += '<div style="color: grey">';
                   } else {
                     html += '<div style="color: red">';
@@ -1462,7 +1467,8 @@ $('#button-product, #button-voucher, #button-update').live('click', function() {
 				}
 				
 				$('#product').html(html);
-			} else {
+
+            } else {
 				html  = '</tr>';
 				html += '  <td colspan="6" class="center"><?php echo $text_no_results; ?></td>';
 				html += '</tr>';	

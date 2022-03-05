@@ -388,6 +388,12 @@ class ControllerCheckoutSimpleCheckoutCustomer extends Controller {
                 }
                 if (isset($this->session->data['simple'][Simple::SET_CHECKOUT_CUSTOMER]) && is_array($this->session->data['simple'][Simple::SET_CHECKOUT_CUSTOMER])) {
                     $main_checkout_customer = array_merge($main_checkout_customer, $this->session->data['simple'][Simple::SET_CHECKOUT_CUSTOMER]);
+
+                    foreach ($main_checkout_customer as $key => $item) {
+                        if (strpos($key, 'custom_') === 0) {
+                            $custom_checkout_customer[$key]['value'] = $item;
+                        }
+                    }
                 }
                 if (isset($this->session->data['simple'][Simple::SET_CHECKOUT_ADDRESS]) && is_array($this->session->data['simple'][Simple::SET_CHECKOUT_ADDRESS])) {
                     $main_checkout_address = array_merge($main_checkout_address, $this->session->data['simple'][Simple::SET_CHECKOUT_ADDRESS]);
