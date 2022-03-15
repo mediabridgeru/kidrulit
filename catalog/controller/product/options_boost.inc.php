@@ -52,7 +52,7 @@ if ($xspecial) {
 //$this->load->model('catalog/options_boost');
 //$options = $this->model_catalog_options_boost->getProductOptions($this->request->get['product_id']);
 
-// Remove +0.0000 prices
+// Remove +0.00 prices
 //foreach ($options as $k => $option) {
 foreach ($this->data['options'] as $k => $option) {
 

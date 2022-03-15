@@ -6265,8 +6265,8 @@ class ControllerSaleContacts extends Controller {
 			$price_from = 0;
 			if ($product_options) {
 				$product_options_data = array();
-				$exmpl = 10000000.0000;
-				$result['price'] = 0.0000;
+				$exmpl = 10000000.00;
+				$result['price'] = 0.00;
 				foreach ($product_options as $product_option) {
 					$getpod_data  = array(
 						'product_option_id' => $product_option['product_option_id'], 
@@ -6368,7 +6368,7 @@ class ControllerSaleContacts extends Controller {
 			$product_options = $this->model_catalog_product->getProductOptionsmp($pods['product_id']);
 
 			$price_from = 0; // added
-			$exmpl = 10000000.0000;
+			$exmpl = 10000000.00;
 			
 			foreach ($product_options as $product_option) {
 				if($product_option['product_option_id'] == $args['product_option_id'] && is_array($product_option['option_value'])) {

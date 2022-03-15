@@ -1,117 +1,103 @@
 <?php
 require 'vendors/vendor/autoload.php';
 
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Writer\Html;
-use PhpOffice\PhpSpreadsheet\Style\Font;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Exception;
 
 class ControllerProductXlsPricelist extends Controller
 {
+    private $columns = [];
+    private $styles = [];
 
-    var $f_image = '';
-    var $f_model = '';
-    var $f_name = '';
-    var $f_stock = '';
-    var $f_price = '';
-    var $f_special = '';
+    public $delim = 0;
+    public $l_margin = 0;
+    public $xls_pricelist_store = [];
+    public $xls_pricelist_category = [];
+    public $xls_pricelist_use_image = '';
+    public $xls_pricelist_image_width = 50;
+    public $xls_pricelist_image_height = 50;
+    public $xls_pricelist_title = '';
+    public $xls_pricelist_adress = '';
+    public $xls_pricelist_phone = '';
+    public $xls_pricelist_email = '';
+    public $xls_pricelist_link = '';
+    public $xls_pricelist_custom_text = '';
+    public $xls_pricelist_title_color = '';
+    public $xls_pricelist_adress_color = '';
+    public $xls_pricelist_phone_color = '';
+    public $xls_pricelist_email_color = '';
+    public $xls_pricelist_link_color = '';
+    public $xls_pricelist_custom_color = '';
+    public $xls_pricelist_sort_order = '';
+    public $xls_pricelist_currency = '';
+    public $xls_pricelist_customer_group = '';
+    public $xls_pricelist_attribute_group = '';
+    public $xls_pricelist_listname = '';
+    public $xls_pricelist_use_options = '';
+    public $xls_pricelist_use_attributes = '';
+    public $xls_pricelist_nodubles = '';
+    public $xls_pricelist_use_quantity = '';
+    public $xls_pricelist_use_notinstock = '';
+    public $xls_pricelist_language = [];
+    public $xls_pricelist_usecache = 'no';
+    public $xls_pricelist_memcacheServer = 'localhost';
+    public $xls_pricelist_memcachePort = 11211;
+    public $xls_pricelist_cacheTime = 600;
+    public $xls_pricelist_use_special = '';
+    public $xls_pricelist_use_code = '';
+    public $xls_pricelist_code = '';
+    public $xls_pricelist_model_width = '';
+    public $xls_pricelist_name_width = '';
+    public $xls_pricelist_stock_width = '';
+    public $xls_pricelist_price_width = '';
+    public $xls_pricelist_special_width = '';
 
-    var $delim = 0;
-    var $l_margin = 0;
-    var $xls_pricelist_store = [];
-    var $xls_pricelist_category = [];
-    var $xls_pricelist_use_image = '';
-    var $xls_pricelist_image_width = 50;
-    var $xls_pricelist_image_height = 50;
-    var $xls_pricelist_title = '';
-    var $xls_pricelist_adress = '';
-    var $xls_pricelist_phone = '';
-    var $xls_pricelist_email = '';
-    var $xls_pricelist_link = '';
-    var $xls_pricelist_custom_text = '';
-    var $xls_pricelist_title_color = '';
-    var $xls_pricelist_adress_color = '';
-    var $xls_pricelist_phone_color = '';
-    var $xls_pricelist_email_color = '';
-    var $xls_pricelist_link_color = '';
-    var $xls_pricelist_custom_color = '';
-    var $xls_pricelist_sort_order = '';
-    var $xls_pricelist_currency = '';
-    var $xls_pricelist_customer_group = '';
-    var $xls_pricelist_attribute_group = '';
-    var $xls_pricelist_listname = '';
-    var $xls_pricelist_use_options = '';
-    var $xls_pricelist_use_attributes = '';
-    var $xls_pricelist_nodubles = '';
-    var $xls_pricelist_use_quantity = '';
-    var $xls_pricelist_use_notinstock = '';
-    var $xls_pricelist_language = '';
-    var $xls_pricelist_usecache = 'no';
-    var $xls_pricelist_memcacheServer = 'localhost';
-    var $xls_pricelist_memcachePort = 11211;
-    var $xls_pricelist_cacheTime = 600;
-    var $xls_pricelist_use_special = '';
-    var $xls_pricelist_use_code = '';
-    var $xls_pricelist_code = '';
-    var $xls_pricelist_model_width = '';
-    var $xls_pricelist_name_width = '';
-    var $xls_pricelist_stock_width = '';
-    var $xls_pricelist_price_width = '';
-    var $xls_pricelist_special_width = '';
+    public $xls_pricelist_logo = '';
+    public $xls_pricelist_logo_width = '';
+    public $xls_pricelist_logo_height = '';
+    public $xls_pricelist_use_collapse = 0;
+    public $xls_pricelist_use_protection = 0;
+    public $xls_pricelist_use_password = '';
 
-    var $xls_pricelist_logo = '';
-    var $xls_pricelist_logo_width = '';
-    var $xls_pricelist_logo_height = '';
-    var $xls_pricelist_use_collapse = 0;
-    var $xls_pricelist_use_protection = 0;
-    var $xls_pricelist_use_password = '';
+    public $xls_pricelist_thead_color = '';
+    public $xls_pricelist_thead_color_bg = '';
+    public $xls_pricelist_underthead_color_bg = '';
+    public $xls_pricelist_category0_color = '';
+    public $xls_pricelist_category0_color_bg = '';
+    public $xls_pricelist_category1_color = '';
+    public $xls_pricelist_category1_color_bg = '';
+    public $xls_pricelist_category2_color = '';
+    public $xls_pricelist_category2_color_bg = '';
 
-    var $xls_pricelist_thead_color = '';
-    var $xls_pricelist_thead_color_bg = '';
-    var $xls_pricelist_underthead_color_bg = '';
-    var $xls_pricelist_category0_color = '';
-    var $xls_pricelist_category0_color_bg = '';
-    var $xls_pricelist_category1_color = '';
-    var $xls_pricelist_category1_color_bg = '';
-    var $xls_pricelist_category2_color = '';
-    var $xls_pricelist_category2_color_bg = '';
+    public $xls_pricelist_image_color_bg = '';
+    public $xls_pricelist_model_color = '';
+    public $xls_pricelist_model_color_bg = '';
+    public $xls_pricelist_name_color = '';
+    public $xls_pricelist_name_color_bg = '';
+    public $xls_pricelist_stock_color = '';
+    public $xls_pricelist_stock_color_bg = '';
+    public $xls_pricelist_price_color = '';
+    public $xls_pricelist_price_color_bg = '';
+    public $xls_pricelist_special_color = '';
+    public $xls_pricelist_special_color_bg = '';
 
-    var $xls_pricelist_image_color_bg = '';
-    var $xls_pricelist_model_color = '';
-    var $xls_pricelist_model_color_bg = '';
-    var $xls_pricelist_name_color = '';
-    var $xls_pricelist_name_color_bg = '';
-    var $xls_pricelist_stock_color = '';
-    var $xls_pricelist_stock_color_bg = '';
-    var $xls_pricelist_price_color = '';
-    var $xls_pricelist_price_color_bg = '';
-    var $xls_pricelist_special_color = '';
-    var $xls_pricelist_special_color_bg = '';
+    public $customer_groups = [];
 
-    var $customer_groups = [];
+    public $LNG = [];
 
-    var $LNG = [];
-
-    public function index() {
-        $json = [];
-
-        $action = 'download';
-
-        if (isset($this->request->post['action'])) {
-            $action = $this->request->post['action'];
-        } elseif (isset($this->request->get['action'])) {
-            $action = $this->request->get['action'];
-        }
-
-        if (!$this->config->get('xls_pricelist_view')) {
-            if ($action != 'generate' && $action != 'upload') {
-                $this->redirect($this->url->link('error/not_found'));
-            }
-        }
-
+    /**
+     * @return void
+     */
+    public function init()
+    {
         $this->xls_pricelist_usecache        = $this->config->get('xls_pricelist_usecache');
         $this->xls_pricelist_memcacheServer  = $this->config->get('xls_pricelist_memcacheServer');
         $this->xls_pricelist_memcachePort    = $this->config->get('xls_pricelist_memcachePort');
@@ -145,8 +131,7 @@ class ControllerProductXlsPricelist extends Controller
         $this->xls_pricelist_use_protection = $this->config->get('xls_pricelist_use_protection');
         $this->xls_pricelist_use_password   = $this->config->get('xls_pricelist_use_password');
 
-        $xls_pricelist_description = $this->config->get('xls_pricelist_description');
-        $xls_pricelist_colors      = $this->config->get('xls_pricelist_colors');
+        $xls_pricelist_colors = $this->config->get('xls_pricelist_colors');
 
         $this->xls_pricelist_thead_color         = $xls_pricelist_colors['thead'];
         $this->xls_pricelist_thead_color_bg      = $xls_pricelist_colors['thead_bg'];
@@ -170,16 +155,138 @@ class ControllerProductXlsPricelist extends Controller
         $this->xls_pricelist_special_color    = $xls_pricelist_colors['special'];
         $this->xls_pricelist_special_color_bg = $xls_pricelist_colors['special_bg'];
 
+        $this->columns = [
+            'id' => [
+                'name'  => 'ID',
+                'check' => true,
+                'width' => 5,
+            ],
+            'image' => [
+                'name'  => 'Изображение',
+                'check' => $this->xls_pricelist_use_image,
+                'width' => $this->xls_pricelist_image_width,
+            ],
+            'model' => [
+                'name'  => 'Модель',
+                'check' => $this->xls_pricelist_use_code,
+                'width' => 20,
+            ],
+            'kod' => [
+                'name'  => 'Штрихкод',
+                'check' => true,
+                'width' => 11,
+            ],
+            'article' => [
+                'name'  => 'Артикул',
+                'check' => true,
+                'width' => 20,
+            ],
+            'name' => [
+                'name'  => 'Наименование',
+                'check' => true,
+                'width' => $this->xls_pricelist_name_width,
+            ],
+            'report_name' => [
+                'name'  => 'Наименование для отчётов',
+                'check' => true,
+                'width' => $this->xls_pricelist_name_width,
+            ],
+            'options' => [
+                'name'  => 'Опции',
+                'check' => true,
+                'width' => 20,
+            ],
+            'attributes' => [
+                'name'  => 'Атрибуты',
+                'check' => true,
+                'width' => 30,
+            ],
+            'instock' => [
+                'name'  => 'На складе',
+                'check' => true,
+                'width' => 10,
+            ],
+            'retail' => [
+                'name'  => 'Розница',
+                'check' => true,
+                'width' => 10,
+            ],
+            'wholesale' => [
+                'name'  => 'Опт',
+                'check' => true,
+                'width' => 10,
+            ],
+            'manufacturer' => [
+                'name'  => 'Производитель',
+                'check' => true,
+                'width' => 15,
+            ],
+            'featured' => [
+                'name'  => 'Рекомендуемые',
+                'check' => true,
+                'width' => 15,
+            ],
+            'status' => [
+                'name'  => 'Cтатус',
+                'check' => true,
+                'width' => 11,
+            ],
+            'action' => [
+                'name'  => 'Акция',
+                'check' => $this->xls_pricelist_use_special,
+                'width' => $this->xls_pricelist_special_width,
+            ],
+        ];
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function index() {
+        $json = [];
+
+        $action = 'download';
+
+        if (isset($this->request->post['action'])) {
+            $action = $this->request->post['action'];
+        } elseif (isset($this->request->get['action'])) {
+            $action = $this->request->get['action'];
+        }
+
+        $qty = 0;
+
+        if (isset($this->request->post['qty'])) {
+            $qty = (int)$this->request->post['qty'];
+        } elseif (isset($this->request->get['qty'])) {
+            $qty = (int)$this->request->get['qty'];
+        }
+
+        if (!$this->config->get('xls_pricelist_view')) {
+            if ($action != 'generate' && $action != 'upload') {
+                $this->redirect($this->url->link('error/not_found'));
+            }
+        }
+
         $this->load->model('xls_pricelist/helper_models');
+
         $customer_groups = [];
+
         $groups = $this->model_xls_pricelist_helper_models->getCustomerGroups();
+
         foreach ($groups as $customer_group) {
             $customer_groups[$customer_group['customer_group_id']] = serialize(array($customer_group['customer_group_id']));
         }
+
         $this->customer_groups = $customer_groups;
 
+        $this->init();
+
         $this->load->model('localisation/language');
+
         $languages = $this->model_localisation_language->getLanguages();
+
+        $xls_pricelist_description = $this->config->get('xls_pricelist_description');
 
         foreach ($languages as $language) {
             $this->xls_pricelist_currency     = $xls_pricelist_description[$language['language_id']]['currency'];
@@ -201,7 +308,7 @@ class ControllerProductXlsPricelist extends Controller
             if ($action == 'generate') {
                 $this->generate();
             } elseif ($action == 'upload') {
-                $this->upload();
+                $this->upload($qty);
             } elseif ($action == 'view') {
                 $this->generate('view');
             } else {
@@ -215,6 +322,10 @@ class ControllerProductXlsPricelist extends Controller
             $this->response->setOutput(json_encode($json));
     }
 
+    /**
+     * @return void
+     * @throws Exception
+     */
     public function view() {
         if ($this->request->server['REQUEST_METHOD'] != 'POST') {
             $this->redirect($this->url->link('error/not_found'));
@@ -472,7 +583,13 @@ class ControllerProductXlsPricelist extends Controller
         }
     }
 
-    // Error Handler
+    /**
+     * @param $errno
+     * @param $errstr
+     * @param $errfile
+     * @param $errline
+     * @return bool
+     */
     public function error_handler_for_export($errno, $errstr, $errfile, $errline) {
         global $config;
         global $log;
@@ -510,6 +627,9 @@ class ControllerProductXlsPricelist extends Controller
         return true;
     }
 
+    /**
+     * @return void
+     */
     public function fatal_error_shutdown_handler_for_export() {
         $last_error = error_get_last();
         if ($last_error['type'] === E_ERROR) {
@@ -518,7 +638,12 @@ class ControllerProductXlsPricelist extends Controller
         }
     }
 
-    private function upload() {
+    /**
+     * @param int $qty
+     * @return void
+     * @throws Exception
+     */
+    private function upload($qty = 0) {
         global $log;
 
         $errors = [];
@@ -546,10 +671,6 @@ class ControllerProductXlsPricelist extends Controller
         $ext               = substr($filename, strpos($filename, '.'), strlen($filename) - 1); // Получаем расширение из названия файла.
         $file_strip        = str_replace(" ", "_", $filename); //Замещаем пробелы в названии файла
         $upload_path       = DIR_UPLOAD; //устанавливаем путь выгрузки
-
-        if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
-            $upload_path = preg_replace('/\//', '\\', $upload_path);
-        }
 
         // Проверяем, разрешен ли вид файла, если нет - DIE и информируем пользователя.
         if (!in_array($ext, $allowed_filetypes)) {
@@ -590,95 +711,515 @@ class ControllerProductXlsPricelist extends Controller
 
         $language_id = $this->xls_pricelist_language['language_id'];
 
-        $row0 = 1;
-        $lines = 0;
-
-        $id_index = 1;
-        $image_index = 2;
-        $model_index = 3;
-        $sku_index = 4;
-        $name_index = 5;
-        $report_name_index = 6;
-        $option_index = 6;
-        $attribute_index = 7;
-        $quantity_index = 8;
-        $price_index = 9;
-        $special_index = 10;
-        $manufacturer_index = 11;
-        $related2_index = 12;
-        $status_index = 13;
-
         $highestRow = $worksheet->getHighestRow(); // e.g. 10
         $highestColumn = $worksheet->getHighestColumn(); // e.g 'F'
-        $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn); // e.g. 5
+        $highestColumnIndex = Coordinate::columnIndexFromString($highestColumn); // e.g. 5
+
+        $row0 = 1;
+        $lines = 0;
+        $id_index = 1;
+
+        $excluded_columns = [
+            'image',
+        ];
 
         for ($row = $row0; $row <= $highestRow; ++$row) {
             $product_id = (int)$worksheet->getCellByColumnAndRow($id_index, $row)->getValue(); // ID
 
             if ($product_id) {
-                //$image = $worksheet->getCellByColumnAndRow($image_index, $row)->getValue(); // Изображение
-                $model = $worksheet->getCellByColumnAndRow($model_index, $row)->getValue(); // Код
-                $sku = $worksheet->getCellByColumnAndRow($sku_index, $row)->getValue(); // SKU
-                $name = $worksheet->getCellByColumnAndRow($name_index, $row)->getValue(); // Наименование
-                $report_name = $worksheet->getCellByColumnAndRow($report_name_index, $row)->getValue(); // Наименование для отчётов
-                //$options = $worksheet->getCellByColumnAndRow($option_index, $row)->getValue(); // Опции
-                $attributes = trim($worksheet->getCellByColumnAndRow($attribute_index, $row)->getValue()); // Атрибуты
-                $quantity = (int)$worksheet->getCellByColumnAndRow($quantity_index, $row)->getValue(); // На складе
-                $price = $worksheet->getCellByColumnAndRow($price_index, $row)->getValue(); // Розница
-                $price = (float)str_replace(",", ".", $price);
-                $special = $worksheet->getCellByColumnAndRow($special_index, $row)->getValue(); // Опт
-                $special = (float)str_replace(",", ".", $special);
-                $manufacturer = $worksheet->getCellByColumnAndRow($manufacturer_index, $row)->getValue(); // Производитель
-                $related2 = trim($worksheet->getCellByColumnAndRow($related2_index, $row)->getValue()); // Рекомендуемые
-                $stock_status = $worksheet->getCellByColumnAndRow($status_index, $row)->getValue(); // Cтатус
+                $params = [];
+                $column = $id_index;
 
-                $status = 0;
+                foreach ($this->columns as $slug => $head) {
+                    if ($head['check']) {
+                        if (!in_array($slug, $excluded_columns)) {
+                            $params[$slug] = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                        }
 
-                if ($stock_status == 'В наличии') {
-                    $status = 1;
-                } elseif ($stock_status == 'Отсутствует') {
-                    $stock_status = 'Нет в наличии';
+                        $column++;
+                    }
                 }
 
-                $stock_status_id = $this->getStatusId($stock_status);
-
-                $manufacturer_id = $this->getManufacturerId($manufacturer);
-
-                $option = $this->getOptionBySKU($product_id, $sku);
-
-                $attribute = $this->getAttributes($attributes);
-
-                $related  = $this->getRelatedByModel($related2);
-
                 $data = [
-                    'model'           => $model,
-                    'sku'             => $sku,
-                    'name'            => $name,
-                    'report_name'     => $report_name,
-                    'option'          => $option,
-                    'attribute'       => $attribute,
-                    'related'         => $related,
-                    'quantity'        => $quantity,
-                    'price'           => $price,
-                    'special'         => $special,
-                    'manufacturer_id' => $manufacturer_id,
-                    'stock_status_id' => $stock_status_id,
-                    'status'          => $status
+                    'model'           => $params['model'] ?: '',
+                    'kod'             => $params['kod'] ?: '',
+                    'sku'             => $params['article'] ?: '',
+                    'name'            => $params['name'] ?: '',
+                    'report_name'     => $params['report_name'] ?: '',
+                    'option'          => $params['article'] ? $this->getOptionBySKU($product_id, $params['article']) : [],
+                    'attribute'       => $params['attributes'] ? $this->getAttributes($params['attributes']) : [],
+                    'related'         => $params['featured'] ? $this->getRelatedByModel($params['featured']) : [],
+                    'quantity'        => (int)$params['instock'],
+                    'price'           => (float)$params['retail'],
+                    'special'         => (float)$params['wholesale'],
+                    'manufacturer_id' => trim($params['manufacturer']) ? $this->getManufacturerId(trim($params['manufacturer'])) : 0,
+                    'stock_status_id' => $params['status'] ? $this->getStatusId($params['status']) : 0,
+                    'status'          => ($params['status'] == 'В наличии') ? 1 : 0
                 ];
 
-                $this->editProduct($product_id, $data, $language_id);
+                $this->editProduct($product_id, $data, $language_id, $qty);
 
                 $lines++;
             }
         }
 
         $spreadsheet->disconnectWorksheets();
+
         $this->editProductsQuantity();
 
         echo json_encode('Загружено ' . $lines . ' строк из таблицы');
         die();
     }
 
+    /**
+     * @return void
+     */
+    private function initStyles() {
+        $head = []; // Стили шапки
+
+        $head['title'] = [
+            'font' => [
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_title_color ?: '000000')
+                ),
+                'size'  => 20,
+                'name'  => 'BELL MT'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical'   => Alignment::VERTICAL_CENTER
+            ],
+        ];
+
+        $head['address'] = [
+            'font' => [
+                'bold'  => false,
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_adress_color ?: '000000')
+                ),
+                'size'  => 14,
+                'name'  => 'BELL MT'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ],
+        ];
+
+        $head['phone'] = [
+            'font' => [
+                'bold'  => true,
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_phone_color ?: '000000')
+                ),
+                'size'  => 10,
+                'name'  => 'Cambria'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ],
+        ];
+
+        $head['email'] = [
+            'font' => [
+                'bold'  => true,
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_email_color ?: '339966')
+                ),
+                'size'  => 10,
+                'name'  => 'Cambria'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ],
+        ];
+
+        $head['link'] = [
+            'font' => [
+                'bold'      => false,
+                'underline' => true,
+                'color'     => array(
+                    'argb' => '00' . ($this->xls_pricelist_link_color ?: '0000ff')
+                ),
+                'size'      => 10,
+                'name'      => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ],
+        ];
+
+        $head['headers'] = [
+            'font' => [
+                'bold'  => true,
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_thead_color ?: '000000')
+                ),
+                'size'  => 8,
+                'name'  => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical'   => Alignment::VERTICAL_BOTTOM
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        if ($this->xls_pricelist_thead_color_bg) {
+            $head['headers']['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00' . $this->xls_pricelist_thead_color_bg
+                ],
+            ];
+        }
+
+        $category = []; // Стили категорий
+
+        $category[0] = [
+            'font' => [
+                'bold' => true,
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_category0_color ?: 'FFFFFF')
+                ),
+                'size'  => 13,
+                'name'  => 'BELL MT'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'bottom' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        if ($this->xls_pricelist_category0_color_bg) {
+            $category[0]['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00' . $this->xls_pricelist_category0_color_bg
+                ],
+            ];
+        }
+
+        $category[1] = [
+            'font' => [
+                'bold'   => true,
+                'italic' => true,
+                'color'  => array(
+                    'argb' => '00' . ($this->xls_pricelist_category1_color ?: '000000')
+                ),
+                'size'   => 9,
+                'name'   => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_LEFT,
+            ],
+            'borders' => [
+                'bottom' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        if ($this->xls_pricelist_category1_color_bg) {
+            $category[1]['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00' . $this->xls_pricelist_category1_color_bg
+                ],
+            ];
+        }
+
+        $category[2] = [
+            'font' => [
+                'bold'   => true,
+                'italic' => true,
+                'color'  => array(
+                    'argb' => '00' . ($this->xls_pricelist_category2_color ?: '000000')
+                ),
+                'size'   => 8,
+                'name'   => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_LEFT,
+            ],
+            'borders' => [
+                'bottom' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        if ($this->xls_pricelist_category2_color_bg) {
+            $category[2]['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00' . $this->xls_pricelist_category2_color_bg
+                ],
+            ];
+        }
+
+        $table = []; // Стили таблицы
+
+        $table['id'] = $table['id_option'] = [
+            'font' => [
+                'color' => [
+                    'argb' => '00000000'
+                ],
+                'size'  => 8,
+                'name'  => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical'   => Alignment::VERTICAL_CENTER
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        $table['id_option']['fill'] = [
+            'fillType' => Fill::FILL_SOLID,
+            'startColor' => [
+                'argb' => '00EEEEEE'
+            ],
+        ];
+
+        $table['name'] = [
+            'font' => [
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_name_color ?: '000000')
+                ),
+                'size'  => 8,
+                'name'  => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_LEFT,
+                'vertical'   => Alignment::VERTICAL_CENTER
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        if ($this->xls_pricelist_name_color_bg) {
+            $table['name']['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00' . $this->xls_pricelist_name_color_bg
+                ],
+            ];
+        }
+
+        $table['custom'] = [
+            'font' => [
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_custom_color ?: '000000')
+                ),
+                'size'  => 8,
+                'name'  => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_LEFT,
+                'vertical'   => Alignment::VERTICAL_CENTER
+            ],
+        ];
+
+        $table['custom2'] = [
+            'font' => [
+                'bold'  => true,
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_thead_color ?: '000000')
+                ),
+                'size'  => 8,
+                'name'  => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical'   => Alignment::VERTICAL_BOTTOM
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        if ($this->xls_pricelist_thead_color_bg) {
+            $table['custom2']['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00' . $this->xls_pricelist_thead_color_bg
+                ],
+            ];
+        }
+
+        $table['image'] = [
+            'font' => [
+                'color' => array(
+                    'argb' => '00000000'
+                ),
+                'size'  => 8,
+                'name'  => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_LEFT,
+                'vertical'   => Alignment::VERTICAL_CENTER
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        if ($this->xls_pricelist_image_color_bg) {
+            $table['image']['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00' . $this->xls_pricelist_image_color_bg
+                ],
+            ];
+        }
+
+        $table['model'] = [
+            'font' => [
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_model_color ?: '000000')
+                ),
+                'size'  => 8,
+                'name'  => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical'   => Alignment::VERTICAL_CENTER
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        if ($this->xls_pricelist_model_color_bg) {
+            $table['model']['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00' . $this->xls_pricelist_model_color_bg
+                ],
+            ];
+        }
+
+        $table['stock'] = [
+            'font' => [
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_stock_color ?: '000000')
+                ),
+                'size'  => 8,
+                'name'  => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical'   => Alignment::VERTICAL_CENTER
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        if ($this->xls_pricelist_stock_color_bg) {
+            $table['stock']['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00' . $this->xls_pricelist_stock_color_bg
+                ],
+            ];
+        }
+
+        $table['price'] = [
+            'font' => [
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_price_color ?: '000000')
+                ),
+                'size'  => 8,
+                'name'  => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical'   => Alignment::VERTICAL_CENTER
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        if ($this->xls_pricelist_price_color_bg) {
+            $table['price']['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00' . $this->xls_pricelist_price_color_bg
+                ],
+            ];
+        }
+
+        $table['special'] = [
+            'font' => [
+                'color' => array(
+                    'argb' => '00' . ($this->xls_pricelist_special_color ?: 'FF0000')
+                ),
+                'size'  => 8,
+                'name'  => 'Arial'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical'   => Alignment::VERTICAL_CENTER
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        if ($this->xls_pricelist_special_color_bg) {
+            $table['special']['fill'] = [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00' . $this->xls_pricelist_special_color_bg
+                ],
+            ];
+        }
+
+        $this->styles['head'] = $head; // Стили шапки
+        $this->styles['category'] = $category; // Стили категорий
+        $this->styles['table'] = $table; // Стили таблицы
+    }
+
+    /**
+     * @param $text
+     * @return false|int
+     */
+    private function isRussian($text) {
+        return preg_match('/[А-Яа-яЁё]/u', $text);
+    }
+
+    /**
+     * @throws Exception
+     */
     private function generate($method = '') {
         if (!defined('HTTP_IMAGE')) {
             define('HTTP_IMAGE', HTTP_SERVER . 'image/');
@@ -693,479 +1234,21 @@ class ControllerProductXlsPricelist extends Controller
         ini_set("max_execution_time", 1800);
 
         $_ = [];
+
         require(DIR_LANGUAGE . $this->xls_pricelist_language['directory'] . '/product/xls_pricelist.php');
+
         $this->LNG = $_;
 
-        ///////////
-        $f_name = [
-            'font' => [
-                'bold'  => false,
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_title_color ? $this->xls_pricelist_title_color : '000000')
-                ),
-                'size'  => 20,
-                'name'  => 'BELL MT'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            ],
-        ];
-
-        $f_address = [
-            'font' => [
-                'bold'  => false,
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_adress_color ? $this->xls_pricelist_adress_color : '000000')
-                ),
-                'size'  => 14,
-                'name'  => 'BELL MT'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            ],
-        ];
-
-        $f_phone = [
-            'font' => [
-                'bold'  => true,
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_phone_color ? $this->xls_pricelist_phone_color : '000000')
-                ),
-                'size'  => 10,
-                'name'  => 'Cambria'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            ],
-        ];
-
-        $f_email = [
-            'font' => [
-                'bold'  => true,
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_email_color ? $this->xls_pricelist_email_color : '339966')
-                ),
-                'size'  => 10,
-                'name'  => 'Cambria'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            ],
-        ];
-
-        $f_link = [
-            'font' => [
-                'bold'      => false,
-                'underline' => true,
-                'color'     => array(
-                    'argb' => '00' . ($this->xls_pricelist_link_color ? $this->xls_pricelist_link_color : '0000ff')
-                ),
-                'size'      => 10,
-                'name'      => 'Arial'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            ],
-        ];
-
-        $f_custom = [
-            'font' => [
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_custom_color ? $this->xls_pricelist_custom_color : '000000')
-                ),
-                'size'  => 8,
-                'name'  => 'Arial'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-                'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-            ],
-        ];
-
-        $fu = [
-            'font' => [
-                'bold'  => true,
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_thead_color ? $this->xls_pricelist_thead_color : '000000')
-                ),
-                'size'  => 8,
-                'name'  => 'Arial'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_BOTTOM
-            ],
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-
-        if ($this->xls_pricelist_thead_color_bg) {
-            $fu['fill'] = [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'argb' => '00' . $this->xls_pricelist_thead_color_bg
-                ],
-            ];
-        }
-
-        $fe = [
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_BOTTOM
-            ],
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-
-        if ($this->xls_pricelist_underthead_color_bg) {
-            $fe['fill'] = [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'argb' => '00' . $this->xls_pricelist_underthead_color_bg
-                ],
-            ];
-        }
-
-        $this->f_image = [
-            'font' => [
-                'color' => array(
-                    'argb' => '00000000'
-                ),
-                'size'  => 8,
-                'name'  => 'Arial'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-                'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-            ],
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-
-        if ($this->xls_pricelist_image_color_bg) {
-            $this->f_image['fill'] = [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'argb' => '00' . $this->xls_pricelist_image_color_bg
-                ],
-            ];
-        }
-
-        $this->f_model = [
-            'font' => [
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_model_color ? $this->xls_pricelist_model_color : '000000')
-                ),
-                'size'  => 8,
-                'name'  => 'Arial'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-            ],
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-
-        if ($this->xls_pricelist_model_color_bg) {
-            $this->f_model['fill'] = [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'argb' => '00' . $this->xls_pricelist_model_color_bg
-                ],
-            ];
-        }
-
-        $this->f_name = [
-            'font' => [
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_name_color ? $this->xls_pricelist_name_color : '000000')
-                ),
-                'size'  => 8,
-                'name'  => 'Arial'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-                'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-            ],
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-
-        if ($this->xls_pricelist_name_color_bg) {
-            $this->f_name['fill'] = [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'argb' => '00' . $this->xls_pricelist_name_color_bg
-                ],
-            ];
-        }
-
-        $this->f_stock = [
-            'font' => [
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_stock_color ? $this->xls_pricelist_stock_color : '000000')
-                ),
-                'size'  => 8,
-                'name'  => 'Arial'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-            ],
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-
-        if ($this->xls_pricelist_stock_color_bg) {
-            $this->f_stock['fill'] = [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'argb' => '00' . $this->xls_pricelist_stock_color_bg
-                ],
-            ];
-        }
-
-        $this->f_price = [
-            'font' => [
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_price_color ? $this->xls_pricelist_price_color : '000000')
-                ),
-                'size'  => 8,
-                'name'  => 'Arial'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
-                'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-            ],
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-
-        if ($this->xls_pricelist_price_color_bg) {
-            $this->f_price['fill'] = [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'argb' => '00' . $this->xls_pricelist_price_color_bg
-                ],
-            ];
-        }
-
-        $this->f_special = [
-            'font' => [
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_special_color ? $this->xls_pricelist_special_color : 'FF0000')
-                ),
-                'size'  => 8,
-                'name'  => 'Arial'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
-                'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-            ],
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-
-        if ($this->xls_pricelist_special_color_bg) {
-            $this->f_special['fill'] = [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'argb' => '00' . $this->xls_pricelist_special_color_bg
-                ],
-            ];
-        }
-
-        $fc1 = [
-            'font' => [
-                'bold' => true,
-                'color' => array(
-                    'argb' => '00' . ($this->xls_pricelist_category0_color ? $this->xls_pricelist_category0_color : 'FFFFFF')
-                ),
-                'size'  => 13,
-                'name'  => 'BELL MT'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-            ],
-            'borders' => [
-                'bottom' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-
-        if ($this->xls_pricelist_category0_color_bg) {
-            $fc1['fill'] = [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'argb' => '00' . $this->xls_pricelist_category0_color_bg
-                ],
-            ];
-        }
-
-        $fc2 = [
-            'font' => [
-                'bold'   => true,
-                'italic' => true,
-                'color'  => array(
-                    'argb' => '00' . ($this->xls_pricelist_category1_color ? $this->xls_pricelist_category1_color : '000000')
-                ),
-                'size'   => 9,
-                'name'   => 'Arial'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-            ],
-            'borders' => [
-                'bottom' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-
-        if ($this->xls_pricelist_category1_color_bg) {
-            $fc2['fill'] = [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'argb' => '00' . $this->xls_pricelist_category1_color_bg
-                ],
-            ];
-        }
-
-        $fc3 = [
-            'font' => [
-                'bold'   => true,
-                'italic' => true,
-                'color'  => array(
-                    'argb' => '00' . ($this->xls_pricelist_category2_color ? $this->xls_pricelist_category2_color : '000000')
-                ),
-                'size'   => 8,
-                'name'   => 'Arial'
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-            ],
-            'borders' => [
-                'bottom' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ];
-
-        if ($this->xls_pricelist_category2_color_bg) {
-            $fc3['fill'] = [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => [
-                    'argb' => '00' . $this->xls_pricelist_category2_color_bg
-                ],
-            ];
-        }
-
-        $fc_arr = [$fc1, $fc2, $fc3];
+        $this->initStyles();
 
         if ($this->xls_pricelist_logo || $this->xls_pricelist_use_image) {
             $this->load->model('tool/image');
         }
 
-        $row_height = ($this->xls_pricelist_image_height ? $this->xls_pricelist_image_height + 2 : 52) * 3 / 4;
-
-        $image_height = $this->xls_pricelist_image_height ? $this->xls_pricelist_image_height : 50;
-        $image_width = $this->xls_pricelist_image_width ? $this->xls_pricelist_image_width : 50;
-
-        $heads = [
-            [
-                'name'  => 'ID',
-                'check' => true,
-                'width' => 5,
-            ], [
-                'name'  => 'Изображение',
-                'check' => $this->xls_pricelist_use_image,
-                'width' => $this->xls_pricelist_image_width,
-            ], [
-                'name'  => 'Код',
-                'check' => $this->xls_pricelist_use_code,
-                'width' => $this->xls_pricelist_model_width,
-            ], [
-                'name'  => 'SKU',
-                'check' => true,
-                'width' => $this->xls_pricelist_model_width,
-            ], [
-                'name'  => 'Наименование',
-                'check' => true,
-                'width' => $this->xls_pricelist_name_width,
-            ], [
-                'name'  => 'Наименование для отчётов',
-                'check' => true,
-                'width' => $this->xls_pricelist_name_width,
-            ], [
-                'name'  => 'Опции',
-                'check' => true,
-                'width' => 20,
-            ], [
-                'name'  => 'Атрибуты',
-                'check' => true,
-                'width' => 30,
-            ], [
-                'name'  => 'На складе',
-                'check' => true,
-                'width' => $this->xls_pricelist_stock_width,
-            ], [
-                'name'  => 'Розница',
-                'check' => true,
-                'width' => $this->xls_pricelist_price_width,
-            ], [
-                'name'  => 'Опт',
-                'check' => true,
-                'width' => $this->xls_pricelist_price_width,
-            ], [
-                'name'  => 'Производитель',
-                'check' => true,
-                'width' => 15,
-            ], [
-                'name'  => 'Рекомендуемые',
-                'check' => true,
-                'width' => 15,
-            ], [
-                'name'  => 'Cтатус',
-                'check' => true,
-                'width' => $this->xls_pricelist_price_width,
-            ], [
-                'name'  => 'Акция',
-                'check' => $this->xls_pricelist_use_special,
-                'width' => $this->xls_pricelist_special_width,
-            ],
-        ];
-
         $spreadsheet = new Spreadsheet();
 
-        mb_internal_encoding("Windows-1251");
-
         $stores = explode("_", $this->xls_pricelist_store);
+
         foreach ($stores as $store) {
             $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "setting WHERE store_id = '" . (int)$store . "'");
 
@@ -1186,6 +1269,7 @@ class ControllerProductXlsPricelist extends Controller
             $sh = 0;
 
             $worksheet = $spreadsheet->getActiveSheet();
+
             $worksheet->setTitle('Pricelist');
 
             if ($this->xls_pricelist_use_collapse) {
@@ -1199,15 +1283,22 @@ class ControllerProductXlsPricelist extends Controller
 
             $row = 1;
             $col = 1;
-            $name_column = 'E';
-            $name_column_number = 5;
-            $last_column = 'L';
+            $name_column = 'F';
+            $name_column_number = 6;
+            $last_column = 'O';
 
-            foreach ($heads as $head) {
+            $head_style = $this->styles['head'];
+
+            $row_height = $row_height0 = ($this->xls_pricelist_image_height ? $this->xls_pricelist_image_height + 2 : 52) * 3 / 4;
+
+            $image_height = $this->xls_pricelist_image_height ?: 50;
+            $image_width = $this->xls_pricelist_image_width ?: 50;
+
+            foreach ($this->columns as $slug => $head) {
                 if ($head['check']) {
                     $column = $worksheet->getCellByColumnAndRow($col, $row)->getColumn();
 
-                    if ($head['name'] == 'Изображение') {
+                    if ($slug == 'image') {
                         $col_width = (($this->xls_pricelist_image_width ? $this->xls_pricelist_image_width + 2 : 52) - 5) / 7;
 
                         if ($col_width > 12) {
@@ -1218,7 +1309,7 @@ class ControllerProductXlsPricelist extends Controller
                             $this->l_margin = 12 * 7 + 5 - ($image_width);
                         }
                     } else {
-                        if ($head['name'] == 'Наименование') {
+                        if ($slug == 'name') {
                             $name_column_number = $col;
                         }
 
@@ -1233,9 +1324,11 @@ class ControllerProductXlsPricelist extends Controller
 
             $row++;
 
+            $header_index = 6; // Колонка для заголовка таблицы
+
             ///logo
             if ($this->xls_pricelist_logo) {
-                $logo = $this->model_tool_image->resize($this->xls_pricelist_logo, $this->xls_pricelist_logo_width ? $this->xls_pricelist_logo_width : 50, $this->xls_pricelist_logo_height ? $this->xls_pricelist_logo_height : 50);
+                $logo = $this->model_tool_image->resize($this->xls_pricelist_logo, $this->xls_pricelist_logo_width ?: 50, $this->xls_pricelist_logo_height ?: 50);
 
                 if ($logo) {
 
@@ -1246,7 +1339,7 @@ class ControllerProductXlsPricelist extends Controller
                     $objDrawing->setName('Image');
                     $objDrawing->setDescription('Image');
                     $objDrawing->setPath(str_replace(HTTP_IMAGE, DIR_IMAGE, $logo));
-                    $objDrawing->setHeight($this->xls_pricelist_logo_height ? $this->xls_pricelist_logo_height : 50);
+                    $objDrawing->setHeight($this->xls_pricelist_logo_height ?: 50);
                     $objDrawing->setWorksheet($worksheet);
 
                     $columnsize = ($worksheet->getColumnDimensionByColumn(1)->getWidth()) * 7 + 5;
@@ -1262,45 +1355,45 @@ class ControllerProductXlsPricelist extends Controller
                 $row++;
             }
             // 2
-            $worksheet->setCellValueByColumnAndRow(5, $row, $this->xls_pricelist_title ? $this->xls_pricelist_title : $this->config->get('config_name'));
-            $worksheet->getStyle($worksheet->getCellByColumnAndRow(5, $row)->getCoordinate())->applyFromArray($f_name);
+            $worksheet->setCellValueByColumnAndRow($header_index, $row, $this->xls_pricelist_title ?: $this->config->get('config_name'));
+            $worksheet->getStyle($worksheet->getCellByColumnAndRow($header_index, $row)->getCoordinate())->applyFromArray($head_style['title']);
             $row++;
             // 3
-            $worksheet->setCellValueByColumnAndRow(5, $row, $this->xls_pricelist_adress ? $this->xls_pricelist_adress : $this->config->get('config_address'));
-            $worksheet->getStyle($worksheet->getCellByColumnAndRow(5, $row)->getCoordinate())->applyFromArray($f_address);
+            $worksheet->setCellValueByColumnAndRow($header_index, $row, $this->xls_pricelist_adress ?: $this->config->get('config_address'));
+            $worksheet->getStyle($worksheet->getCellByColumnAndRow($header_index, $row)->getCoordinate())->applyFromArray($head_style['address']);
+            $row++;
+            // 4
+            $worksheet->setCellValueByColumnAndRow($header_index, $row, $this->xls_pricelist_phone ?: (($this->config->get('config_telephone') ? $this->LNG['text_phone'] . ' ' . $this->config->get('config_telephone') : '') . '     ' . ($this->config->get('config_fax') ? $this->LNG['text_fax'] . ' ' . $this->config->get('config_fax') : '')));
+            $worksheet->getStyle($worksheet->getCellByColumnAndRow($header_index, $row)->getCoordinate())->applyFromArray($head_style['phone']);
             $row++;
             // 5
-            $worksheet->setCellValueByColumnAndRow(5, $row, $this->xls_pricelist_phone ? $this->xls_pricelist_phone : (($this->config->get('config_telephone') ? $this->LNG['text_phone'] . ' ' . $this->config->get('config_telephone') : '') . '     ' . ($this->config->get('config_fax') ? $this->LNG['text_fax'] . ' ' . $this->config->get('config_fax') : '')));
-            $worksheet->getStyle($worksheet->getCellByColumnAndRow(5, $row)->getCoordinate())->applyFromArray($f_phone);
-            $row++;
-            // 5
-            $worksheet->setCellValueByColumnAndRow(5, $row, $this->xls_pricelist_email ? $this->xls_pricelist_email : 'e-mail:' . $this->config->get('config_email'));
-            $worksheet->getStyle($worksheet->getCellByColumnAndRow(5, $row)->getCoordinate())->applyFromArray($f_email);
+            $worksheet->setCellValueByColumnAndRow($header_index, $row, $this->xls_pricelist_email ?: 'e-mail:' . $this->config->get('config_email'));
+            $worksheet->getStyle($worksheet->getCellByColumnAndRow($header_index, $row)->getCoordinate())->applyFromArray($head_style['email']);
             $row++;
             // 6
-            $worksheet->setCellValueByColumnAndRow(5, $row, $this->config->get('config_url'));
-            $worksheet->getStyle($worksheet->getCellByColumnAndRow(5, $row)->getCoordinate())->applyFromArray($f_link);
-            $worksheet->getCellByColumnAndRow(5, 6)->getHyperlink()->setUrl($this->xls_pricelist_link ? $this->xls_pricelist_link : $this->config->get('config_url'));
+            $worksheet->setCellValueByColumnAndRow($header_index, $row, $this->config->get('config_url'));
+            $worksheet->getStyle($worksheet->getCellByColumnAndRow($header_index, $row)->getCoordinate())->applyFromArray($head_style['link']);
+            $worksheet->getCellByColumnAndRow($header_index, $row)->getHyperlink()->setUrl($this->xls_pricelist_link ?: $this->config->get('config_url'));
             $row++;
 
             if ($this->xls_pricelist_custom_text) {
-                $worksheet->setCellValueByColumnAndRow(5, $row, str_replace("\r", "", $this->xls_pricelist_custom_text));
-                $worksheet->getStyle($worksheet->getCellByColumnAndRow(5, $row)->getCoordinate())->applyFromArray($f_custom);
-                $worksheet->getStyle($worksheet->getCellByColumnAndRow(5, $row)->getCoordinate())->getAlignment()->setWrapText(true);
+                $worksheet->setCellValueByColumnAndRow($header_index, $row, str_replace("\r", "", $this->xls_pricelist_custom_text));
+                $worksheet->getStyle($worksheet->getCellByColumnAndRow($header_index, $row)->getCoordinate())->applyFromArray($head_style['custom']);
+                $worksheet->getStyle($worksheet->getCellByColumnAndRow($header_index, $row)->getCoordinate())->getAlignment()->setWrapText(true);
                 $row++;
             }
 
             $worksheet->setCellValueByColumnAndRow($col, $row, '');
-            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($fu);
+            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($head_style['headers']);
             $row++;
 
             $col = 1; // Заголовки
-            foreach ($heads as $head) {
+            foreach ($this->columns as $slug => $head) {
                 if ($head['check']) {
                     $worksheet->setCellValueByColumnAndRow($col, $row, $head['name']);
-                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($fu);
+                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($head_style['headers']);
 
-                    if ($head['name'] == 'Опции' || $head['name'] == 'Атрибуты' || $head['name'] == 'Рекомендуемые') {
+                    if ($slug == 'options' || $slug == 'attributes' || $slug == 'featured') {
                         $worksheet->getColumnDimensionByColumn($col)->setAutoSize(true);
                     }
 
@@ -1309,6 +1402,10 @@ class ControllerProductXlsPricelist extends Controller
             }
 
             $row++;
+
+            /* Категории */
+            $category_style = $this->styles['category'];
+            $table_style = $this->styles['table'];
 
             $categories = [];
 
@@ -1331,15 +1428,15 @@ class ControllerProductXlsPricelist extends Controller
                 }
 
                 $col = 1; // Категории
-                foreach ($heads as $head) {
+                foreach ($this->columns as $slug => $head) {
                     if ($head['check']) {
-                        if ($head['name'] == 'Наименование') {
+                        if ($slug == 'name') {
                             $worksheet->setCellValueByColumnAndRow($col, $row, html_entity_decode($category['name'], ENT_QUOTES, 'UTF-8'));
-                            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($fc_arr[$level1]);
+                            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($category_style[$level1]);
                             $worksheet->getCellByColumnAndRow($col, $row)->getHyperlink()->setUrl(str_replace('&amp;', '&', $this->url->link('product/category', 'path=' . $path)));
                         } else {
                             $worksheet->setCellValueByColumnAndRow($col, $row, '');
-                            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($fc_arr[$level1]);
+                            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($category_style[$level1]);
                         }
                         $col++;
                     }
@@ -1373,7 +1470,13 @@ class ControllerProductXlsPricelist extends Controller
                         $options = $this->model_xls_pricelist_helper_models->getProductOptions($result['product_id'], $this->xls_pricelist_language['language_id']);
                     }
 
+                    $related_string = '';
+
                     $related2 = $this->model_xls_pricelist_helper_models->getProductRelated2($result['product_id']);
+
+                    if (!empty($related2)) {
+                        $related_string = implode(" ", $related2);
+                    }
 
                     if (is_array($result['price_gid'])) {
                         foreach ($result['price_gid'] as $k => $v) {
@@ -1395,13 +1498,16 @@ class ControllerProductXlsPricelist extends Controller
 
                     if (empty($options)) {
                         $col = 1;
+
                         $quantity = $result['quantity'];
+
                         if (!$this->xls_pricelist_use_notinstock) {
                             if ($quantity <= 0)
                                 continue;
                         }
 
                         $status = 'В наличии';
+
                         if ($quantity <= 0) {
                             $status = 'Отсутствует';
                         }
@@ -1421,77 +1527,88 @@ class ControllerProductXlsPricelist extends Controller
                             $worksheet->getRowDimension($row)->setCollapsed(true); ///collapse
                         }
 
-                        $worksheet->setCellValueByColumnAndRow($col, $row, $result['product_id']);
-                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_stock);
+                        /* id */
+                        $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($result['product_id'], DataType::TYPE_STRING);
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['id']);
                         $col++;
 
+                        /* image */
                         if ($this->xls_pricelist_use_image) {
                             if ($result['image']) {
                                 $image = $this->model_tool_image->resize($result['image'], $image_width, $image_height);
-                            } else {
-                                $image = $this->model_tool_image->resize('no_image.jpg', $image_width, $image_height);
-                            }
 
-                            if ($image) {
-                                $filename = str_replace(HTTP_IMAGE, DIR_IMAGE, $image);
+                                if ($image) {
+                                    $filename = str_replace(HTTP_IMAGE, DIR_IMAGE, $image);
 
-                                if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
-                                    $filename = preg_replace('/\//', '\\', $filename);
+                                    $ciryllic = 0;
 
-                                    $encoding = mb_detect_encoding($filename);
+                                    if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
+                                        $ciryllic = $this->isRussian($filename);
 
-                                    if ($encoding == 'UTF-8') {
-                                        $filename = mb_convert_encoding($filename, "windows-1251", "utf-8");
+                                        if ($ciryllic) {
+                                            mb_internal_encoding("Windows-1251");
+                                            $filename = mb_convert_encoding($filename, "Windows-1251", "UTF-8");
+                                        }
                                     }
-                                }
 
-                                $worksheet->getRowDimension('' . $row . '')->setRowHeight($row_height);
+                                    try {
+                                        $objDrawing = new Drawing();
+                                        $objDrawing->setPath($filename);
+                                        $objDrawing->setCoordinates($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate());
+                                        $objDrawing->setHeight($image_height);
+                                        $objDrawing->setWorksheet($worksheet);
+                                        $objDrawing->setOffsetX($this->l_margin / 2 + 1);
+                                        $objDrawing->setOffsetY(2);
+                                    } catch(Exception $e) {
+                                        $worksheet->setCellValueByColumnAndRow($col, $row, $e->getMessage());
+                                    }
 
-                                try {
-                                    $objDrawing = new Drawing();
-                                    $objDrawing->setPath($filename);
-                                    $objDrawing->setCoordinates($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate());
-                                    $objDrawing->setHeight($image_height);
-                                    $objDrawing->setWorksheet($worksheet);
-                                    $objDrawing->setOffsetX($this->l_margin / 2 + 1);
-                                    $objDrawing->setOffsetY(2);
-
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_image);
-                                } catch(PhpOffice\PhpSpreadsheet\Exception $e) {
-                                    $worksheet->setCellValueByColumnAndRow($col, $row, $e->getMessage());
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_stock);
+                                    if ($ciryllic) {
+                                        mb_internal_encoding("UTF-8");
+                                    }
+                                } else {
+                                    $worksheet->setCellValueByColumnAndRow($col, $row, 'no resize image');
                                 }
                             } else {
-                                $worksheet->setCellValueByColumnAndRow($col, $row, 'no image');
-                                $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_model);
+                                $worksheet->setCellValueByColumnAndRow($col, $row, 'no result image');
                             }
 
+                            $worksheet->getRowDimension($row)->setRowHeight($row_height);
+                            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['image']);
+
                             $col++;
                         }
 
-                        if ($this->xls_pricelist_use_code) {
-                            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_model);
-                            $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($result['' . $this->xls_pricelist_code . ''], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-                            $col++;
-                        }
-
-                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_model);
-                        $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($result['sku'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                        /* model */
+                        $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($result['model'], DataType::TYPE_STRING);
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['model']);
                         $col++;
 
+                        /* sku */
+                        $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($result['sku'], DataType::TYPE_STRING);
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['model']);
+                        $col++;
+
+                        /* model */
+                        $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($result['model'], DataType::TYPE_STRING);
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['model']);
+                        $col++;
+
+                        /* name */
                         $worksheet->setCellValueByColumnAndRow($col, $row, html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'));
-                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_name);
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['name']);
                         $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getAlignment()->setWrapText(true);
                         $worksheet->getCellByColumnAndRow($col, $row)->getHyperlink()->setUrl(str_replace('&amp;', '&', $this->url->link('product/product', 'path=' . $path . '&product_id=' . $result['product_id'])));
                         $col++;
 
+                        /* report_name */
                         $worksheet->setCellValueByColumnAndRow($col, $row, html_entity_decode($result['report_name'], ENT_QUOTES, 'UTF-8'));
-                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_name);
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['name']);
                         $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getAlignment()->setWrapText(true);
                         $col++;
 
-                        $worksheet->setCellValueByColumnAndRow($col, $row, ' ');
-                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_stock);
+                        /* option */
+                        $worksheet->setCellValueByColumnAndRow($col, $row, '');
                         $col++;
 
                         $attr_groups = [];
@@ -1528,53 +1645,57 @@ class ControllerProductXlsPricelist extends Controller
                             $attr_string = implode(",\r\n", $attr_groups);
                             $attr_height = 12 * count($attr_groups);
                             if ($attr_height > $row_height) {
-                                $worksheet->getRowDimension('' . $row . '')->setRowHeight($attr_height);
+                                $worksheet->getRowDimension('' . $row)->setRowHeight($attr_height);
                             }
                         }
 
+                        /* attribute */
                         $worksheet->setCellValueByColumnAndRow($col, $row, html_entity_decode($attr_string, ENT_QUOTES, 'UTF-8'));
-                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_name);
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['name']);
                         $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getAlignment()->setWrapText(true);
                         $col++;
 
-                        $worksheet->setCellValueByColumnAndRow($col, $row, $quantity);
-                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_stock);
+                        /* stock */
+                        $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($quantity, DataType::TYPE_STRING);
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['stock']);
                         $col++;
 
+                        /* retail, wholesale */
                         if (is_array($price_gid)) {
-                            foreach ($price_gid as $k => $v) {
-                                $worksheet->setCellValueByColumnAndRow($col, $row, $v ? $v : '');
-                                $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_price);
+                            foreach ($price_gid as $v) {
+                                $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($v ?: '', DataType::TYPE_STRING);
+                                $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['price']);
                                 $col++;
                             }
                         } else {
-                            $worksheet->setCellValueByColumnAndRow($col, $row, $price ? $price : '');
-                            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_price);
+                            $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($price ?: '', DataType::TYPE_STRING);
+                            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['price']);
+                            $col++;
                             $col++;
                         }
 
-                        $worksheet->setCellValueByColumnAndRow($col, $row, $result['manufacturer'] ? $result['manufacturer'] : '');
-                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_price);
+                        /* manufacturer */
+                        $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($result['manufacturer'] ?: '', DataType::TYPE_STRING);
+                        $worksheet->setCellValueByColumnAndRow($col, $row, $result['manufacturer'] ?: '');
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['price']);
                         $col++;
 
-                        $related_string = '';
-
-                        if (!empty($related2)) {
-                            $related_string = implode(" | ", $related2);
-                        }
-
-                        $worksheet->setCellValueByColumnAndRow($col, $row, html_entity_decode($related_string, ENT_QUOTES, 'UTF-8'));
-                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_name);
+                        /* featured */
+                        $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($related_string ?: '', DataType::TYPE_STRING2);
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getNumberFormat()->setFormatCode('@');
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['stock']);
                         $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getAlignment()->setWrapText(true);
                         $col++;
 
+                        /* status */
                         $worksheet->setCellValueByColumnAndRow($col, $row, $status);
-                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_price);
+                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['price']);
                         $col++;
 
+                        /* special */
                         if ($this->xls_pricelist_use_special) {
-                            $worksheet->setCellValueByColumnAndRow($col, $row, $special ? $special : '');
-                            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_special);
+                            $worksheet->setCellValueByColumnAndRow($col, $row, $special ?: '');
+                            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['special']);
                         }
                     } else {
                         foreach ($options as $option) {
@@ -1591,6 +1712,7 @@ class ControllerProductXlsPricelist extends Controller
                                     $col = 1;
 
                                     $pod_data = $this->db->query("SELECT * FROM `" . DB_PREFIX . "myoc_pod` WHERE product_option_value_id = '{$option_value['product_option_value_id']}'")->rows;
+
                                     $quantity = $option_value['quantity'];
 
                                     if (!$this->xls_pricelist_use_notinstock) {
@@ -1611,6 +1733,7 @@ class ControllerProductXlsPricelist extends Controller
                                     }
 
                                     $row++;
+
                                     $retail_price    = 0; // Розница
                                     $wholesale_price = 0; // Опт
 
@@ -1654,111 +1777,132 @@ class ControllerProductXlsPricelist extends Controller
                                         }
                                     }
 
-                                    $worksheet->setCellValueByColumnAndRow($col, $row, $result['product_id']);
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_stock);
+                                    /* id */
+                                    $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($result['product_id'], DataType::TYPE_STRING);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['id_option']);
                                     $col++;
 
+                                    /* image */
                                     if ($this->xls_pricelist_use_image) {
                                         if ($option_value['image']) {
-                                            $image1 = $this->model_tool_image->resize($option_value['image'], $image_width, $image_height);
-                                        } else {
-                                            $image1 = $this->model_tool_image->resize('no_image.jpg', $image_width, $image_height);
-                                        }
+                                            $image = $this->model_tool_image->resize($option_value['image'], $image_width, $image_height);
 
-                                        if ($image1) {
-                                            $filename = str_replace(HTTP_IMAGE, DIR_IMAGE, $image1);
+                                            if ($image) {
+                                                $filename = str_replace(HTTP_IMAGE, DIR_IMAGE, $image);
 
-                                            if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
-                                                $filename = preg_replace('/\//', '\\', $filename);
+                                                $ciryllic = 0;
 
-                                                $encoding = mb_detect_encoding($filename);
+                                                if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
+                                                    $ciryllic = $this->isRussian($filename);
 
-                                                if ($encoding == 'UTF-8') {
-                                                    $filename = mb_convert_encoding($filename, "windows-1251", "utf-8");
+                                                    if ($ciryllic) {
+                                                        mb_internal_encoding("Windows-1251");
+                                                        $filename = mb_convert_encoding($filename, "Windows-1251", "UTF-8");
+                                                    }
                                                 }
-                                            }
 
-                                            $worksheet->getRowDimension('' . $row . '')->setRowHeight($row_height);
+                                                try {
+                                                    $objDrawing = new Drawing();
+                                                    $objDrawing->setPath($filename);
+                                                    $objDrawing->setCoordinates($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate());
+                                                    $objDrawing->setHeight($image_height);
+                                                    $objDrawing->setWorksheet($worksheet);
+                                                    $objDrawing->setOffsetX($this->l_margin / 2 + 1);
+                                                    $objDrawing->setOffsetY(2);
+                                                } catch(Exception $e) {
+                                                    $worksheet->setCellValueByColumnAndRow($col, $row, $e->getMessage());
+                                                }
 
-                                            try {
-                                                $objDrawing = new Drawing();
-                                                $objDrawing->setPath($filename);
-                                                $objDrawing->setCoordinates($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate());
-                                                $objDrawing->setHeight($image_height);
-                                                $objDrawing->setWorksheet($worksheet);
-                                                $objDrawing->setOffsetX($this->l_margin / 2 + 1);
-                                                $objDrawing->setOffsetY(2);
-
-                                                $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_image);
-                                            } catch(PhpOffice\PhpSpreadsheet\Exception $e) {
-                                                $worksheet->setCellValueByColumnAndRow($col, $row, $e->getMessage());
-                                                $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_stock);
+                                                if ($ciryllic) {
+                                                    mb_internal_encoding("UTF-8");
+                                                }
+                                            } else {
+                                                $worksheet->setCellValueByColumnAndRow($col, $row, 'no resize option image');
                                             }
                                         } else {
-                                            $worksheet->setCellValueByColumnAndRow($col, $row, 'no image');
-                                            $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_model);
+                                            $worksheet->setCellValueByColumnAndRow($col, $row, 'no option image');
                                         }
 
+                                        $worksheet->getRowDimension('' . $row)->setRowHeight($row_height);
+                                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['image']);
+
                                         $col++;
                                     }
 
-                                    if ($this->xls_pricelist_use_code) {
-                                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_model);
-                                        $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($result['' . $this->xls_pricelist_code . ''] . '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-                                        $col++;
-                                    }
-
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_model);
-                                    $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($option_value['sku'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                                    /* model */
+                                    $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($result['model'], DataType::TYPE_STRING);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['model']);
                                     $col++;
 
+                                    /* kod */
+                                    $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($option_value['kod'], DataType::TYPE_STRING);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['model']);
+                                    $col++;
+
+                                    /* sku */
+                                    $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($option_value['sku'], DataType::TYPE_STRING);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['model']);
+                                    $col++;
+
+                                    /* name */
                                     $worksheet->setCellValueByColumnAndRow($col, $row, html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'));
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_name);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['name']);
                                     $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getAlignment()->setWrapText(true);
                                     $worksheet->getCellByColumnAndRow($col, $row)->getHyperlink()->setUrl(str_replace('&amp;', '&', $this->url->link('product/product', 'path=' . $path . '&product_id=' . $result['product_id'])));
                                     $col++;
 
+                                    /* report_name */
                                     $worksheet->setCellValueByColumnAndRow($col, $row, html_entity_decode($result['report_name'], ENT_QUOTES, 'UTF-8'));
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_name);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['name']);
                                     $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getAlignment()->setWrapText(true);
                                     $col++;
 
+                                    /* option */
                                     $worksheet->setCellValueByColumnAndRow($col, $row, html_entity_decode($option['name'] . ': ' . $option_value['name'], ENT_QUOTES, 'UTF-8'));
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_name);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['name']);
                                     $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getAlignment()->setWrapText(true);
                                     $col++;
 
-                                    $worksheet->setCellValueByColumnAndRow($col, $row, ' ');
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_stock);
+                                    /* attribute */
+                                    $worksheet->setCellValueByColumnAndRow($col, $row, '');
                                     $col++;
 
-                                    $worksheet->setCellValueByColumnAndRow($col, $row, $quantity);
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_stock);
+                                    /* stock */
+                                    $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($quantity, DataType::TYPE_STRING);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['stock']);
                                     $col++;
 
+                                    /* retail */
                                     $worksheet->setCellValueByColumnAndRow($col, $row, $retail_price);
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_price);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['price']);
                                     $col++;
 
+                                    /* wholesale */
                                     $worksheet->setCellValueByColumnAndRow($col, $row, $wholesale_price);
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_price);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['price']);
                                     $col++;
 
-                                    $worksheet->setCellValueByColumnAndRow($col, $row, ($result['manufacturer']) ? $result['manufacturer'] : ' ');
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_price);
+                                    /* manufacturer */
+                                    $worksheet->setCellValueByColumnAndRow($col, $row, ($result['manufacturer']) ?: ' ');
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['price']);
                                     $col++;
 
-                                    $worksheet->setCellValueByColumnAndRow($col, $row, ($result['manufacturer']) ? $result['manufacturer'] : ' ');
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_price);
+                                    /* featured */
+                                    $worksheet->getCellByColumnAndRow($col, $row)->setValueExplicit($related_string ?: '', DataType::TYPE_STRING2);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getNumberFormat()->setFormatCode('@');
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['stock']);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->getAlignment()->setWrapText(true);
                                     $col++;
 
+                                    /* status */
                                     $worksheet->setCellValueByColumnAndRow($col, $row, $status);
-                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_price);
+                                    $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['price']);
                                     $col++;
 
+                                    /* special */
                                     if ($this->xls_pricelist_use_special) {
-                                        $worksheet->setCellValueByColumnAndRow($col, $row, $special ? $special : '');
-                                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($this->f_special);
+                                        $worksheet->setCellValueByColumnAndRow($col, $row, $special ?: '');
+                                        $worksheet->getStyle($worksheet->getCellByColumnAndRow($col, $row)->getCoordinate())->applyFromArray($table_style['special']);
                                     }
 
                                     if ($this->xls_pricelist_use_collapse) {
@@ -1780,7 +1924,7 @@ class ControllerProductXlsPricelist extends Controller
                 $writer = new Html($spreadsheet);
                 try {
                     $writer->save('php://output');
-                } catch (\PhpOffice\PhpSpreadsheet\Writer\Exception $e) {
+                } catch (Exception $e) {
                     echo $e->getMessage();
                 }
                 
@@ -1797,14 +1941,14 @@ class ControllerProductXlsPricelist extends Controller
                 $writer = new Xlsx($spreadsheet);
                 try {
                     $writer->save('php://output');
-                } catch (\PhpOffice\PhpSpreadsheet\Writer\Exception $e) {
+                } catch (Exception $e) {
                     echo $e->getMessage();
                 }
             } else {
                 $writer = new Xlsx($spreadsheet);
                 try {
                     $writer->save(DIR_DOWNLOAD . "price_" . $this->xls_pricelist_language['code'] . $store . ".xlsx");
-                } catch (\PhpOffice\PhpSpreadsheet\Writer\Exception $e) {
+                } catch (Exception $e) {
                     echo $e->getMessage();
                 }
                 break;
@@ -1815,6 +1959,10 @@ class ControllerProductXlsPricelist extends Controller
         }
     }
 
+    /**
+     * @param $model
+     * @return int|mixed
+     */
     public function getProductId($model) {
         $product_id = 0;
 
@@ -1827,6 +1975,10 @@ class ControllerProductXlsPricelist extends Controller
         return $product_id;
     }
 
+    /**
+     * @param $stock_status
+     * @return int|mixed
+     */
     public function getStatusId($stock_status) {
         $stock_status_id = 0;
 
@@ -1855,6 +2007,11 @@ class ControllerProductXlsPricelist extends Controller
         return $manufacturer_id;
     }
 
+    /**
+     * @param $product_id
+     * @param $sku
+     * @return array|false|mixed
+     */
     public function getOptionBySKU($product_id, $sku) {
         $product_option_data = [];
 
@@ -1913,6 +2070,10 @@ class ControllerProductXlsPricelist extends Controller
         return $product_option_data[0];
     }
 
+    /**
+     * @param $attribute_string
+     * @return array
+     */
     public function getAttributes($attribute_string) {
         $product_attribute_data = [];
 
@@ -1937,11 +2098,15 @@ class ControllerProductXlsPricelist extends Controller
         return $product_attribute_data;
     }
 
+    /**
+     * @param $related_string
+     * @return array
+     */
     public function getRelatedByModel($related_string) {
         $product_related = [];
 
         if ($related_string != '') {
-            $models = explode(" | ", $related_string);
+            $models = explode(" ", $related_string);
 
             foreach ($models as $model) {
                 $product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product WHERE model = '" . $this->db->escape($model) . "'");
@@ -1955,12 +2120,39 @@ class ControllerProductXlsPricelist extends Controller
         return $product_related;
     }
 
-    public function editProduct($product_id, $data, $language_id) {
+    /**
+     * @param int $product_id
+     * @param array $data
+     * @param int $language_id
+     * @param int $qty
+     * @return void
+     */
+    public function editProduct($product_id, $data, $language_id, $qty = 0) {
         $this->load->model('catalog/product');
 
         $product_info = $this->model_catalog_product->getProduct($product_id);
 
         if ($product_info) {
+
+            $product_description_sql = "UPDATE " . DB_PREFIX . "product_description SET ";
+
+            $product_description_fields = [];
+
+            if ($data['name']) {
+                $product_description_fields[] = "name = '" . $data['name'] . "'";
+            }
+
+            if ($data['report_name']) {
+                $product_description_fields[] = "report_name = '" . $data['report_name'] . "' ";
+            }
+
+            if (!empty($product_description_fields)) {
+                $product_description_sql .= implode(", ", $product_description_fields);
+            }
+
+            $product_description_sql .= " WHERE product_id = '" . (int)$product_id . "' AND language_id = '" . (int)$language_id . "'";
+
+            $this->db->query($product_description_sql);
 
             $product_sql = "UPDATE " . DB_PREFIX . "product SET ";
 
@@ -1971,13 +2163,17 @@ class ControllerProductXlsPricelist extends Controller
 
                 $pov_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_option_value` WHERE product_option_value_id = '" . $product_option_value_id . "'");
                 if ($pov_query->num_rows) {
-                    $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET quantity = '" . (int)$data['quantity'] . "', ob_quantity = '" . (int)$data['quantity'] . "' WHERE product_option_value_id = '" . (int)$product_option_value_id . "'");
+                    if ($qty) {
+                        $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET quantity = '" . (int)$data['quantity'] . "', ob_quantity = '" . (int)$data['quantity'] . "', ob_kod = '" . $data['kod'] . "' WHERE product_option_value_id = '" . (int)$product_option_value_id . "'");
+                    } else {
+                        $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET ob_kod = '" . $data['kod'] . "' WHERE product_option_value_id = '" . (int)$product_option_value_id . "'");
+                    }
                 }
 
                 foreach ($customer_groups as $c => $customer_group_ids) {
                     if ($c == 1) {
                         $price = (float)$data['price'];
-                        $special = 0.0000;
+                        $special = 0.00;
                     } elseif ($c == 2) {
                         $price   = (float)$data['price'];
                         $special = (float)$data['special'];
@@ -1997,7 +2193,7 @@ class ControllerProductXlsPricelist extends Controller
 							calc_method				= 'p',
 							price					= '" . $price . "',
 							price_prefix			= '=',
-							special					= '0.0000',
+							special					= '0.00',
 							special_prefix			= '-',
 							option_base_points		= '0',
 							points					= '0',
@@ -2010,11 +2206,9 @@ class ControllerProductXlsPricelist extends Controller
             } else {
                 $this->db->query("UPDATE " . DB_PREFIX . "product_special SET price = '" . (float)$data['special'] . "' WHERE product_id = '" . (int)$product_id . "'");
 
-                $product_sql .= "quantity = '" . (int)$data['quantity'] . "', upc_quantity = '" . (int)$data['quantity'] . "', ";
-            }
-
-            if ($data['report_name']) {
-                $this->db->query("UPDATE " . DB_PREFIX . "product_description SET report_name = '" . $data['report_name'] . "' WHERE product_id = '" . (int)$product_id . "' AND language_id = '" . (int)$language_id . "'");
+                if ($qty) {
+                    $product_sql .= "quantity = '" . (int)$data['quantity'] . "', upc_quantity = '" . (int)$data['quantity'] . "', ";
+                }
             }
 
             if ($data['attribute']) {
@@ -2038,10 +2232,14 @@ class ControllerProductXlsPricelist extends Controller
             }
 
             $product_sql .= "price = '" . (float)$data['price'] . "', date_modified = NOW() WHERE product_id = '" . (int)$product_id . "'";
-            $sql = $this->db->query($product_sql);
+
+            $this->db->query($product_sql);
         }
     }
 
+    /**
+     * @return void
+     */
     public function editProductsQuantity() {
         $this->load->model('catalog/product');
 
@@ -2061,14 +2259,14 @@ class ControllerProductXlsPricelist extends Controller
             foreach ($results as $result) {
                 $product_id = $result['product_id'];
 
-                $gtd = (isset($result['upc_more']) && $result['upc_more']) ? 1 : 0;
+                $upc_more = (isset($result['upc_more']) && $result['upc_more']) ? 1 : 0;
 
                 $this->db->query("UPDATE " . DB_PREFIX . "product SET upc_quantity = '" . (int)$result['upc_quantity'] . "', quantity = '" . (int)$result['upc_quantity'] . "' WHERE product_id = '" . (int)$product_id . "'");
 
                 $product_options = $this->model_catalog_product->getProductOptions($product_id);
 
                 if (empty($product_options)) {
-                    if ($gtd) {
+                    if ($upc_more) {
                         $this->model_catalog_product->setProductQuantity($product_id, $result['model'], $result['upc_quantity']);
                     } else {
                         $this->db->query("UPDATE " . DB_PREFIX . "product SET quantity = '" . (int)$result['upc_quantity'] . "' WHERE product_id = '" . $product_id . "'");
@@ -2080,7 +2278,7 @@ class ControllerProductXlsPricelist extends Controller
                                 $option_quantity         = 0; // количество в опции
                                 $product_option_quantity = 0; // количество в опции товара
                                 foreach ($product_option['option_value'] as $product_option_value) {
-                                    if ($gtd) {
+                                    if ($upc_more) {
                                         $option_quantity += $this->model_catalog_product->setGroupOptionQuantity($product_id, $product_option_value['ob_sku'], $product_option_value['ob_quantity']);
                                     } else {
                                         $this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET quantity = '" . (int)$product_option_value['ob_quantity'] . "' WHERE product_id = '" . $product_id . "' AND ob_sku = '" . $product_option_value['ob_sku'] . "'");
@@ -2089,7 +2287,7 @@ class ControllerProductXlsPricelist extends Controller
                                     $product_option_quantity += (int)$product_option_value['ob_quantity'];
                                 }
 
-                                if ($gtd) {
+                                if ($upc_more) {
                                     $this->db->query("UPDATE " . DB_PREFIX . "product SET quantity = '" . (int)$option_quantity . "' WHERE model = '" . $result['model'] . "'");
                                     $this->db->query("UPDATE " . DB_PREFIX . "product SET upc_quantity = '" . (int)$product_option_quantity . "' WHERE product_id = '" . $product_id . "'");
 

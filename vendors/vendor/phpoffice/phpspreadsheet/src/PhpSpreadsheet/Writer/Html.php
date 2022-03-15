@@ -885,8 +885,7 @@ class Html extends BaseWriter
                     $width = SharedDrawing::pixelsToPoints($width);
                     $column = Coordinate::columnIndexFromString($columnDimension->getColumnIndex()) - 1;
                     $this->columnWidths[$sheetIndex][$column] = $width;
-                    $css_width = str_replace(',', '.', $width . 'pt');
-                    $css['table.sheet' . $sheetIndex . ' col.col' . $column]['width'] = $css_width;
+                    $css['table.sheet' . $sheetIndex . ' col.col' . $column]['width'] = $width . 'pt';
 
                     if ($columnDimension->getVisible() === false) {
                         $css['table.sheet' . $sheetIndex . ' col.col' . $column]['visibility'] = 'collapse';
@@ -1104,7 +1103,6 @@ class Html extends BaseWriter
         // Construct HTML
         $html = '';
         $html .= $this->setMargins($pSheet);
-        $html .= $this->setOrientation($pSheet);
 
         if (!$this->useInlineCss) {
             $gridlines = $pSheet->getShowGridlines() ? ' gridlines' : '';
@@ -1634,19 +1632,6 @@ class Html extends BaseWriter
         $htmlBody .= "}\n";
 
         return "<style>\n" . $htmlPage . $htmlBody . "</style>\n";
-    }
-
-    private function setOrientation(Worksheet $pSheet)
-    {
-        $htmlPage = '@page { ';
-
-
-        $orientation = $pSheet->getPageSetup()->getOrientation();
-        $htmlPage .= 'size: ' . $orientation;
-
-        $htmlPage .= "}\n";
-
-        return "<style>\n" . $htmlPage . "</style>\n";
     }
 
     /**

@@ -18,9 +18,9 @@
   <tr class="highlight">
     <td><?php if ($quote['code'] == $code || !$code) { ?>
       <?php $code = $quote['code']; ?>
-      <input type="radio" class="shipping-method-ajax-input" data-shcode="<?php echo $quote['code']; ?>" data-shmeth="<?php echo $quote['title']; ?>" data-subt="<?php echo ($quote['title_sub'] ? $quote['title_sub'] : $quote['title_sub']); ?>" data-cdeckcost="<?php echo ($i ? $quote['text'] : 0.0000); ?>" name="shipping_code" value="<?php echo $quote['code']; ?>" id="<?php echo $quote['code']; ?>" checked="checked" />
+      <input type="radio" class="shipping-method-ajax-input" data-shcode="<?php echo $quote['code']; ?>" data-shmeth="<?php echo $quote['title']; ?>" data-subt="<?php echo ($quote['title_sub'] ? $quote['title_sub'] : $quote['title_sub']); ?>" data-cdeckcost="<?php echo ($i ? $quote['text'] : 0.00); ?>" name="shipping_code" value="<?php echo $quote['code']; ?>" id="<?php echo $quote['code']; ?>" checked="checked" />
       <?php } else { ?>
-      <input type="radio" class="shipping-method-ajax-input" data-shcode="<?php echo $quote['code']; ?>" data-shmeth="<?php echo $quote['title']; ?>" data-subt="<?php echo ($quote['title_sub'] ? $quote['title_sub'] : $quote['title_sub']); ?>" data-cdeckcost="<?php echo ($i ? $quote['text'] : 0.0000); ?>" name="shipping_code" value="<?php echo $quote['code']; ?>" id="<?php echo $quote['code']; ?>" />
+      <input type="radio" class="shipping-method-ajax-input" data-shcode="<?php echo $quote['code']; ?>" data-shmeth="<?php echo $quote['title']; ?>" data-subt="<?php echo ($quote['title_sub'] ? $quote['title_sub'] : $quote['title_sub']); ?>" data-cdeckcost="<?php echo ($i ? $quote['text'] : 0.00); ?>" name="shipping_code" value="<?php echo $quote['code']; ?>" id="<?php echo $quote['code']; ?>" />
       <?php } ?></td>
     <td><label for="<?php echo $quote['code']; ?>">
       <?php /* start russianpost2 */ ?>

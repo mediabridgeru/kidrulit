@@ -115,7 +115,7 @@ class ControllerModuleMyocpod extends Controller {
 			{
 				$this->data['category_products'][$category['category_id']] = array();
 				foreach ($products as $product) {
-					$this->data['category_products'][$category['category_id']][$product['product_id']] = $product['name'];
+					$this->data['category_products'][$category['category_id']][$product['product_id']] = addslashes($product['name']);
 				}
 			}
 		}

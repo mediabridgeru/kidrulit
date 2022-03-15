@@ -7,13 +7,14 @@ class ModelToolImage extends Model {
      * @return string|void
      */
     public function resize($filename, $width, $height) {
+        $ciryllic = $this->isRussian($filename);
+
         $file_path = DIR_IMAGE . $filename;
 
-        if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
+        if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0 && $ciryllic) {
             mb_internal_encoding("Windows-1251");
             $filename = mb_convert_encoding($filename, "Windows-1251", "UTF-8");
             $file_path = DIR_IMAGE . $filename;
-            $file_path = preg_replace('/\//', '\\', $file_path);
         }
 
         if (!is_file($file_path) || substr(str_replace('\\', '/', realpath($file_path)), 0, strlen(DIR_IMAGE)) != str_replace('\\', '/', DIR_IMAGE)) {
@@ -53,7 +54,7 @@ class ModelToolImage extends Model {
             }
         }
 
-        if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
+        if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0 && $ciryllic) {
             mb_internal_encoding("UTF-8");
             $image_new = mb_convert_encoding($image_new, "UTF-8", "Windows-1251");
         }
@@ -63,5 +64,13 @@ class ModelToolImage extends Model {
         } else {
             return $this->config->get('config_url') . 'image/' . $image_new;
         }
+    }
+
+    /**
+     * @param $text
+     * @return false|int
+     */
+    private function isRussian($text) {
+        return preg_match('/[А-Яа-яЁё]/u', $text);
     }
 }

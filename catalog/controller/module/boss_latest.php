@@ -331,7 +331,7 @@ class ControllerModuleBossLatest extends Controller {
 							$special_total = $this->currency->format($tax_special * $quantity);
 						}
 
-						if ($pod['special'] !== '0.0000') {
+						if ($pod['special'] !== '0.00') {
 							$option_prices[] = array(
 								'price'					=> ($pods_options['inc_tax'] === 'y' || $pods_options['inc_tax'] === 'both' || !$extax) ? $price_prefix . $price . $price_suffix : false,
 								'extax'					=> (($pods_options['inc_tax'] === 'n' || $pods_options['inc_tax'] === 'both') && $extax) ? $price_prefix . $extax . $price_suffix : false,
@@ -754,7 +754,7 @@ class ControllerModuleBossLatest extends Controller {
 							$special_total = $this->currency->format($tax_special * $quantity);
 						}
 
-						if ($pod['special'] !== '0.0000') {
+						if ($pod['special'] !== '0.00') {
 							$option_prices[] = array(
 								'price'					=> ($pods_options['inc_tax'] === 'y' || $pods_options['inc_tax'] === 'both' || !$extax) ? $price_prefix . $price . $price_suffix : false,
 								'extax'					=> (($pods_options['inc_tax'] === 'n' || $pods_options['inc_tax'] === 'both') && $extax) ? $price_prefix . $extax . $price_suffix : false,

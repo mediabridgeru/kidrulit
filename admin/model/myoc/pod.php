@@ -119,9 +119,9 @@ class ModelMyocPod extends Model {
 			`customer_group_ids` TEXT NOT NULL,
 			`quantity` int(11) NOT NULL,
 			`calc_method` ENUM('p', 'po', 'o') NOT NULL DEFAULT 'p',
-			`price` decimal(15,4) NOT NULL DEFAULT '0.0000',
+			`price` decimal(15,2) NOT NULL DEFAULT '0.00',
 			`price_prefix` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '+',
-			`special` decimal(15,4) NOT NULL DEFAULT '0.0000',
+			`special` decimal(15,2) NOT NULL DEFAULT '0.00',
 			`special_prefix` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
 			`option_base_points` tinyint(1) NOT NULL DEFAULT '0',
 			`points` int(8) NOT NULL DEFAULT '0',
@@ -201,7 +201,7 @@ class ModelMyocPod extends Model {
 			$this->db->query("ALTER TABLE  `" . DB_PREFIX . "myoc_pod` CHANGE `priority` `priority` INT(5) NOT NULL DEFAULT '1' AFTER `points_prefix`");
 			$this->db->query("ALTER TABLE  `" . DB_PREFIX . "myoc_pod` ADD `option_base_price` TINYINT(1) NOT NULL DEFAULT '0' AFTER `quantity`");
 			$this->db->query("ALTER TABLE  `" . DB_PREFIX . "myoc_pod` CHANGE `price_prefix` `price_prefix` VARCHAR(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '+'");
-			$this->db->query("ALTER TABLE  `" . DB_PREFIX . "myoc_pod` ADD `special` decimal(15,4) NOT NULL DEFAULT '0.0000' AFTER `price_prefix`");
+			$this->db->query("ALTER TABLE  `" . DB_PREFIX . "myoc_pod` ADD `special` decimal(15,2) NOT NULL DEFAULT '0.00' AFTER `price_prefix`");
 			$this->db->query("ALTER TABLE  `" . DB_PREFIX . "myoc_pod` ADD `special_prefix` VARCHAR(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-' AFTER `special`");
 			$this->db->query("ALTER TABLE  `" . DB_PREFIX . "myoc_pod` ADD `option_base_points` TINYINT(1) NOT NULL DEFAULT '0' AFTER `special_prefix`");
 			$this->db->query("ALTER TABLE  `" . DB_PREFIX . "myoc_pod` CHANGE `points` `points` INT(8) NOT NULL DEFAULT '0' AFTER `option_base_points`");

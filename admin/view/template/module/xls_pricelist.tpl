@@ -611,13 +611,24 @@
         <div id="tab-upload">
             <table class="form">
                 <tr>
-                    <td>Выбор файла прайс-листа</td>
-                    <td style="width:200px">
-                        <input id="xls_priceupload" class="input" type="file" name="xls_priceupload" />
-                    </td>
-                    <td style="width:300px"><div style="display:none" id="loading"><img src="view/image/loading.gif" alt="Loading" /> Loading, please wait...</div></td>
-                    <td style="width:400px"><div style="display:none" id="result"></div></td>
+                    <td colspan="4">Выбор файла прайс-листа</td>
                 </tr>
+				<tr>
+					<td>Загрузка с количеством товара</td>
+					<td style="width:200px">
+						<input id="xls_priceupload" class="input" type="file" name="xls_priceupload" />
+					</td>
+					<td style="width:300px"><div style="display:none" class="loading"><img src="view/image/loading.gif" alt="Loading" /> Loading, please wait...</div></td>
+					<td style="width:400px"><div style="display:none" class="result"></div></td>
+				</tr>
+				<tr>
+					<td>Загрузка без количества товара</td>
+					<td style="width:200px">
+						<input id="xls_priceupload2" class="input" type="file" name="xls_priceupload" />
+					</td>
+					<td style="width:300px"><div style="display:none" class="loading"><img src="view/image/loading.gif" alt="Loading" /> Loading, please wait...</div></td>
+					<td style="width:400px"><div style="display:none" class="result"></div></td>
+				</tr>
             </table>
         </div>
 	</form>
@@ -625,7 +636,7 @@
     
   </div>
 </div>
-<script type="text/javascript"><!--
+<script>
     $(document).ready(function(){
         $('.jpicker').jPicker({
             window:
@@ -645,38 +656,51 @@
         });
     });
 
-    var priceupload = new AjaxUpload('#xls_priceupload', {
-        action: '<?php echo HTTP_CATALOG; ?>index.php?route=product/xls_pricelist&action=upload',
-        name: 'file',
-        autoSubmit: true,
-        responseType: 'text',
-        onSubmit: function(file, extension) {
-            $('#loading').show();
-            $('#result').hide();
-            $('#xls_priceupload').attr('disabled', true);
-        },
-        onComplete: function(file, json) {
-            $('#loading').hide();
-            $('#xls_priceupload').attr('disabled', false);
-            var results = JSON.parse(json);
-            var result = '';
+	uploadPriceList('xls_priceupload', true);
+	uploadPriceList('xls_priceupload2', false);
 
-            if (Array.isArray(results)){
-                $(results).each(function(i,v) {
-                    result = result + '<p>' + i + '. ' + v + '</p>';
-                });
-            } else {
-                result = '<p>' + results + '</p>';
-            }
+	function uploadPriceList(id, qty) {
+		const $upload = $('#'+id);
+		const $loading = $upload.closest('tr').find('.loading');
+		const $result = $upload.closest('tr').find('.result');
+		let url = '<?php echo HTTP_CATALOG; ?>index.php?route=product/xls_pricelist&action=upload';
 
-            $('#result').show().html(result);
-        }
-    });
-//--></script>
-<script type="text/javascript"><!--
+		if (qty) {
+			url += '&qty=1';
+		}
+
+		const priceupload = new AjaxUpload('#'+id, {
+			action: url,
+			name: 'file',
+			autoSubmit: true,
+			responseType: 'text',
+			onSubmit: function (file, extension) {
+				$loading.show();
+				$result.hide();
+				$upload.attr('disabled', true);
+			},
+			onComplete: function (file, json) {
+				$loading.hide();
+				$upload.attr('disabled', false);
+				const results = JSON.parse(json);
+				let result = '';
+
+				if (Array.isArray(results)) {
+					$(results).each(function (i, v) {
+						result = result + '<p>' + i + '. ' + v + '</p>';
+					});
+				} else {
+					result = '<p>' + results + '</p>';
+				}
+
+				$result.show().html(result);
+			}
+		});
+	}
+</script>
+<script>
 $('input, select').change(function(){
 	$('#xls_pricelist').html('<a class="top" style="color:red;" ><?php echo $text_save; ?></a>');
-								
 });
 
 $('select[name="xls_pricelist_usecache"]').change(function(){
@@ -689,8 +713,8 @@ $('select[name="xls_pricelist_use_code"]').change(function(){
 	else $('tr.entry_code').hide();							
 });
 
-//--></script> 
-<script type="text/javascript"><!--
+</script>
+<script>
 function image_upload(field, thumb) {
 	$('#dialog').remove();
 	
@@ -716,9 +740,9 @@ function image_upload(field, thumb) {
 		modal: false
 	});
 };
-//--></script> 
-<script type="text/javascript"><!--
+</script>
+<script>
 $('#tabs a').tabs(); 
 $('#languages a').tabs();
-//--></script> 
+</script>
 <?php echo $footer; ?>

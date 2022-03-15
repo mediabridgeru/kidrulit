@@ -1148,7 +1148,7 @@ class ControllerSaleOrder extends Controller {
         } elseif (!empty($order_info)) {
             $this->data['shipping_cdek_cost'] = $order_info['shipping_cdek_cost'];
         } else {
-            $this->data['shipping_cdek_cost'] = 0.0000;
+            $this->data['shipping_cdek_cost'] = 0.00;
         }
         //
 
