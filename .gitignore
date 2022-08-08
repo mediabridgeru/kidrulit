@@ -21,3 +21,4 @@ upload/*.xlsx
 system/storage/cache_fv
 export_xml/*.xml
 vqmod/logs/
+export_xml/log_err.txt
