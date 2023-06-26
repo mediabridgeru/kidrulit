@@ -147,7 +147,7 @@
                 <?php } ?>
                 <?php if ($customer_logged) { continue; } ?>
             <?php } else { ?>
-                <tr class="simple_table_row <?php echo (!empty($field['object_field'])) ? $field['object_field'] : ''; ?>" <?php echo !empty($field['place']) ? 'place="'.$field['place'].'"' : '' ?>>
+                <tr class="simple_table_row <?php echo (!empty($field['object_field'])) ? $field['object_field'] : ''; ?>" <?php echo (!empty($field['object_field']) && $field['object_field'] == 'manager') ? 'style="display:none"' : '' ?> <?php echo !empty($field['place']) ? 'place="'.$field['place'].'"' : '' ?>>
                     <td class="simplecheckout-customer-left">
                         <?php if ($field['required']) { ?>
                             <span class="simplecheckout-required">*</span>

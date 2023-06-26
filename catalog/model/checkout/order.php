@@ -365,11 +365,10 @@ class ModelCheckoutOrder extends Model
 
             if (in_array($order_info['payment_code'], $codes)) {
                 $template->data['docs'] = 1;
-                $template->data['invoice'] = $this->url->link('sale/order/invoice', 'excel=1&order_id=' . $order_id, 'SSL');
-                //$template->data['torg12'] = $this->url->link('sale/order/invoice', 'doctype=torg12&order_id=' . $order_id, 'SSL');
-                $template->data['torg12'] = $this->url->link('sale/waybill/index', 'doctype=torg12&order_id=' . $order_id, 'SSL');
+                $template->data['invoice'] = $this->url->link('sale/order/invoice', 'doctype=invoice&excel=1&order_id=' . $order_id, 'SSL');
+                $template->data['torg12'] = $this->url->link('sale/order/invoice', 'doctype=torg12&excel=1&order_id=' . $order_id, 'SSL');
                 $template->data['delivery_act'] = $this->url->link('sale/order/invoice', 'doctype=akt&order_id=' . $order_id, 'SSL');
-                $template->data['html_invoice'] = $this->url->link('sale/order/invoice', 'html=1&order_id='.$order_id, 'SSL');
+                $template->data['html_invoice'] = $this->url->link('sale/order/invoice', 'doctype=invoice&order_id='.$order_id, 'SSL');
                 $template->data['html_torg12'] = $this->url->link('sale/order/invoice', 'doctype=torg12&order_id='.$order_id, 'SSL');
                 
                 $template->data['html_btn'] = '<br /><br /><h3>Если Вы передумали и решили оплатить свой заказ банковской картой, то Вы можете нажать на кнопку далее:</h3>';

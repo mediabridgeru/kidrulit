@@ -122,10 +122,13 @@ class ControllerAccountsbacquiring extends Controller
                 $password    = htmlspecialchars_decode($this->model_account_sbacquiring->yandecrypt($this->config->get($codeforpay . '_password'), $this->config->get('config_encryption')));
                 if ($this->config->get($codeforpay . '_servadr') == 'real') {
                     $server = 'https://securepayments.sberbank.ru/payment/rest/';
+					$certname = 'sbcert.pem';
                 } else if ($this->config->get($codeforpay . '_servadr') == 'self') {
                     $server = $this->config->get($codeforpay . '_servadr_self');
+					$certname = 'sbcert.pem';
                 } else {
                     $server = 'https://3dsec.sberbank.ru/payment/rest/';
+					$certname = 'sbcert-test.pem';
                 }
                 if ($this->config->get($codeforpay . '_met')) {
                     $server .= 'registerPreAuth.do';
@@ -609,27 +612,44 @@ class ControllerAccountsbacquiring extends Controller
                                              'userName' => $userName, 'password' => $password, 'orderNumber' => $ordercompromis, 'amount' => $amount, 'returnUrl' => $returnUrl, 'failUrl' => $failUrl, 'description' => $description, 'currency' => $bankcurrency, 'orderBundle' => $okassacheck, 'language' => $language, 'jsonParams' => $jsonParams
                                          ));
             if ($this->config->get($codeforpay . '_zapros')) {
-                $opts = array(
-                    'http' => array(
-                        'method' => 'POST', 'header' => 'Content-type: application/x-www-form-urlencoded', 'content' => $postdata
-                    )
-                );
+      $opts = array('http' =>
+          array(
+              'method'  => 'POST',
+              'header'  => 'Content-type: application/x-www-form-urlencoded',
+              'content' => $postdata
+          ),
+          'ssl' => array(
+              'verify_peer' => false,
+              'verify_peer_name' => false,
+          ),
+      );
                 $context = stream_context_create($opts);
                 $result  = file_get_contents($server, false, $context);
             } else {
-                if ($curl = curl_init()) {
-                    curl_setopt($curl, CURLOPT_URL, $server);
-                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($curl, CURLOPT_POST, true);
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
-                    $result = curl_exec($curl);
-                    curl_close($curl);
-                } else {
-                    $this->log->write('SberBank error: No curl library in host');
-                    echo 'Server Error';
-                    exit();
-                }
-            }
+
+
+       
+      if ( $curl = curl_init() ) {
+        curl_setopt($curl, CURLOPT_URL, $server);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
+        if ($this->config->get($codeforpay . '_checkcert') && file_exists(DIR_SYSTEM . 'art_extra/'.$certname)) {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+            curl_setopt($curl, CURLOPT_CAINFO, DIR_SYSTEM . 'art_extra/'.$certname);
+        } else {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        }
+        $result = curl_exec($curl);
+        curl_close($curl);
+      }
+      else{
+        $this->log->write('SberBank error: No curl library in host');
+        echo 'Server Error';
+        exit();
+      }
+    }
             $result = json_decode($result);
             if (isset($result->formUrl)) {
                 $this->session->data['sbacquiring'] = $result->orderId . '~' . $ordercompromis;
@@ -691,10 +711,13 @@ class ControllerAccountsbacquiring extends Controller
                     $password = htmlspecialchars_decode($this->model_account_sbacquiring->yandecrypt($this->config->get($paymentcode . '_password'), $this->config->get('config_encryption')));
                     if ($this->config->get($paymentcode . '_servadr') == 'real') {
                         $server = 'https://securepayments.sberbank.ru/payment/rest/';
+						$certname = 'sbcert.pem';
                     } else if ($this->config->get($paymentcode . '_servadr') == 'self') {
                         $server = $this->config->get($paymentcode . '_servadr_self');
+						$certname = 'sbcert.pem';
                     } else {
                         $server = 'https://3dsec.sberbank.ru/payment/rest/';
+						$certname = 'sbcert-test.pem';
                     }
                     $server .= 'getOrderStatus.do';
                     $language = $this->language->get('code');
@@ -702,26 +725,41 @@ class ControllerAccountsbacquiring extends Controller
                                                      'userName' => $userName, 'password' => $password, 'orderId' => $this->request->get['mdOrder'], 'language' => $language
                                                  ));
                     if ($this->config->get($paymentcode . '_zapros')) {
-                        $opts = array(
-                            'http' => array(
-                                'method' => 'POST', 'header' => 'Content-type: application/x-www-form-urlencoded', 'content' => $postdata
-                            )
-                        );
+            $opts = array('http' =>
+                array(
+                    'method'  => 'POST',
+                    'header'  => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => $postdata
+                ),
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ),
+            );
                         $context = stream_context_create($opts);
                         $result  = file_get_contents($server, false, $context);
                     } else {
-                        if ($curl = curl_init()) {
-                            curl_setopt($curl, CURLOPT_URL, $server);
-                            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                            curl_setopt($curl, CURLOPT_POST, true);
-                            curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
-                            $result = curl_exec($curl);
-                            curl_close($curl);
-                        } else {
-                            $this->log->write('SberBank error: No curl');
-                            exit();
-                        }
-                    }
+              
+            if ( $curl = curl_init() ) {
+                curl_setopt($curl, CURLOPT_URL, $server);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+                curl_setopt($curl, CURLOPT_POST, true);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
+                if ($this->config->get($paymentcode . '_checkcert') && file_exists(DIR_SYSTEM . 'art_extra/'.$certname)) {
+                    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+                    curl_setopt($curl, CURLOPT_CAINFO, DIR_SYSTEM . 'art_extra/'.$certname);
+                } else {
+                    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+                    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+                }
+                $result = curl_exec($curl);
+                curl_close($curl);
+            }
+            else{
+                $this->log->write('SberBank error: No curl');
+                exit();
+            }
+          }
                     $result = json_decode($result);
                     if (isset($result->OrderStatus)) {
                         if ($result->OrderStatus == 2 || $result->OrderStatus == 1) {
@@ -897,26 +935,42 @@ class ControllerAccountsbacquiring extends Controller
                                                      'userName' => $userName, 'password' => $password, 'orderId' => $this->request->get['orderId'], 'language' => $language
                                                  ));
                     if ($this->config->get($paymentcode . '_zapros')) {
-                        $opts = array(
-                            'http' => array(
-                                'method' => 'POST', 'header' => 'Content-type: application/x-www-form-urlencoded', 'content' => $postdata
-                            )
-                        );
+          $opts = array('http' =>
+              array(
+                  'method'  => 'POST',
+                  'header'  => 'Content-type: application/x-www-form-urlencoded',
+                  'content' => $postdata
+              ),
+              'ssl' => array(
+                  'verify_peer' => false,
+                  'verify_peer_name' => false,
+              ),
+          );
                         $context = stream_context_create($opts);
                         $result  = file_get_contents($server, false, $context);
                     } else {
-                        if ($curl = curl_init()) {
-                            curl_setopt($curl, CURLOPT_URL, $server);
-                            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                            curl_setopt($curl, CURLOPT_POST, true);
-                            curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
-                            $result = curl_exec($curl);
-                            curl_close($curl);
-                        } else {
-                            $this->log->write('sbank error: No curl');
-                            exit();
-                        }
-                    }
+
+          if ( $curl = curl_init() ) {
+              curl_setopt($curl, CURLOPT_URL, $server);
+              curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+              curl_setopt($curl, CURLOPT_POST, true);
+              curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
+              if ($this->config->get($paymentcode . '_checkcert') && file_exists(DIR_SYSTEM . 'art_extra/'.$certname)) {
+                  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+                  curl_setopt($curl, CURLOPT_CAINFO, DIR_SYSTEM . 'art_extra/'.$certname);
+              } else {
+                  curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+                  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+              }
+              $result = curl_exec($curl);
+              curl_close($curl);
+          }
+          else{
+              $this->log->write('sbank error: No curl');
+              exit();
+          }
+
+  }
                     $result = json_decode($result);
                     if (isset($result->OrderStatus)) {
                         if ($result->OrderStatus == 2 || $result->OrderStatus == 1) {
@@ -925,14 +979,22 @@ class ControllerAccountsbacquiring extends Controller
                     } else {
                         $result = (array)$result;
                         if (implode(' - ', $result) == '7 - Заказ находится в обработке. Пожалуйста, попробуйте позднее') {
-                            if ($curl = curl_init()) {
-                                curl_setopt($curl, CURLOPT_URL, $server);
-                                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                                curl_setopt($curl, CURLOPT_POST, true);
-                                curl_setopt($curl, CURLOPT_POSTFIELDS, $forcurlpost);
-                                $result = curl_exec($curl);
-                                curl_close($curl);
-                            } else {
+                if ( $curl = curl_init() ) {
+                curl_setopt($curl, CURLOPT_URL, $server);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+                curl_setopt($curl, CURLOPT_POST, true);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $forcurlpost);
+                if ($this->config->get($paymentcode . '_checkcert') && file_exists(DIR_SYSTEM . 'art_extra/'.$certname)) {
+                    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+                    curl_setopt($curl, CURLOPT_CAINFO, DIR_SYSTEM . 'art_extra/'.$certname);
+                } else {
+                    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+                    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+                }
+                $result = curl_exec($curl);
+                curl_close($curl);
+                }
+				else {
                                 $this->log->write('sbank error: No curl');
                                 exit();
                             }

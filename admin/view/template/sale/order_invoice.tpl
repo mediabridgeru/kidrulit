@@ -123,6 +123,19 @@
     </tr>
   </table>
   <?php } ?>
+  <?php if ($order['tasks']) { ?>
+  <table class="tasks">
+    <tr class="heading">
+      <td colspan="2"><b>Задачи</b></td>
+    </tr>
+    <?php foreach ($order['tasks'] as $task) { ?>
+    <tr>
+      <td><?php echo $task['label']; ?></td>
+      <td><?php echo $task['value']; ?></td>
+    </tr>
+    <?php } ?>
+  </table>
+  <?php } ?>
 </div>
 <?php } ?>
 </body>

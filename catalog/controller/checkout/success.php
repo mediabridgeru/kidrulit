@@ -37,12 +37,11 @@ class ControllerCheckoutSuccess extends Controller {
 
             if (isset($this->session->data['payment_method']['code']) && in_array($this->session->data['payment_method']['code'], $codes)) {
                 $this->data['docs'] = 1;
-                $this->data['invoice'] = $this->url->link('sale/order/invoice', 'excel=1&order_id='.$order_id, 'SSL');
-                //$this->data['torg12'] = $this->url->link('sale/order/invoice', 'doctype=torg12&order_id='.$order_id, 'SSL');
-                $this->data['torg12'] = $this->url->link('sale/waybill/index', 'doctype=torg12&order_id='.$order_id, 'SSL');
+                $this->data['invoice'] = $this->url->link('sale/order/invoice', 'doctype=invoice&excel=1&order_id='.$order_id, 'SSL');
+                $this->data['torg12'] = $this->url->link('sale/order/invoice', 'doctype=torg12&excel=1&order_id='.$order_id, 'SSL');
                 $this->data['delivery_act'] = $this->url->link('sale/order/invoice', 'doctype=akt&order_id='.$order_id, 'SSL');
 
-                $this->data['html_invoice'] = $this->url->link('sale/order/invoice', 'html=1&order_id='.$order_id, 'SSL');
+                $this->data['html_invoice'] = $this->url->link('sale/order/invoice', 'doctype=invoice&order_id='.$order_id, 'SSL');
                 $this->data['html_torg12'] = $this->url->link('sale/order/invoice', 'doctype=torg12&order_id='.$order_id, 'SSL');
                 $this->data['html_btn'] = '<br /><br /><h3>Если Вы передумали и решили оплатить свой заказ банковской картой, то Вы можете нажать на кнопку далее:</h3>';
                 $this->data['html_btn'] .= '<br /><div class="sbacquiring"><a href="'.$this->url->link('account/sbacquiring/change', 'code=' . $order_id . '&order_id=' . $order_id, 'SSL').'"><img src="https://kidrulit.ru/image/banners/card650.jpg"></a></div>';

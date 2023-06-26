@@ -10,17 +10,17 @@
             <add><![CDATA[
 <div class="buttons invoice-buttons">
     <a onclick="location.href='<?php echo $invoice; ?>&doctype=pko'" target="_blank" class='button'>ПКО</a>
-    <a onclick="location.href='<?php echo $invoice; ?>&doctype=pko&excel'" target="_blank" class='button'>ПКО Excel</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=pko&excel=1'" target="_blank" class='button'>ПКО Excel</a>
     <a onclick="location.href='<?php echo $invoice; ?>&doctype=torg12'" target="_blank">Товарная накладная(ТОРГ-12)</a>
-    <a onclick="location.href='<?php echo $invoice; ?>&doctype=torg12&excel'" target="_blank">ТОРГ-12 Excel</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=torg12&excel=1'" target="_blank">ТОРГ-12 Excel</a>
     <a class='button' onclick="location.href='<?php echo $invoice; ?>&doctype=paycheck'" target="_blank">Скачать счет на оплату в формате Excel</a>
-    <a class='button' onclick="location.href='<?php echo $invoice; ?>&doctype=paycheck&excel'" target="_blank">Скачать счет на оплату в формате Excel Excel</a>
+    <a class='button' onclick="location.href='<?php echo $invoice; ?>&doctype=paycheck&excel=1'" target="_blank">Скачать счет на оплату в формате Excel Excel</a>
     <a onclick="location.href='<?php echo $invoice; ?>&doctype=fact'" target="_blank" class='button'>Счет-фактура</a>
-    <a onclick="location.href='<?php echo $invoice; ?>&doctype=fact&excel'" target="_blank" class='button'>Счет-фактура Excel</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=fact&excel=1'" target="_blank" class='button'>Счет-фактура Excel</a>
     <a onclick="location.href='<?php echo $invoice; ?>&doctype=real'" target="_blank" class='button'>Реализация товаров</a>
-    <a onclick="location.href='<?php echo $invoice; ?>&doctype=real&excel'" target="_blank" class='button'>Реализация товаров Excel</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=real&excel=1'" target="_blank" class='button'>Реализация товаров Excel</a>
     <a onclick="location.href='<?php echo $invoice; ?>&doctype=akt'" target="_blank" class='button'>Акт выполненных работ</a>
-    <a onclick="location.href='<?php echo $invoice; ?>&doctype=akt&excel'" target="_blank" class='button'>Акт Excel</a>
+    <a onclick="location.href='<?php echo $invoice; ?>&doctype=akt&excel=1'" target="_blank" class='button'>Акт Excel</a>
 </div>
                    ]]>
             </add>
@@ -90,7 +90,7 @@
                      <li class="document">
 					 <a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=invoice'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">Счет</a></li>
 					 <li class="document">
-					 <a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=paycheck&excel7'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">Счет Excel</a>
+					 <a onclick="$('#form').attr('action', '<?php echo $invoice; ?>&doctype=invoice&excel7'); $('#form').attr('target', '_blank'); $('#form').submit();" target="_blank">Счет Excel</a>
 					 </li>
 					 </ul>
 					 </div>
@@ -174,172 +174,6 @@
             <search position="before"><![CDATA[$this->language->load('sale/order');]]></search>
             <add><![CDATA[      $this->language->load('sale/documents');]]>
             </add>
-        </operation>
-        <operation>
-            <search position="replace"><![CDATA[$this->template = 'sale/order_invoice.tpl';]]></search>
-            <add><![CDATA[
-            if(isset($this->request->get['doctype'])) {
-                $doctype = $this->request->get['doctype'];
-                $this->template = 'sale/documents/order_'.$doctype.'.tpl';
-            } else {
-                $this->template = 'sale/order_invoice.tpl';
-            }]]>
-            </add>
-        </operation>
-        <operation>
-            <search position="before" error="log"><![CDATA[public function insert() {]]></search>
-            <add><![CDATA[
-		public function num2str2($inns, $stripkop = false) {
-		$num = str_replace(' ', '', $inns);
-        $num = str_replace('р.', '', $num);
-		$num = str_replace('.', ',', $num);
-		//print $num.'<br>';
-		$inn = $num;
-		$nol = 'ноль';
-		$str[100] = array('', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот');
-		$str[11] = array('', 'десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать', 'двадцать');
-		$str[10] = array('', 'десять', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто');
-		$sex = array(
-			array('', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'), // m
-			array('', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять') // f
-		);
-		$forms = array(
-			array('копейка', 'копейки', 'копеек', 1), // 10^-2
-			array('рубль', 'рубля', 'рублей', 0), // 10^ 0
-			array('тысяча', 'тысячи', 'тысяч', 1), // 10^ 3
-			array('миллион', 'миллиона', 'миллионов', 0), // 10^ 6
-			array('миллиард', 'миллиарда', 'миллиардов', 0), // 10^ 9
-			array('триллион', 'триллиона', 'триллионов', 0), // 10^12
-		);
-		$out = $tmp = array();
-		
-		$tmp = explode('.', str_replace(',', '.', $inn));
-		$rub = number_format((float)$tmp[0], 0, '', '-');
-		if ($rub == 0) $out[] = $nol;
-		// нормализация копеек
-		$kop = isset($tmp[1]) ? substr(str_pad($tmp[1], 2, '0', STR_PAD_RIGHT), 0, 2) : '00';
-		$segments = explode('-', $rub);
-		$offset = sizeof($segments);
-		if ((int)$rub == 0) { // если 0 рублей
-			$o[] = $nol;
-			$o[] = $this->morph2(0, $forms[1][0], $forms[1][1], $forms[1][2]);
-		}
-		else {
-			foreach ($segments as $k => $lev) {
-				$sexi = (int)$forms[$offset][3]; // определяем род
-				$ri = (int)$lev; // текущий сегмент
-				if ($ri == 0 && $offset > 1) { // если сегмент==0 & не последний уровень(там Units)
-					$offset--;
-					continue;
-				}
-				// нормализация
-				$ri = str_pad($ri, 3, '0', STR_PAD_LEFT);
-				// получаем циферки для анализа
-				$r1 = (int)substr($ri, 0, 1); //первая цифра
-				$r2 = (int)substr($ri, 1, 1); //вторая
-				$r3 = (int)substr($ri, 2, 1); //третья
-				$r22 = (int)$r2 . $r3; //вторая и третья
-				// разгребаем порядки
-				if ($ri > 99) $o[] = $str[100][$r1]; // Сотни
-				if ($r22 > 20) { // >20
-					$o[] = $str[10][$r2];
-					$o[] = $sex[$sexi][$r3];
-				}
-				else { // <=20
-					if ($r22 > 9) $o[] = $str[11][$r22 - 9]; // 10-20
-					elseif ($r22 > 0) $o[] = $sex[$sexi][$r3]; // 1-9
-				}
-				// Рубли
-				$o[] = $this->morph2($ri, $forms[$offset][0], $forms[$offset][1], $forms[$offset][2]);
-				$offset--;
-			}
-		}
-		// Копейки
-		if (!$stripkop) {
-			$o[] = $kop;
-			$o[] = $this->morph2($kop, $forms[0][0], $forms[0][1], $forms[0][2]);
-		}
-		return preg_replace("/s{2,}/", ' ', implode(' ', $o));
-	}
-
-	/**
-	 * Склоняем словоформу
-	 */
-	private function morph2($n, $f1, $f2, $f5) {
-		$n = abs($n) % 100;
-		$n1 = $n % 10;
-		if ($n > 10 && $n < 20) return $f5;
-		if ($n1 > 1 && $n1 < 5) return $f2;
-		if ($n1 == 1) return $f1;
-		return $f5;
-	}
-	private function prop($num){ 
- # Все варианты написания чисел прописью от 0 до 999 скомпонуем в один небольшой массив 
-  $m=array( array('ноль'), 
-  array('-','один','два','три','четыре','пять','шесть','семь','восемь','девять'), 
-  array('десять','одиннадцать','двенадцать','тринадцать','четырнадцать','пятнадцать','шестнадцать','семнадцать','восемнадцать','девятнадцать'), 
-  array('-','-','двадцать','тридцать','сорок','пятьдесят','шестьдесят','семьдесят','восемьдесят','девяносто'), 
-  array('-','сто','двести','триста','четыреста','пятьсот','шестьсот','семьсот','восемьсот','девятьсот'), 
-  array('-','одна','две') ); # Все варианты написания разрядов прописью скомпануем в один небольшой массив 
-  $r=array( array('...ллион','','а','ов'), // используется для всех неизвестно больших разрядов 
-  array('тысяч','а','и',''), array('миллион','','а','ов'), array('миллиард','','а','ов'), array('триллион','','а','ов'), array('квадриллион','','а','ов'), 
-  array('квинтиллион','','а','ов')); // ,array(... список можно продолжить ); 
-  if ($num==0) return $m[0][0]; # Если число ноль, сразу сообщить об этом и выйти 
-  $o=array(); # Сюда записываем все получаемые результаты преобразования 
-  # Разложим исходное число на несколько трехзначных чисел и каждое полученное такое число обработаем отдельно 
-  foreach(array_reverse(str_split(str_pad($num,ceil(strlen($num)/3)*3,'0',STR_PAD_LEFT),3)) as $k=>$p)
-   { 
-    $o[$k]=array(); 
-  # Алгоритм, преобразующий трехзначное число в строку прописью 
-  foreach($n=str_split($p) as $kk=>$pp) 
-  if(!$pp) continue;
-   else 
-	switch($kk)
-   { 
-     case 0:$o[$k][]=$m[4][$pp];break; 
-     case 1:if($pp==1)
-	  {
-		 $o[$k][]=$m[2][$n[2]]; break 2;
-	  }
-	   else
-		 $o[$k][]=$m[3][$pp];break; 
-     case 2:if(($k==1)&&($pp<=2))
-	   $o[$k][]=$m[5][$pp];
-       else
-	   $o[$k][]=$m[1][$pp];break;
-      }
-	   $p*=1;
-	    if(!$r[$k]) $r[$k]=reset($r); 
-  # Алгоритм, добавляющий разряд, учитывающий окончание руского языка 
-  if($p&&$k)
-	   switch(true){ 
-    case preg_match("/^[1]$|^\\d*[0,2-9][1]$/",$p): $o[$k][]=$r[$k][0].$r[$k][1];break; 
-    case preg_match("/^[2-4]$|\\d*[0,2-9][2-4]$/",$p):$o[$k][]=$r[$k][0].$r[$k][2];break; 
-    default:$o[$k][]=$r[$k][0].$r[$k][3];break; } 
-	 $o[$k]=implode(' ',$o[$k]); 
-	 } 
-     return implode(' ',array_reverse($o)); 
-	}
-	
-	private function russian_date($date){
-      $date=explode(".", $date);
-      switch ($date[1]){
-      case 1: $m='января'; break;
-      case 2: $m='февраля'; break;
-      case 3: $m='марта'; break;
-      case 4: $m='апреля'; break;
-      case 5: $m='мая'; break;
-      case 6: $m='июня'; break;
-      case 7: $m='июля'; break;
-      case 8: $m='августа'; break;
-      case 9: $m='сентября'; break;
-      case 10: $m='октября'; break;
-      case 11: $m='ноября'; break;
-      case 12: $m='декабря'; break;
-    }
-    return $date[0].'&nbsp;'.$m.'&nbsp;'.$date[2];
-   }
-]]></add>
         </operation>
         <operation>
             <search position="after"><![CDATA[$store_fax = $store_info['config_fax'];]]></search>
@@ -452,11 +286,11 @@
         <operation>
             <search position="after"><![CDATA[$this->data['orders'][] = array(]]></search>
             <add><![CDATA[
-                        'total_2_str' => $this->mb_ucfirst($this->num2str2($ind)),
+                        'total_2_str' => mb_ucfirst(num2str($ind)),
                         'products_order_total' => isset($clean_products_total)?$clean_products_total:'',
                         'products_order_total_valute' => $this->currency->format(isset($clean_products_total)?$clean_products_total:'0'),
-                        'products_order_total_prop' => $this->mb_ucfirst($this->num2str2(isset($clean_products_total) ? $clean_products_total : 0)),
-                        'products_total'      => $this->mb_ucfirst($this->prop(isset($products_total) ? $products_total : 0)),
+                        'products_order_total_prop' => mb_ucfirst(num2str(isset($clean_products_total) ? $clean_products_total : 0)),
+                        'products_total'      => mb_ucfirst(prop(isset($products_total) ? $products_total : 0)),
                         'clean_products_nds' => isset($clean_products_nds)?$clean_products_nds:'0',
                         'shipping_cost'      => $shipping_cost,
             ]]></add>
@@ -466,9 +300,9 @@
             <add><![CDATA[
                         'all_nds'=> $this->currency->format(round((($ind*18)/118),2), $order_info['currency_code'], $order_info['currency_value']), // Считаем полный НДС - 18%,
                         'free_all_sum'=> $ind,
-                        'date_rus'=> $this->russian_date(date($this->language->get('date_format_short'), strtotime($order_info['date_added']))),
+                        'date_rus'=> russian_date(date($this->language->get('date_format_short'), strtotime($order_info['date_added']))),
                         'index_nova' => str_replace(',', '-', str_replace('.', '-', str_replace('р.', '',$ind))),
-                        'full_total_text' => $this->num2str2($ind),
+                        'full_total_text' => num2str($ind),
             ]]></add>
         </operation>
     </file>
@@ -485,7 +319,7 @@
             <add><![CDATA[
                         $_['entry_glbuh'] = 'Главный бухгалтер';
                         $_['entry_kass'] = 'Кассир';
-                        $_['entry_manager'] = 'Менеджер:';
+                        $_['entry_manager'] = 'ИП:';
                         $_['entry_rk_dov'] = 'Доверенность руководителя:';
                         $_['entry_buh_dov'] = 'Доверенность бухгалтера:';
                         ]]></add>

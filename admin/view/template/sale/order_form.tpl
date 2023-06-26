@@ -85,6 +85,20 @@
               <td><?php echo $entry_fax; ?></td>
               <td><input type="text" name="fax" value="<?php echo $fax; ?>" /></td>
             </tr>
+
+            <tr>
+              <td>Задачи склада</td>
+              <td><input type="text" name="custom_warehouse_tasks" value="<?php echo $custom_warehouse_tasks; ?>"></td>
+            </tr>
+            <tr>
+              <td>Задачи менеджеру</td>
+              <td><input type="text" name="custom_manager_tasks" value="<?php echo $custom_manager_tasks; ?>"></td>
+            </tr>
+            <tr>
+              <td>Особые комментарии</td>
+              <td><input type="text" name="custom_special_comments" value="<?php echo $custom_special_comments; ?>"></td>
+            </tr>
+
           </table>
         </div>
         <div id="tab-payment" class="vtabs-content">

@@ -282,6 +282,31 @@ class ModelSaleOrder extends Model
 			$payment_zone = '';			
 		}
 
+        $customer_custom = $this->db->query("SELECT `data` FROM `simple_custom_data` WHERE object_type = '2' AND object_id = '{$data['customer_id']}'")->row;
+
+        if (isset($customer_custom['data'])) {
+            $customer_custom = unserialize($customer_custom['data']);
+
+            if (!empty($data['custom_warehouse_tasks'])) {
+                $customer_custom['custom_warehouse_tasks']['value'] = $data['custom_warehouse_tasks'];
+            } else {
+                $customer_custom['custom_warehouse_tasks']['value'] = '';
+            }
+            if (!empty($data['custom_manager_tasks'])) {
+                $customer_custom['custom_manager_tasks']['value'] = $data['custom_manager_tasks'];
+            } else {
+                $customer_custom['custom_manager_tasks']['value'] = '';
+            }
+            if (!empty($data['custom_special_comments'])) {
+                $customer_custom['custom_special_comments']['value'] = $data['custom_special_comments'];
+            } else {
+                $customer_custom['custom_special_comments']['value'] = '';
+            }
+
+            $query = $this->db->query("UPDATE simple_custom_data SET data = '" . serialize($customer_custom) . "'
+                                    WHERE object_type = '2' AND object_id = '" . (int)$data['customer_id'] . "'");
+        }
+
         $order_status_id = 0; // старый статус заказа
         $cancel_status_id = 9; // статус Отмена и аннулирование
         $process_status_id = 2; // статус В обработке
@@ -712,7 +737,7 @@ class ModelSaleOrder extends Model
     }
 
     public function getOrders($data = array()) {
-        $sql = "SELECT o.order_id, o.order_status_id, CONCAT(o.firstname, ' ', o.lastname) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS status, o.total, o.currency_code, o.currency_value, o.cdek, o.shipping_code, o.date_added, o.date_modified FROM `" . DB_PREFIX . "order` o";
+        $sql = "SELECT o.order_id, o.order_status_id, CONCAT(o.firstname, ' ', o.lastname) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS status, o.total, o.currency_code, o.customer_id, o.currency_value, o.cdek, o.shipping_code, o.date_added, o.date_modified FROM `" . DB_PREFIX . "order` o";
 
         if (isset($data['filter_order_status_id']) && !is_null($data['filter_order_status_id'])) {
             $sql .= " WHERE o.order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
@@ -743,6 +768,7 @@ class ModelSaleOrder extends Model
         $sort_data = array(
             'o.order_id',
             'customer',
+            'customer_id',
             'status',
             'o.date_added',
             'o.date_modified',
@@ -775,7 +801,49 @@ class ModelSaleOrder extends Model
 
         $query = $this->db->query($sql);
 
-        return $query->rows;
+        $orders = [];
+
+        if ($query->num_rows) {
+            foreach ($query->rows as $row) {
+                $row['tasks'] = $this->getOrderTasks($row['customer_id']);
+
+                $orders[] = $row;
+            }
+        }
+
+        return $orders;
+    }
+
+    public function getOrderTasks($customer_id) {
+        $tasks = [];
+
+        $custom_warehouse_tasks = ''; // Задачи склада
+        $custom_manager_tasks = ''; // Задачи менеджеру
+        $custom_special_comments = ''; // Особые комментарии
+
+        $customer_custom = $this->db->query("SELECT `data` FROM `simple_custom_data` WHERE object_type = '2' AND object_id = '{$customer_id}'")->row;
+
+        if (isset($customer_custom['data'])) {
+            $customer_custom = unserialize($customer_custom['data']);
+
+            if (!empty($customer_custom['custom_warehouse_tasks'])) {
+                $custom_warehouse_tasks = $customer_custom['custom_warehouse_tasks']['value'];
+            }
+
+            if (!empty($customer_custom['custom_manager_tasks'])) {
+                $custom_manager_tasks = $customer_custom['custom_manager_tasks']['value'];
+            }
+
+            if (!empty($customer_custom['custom_special_comments'])) {
+                $custom_special_comments = $customer_custom['custom_special_comments']['value'];
+            }
+        }
+
+        $tasks['custom_warehouse_tasks'] = $custom_warehouse_tasks;
+        $tasks['custom_manager_tasks'] = $custom_manager_tasks;
+        $tasks['custom_special_comments'] = $custom_special_comments;
+
+        return $tasks;
     }
 
     public function getOrderProducts($order_id) {

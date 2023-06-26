@@ -732,13 +732,36 @@ class ControllerModuleSimple extends Controller {
 		
 		$this->init_field('simple_fields_main', array());
         $this->init_field('simple_fields_custom', array());
-		
-        $all_fields = $this->data['simple_fields_main'] + $this->data['simple_fields_custom'];
-		$this->data['custom_fields'] = array();
-		foreach($all_fields as $key=>$field)
-			if(substr($key, 0, 7) == 'custom_')
-				$this->data['custom_fields'][$key] = $field;
-		
+
+        $this->data['custom_fields'] = [];
+        $sorted_custom_fields = [];
+
+        foreach($this->data['simple_fields_main'] as $key => $field) {
+            if (substr($key, 0, 7) == 'custom_') {
+                $this->data['custom_fields'][$key] = $field;
+            }
+        }
+
+        $this->data['custom_typed_fields'] = [];
+
+        foreach ($this->data['simple_fields_custom'] as $id => $datum) {
+            $type = 'default';
+
+            if (!empty($datum['object_field'])) {
+                $type = $datum['object_field'];
+            }
+
+            $sorted_custom_fields[$type][$id] = $datum;
+        }
+
+        foreach($sorted_custom_fields as $type => $custom_fields) {
+            foreach($custom_fields as $key => $field) {
+                if (substr($key, 0, 7) == 'custom_') {
+                    $this->data['custom_typed_fields'][$type][$key] = $field;
+                }
+            }
+        }
+
 		$this->template = 'module/simple_custom.tpl';
         $this->response->setOutput($this->render());
     }

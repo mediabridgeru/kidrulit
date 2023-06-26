@@ -54,7 +54,7 @@ include $simple->tpl_static();
                         <table class="simplecheckout-customer">
                         <?php } ?>
                         <?php } else { ?>
-                            <tr>
+                            <tr class="simple_table_row <?php echo (!empty($field['object_field'])) ? $field['object_field'] : ''; ?>">
                                 <td class="simplecheckout-customer-left">
                                     <?php if ($field['required']) { ?>
                                         <span class="simplecheckout-required">*</span>
@@ -161,21 +161,27 @@ include $simple->tpl_static();
     </form>
 </div>
 <script>
-    // Custom fields handling
-    if ($('input[name*="custom_customer_type"]:checked').val() === 'individual') {
-        $('input[name*="custom_customer_type"]').closest('tr').nextAll().hide();
+    function set_customer_type() {
+        var custom_customer_type = $('input[name*="custom_customer_type"]:checked').val();
+        if (custom_customer_type === 'individual') {
+            $('.simple_table_row.ip_type, .simple_table_row.legal_type').hide();
+        } else
+        if (custom_customer_type === 'ip') {
+            $('.simple_table_row.ip_type').show();
+            $('.simple_table_row.legal_type').hide();
+        } else
+        if (custom_customer_type === 'legal') {
+            $('.simple_table_row.ip_type').hide();
+            $('.simple_table_row.legal_type').show();
+        }
     }
 
-    $('input[name*="custom_customer_type"]').change(function() {
-        switch ($(this).val()) {
-            case 'individual':
-                $(this).closest('tr').nextAll().hide();
-                break;
-            case 'ip':
-            case 'legal':
-                $(this).closest('tr').nextAll().show();
-                break;
-        }
+    $(document).ready(function() {
+        set_customer_type();
+
+        $('input[name*="custom_customer_type"]').change(function() {
+            set_customer_type();
+        });
     });
 </script>
 <?php include $simple->tpl_footer() ?>

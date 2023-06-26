@@ -25,6 +25,7 @@ header("Content-Transfer-Encoding: -binary");
 
 <body link=blue vlink=purple style='font-size:8.0pt;'>
 <?php $count = 0; foreach ($orders as $order) {
+$date = date('d.m.Y', strtotime($order['date_added']));
  $count++;
  $totals = array('kol'=>0, 'sum_wo_nds'=>0, 'sum_nds'=>0, 'sum_w_nds' => 0);
  ?>
@@ -175,7 +176,7 @@ header("Content-Transfer-Encoding: -binary");
   <td class=xl69 style='mso-style-parent:style0;text-align:left;border-top:none;border-right:none;border-bottom:0.5pt solid black;border-left:none;'>&nbsp;</td>
   <td class=xl69 style='mso-style-parent:style0;text-align:left;border-top:none;border-right:none;border-bottom:0.5pt solid black;border-left:none;'>&nbsp;</td>
   <td class=xl70 colspan=3 style='mso-style-parent:style0;font-size:9.0pt;text-align:right;'>по ОКПО&nbsp;</td>
-  <td class=xl71 style='mso-style-parent:style0;font-size:9.0pt;font-weight:700;mso-number-format:"0";text-align:center;border-top:0.5pt solid black;border-right:0.5pt solid black;border-bottom:none;border-left:0.5pt solid black;'>181497743</td>
+  <td class=xl71 style='mso-style-parent:style0;font-size:9.0pt;font-weight:700;mso-number-format:"0";text-align:center;border-top:0.5pt solid black;border-right:0.5pt solid black;border-bottom:none;border-left:0.5pt solid black;'>2001444338</td>
   <td class=xl65 style='mso-style-parent:style0;text-align:left;'></td>
   <td class=xl65 style='mso-style-parent:style0;text-align:left;'></td>
   <td class=xl65 style='mso-style-parent:style0;text-align:left;'></td>
@@ -241,7 +242,7 @@ header("Content-Transfer-Encoding: -binary");
   <td class=xl65 style='mso-style-parent:style0;text-align:left;'></td>
   <td class=xl70 style='mso-style-parent:style0;font-size:9.0pt;text-align:right;'></td>
   <td class=xl70 style='mso-style-parent:style0;font-size:9.0pt;text-align:right;'></td>
-  <td rowspan=4 class=xl71 style='mso-style-parent:style0;font-size:9.0pt;font-weight:700;mso-number-format:"0";text-align:center;border-top:0.5pt solid black;border-right:0.5pt solid black;border-bottom:none;border-left:0.5pt solid black;'>181497743</td>
+  <td rowspan=4 class=xl71 style='mso-style-parent:style0;font-size:9.0pt;font-weight:700;mso-number-format:"0";text-align:center;border-top:0.5pt solid black;border-right:0.5pt solid black;border-bottom:none;border-left:0.5pt solid black;'>2001444338</td>
   <td class=xl65 style='mso-style-parent:style0;text-align:left;'></td>
   <td class=xl65 style='mso-style-parent:style0;text-align:left;'></td>
   <td class=xl65 style='mso-style-parent:style0;text-align:left;'></td>
@@ -333,7 +334,7 @@ header("Content-Transfer-Encoding: -binary");
   <td height=16 class=xl65 style='height:12.0pt;mso-style-parent:style0;text-align:left;'></td>
   <td class=xl70 style='mso-style-parent:style0;font-size:9.0pt;text-align:right;'></td>
   <td class=xl70 style='mso-style-parent:style0;font-size:9.0pt;text-align:right;'>Основание</td>
-  <td colspan=33 class=xl112  style='mso-style-parent:style0;text-align:left;border-top:none;border-right:none;border-bottom:0.5pt solid black;border-left:none;'>Основной договор</td>
+  <td colspan=33 class=xl112  style='mso-style-parent:style0;text-align:left;border-top:none;border-right:none;border-bottom:0.5pt solid black;border-left:none;'>Счет-заказ № <?=$order['order_id']?>  от <?=$date?></td>
   <td class=xl65 style='mso-style-parent:style0;text-align:left;'></td>
   <td class=xl65 style='mso-style-parent:style0;text-align:left;'></td>
   <td class=xl65 style='mso-style-parent:style0;text-align:left;'></td>
@@ -576,10 +577,10 @@ header("Content-Transfer-Encoding: -binary");
 	 $product_weight += (float)$product['weight'];
 	 $product_count++;
 	 ?>
- <tr class=xl82 style='mso-height-source:userset;height:52pt;mso-style-parent:style0;text-align:left;vertical-align:top;'>
-  <td class=xl84 style='height:52pt;mso-style-parent:style0;text-align:left;vertical-align:top;border:none;'>&nbsp;</td>
+ <tr class=xl82 style='mso-height-source:userset;mso-style-parent:style0;text-align:left;vertical-align:top;'>
+  <td class=xl84 style='mso-style-parent:style0;text-align:left;vertical-align:top;border:none;'>&nbsp;</td>
   <td class=xl90 style='border-top:none;mso-style-parent:style0;mso-number-format:"0";text-align:center;vertical-align:top;border-top:0.5pt solid black;border-right:none;border-bottom:0.5pt solid black;border-left:0.5pt solid black;'><? print $product_count; ?></td>
-  <td colspan="3" class=xl130 width=194 style='width:146pt;padding-left: 10px;mso-style-parent:style0;text-align:left;vertical-align:top;border-top:0.5pt solid black;border-right:none;border-bottom:0.5pt solid black;border-left:0.5pt solid black;white-space:normal; height: 27pt'>
+  <td colspan="3" class=xl130 width=194 style='width:146pt;padding-left: 10px;padding-bottom: 3px;padding-top: 3px;mso-style-parent:style0;text-align:left;vertical-align:top;border-top:0.5pt solid black;border-right:none;border-bottom:0.5pt solid black;border-left:0.5pt solid black;white-space:normal;'>
       <?php print $product['report_name']; ?>
       <?php if (!empty($product['option']) && is_array($product['option'])) : ?><br>
       <em><?php echo $product['option'][0]['name']; ?> - <?php echo $product['option'][0]['value']; ?></em>
@@ -1117,7 +1118,7 @@ header("Content-Transfer-Encoding: -binary");
   <td class=xl69 style='mso-style-parent:style0;text-align:left;border-top:none;border-right:none;border-bottom:0.5pt solid black;border-left:none;'>&nbsp;</td>
   <td class=xl69 style='mso-style-parent:style0;text-align:left;border-top:none;border-right:none;border-bottom:0.5pt solid black;border-left:none;'>&nbsp;</td>
   <td class=xl65></td>
-  <td colspan=7 class=xl154 width=140 style='width:106pt;mso-style-parent:style0;text-align:left;border-top:none;border-right:none;border-bottom:0.5pt solid black;border-left:none;white-space:normal;'><? print $order['manager']; ?></td>
+  <td colspan=7 class=xl154 width=140 style='width:106pt;mso-style-parent:style0;text-align:left;border-top:none;border-right:none;border-bottom:0.5pt solid black;border-left:none;white-space:normal;'><? print $order['owner']; ?></td>
   <td class=xl119 style='mso-style-parent:style0;text-align:left;border-top:none;border-right:0.5pt solid black;border-bottom:none;border-left:none;'>&nbsp;</td>
   <td class=xl65></td>
   <td colspan="4" class=xl65 style='mso-ignore:colspan'>Груз получил</td>

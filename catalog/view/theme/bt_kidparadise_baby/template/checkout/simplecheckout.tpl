@@ -13,6 +13,8 @@ function checkCustTyp() {
     } else {
         $('input[value="sbacquiring2"], input[value="sbacquiring"]').parents('tr').hide();
         $('input[value="sbacquiring2"], input[value="sbacquiring"]').prop('checked', false);
+		$('input[value="cod"], input[value="cod_cash"]').parents('tr').hide();
+		$('input[value="cod"], input[value="cod_cash"]').prop('checked', false);
     }
 }
 </script>

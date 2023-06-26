@@ -17,20 +17,10 @@ class ControllerSaleOrder extends Controller {
 
 		$this->load->model('sale/order');
 
+        $this->load->helper('spreadsheet');
+
 		$this->getList();
 	}
-
-    /**
-     * переводит первый символ строки в верхний регистр
-     *
-     * @param string $string
-     * @param string $enc
-     *
-     * @return string
-     */
-    public function mb_ucfirst($string, $enc = 'UTF-8') {
-    	return mb_strtoupper(mb_substr($string, 0, 1, $enc), $enc) . mb_substr($string, 1, mb_strlen($string, $enc), $enc);
-    }
 
     public function insert() {
     	$this->language->load('sale/order');
@@ -203,6 +193,8 @@ class ControllerSaleOrder extends Controller {
     }
 
     protected function getList() {
+        $this->load->helper('spreadsheet');
+
     	if (isset($this->request->get['filter_order_id'])) {
     		$filter_order_id = $this->request->get['filter_order_id'];
     	} else {
@@ -366,6 +358,7 @@ class ControllerSaleOrder extends Controller {
     			'customer'      => $result['customer'],
     			'status'        => $result['status'],
     			'status_id'		=> $result['order_status_id'],
+                'tasks'         => $result['tasks'],
     			'cdek'          => $cdek,
     			'total'         => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
     			'date_added'    => date($this->language->get('date_format_time'), strtotime($result['date_added'])),
@@ -929,6 +922,32 @@ class ControllerSaleOrder extends Controller {
     	}
 
     	$this->load->model('sale/customer');
+
+        $custom_warehouse_tasks = ''; // Задачи склада
+        $custom_manager_tasks = ''; // Задачи менеджеру
+        $custom_special_comments = ''; // Особые комментарии
+
+        $customer_custom = $this->db->query("SELECT `data` FROM `simple_custom_data` WHERE customer_id = '{$order_info['customer_id']}' AND object_type = '2' AND object_id = '{$order_info['customer_id']}'")->row;
+
+        if (isset($customer_custom['data'])) {
+            $customer_custom = unserialize($customer_custom['data']);
+
+            if (!empty($customer_custom['custom_warehouse_tasks'])) {
+                $custom_warehouse_tasks = $customer_custom['custom_warehouse_tasks']['value'];
+            }
+
+            if (!empty($customer_custom['custom_manager_tasks'])) {
+                $custom_manager_tasks = $customer_custom['custom_manager_tasks']['value'];
+            }
+
+            if (!empty($customer_custom['custom_special_comments'])) {
+                $custom_special_comments = $customer_custom['custom_special_comments']['value'];
+            }
+        }
+
+        $this->data['custom_warehouse_tasks'] = $custom_warehouse_tasks;
+        $this->data['custom_manager_tasks'] = $custom_manager_tasks;
+        $this->data['custom_special_comments'] = $custom_special_comments;
 
     	if (isset($this->request->post['customer_id'])) {
     		$this->data['addresses'] = $this->model_sale_customer->getAddresses($this->request->post['customer_id']);
@@ -2541,6 +2560,7 @@ class ControllerSaleOrder extends Controller {
 
     public function invoice() {
         $this->language->load('sale/order');
+        $this->load->helper('spreadsheet');
 
         $this->data['title'] = $this->language->get('heading_title');
 
@@ -2614,13 +2634,81 @@ class ControllerSaleOrder extends Controller {
                         $invoice_no = '';
                     }
 
+                    $customer_type = '';
+
+                    $middlename = '';
+
+                    $inn = '';
+                    $kpp = '';
+                    $okpo = '';
+                    $company_telefon = '';
+                    $custom_company = '';
+
+                    if (!$order_info['customer_id']) {
+                        $customer_custom = $this->db->query("SELECT `data` FROM `simple_custom_data` WHERE customer_id = '0' AND object_type = '1' AND object_id = '{$order_info['order_id']}'")->row;
+                    } else {
+                        $customer_custom = $this->db->query("SELECT `data` FROM `simple_custom_data` WHERE customer_id = '{$order_info['customer_id']}' AND object_type = '1' AND object_id = '{$order_info['order_id']}'")->row;
+                    }
+
+                    if (isset($customer_custom['data'])) {
+                        $customer_custom = unserialize($customer_custom['data']);
+
+                        $customer_type = isset($customer_custom['custom_customer_type']) ? "{$customer_custom['custom_customer_type']['text']}": '';
+                        $middlename = isset($customer_custom['custom_middlename']) ? "{$customer_custom['custom_middlename']['value']}": '';
+
+                        if ($customer_type == 'ip') {
+                            $inn = !empty($customer_custom['custom_inn']) ? "ИНН {$customer_custom['custom_inn']['value']}" : '';
+                            $kpp = !empty($customer_custom['custom_kpp']) ? "КПП {$customer_custom['custom_kpp']['value']}" : '';
+                            $okpo = !empty($customer_custom['custom_okpo']) ? "{$customer_custom['custom_okpo']['value']}" : '';
+                            $company_telefon = !empty($customer_custom['custom_company_telefon']) ? "{$customer_custom['custom_company_telefon']['value']}" : '';
+                            $custom_company = !empty($customer_custom['custom_company']) ? "{$customer_custom['custom_company']['value']}" : '';
+                        } elseif ($customer_type == 'legal') {
+                            $inn = !empty($customer_custom['custom_legal_inn']) ? "ИНН {$customer_custom['custom_legal_inn']['value']}" : '';
+                            $kpp = !empty($customer_custom['custom_legal_kpp']) ? "КПП {$customer_custom['custom_legal_kpp']['value']}" : '';
+                            $okpo = !empty($customer_custom['custom_legal_okpo']) ? "{$customer_custom['custom_legal_okpo']['value']}" : '';
+                            $company_telefon = !empty($customer_custom['custom_legal_company_telefon']) ? "{$customer_custom['custom_legal_company_telefon']['value']}" : '';
+                            $custom_company = !empty($customer_custom['custom_legal_company']) ? "{$customer_custom['custom_legal_company']['value']}" : '';
+                        }
+                    }
+
+                    $tasks = '';
+
+                    if ($order_info['customer_id']) {
+                        $customer_tasks = $this->db->query("SELECT `data` FROM `simple_custom_data` WHERE customer_id = '{$order_info['customer_id']}' AND object_type = '2'")->row;
+                    }
+
+                    if (isset($customer_tasks['data'])) {
+                        $customer_tasks = unserialize($customer_tasks['data']);
+
+                        $tasksIds = [
+                            'custom_warehouse_tasks',
+                            'custom_manager_tasks',
+                            'custom_special_comments',
+                        ];
+
+                        foreach ($customer_tasks as $id => $customerTask) {
+                            if (in_array($id, $tasksIds) && !empty($customerTask['value'])) {
+                                $tasks[$id] = [
+                                    'label' => $customerTask['label'],
+                                    'value' => $customerTask['value'],
+                                ];
+                            }
+                        }
+                    }
+
                     if ($order_info['shipping_address_format']) {
                         $format = $order_info['shipping_address_format'];
                     } else {
                         $format = '{lastname} {firstname}' . "\n" . '{postcode}' . "\n" . '{zone}' . "\n" . '{city}' . "\n" . '{address_1}' . "\n" . '{address_2}';
                     }
 
-                    $find = array(
+                    $find = [
+                        '{customer_type}',
+                        '{patronymic}',
+                        '{inn}',
+                        '{kpp}',
+                        '{custom_company}',
+						
                         '{firstname}',
                         '{lastname}',
                         '{company}',
@@ -2631,9 +2719,16 @@ class ControllerSaleOrder extends Controller {
                         '{zone}',
                         '{zone_code}',
                         '{country}'
-                    );
+                    ];
 
                     $replace = array(
+                        'customer_type'  => $customer_type,
+                        'patronymic'     => $middlename,
+
+                        'inn'            => $inn,
+                        'kpp'            => $kpp,
+                        'custom_company' => $custom_company,
+						
                         'firstname' => $order_info['shipping_firstname'],
                         'lastname'  => $order_info['shipping_lastname'],
                         'company'   => $order_info['shipping_company'],
@@ -2645,32 +2740,21 @@ class ControllerSaleOrder extends Controller {
                         'zone_code' => $order_info['shipping_zone_code'],
                         'country'   => $order_info['shipping_country']
                     );
-
+					
+                    if (strlen($replace['custom_company'])) {
+                        $format = '{custom_company}' . "\n" . '{postcode}' . "\n" . '{zone}' . "\n" . '{city}' . "\n" . '{address_1}' . "\n" . '{address_2}';
+                    }
+						
                     $shipping_address = str_replace(array("\r\n", "\r", "\n"), ', ', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), ' ,', trim(str_replace($find, $replace, $format))));
 
-                    if ($order_info['payment_address_format']) {
-                        $format = $order_info['payment_address_format'];
-                    } else {
-                        $format = '{customer_type} {lastname} {firstname} {patronymic}' . "\n" . '{inn}' . "\n" . '{kpp}' . "\n" . '{company}' . "\n" . '{postcode}' . "\n" . '{zone}' . "\n" . '{city}' . "\n" . '{address_1}' . "\n" . '{address_2}';
-                    }
-
-                    if (!$order_info['customer_id']) {
-                        $customer_custom = $this->db->query("SELECT `data` FROM `simple_custom_data` WHERE customer_id = '0' AND object_type = '1' AND object_id = '{$order_info['order_id']}'")->row;
-                    } else {
-                        $customer_custom = $this->db->query("SELECT `data` FROM `simple_custom_data` WHERE customer_id = '{$order_info['customer_id']}' AND object_type = '1' AND object_id = '{$order_info['order_id']}'")->row;
-                    }
-
-                    if (isset($customer_custom['data'])) {
-                        $customer_custom = unserialize($customer_custom['data']);
-                    }
-
-                    $find = array(
-                        // Custom fields
+                    $find = [
                         '{customer_type}',
                         '{patronymic}',
+
                         '{inn}',
                         '{kpp}',
                         '{custom_company}',
+
                         '{firstname}',
                         '{lastname}',
                         '{company}',
@@ -2681,31 +2765,16 @@ class ControllerSaleOrder extends Controller {
                         '{zone}',
                         '{zone_code}',
                         '{country}'
-                    );
+                    ];
 
-                    $customer_type = isset($customer_custom['custom_customer_type']) ? "{$customer_custom['custom_customer_type']['value']}" : '';
+                    $replace = [
+                        'customer_type'  => $customer_type,
+                        'patronymic'     => $middlename,
 
-                    if ($customer_type == 'ip') {
-                        $inn = !empty($customer_custom['custom_inn']) ? "ИНН {$customer_custom['custom_inn']['value']}" : '';
-                        $kpp = !empty($customer_custom['custom_kpp']) ? "КПП {$customer_custom['custom_kpp']['value']}" : '';
-                        $custom_company = !empty($customer_custom['custom_company']) ? "{$customer_custom['custom_company']['value']}" : '';
-                    } elseif ($customer_type == 'legal') {
-                        $inn = !empty($customer_custom['custom_legal_inn']) ? "ИНН {$customer_custom['custom_legal_inn']['value']}" : '';
-                        $kpp = !empty($customer_custom['custom_legal_kpp']) ? "КПП {$customer_custom['custom_legal_kpp']['value']}" : '';
-                        $custom_company = !empty($customer_custom['custom_legal_company']) ? "{$customer_custom['custom_legal_company']['value']}" : '';
-                    } else {
-                        $inn = '';
-                        $kpp = '';
-                        $custom_company = '';
-                    }
-
-                    $replace = array(
-                        // Custom fields
-                        'customer_type'  => isset($customer_custom['custom_customer_type']) ? "{$customer_custom['custom_customer_type']['text']}" : '',
-                        'patronymic'     => isset($customer_custom['custom_middlename']['value']) ? "{$customer_custom['custom_middlename']['value']}" : '',
                         'inn'            => $inn,
                         'kpp'            => $kpp,
                         'custom_company' => $custom_company,
+
                         'firstname'      => $order_info['payment_firstname'],
                         'lastname'       => $order_info['payment_lastname'],
                         'company'        => $order_info['payment_company'],
@@ -2716,11 +2785,17 @@ class ControllerSaleOrder extends Controller {
                         'zone'           => $order_info['payment_zone'],
                         'zone_code'      => $order_info['payment_zone_code'],
                         'country'        => $order_info['payment_country']
-                    );
+                    ];
 
-                    if (strlen($replace['custom_company']))
-                        if ($format == '{customer_type} {lastname} {firstname} {patronymic}' . "\n" . '{inn}' . "\n" . '{kpp}' . "\n" . '{company}' . "\n" . '{postcode}' . "\n" . '{zone}' . "\n" . '{city}' . "\n" . '{address_1}' . "\n" . '{address_2}')
-                            $format = '{custom_company}' . "\n" . '{inn}' . "\n" . '{kpp}' . "\n" . '{postcode}' . "\n" . '{zone}' . "\n" . '{city}' . "\n" . '{address_1}' . "\n" . '{address_2}';
+                    if ($order_info['payment_address_format']) {
+                        $format = $order_info['payment_address_format'];
+                    } else {
+                        if (strlen($custom_company)) {
+                            $format = '{custom_company}'."\n".'{inn}'."\n".'{kpp}'."\n".'{postcode}'."\n".'{zone}'."\n".'{city}'."\n".'{address_1}'."\n".'{address_2}';
+                        } else {
+                            $format = '{customer_type} {lastname} {firstname} {patronymic}' . "\n" . '{inn}' . "\n" . '{kpp}' . "\n" . '{company}' . "\n" . '{postcode}' . "\n" . '{zone}' . "\n" . '{city}' . "\n" . '{address_1}' . "\n" . '{address_2}';
+                        }
+                    }
 
                     $payment_address = str_replace(array("\r\n", "\r", "\n"), ', ', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), ', ', trim(str_replace($find, $replace, $format))));
 
@@ -2799,9 +2874,17 @@ class ControllerSaleOrder extends Controller {
 
                     $total_data = $this->model_sale_order->getOrderTotals($order_id);
 
+                    $telephone = $order_info['telephone'];
+
+                    if ($company_telefon) {
+                        $telephone = $company_telefon;
+                    }
+
                     $this->data['orders'][] = array(
                         'order_id'           => $order_id,
                         'invoice_no'         => $invoice_no,
+                        'okpo'               => $okpo,
+                        'company_telefon'    => $company_telefon,
                         'date_added'         => date($this->language->get('date_format_time'), strtotime($order_info['date_added'])),
                         'store_name'         => $order_info['store_name'],
                         'store_url'          => rtrim($order_info['store_url'], '/'),
@@ -2810,7 +2893,7 @@ class ControllerSaleOrder extends Controller {
                         'store_telephone'    => $store_telephone,
                         'store_fax'          => $store_fax,
                         'email'              => $order_info['email'],
-                        'telephone'          => $order_info['telephone'],
+                        'telephone'          => $telephone,
                         'shipping_address'   => $shipping_address,
                         'shipping_code'      => $order_info['shipping_code'],
                         'shipping_method'    => $order_info['shipping_method'],
@@ -2821,6 +2904,7 @@ class ControllerSaleOrder extends Controller {
                         'product'            => $product_data,
                         'voucher'            => $voucher_data,
                         'total'              => $total_data,
+                        'tasks'              => $tasks,
                         'comment'            => nl2br($order_info['comment'])
                     );
                 }
@@ -2828,38 +2912,52 @@ class ControllerSaleOrder extends Controller {
 
             $orders_data = $this->data['orders'];
 
-            if (isset($this->request->get['html'])) {
-                $spreadsheet = $this->make_spreadsheet($orders_data, false);
-                $writer = new Html($spreadsheet);
-                $writer->save('php://output');
-            } elseif (isset($this->request->get['excel']) || isset($this->request->get['excel7'])) {
-                $order_ids = array();
-                foreach ($orders_data as $order) {
-                    $order_ids[] = $order['order_id'];
+            $doctype = '';
+
+            if (isset($this->request->get['doctype'])) {
+                $doctype = $this->request->get['doctype'];
+                $this->template = 'sale/documents/order_' . $doctype . '.tpl';
+
+                if ($doctype == 'invoice' || $doctype == 'torg12') {
+                    include_once DIR_SYSTEM . 'library/invoice/ControllerWaybill.php';
+
+                    $waybill = new ControllerWaybill($this->registry);
+
+                    $waybill->invoice($orders);
                 }
-                $order_ids = implode("_", $order_ids);
-
-                $spreadsheet = $this->make_spreadsheet($orders_data, true);
-
-                ob_start();
-                $writer = new Xlsx($spreadsheet);
-                $writer->save('php://output');
-                $excelOutput = ob_get_clean();
-
-                $this->response->addheader('Cache-Control: public');// needed for internet explorer
-                $this->response->addheader('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                $this->response->addheader('Content-Transfer-Encoding: binary');
-                $this->response->addheader('Content-Disposition: attachment; filename=Заказ_' . $order_ids . '.xlsx');
-                if (function_exists('mb_strlen')) {
-                    header("Content-Length:" . mb_strlen($excelOutput, '8bit'));
-                } else {
-                    header("Content-Length:" . strlen($excelOutput));
-                }
-
-                $this->response->setOutput($excelOutput);
             } else {
                 $this->template = 'sale/order_invoice.tpl';
-                $this->response->setOutput($this->render());
+
+                if (isset($this->request->get['excel']) || isset($this->request->get['excel7'])) {
+                    $order_ids = array();
+                    foreach ($orders_data as $order) {
+                        $order_ids[] = $order['order_id'];
+                    }
+
+                    $order_ids = implode("_", $order_ids);
+
+                    $spreadsheet = $this->make_spreadsheet($orders_data, true);
+
+                    ob_start();
+                    $writer = new Xlsx($spreadsheet);
+                    $writer->save('php://output');
+                    $excelOutput = ob_get_clean();
+
+                    $this->response->addheader('Cache-Control: public');// needed for internet explorer
+                    $this->response->addheader('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                    $this->response->addheader('Content-Transfer-Encoding: binary');
+                    $this->response->addheader('Content-Disposition: attachment; filename=Заказ_' . $order_ids . '.xlsx');
+
+                    if (function_exists('mb_strlen')) {
+                        header("Content-Length:" . mb_strlen($excelOutput, '8bit'));
+                    } else {
+                        header("Content-Length:" . strlen($excelOutput));
+                    }
+
+                    $this->response->setOutput($excelOutput);
+                } else {
+                    $this->response->setOutput($this->render());
+                }
             }
         } else {
             $this->response->setOutput('Не выбран заказ!');
@@ -3066,7 +3164,7 @@ class ControllerSaleOrder extends Controller {
             $sheet->getRowDimension($r)->setRowHeight(24);
             $sheet->getStyle("B$r:AL$r")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
             $sheet->getStyle("B$r:AL$r")->getBorders()->getBottom()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
-            $sheet->setCellValue("B$r", 'Заказ № ' . $order['order_id'] . ' от ' . strftime('%d %B %Y', $date) . ' г.');
+            $sheet->setCellValue("B$r", 'Счет-заказ № ' . $order['order_id'] . ' от ' . strftime('%d %B %Y', $date) . ' г.');
             $r++;
 
             $sheet->mergeCells("A$r:AM$r");$sheet->getRowDimension($r)->setRowHeight(6); $r++;
@@ -3263,7 +3361,7 @@ class ControllerSaleOrder extends Controller {
             $sheet->getStyle("AC$r:AL$r")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
             $sheet->getStyle("B$r:AL$r")->getFont()->setBold(true);
             $sheet->mergeCells("B$r:F$r");
-            $sheet->setCellValue("B$r", 'Руководитель');
+            $sheet->setCellValue("B$r", 'ИП');
             $sheet->mergeCells("AC$r:AL$r");
             $sheet->setCellValue("AC$r", 'Подоляко А. В.');
             $r++;
@@ -3328,7 +3426,7 @@ class ControllerSaleOrder extends Controller {
           return $spreadsheet;
         }
 
-        public function make_xlsx_invoice($order) {
+    public function make_xlsx_invoice($order) {
         	$writer = new XLSXWriter();
         	$sheet = 'Sheet1';
         	$col_widths = array_fill(0, 39, 2.9);
@@ -3638,7 +3736,7 @@ class ControllerSaleOrder extends Controller {
         	$writer->writeSheetRow($sheet,$rowdata = array(), $row_options =  array('height'=>15) );
 
         	$r = array_fill(0, 39, "");
-        	$r[1] = "Руководитель";
+        	$r[1] = "ИП";
         	$r[28] = "Подоляко А. В.";
         	$s = array_fill(0, 39,  array('border-style'=>'thin'));
         	for ($i = 7; $i <= 15; $i++)
@@ -3735,92 +3833,5 @@ class ControllerSaleOrder extends Controller {
 
         	return $writer->writeToString();
         }
-
-	/**
-	 * Возвращает сумму прописью
-	 * @author runcore
-	 * @uses morph(...)
-	 */
-	public function num2str( $num ) {
-		$nul     = 'ноль';
-		$ten     = array(
-			array( '', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять' ),
-			array( '', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять' ),
-		);
-		$a20     = array(
-			'десять', 'одиннадцать', 'двенадцать', 'тринадцать',
-			'четырнадцать', 'пятнадцать', 'шестнадцать',
-			'семнадцать', 'восемнадцать', 'девятнадцать'
-		);
-		$tens    = array(
-			2 => 'двадцать', 'тридцать', 'сорок',
-			'пятьдесят', 'шестьдесят', 'семьдесят',
-			'восемьдесят', 'девяносто'
-		);
-		$hundred = array(
-			'', 'сто', 'двести',
-			'триста', 'четыреста', 'пятьсот',
-			'шестьсот', 'семьсот', 'восемьсот',
-			'девятьсот'
-		);
-		$unit    = array( // Units
-			array( 'копейка', 'копейки', 'копеек', 1 ),
-			array( 'рубль', 'рубля', 'рублей', 0 ),
-			array( 'тысяча', 'тысячи', 'тысяч', 1 ),
-			array( 'миллион', 'миллиона', 'миллионов', 0 ),
-			array( 'миллиард', 'миллиарда', 'миллиардов', 0 ),
-		);
-		//
-		list( $rub, $kop ) = explode( ',', str_replace('.',',',sprintf( "%015.2f", $num )) );
-		$out = array();
-		if ( (int) $rub > 0 ) {
-			foreach ( str_split( $rub, 3 ) as $uk => $v ) { // by 3 symbols
-				if ( ! (int) $v ) {
-					continue;
-				}
-				$uk     = count( $unit ) - $uk - 1; // unit key
-				$gender = $unit[ $uk ][3];
-				list( $i1, $i2, $i3 ) = array_map( 'intval', str_split( $v ) );
-				// mega-logic
-				$out[] = $hundred[ $i1 ]; # 1xx-9xx
-				if ( $i2 > 1 ) {
-					$out[] = $tens[ $i2 ] . ' ' . $ten[ $gender ][ $i3 ];
-				} # 20-99
-				else {
-					$out[] = $i2 > 0 ? $a20[ $i3 ] : $ten[ $gender ][ $i3 ];
-				} # 10-19 | 1-9
-				// units without rub & kop
-				if ( $uk > 1 ) {
-					$out[] = $this->morph( $v, $unit[ $uk ][0], $unit[ $uk ][1], $unit[ $uk ][2] );
-				}
-			} //foreach
-		} else {
-			$out[] = $nul;
-		}
-		$out[] = $this->morph( (int) $rub, $unit[1][0], $unit[1][1], $unit[1][2] ); // rub
-		$out[] = $kop . ' ' . $this->morph( $kop, $unit[0][0], $unit[0][1], $unit[0][2] ); // kop
-
-		return trim( preg_replace( '/ {2,}/', ' ', implode( ' ', $out ) ) );
-	}
-
-	/**
-	 * Склоняем словоформу
-	 * @ author runcore
-	 */
-	public function morph( $n, $f1, $f2, $f5 ) {
-		$n = abs( (int) $n ) % 100;
-		if ( $n > 10 && $n < 20 ) {
-			return $f5;
-		}
-		$n %= 10;
-		if ( $n > 1 && $n < 5 ) {
-			return $f2;
-		}
-		if ( $n === 1 ) {
-			return $f1;
-		}
-
-		return $f5;
-	}
 }
 ?>

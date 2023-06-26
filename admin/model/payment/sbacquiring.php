@@ -26,7 +26,7 @@ class ModelPaymentSbacquiring extends Model {
 	}
 
 	public function getProSettings() {
-		$setpro = array('debug', 'cart', 'nds', 'nds_important', 'returnpage', 'otlog', 'customName', 'customShip');
+		$setpro = array('debug', 'cart', 'nds', 'nds_important', 'returnpage', 'otlog', 'customName', 'customShip', 'checkcert');
 		return $setpro;
 	}
 }

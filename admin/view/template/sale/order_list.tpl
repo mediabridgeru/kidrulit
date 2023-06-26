@@ -22,6 +22,7 @@
           <thead>
             <tr>
               <td width="1" style="text-align: center;"><input type="checkbox" onclick="$('input[name*=\'selected\']').attr('checked', this.checked);" /></td>
+              <td class="center" width="80">Задачи</td>
               <td class="right"><?php if ($sort == 'o.order_id') { ?>
                 <a href="<?php echo $sort_order; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_order_id; ?></a>
                 <?php } else { ?>
@@ -59,6 +60,7 @@
           <tbody>
             <tr class="filter">
               <td></td>
+              <td></td>
               <td align="right"><input type="text" name="filter_order_id" value="<?php echo $filter_order_id; ?>" size="4" style="text-align: right;" /></td>
               <td><input type="text" name="filter_customer" value="<?php echo $filter_customer; ?>" /></td>
               <td><select name="filter_order_status_id">
@@ -90,6 +92,10 @@
                 <?php } else { ?>
                 <input type="checkbox" name="selected[]" value="<?php echo $order['order_id']; ?>" />
                 <?php } ?></td>
+              <td class="center">
+                <?php if (!empty($order['tasks']['custom_warehouse_tasks'])) { ?><img src="/image/home.png" alt="Задачи склада" title="Задачи склада"><?php } ?>
+                <?php if (!empty($order['tasks']['custom_manager_tasks'])) { ?><img src="/image/flag.png" alt="Задачи менеджеру" title="Задачи менеджеру"><?php } ?>
+              </td>
               <td class="right"><?php echo $order['order_id']; ?></td>
               <td class="left"><?php echo $order['customer']; ?></td>
                 <td class="left order_status">

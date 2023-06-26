@@ -104,7 +104,20 @@
                                 <span class="error"><?php echo $error_self; ?></span>
                                 <?php } ?></td>
                         </tr>
-
+		        <tr>
+          <td><?php echo $entry_checkcert; ?></td>
+          <td><?php if ($sbacquiringpro_checkcert) { ?>
+            <input type="radio" name="<?php echo $pname; ?>_checkcert" value="1" checked="checked" />
+            <?php echo $text_yes; ?>
+            <input type="radio" name="<?php echo $pname; ?>_checkcert" value="0" />
+            <?php echo $text_no; ?>
+            <?php } else { ?>
+            <input type="radio" name="<?php echo $pname; ?>_checkcert" value="1" />
+            <?php echo $text_yes; ?>
+            <input type="radio" name="<?php echo $pname; ?>_checkcert" value="0" checked="checked" />
+            <?php echo $text_no; ?>
+            <?php } ?></td>
+        </tr>
                         <tr>
                             <td><?php echo $entry_zapros; ?></td>
                             <td><?php if ($sbacquiring2_zapros) { ?>

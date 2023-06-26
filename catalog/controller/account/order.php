@@ -382,9 +382,9 @@ class ControllerAccountOrder extends Controller {
             $payment_method = $order_info['payment_method']; // Метод оплаты
             $receipts = '';
             if (stripos($payment_method, $transfer) !== false) {
-                $receipts .= '<br /><br /><a target="_blank" href="'.$this->url->link('sale/order/invoice', 'excel=1&order_id=' . $order_id, 'SSL').'"><i class="fa fa-download"></i>Скачать счет на оплату в формате Excel</a>';
-                $receipts .= '<br /><a target="_blank" href="'.$this->url->link('sale/order/invoice', 'html=1&order_id=' . $order_id, 'SSL').'"><i class="fa fa-external-link"></i>Посмотреть счет в новой вкладке</a>';
-                $receipts .= '<br /><br /><a target="_blank" href="'.$this->url->link('sale/waybill/index', 'doctype=torg12&order_id=' . $order_id, 'SSL').'&excel7"><i class="fa fa-download"></i>Скачать накладную ТОРГ-12 в формате Excel</a>';
+                $receipts .= '<br /><br /><a target="_blank" href="'.$this->url->link('sale/order/invoice', 'doctype=invoice&excel=1&order_id=' . $order_id, 'SSL').'"><i class="fa fa-download"></i>Скачать счет на оплату в формате Excel</a>';
+                $receipts .= '<br /><a target="_blank" href="'.$this->url->link('sale/order/invoice', 'doctype=invoice&order_id=' . $order_id, 'SSL').'"><i class="fa fa-external-link"></i>Посмотреть счет в новой вкладке</a>';
+                $receipts .= '<br /><br /><a target="_blank" href="'.$this->url->link('sale/order/invoice', 'doctype=torg12&order_id=' . $order_id, 'SSL').'&excel7"><i class="fa fa-download"></i>Скачать накладную ТОРГ-12 в формате Excel</a>';
                 $receipts .= '<br /><a target="_blank" href="'.$this->url->link('sale/order/invoice', 'doctype=torg12&order_id=' . $order_id, 'SSL').'"><i class="fa fa-external-link"></i>Посмотреть накладную ТОРГ-12 в новой вкладке</a>';
                 $receipts .= '<br /><br /><h3>Если Вы передумали и решили оплатить свой заказ банковской картой, то Вы можете нажать на кнопку далее:</h3>';
                 $receipts .= '<br /><div class="sbacquiring"><a href="'.$this->url->link('account/sbacquiring/change', 'code=' . $order_id . '&order_id=' . $order_id, 'SSL').'"><img src="https://kidrulit.ru/image/banners/card650.jpg"></a></div>';

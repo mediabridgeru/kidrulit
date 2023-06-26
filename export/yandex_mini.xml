@@ -1,0 +1,1040 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE yml_catalog SYSTEM "shops.dtd">
+<yml_catalog date="2022-11-01 16:58">
+<shop>
+<name></name>
+<company></company>
+<url>https://kidrulit.ru/</url>
+<phone>+7 (985) 092-92-91</phone>
+<platform>Yandex.YML for OpenCart (ocStore)</platform>
+<version>1.6.6.3</version>
+<currencies>
+<currency id="RUB" rate="1" />
+</currencies>
+<categories>
+<category id="61">Запчасти для детских колясок</category>
+<category id="69" parentId="61">Колеса</category>
+<category id="80" parentId="61">Комплектующие к колесам</category>
+<category id="68" parentId="80">Покрышки</category>
+<category id="79" parentId="80">Камеры</category>
+<category id="84" parentId="80">Втулки для колес детских колясок</category>
+<category id="85" parentId="80">Тормозные шестеренки</category>
+<category id="86" parentId="80">Подшипники</category>
+<category id="119" parentId="80">Диски, накладки для колес</category>
+<category id="82" parentId="61">Механизмы регулирования</category>
+<category id="83" parentId="82">Регуляторы, фиксаторы капюшона</category>
+<category id="87" parentId="82">Регуляторы ручки детской коляски</category>
+<category id="88" parentId="82">Регуляторы подножки прогулочного блока</category>
+<category id="98" parentId="82">Регуляторы спинки прогулочного блока</category>
+<category id="111" parentId="82">Регуляторы спинки в люльке</category>
+<category id="112" parentId="82">Кнопки для механизмов регулирования</category>
+<category id="89" parentId="61">Механизмы складывания коляски</category>
+<category id="90" parentId="61">Подвеска, тормоза, амортизаторы</category>
+<category id="81" parentId="90">Вилки для поворотных колес</category>
+<category id="91" parentId="90">Амортизаторы для детской коляски</category>
+<category id="92" parentId="90">Детали тормозной системы</category>
+<category id="93" parentId="90">Крепление вилки поворотного колеса</category>
+<category id="97" parentId="61">Прочие запчасти</category>
+<category id="101" parentId="97">Бампера для коляски</category>
+<category id="102" parentId="97">Фурнитура для ремней безопасности, фастексы, карабины</category>
+<category id="103" parentId="97">Пружины</category>
+<category id="104" parentId="97">Металлическая фурнитура, крепежные элементы</category>
+<category id="113" parentId="97">Ручки для детской коляски</category>
+<category id="114" parentId="97">Подлокотники</category>
+<category id="116" parentId="97">Прочие</category>
+<category id="117" parentId="97">Пластиковая и резиновая фурнитура для колясок, заглушки, шайбы и прочее</category>
+<category id="118" parentId="97">Аксессуары для детских колясок</category>
+<category id="124" parentId="97">Текстиль, чехлы и другие тканевые элементы</category>
+<category id="125" parentId="124">Корзины для покупок</category>
+<category id="99" parentId="61">Адаптеры</category>
+<category id="100" parentId="61">Механизмы крепления люльки к шасси</category>
+<category id="115" parentId="61">Инструменты</category>
+<category id="123" parentId="61">Запчасти для стульчиков для кормления</category>
+<category id="126" parentId="61">Запчасти для автокресел</category>
+<category id="95">Оптовикам</category>
+<category id="105">Аксессуары к детским коляскам</category>
+<category id="106" parentId="105">Тент от солнца</category>
+<category id="107" parentId="105">Москитные сетки</category>
+<category id="108" parentId="105">Чехлы на колеса</category>
+<category id="109" parentId="105">Дождевики, чехлы от снега</category>
+<category id="110" parentId="105">Чехол защитный для хранения</category>
+<category id="120" parentId="105">Муфты для рук на детскую коляску</category>
+<category id="121" parentId="105">Сумки-переноски для новорожденных</category>
+<category id="127">Уценка</category>
+</categories>
+<offers>
+<offer id="840" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-005008/</url>
+<price>250.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/kidrulit_vtulka-1-2.jpg</picture>
+<name>Втулка для колеса детской коляски №005008</name>
+<description>D=12mm, d=10mm, D2=38.5mm L1=44mm, L2=55mm, L3=40mm</description>
+</offer>
+<offer id="841" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-005007/</url>
+<price>250.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/kidrulit_vtulka-2-3.jpg</picture>
+<name>Втулка для колеса детской коляски №005007</name>
+<description>D=14mm, d=10mm, D2=43mm L1=41mm, L2=53mm, L3=36mm</description>
+</offer>
+<offer id="842" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-005009/</url>
+<price>270.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/kidrulit_vtulka-3-1.jpg</picture>
+<name>Втулка для колеса детской коляски №005009</name>
+<description>D=12mm, d=10mm, D2=30mm L1=39mm, L2=51mm, L3=35mm</description>
+</offer>
+<offer id="843" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-007005/</url>
+<price>250.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/kidrulit_vtulka-4-2.jpg</picture>
+<name>Втулка для колеса детской коляски №007005</name>
+<description>D=12mm, d=10mm, D2=45mm L1=42mm, L2=56mm, L3=37mm</description>
+</offer>
+<offer id="844" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-007006/</url>
+<price>250.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/kidrulit_vtulka-5-1.jpg</picture>
+<name>Втулка для колеса детской коляски №007006</name>
+<description>D=12mm, d=10mm, D2=45mm L1=42mm, L2=57mm, L3=38mm</description>
+</offer>
+<offer id="845" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-006020/</url>
+<price>250.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/kidrulit_vtulka-6-1.jpg</picture>
+<name>Втулка для колеса детской коляски №006020</name>
+<description>D=15mm, d=10mm, D2=31mm L1=45mm, L2=61.5mm, L3=40mm</description>
+</offer>
+<offer id="846" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-006019/</url>
+<price>220.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/kidrulit_vtulka-7-1.jpg</picture>
+<name>Втулка для колеса детской коляски №006019</name>
+<description>D=15mm, d=10mm, D2=37mm L1=45mm, L2=58.5mm, L3=40mm</description>
+</offer>
+<offer id="938" available="true" >
+<url>https://kidrulit.ru/stopornaya-shajba-10mm-001089/</url>
+<price>60.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>104</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/limak/001089.jpg</picture>
+<name>Стопорная шайба 10мм №001089</name>
+<description>Сделано в Польше.</description>
+</offer>
+<offer id="939" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-krug-krug-16-16mm-002001/</url>
+<price>400.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/anitex/002001-1.jpg</picture>
+<name>Шарнир регулирования круг-круг 16-16мм №002001</name>
+<description>Фиксация в тринадцати положениях.</description>
+</offer>
+<offer id="983" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-005010/</url>
+<price>270.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/futerski/005010.jpg</picture>
+<name>Втулка для колеса детской коляски №005010</name>
+<description>D=14mm, d=10mm, D2=30mm L1=36mm, L2=48mm, L3=31mm</description>
+</offer>
+<offer id="992" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-003017/</url>
+<price>250.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/artmar/003017-1.jpg</picture>
+<name>Втулка для колеса детской коляски №003017</name>
+<description>D=15mm, d=10mm, D2=36mm L1=44mm, L2=57.5mm, L3=41mm</description>
+</offer>
+<offer id="994" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-006021/</url>
+<price>300.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/karwala/006021-2.jpg</picture>
+<name>Втулка для колеса детской коляски №006021</name>
+<description>D=15mm, d=10mm, D2=48mm L1=45mm, L2=56mm, L3=41mm</description>
+</offer>
+<offer id="1034" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-005027/</url>
+<price>210.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/futerski/005027-2.jpg</picture>
+<name>Втулка для колеса детской коляски №005027</name>
+<description>D=14mm, d=10mm, D2=34mm L1=37mm, L2=50mm, L3=33mm</description>
+</offer>
+<offer id="1048" available="true" >
+<url>https://kidrulit.ru/chehol-ot-dozhdya-i-snega-na-lyulku-tkan-ruivo/</url>
+<price>900.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>109</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/Ruivo/R005-LG-1000.jpg</picture>
+<name>Чехол от дождя и снега на детскую коляску (ткань) Ruivo</name>
+<description>Чехол от дождя и снега Ruivo. подходит ко всем люлькам не продувается и не промокает удобно одевать/снимать благодаря резинке снизу светоотражающие полоски по бокам и сзади Страна: Португалия.</description>
+</offer>
+<offer id="1049" available="true" >
+<url>https://kidrulit.ru/tent-ot-solnca-ruivo/</url>
+<price>400.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>106</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/Ruivo/R004-RE-1.jpg</picture>
+<name>Тент от солнца на детскую коляску Ruivo</name>
+<description>Тент от солнца Ruivo. подходит ко всем люлькам и прогулкам защита от солнца, дождя и ветра можно устанавливать как сверху так и сбоку, в зависимости от направления солнечных лучей Страна: Португалия.</description>
+</offer>
+<offer id="1050" available="true" >
+<url>https://kidrulit.ru/chehly-na-kolesa-12-30sm-ruivo/</url>
+<price>400.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>108</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/Ruivo/r001-d30.jpg</picture>
+<name>Чехлы на колеса детской коляски 12&amp;quot; (30см) Ruivo Цвет:ЧЕРНЫЙ</name>
+<description>Чехлы на колеса 12&amp;quot; Ruivo. подходит ко всем коляскам с колесами 12&amp;quot; прочная непромокаемая ткань Страна: Португалия.</description>
+</offer>
+<offer id="1051" available="true" >
+<url>https://kidrulit.ru/chehly-na-kolesa-14-36sm-ruivo/</url>
+<price>400.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>108</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/Ruivo/r001-d36.jpg</picture>
+<name>Чехлы на колеса детской коляски 14&amp;quot; (36см) Ruivo</name>
+<description>Чехлы на колеса 14&amp;quot; Ruivo. подходит ко всем коляскам с колесами 14&amp;quot; прочная непромокаемая ткань Страна: Португалия.</description>
+</offer>
+<offer id="1052" available="true" >
+<url>https://kidrulit.ru/chehly-na-povorotnye-kolesa-10-12-ruivo/</url>
+<price>420.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>108</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/Ruivo/r001-np.jpg</picture>
+<name>Чехлы на детскую коляску с поворотными колесами 10/12&amp;quot; (25/30см) Ruivo</name>
+<description>Чехлы на поворотные колеса 10/12&amp;quot; Ruivo. подходит ко всем коляскам с поворотными колесами 10/12&amp;quot; прочная непромокаемая ткань Страна: Португалия.</description>
+</offer>
+<offer id="1053" available="true" >
+<url>https://kidrulit.ru/moskitka-na-lyulku-ruivo/</url>
+<price>350.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>107</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/Ruivo/r002-lw-2.jpg</picture>
+<name>Москитная сетка на детскую коляску-люльку Ruivo</name>
+<description>Москитка на люльку Ruivo. подходит ко всем коляскам-люлькам резинка по всему периметру Страна: Португалия.</description>
+</offer>
+<offer id="1054" available="true" >
+<url>https://kidrulit.ru/chehol-zashhitnyj-dlya-hraneniya-kolyaski-v-podezde-tkan-ruivo/</url>
+<price>900.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>110</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/Ruivo/r006-lg.jpg</picture>
+<name>Чехол защитный для хранения детской коляски в подъезде (ткань) Ruivo</name>
+<description>Чехол для хранения Ruivo защитит вашу коляску от ПЫЛИ И ШЕРСТИ, когда вы ОСТАВИТЕ СВОЮ КОЛЯСКУ В ПОДЪЕЗДЕ. &amp;quot;Домик на колесах&amp;quot; останется чистым и нетронутым пока вы будете дома. подходит ко всем люлькам не продувается и не промокает удобно одевать/снимать благодаря резинке снизу Страна: Португалия.</description>
+</offer>
+<offer id="1055" available="true" >
+<url>https://kidrulit.ru/moskitka-na-progulku-ruivo/</url>
+<price>400.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>107</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/Ruivo/R002-PB.jpg</picture>
+<name>Москитка на прогулочную детскую коляску Ruivo</name>
+<description>Москитка на прогулку Ruivo. подходит ко всем прогулочным коляскам удобное крепление на липучках Страна: Португалия.</description>
+</offer>
+<offer id="1056" available="true" >
+<url>https://kidrulit.ru/chehol-ot-dozhdya-na-lyulku-ruivo/</url>
+<price>600.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>109</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/Ruivo/R003-LS.jpg</picture>
+<name>Чехол от дождя на детскую коляску-люльку Ruivo</name>
+<description>Чехол от дождя Ruivo. подходит ко всем люлькам не продувается и не промокает удобно одевать/снимать благодаря резинке снизу очень прозрачная пленка Страна: Португалия.</description>
+</offer>
+<offer id="1057" available="true" >
+<url>https://kidrulit.ru/chehol-ot-dozhdya-na-progulku-ruivo/</url>
+<price>600.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>109</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/Ruivo/R003-PS.jpg</picture>
+<name>Чехол от дождя на прогулочную коляску Ruivo</name>
+<description>Чехол от дождя Ruivo. подходит ко всем прогулочным блокам не продувается и не промокает удобно одевать/снимать благодаря резинке снизу очень прозрачная пленка окошко с козырьком защитит от попадания дождя внутрь коляски Страна: Португалия.</description>
+</offer>
+<offer id="1058" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-003016/</url>
+<price>250.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/artmar/003016-1.jpg</picture>
+<name>Втулка для колеса детской коляски №003016</name>
+<description>D=15mm, d=10mm, D2=50mm L1=45mm, L2=56mm, L3=41mm</description>
+</offer>
+<offer id="1067" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-42-22-20-30mm-usilennyj-002026/</url>
+<price>500.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/anitex/002026.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №002026 (со смещением)</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев. </description>
+</offer>
+<offer id="1094" available="true" >
+<url>https://kidrulit.ru/stopornaya-shajba-10mm-no001089/</url>
+<price>50.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>104</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/limak/001089.jpg</picture>
+<name>Стопорная шайба 6 мм №010001</name>
+<description>Сделано в Германии.</description>
+</offer>
+<offer id="1095" available="true" >
+<url>https://kidrulit.ru/stopornaya-shajba-6-mm-no010001/</url>
+<price>50.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>104</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/limak/001089.jpg</picture>
+<name>Стопорная шайба 8 мм №010002</name>
+<description>Сделано в Германии.</description>
+</offer>
+<offer id="1097" available="true" >
+<url>https://kidrulit.ru/kolco-stopornoe-naruzhnoe-dlya-vala-10-x-1-no010004/</url>
+<price>30.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>104</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/крепеж/stopor-naruz-1.jpg</picture>
+<name>Кольцо стопорное наружное для вала 12 x 1 №010005</name>
+<description>Сделано в Чехии.</description>
+</offer>
+<offer id="1140" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no005042/</url>
+<price>300.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/futerski/005042-1.jpg</picture>
+<name>Втулка для колеса детской коляски №005042</name>
+<description>D=12mm, d=10mm, D2=40mm L1=54mm, L2=65mm, L3=51mm</description>
+</offer>
+<offer id="1141" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no005041-na-os-8mm/</url>
+<price>250.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/futerski/005041.jpg</picture>
+<name>Втулка для колеса детской коляски №005041 на ось 8мм</name>
+<description>D=14mm, d=8mm, D2=31mm L1=37mm, L2=50mm, L3=33,5mm</description>
+</offer>
+<offer id="1534" available="true" >
+<url>https://kidrulit.ru/nasadka-dlya-zaklepyvaniya-polupustotelyh-zaklepok-diametrom-4-5mm-no021002/</url>
+<price>1850.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>115</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/021002.jpg</picture>
+<name>Насадка для заклепывания полупустотелых заклепок диаметром 4...5мм №021002</name>
+<description>Диаметр насадки 12,7мм Общая длинна насадки 24,6мм Подходит к заклепочнику для установки полупустотелых заклепок модель КР-2 (№014002)</description>
+</offer>
+<offer id="1537" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no007027/</url>
+<price>250.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/klimek/007027.jpg</picture>
+<name>Втулка для колеса детской коляски №007027</name>
+<description>D=15mm, d=10mm, D2=31,4mm L1=41,5mm, L2=54,56mm, L3=38,7mm</description>
+</offer>
+<offer id="1544" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-42-22-20-30mm-usilennyj-no018019-so-smeshheniem/</url>
+<price>600.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/гробелак/018019.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №018019 (со смещением) СЕРЫЙ</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев.  </description>
+</offer>
+<offer id="1546" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-42-22-20-30mm-usilennyj-no018020-so-smeshheniem-belyj/</url>
+<price>600.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/гробелак/018020.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №018020 (со смещением) БЕЛЫЙ</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев. </description>
+</offer>
+<offer id="1548" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-42-22-20-30mm-usilennyj-no018018-so-smeshheniem/</url>
+<price>600.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/гробелак/018018.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №018018 (со смещением)</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев.  </description>
+</offer>
+<offer id="1550" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-36-26-20-30mm-usilennyj-no018012-so-smeshheniem/</url>
+<price>500.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/гробелак/018009.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 36/26-20/30мм усиленный №018012 (со смещением)</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев.  </description>
+</offer>
+<offer id="1553" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-36-26-20-30mm-usilennyj-no018014-so-smeshheniem-belyj/</url>
+<price>650.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/гробелак/018011.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 36/26-20/30мм усиленный №018014 (со смещением) БЕЛЫЙ</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев. </description>
+</offer>
+<offer id="1568" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no005007/</url>
+<price>220.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/futerski/005067.jpg</picture>
+<name>Втулка для колеса детской коляски №005067</name>
+<description>D=14mm, d=10mm, D2=43mm L1=41mm, L2=53mm, L3=36mm</description>
+</offer>
+<offer id="1586" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-42-22-20-30mm-usilennyj-no002091-so-smeshheniem-belyj/</url>
+<price>650.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/anitex/002091.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №002091 (со смещением) БЕЛЫЙ</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев. </description>
+</offer>
+<offer id="1587" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-42-22-20-30mm-usilennyj-no002092-so-smeshheniem-seryj/</url>
+<price>650.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/anitex/002092.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №002092 (со смещением) СЕРЫЙ</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев. </description>
+</offer>
+<offer id="1591" available="true" >
+<url>https://kidrulit.ru/stopornaya-shajba-s-kolpachkom-starlock-diamert-4-5-6-7-8-10mm/</url>
+<price>29.13</price>
+<currencyId>RUB</currencyId>
+<categoryId>104</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/limak/001067.jpg</picture>
+<name>Стопорная шайба с колпачком Starlock диаметр 4-5-6-7-8-10мм</name>
+<description>Сделано в Италии.</description>
+</offer>
+<offer id="1615" available="true" >
+<url>https://kidrulit.ru/stopornaya-shajba-s-vysokim-kolpachkom-starlock-diamert-4-6-8mm/</url>
+<price>52.43</price>
+<currencyId>RUB</currencyId>
+<categoryId>104</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/крепеж/011100.jpg</picture>
+<name>Стопорная шайба с высоким колпачком Starlock диаметр 4-6-8-10мм</name>
+<description>Сделано в Италии.</description>
+</offer>
+<offer id="1668" available="true" >
+<url>https://kidrulit.ru/vtulka-mehanizma-skladyvaniya-universalnaya-bugaboo-cameleon-analog-metall-no021003/</url>
+<price>1500.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>116</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/крепеж/021003.jpg</picture>
+<name>Втулка механизма складывания универсальная Bugaboo Cameleon 2-3 (аналог металл) №021003</name>
+<description>Запчасть универсальная на правую/левую сторону. Переставные рычажки требуют усадки на клей, чтобы исключить выкручивание. Внимание! Требуется доработка под разные модели. Установка специалистом.  </description>
+</offer>
+<offer id="1687" available="true" >
+<url>https://kidrulit.ru/mufta-dlya-ruk-na-kolyasku-belaya-u-d-linden-polar-bear-double/</url>
+<price>4700.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>120</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/муфты/pbd-8.jpg</picture>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ БЕЛАЯ U.D.LINDEN &amp;quot;POLAR BEAR DOUBLE&amp;quot;</name>
+<description>Муфта для рук на детскую коляску U.D.LINDEN &amp;quot;POLAR BEAR DOUBLE&amp;quot;. - 100% овечья шерсть. - Уникальная конструкция муфты с отворотными манжетами на магнитных кнопках. - Отдельные варежки для более удобного расположения рук. - Легко одеваются. - Теплые меховые накладки на ручку коляски (шерсть 100%). - Регулируемый размер муфты под руки. - Светоотражающая стропа. - Белая мерцающая ткань с водоотталкивающим эффектом. - Стопроцентная защита от холода -30С. - Упакована в коробку - Идеальна для подарка. Если вы достали руку из муфты, достаточно просто отстегнуть магнитную кнопку на манжете и можно не беспокоиться, что в муфту попадет снег, так как отворотная манжета будет закрывать вход в муфту от снега и ледяного ветра.   Благодаря уникальной конструкции меховой муфты из овчины для рук u.d.Linden POLAR BEAR DOUBLE, мех внутри всегда будет сухим и теплым, а дополнительные меховые накладки не позволят металлической ледяной ручке коляски выстуживать муфту изнутри. Элегантный стиль, удобство и немецкое качество создадут Вам дополнительное настроение при прогулке с коляской по морозной погоде, не говоря про то, что ваши руки будут в тепле и комфорте и Вам не понадобится надевать по двое...трое варежек. Приятных прогулок с u.d.Linden! Страна: Германия.</description>
+</offer>
+<offer id="1688" available="true" >
+<url>https://kidrulit.ru/mufta-dlya-ruk-na-kolyasku-belaya-u-d-linden-polar-bear/</url>
+<price>4700.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>120</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/муфты/pb-7.jpg</picture>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ БЕЛАЯ U.D.LINDEN &amp;quot;POLAR BEAR&amp;quot;</name>
+<description>Муфта для рук на детскую коляску U.D.LINDEN &amp;quot;POLAR BEAR&amp;quot;. - 100% овечья шерсть. - Уникальная конструкция муфты с отворотными манжетами на магнитных кнопках. - Цельная муфта для максимальной защиты от холода. - Легко одевается. - Усиленные центральные кнопки, не расстегиваются самопроизвольно при использовании. - Теплые меховые накладки на ручку коляски (шерсть 100%). - Регулируемый размер муфты под руки. - Светоотражающая стропа. - Белая мерцающая ткань с водоотталкивающим эффектом. - Стопроцентная защита от холода -30С. - Упакована в коробку - Идеальна для подарка. Если вы достали руку из муфты, достаточно просто отстегнуть магнитную кнопку на манжете и можно не беспокоиться, что в муфту попадет снег, так как отворотная манжета будет закрывать вход в муфту от снега и ледяного ветра.   Благодаря уникальной конструкции меховой муфты из овчины для рук u.d.Linden POLAR BEAR, мех внутри всегда будет сухим и теплым, а дополнительные меховые накладки не позволят металлической ледяной ручке коляски выстуживать муфту изнутри. Элегантный стиль, удобство и немецкое качество создадут Вам дополнительное настроение при прогулке с коляской по морозной погоде, не говоря про то, что ваши руки будут в тепле и комфорте и Вам не понадобится надевать по двое...трое варежек. Приятных прогулок с u.d.Linden! Страна: Германия.</description>
+</offer>
+<offer id="1689" available="true" >
+<url>https://kidrulit.ru/mufta-dlya-ruk-na-kolyasku-belaya-ekokozha-u-d-linden-white-merino-double/</url>
+<price>5150.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>120</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/муфты/wmd-8.jpg</picture>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ БЕЛАЯ ЭКОКОЖА U.D.LINDEN &amp;quot;WHITE MERINO DOUBLE&amp;quot;</name>
+<description>Муфта для рук на детскую коляску U.D.LINDEN &amp;quot;WHITE MERINO DOUBLE&amp;quot;. - 100% овечья шерсть. - Уникальная конструкция муфты с отворотными манжетами на магнитных кнопках. - Отдельные варежки для более удобного расположения рук. - Легко одеваются. - Теплые меховые накладки на ручку коляски (шерсть 100%). - Регулируемый размер муфты под руки. - Светоотражающая стропа. - Евроэкокожа БЕЗ ПВХ, (полиуретен 100%). - Стопроцентная защита от холода -30С. - Упакована в коробку - Идеальна для подарка. Если вы достали руку из муфты, достаточно просто отстегнуть магнитную кнопку на манжете и можно не беспокоиться, что в муфту попадет снег, так как отворотная манжета будет закрывать вход в муфту от снега и ледяного ветра.   Благодаря уникальной конструкции меховой муфты из овчины для рук u.d.Linden WHITE MERINO DOUBLE, мех внутри всегда будет сухим и теплым, а дополнительные меховые накладки не позволят металлической ледяной ручке коляски выстуживать муфту изнутри. Элегантный стиль, удобство и немецкое качество создадут Вам дополнительное настроение при прогулке с коляской по морозной погоде, не говоря про то, что ваши руки будут в тепле и комфорте и Вам не понадобится надевать по двое...трое варежек. Приятных прогулок с u.d.Linden! Страна: Германия.</description>
+</offer>
+<offer id="1690" available="true" >
+<url>https://kidrulit.ru/mufta-dlya-ruk-na-kolyasku-belaya-ekokozha-u-d-linden-white-merino/</url>
+<price>5150.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>120</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/муфты/wm-6.jpg</picture>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ БЕЛАЯ ЭКОКОЖА U.D.LINDEN &amp;quot;WHITE MERINO&amp;quot;</name>
+<description>Муфта для рук на детскую коляску U.D.LINDEN &amp;quot;WHITE MERINO&amp;quot;. - 100% овечья шерсть. - Уникальная конструкция муфты с отворотными манжетами на магнитных кнопках. - Цельная муфта для максимальной защиты от холода. - Легко одевается. - Усиленные центральные кнопки, не расстегиваются самопроизвольно при использовании. - Теплые меховые накладки на ручку коляски (шерсть 100%). - Регулируемый размер муфты под руки. - Светоотражающая стропа. - Белая мерцающая ткань с водоотталкивающим эффектом. - Стопроцентная защита от холода -30С. - Упакована в коробку - Идеальна для подарка. Если вы достали руку из муфты, достаточно просто отстегнуть магнитную кнопку на манжете и можно не беспокоиться, что в муфту попадет снег, так как отворотная манжета будет закрывать вход в муфту от снега и ледяного ветра.   Благодаря уникальной конструкции меховой муфты из овчины для рук u.d.Linden WHITE MERINO, мех внутри всегда будет сухим и теплым, а дополнительные меховые накладки не позволят металлической ледяной ручке коляски выстуживать муфту изнутри. Элегантный стиль, удобство и немецкое качество создадут Вам дополнительное настроение при прогулке с коляской по морозной погоде, не говоря про то, что ваши руки будут в тепле и комфорте и Вам не понадобится надевать по двое...трое варежек. Приятных прогулок с u.d.Linden! Страна: Германия.</description>
+</offer>
+<offer id="1691" available="true" >
+<url>https://kidrulit.ru/mufta-dlya-ruk-na-kolyasku-chernaya-u-d-linden-walross-double/</url>
+<price>4700.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>120</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/муфты/wd-3.jpg</picture>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ U.D.LINDEN &amp;quot;WALROSS DOUBLE&amp;quot;</name>
+<description>Муфта для рук на детскую коляску U.D.LINDEN &amp;quot;WALROSS DOUBLE&amp;quot;. - 100% овечья шерсть. - Уникальная конструкция муфты с отворотными манжетами на магнитных кнопках. - Отдельные варежки для более удобного расположения рук. - Легко одеваются. - Теплые меховые накладки на ручку коляски (шерсть 100%). - Регулируемый размер муфты под руки. - Светоотражающая стропа. - Белая мерцающая ткань с водоотталкивающим эффектом. - Стопроцентная защита от холода -30С. - Упакована в коробку - Идеальна для подарка. Если вы достали руку из муфты, достаточно просто отстегнуть магнитную кнопку на манжете и можно не беспокоиться, что в муфту попадет снег, так как отворотная манжета будет закрывать вход в муфту от снега и ледяного ветра.   Благодаря уникальной конструкции меховой муфты из овчины для рук u.d.Linden WALROSS DOUBLE, мех внутри всегда будет сухим и теплым, а дополнительные меховые накладки не позволят металлической ледяной ручке коляски выстуживать муфту изнутри. Элегантный стиль, удобство и немецкое качество создадут Вам дополнительное настроение при прогулке с коляской по морозной погоде, не говоря про то, что ваши руки будут в тепле и комфорте и Вам не понадобится надевать по двое...трое варежек. Приятных прогулок с u.d.Linden! Страна: Германия.</description>
+</offer>
+<offer id="1692" available="true" >
+<url>https://kidrulit.ru/mufta-dlya-ruk-na-kolyasku-chernaya-u-d-linden-walross/</url>
+<price>4700.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>120</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/муфты/w-3.jpg</picture>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ U.D.LINDEN &amp;quot;WALROSS&amp;quot;</name>
+<description>Муфта для рук на детскую коляску U.D.LINDEN &amp;quot;WALROSS&amp;quot;. - 100% овечья шерсть. - Уникальная конструкция муфты с отворотными манжетами на магнитных кнопках. - Цельная муфта для максимальной защиты от холода. - Легко одевается. - Усиленные центральные кнопки, не расстегиваются самопроизвольно при использовании. - Теплые меховые накладки на ручку коляски (шерсть 100%). - Регулируемый размер муфты под руки. - Светоотражающая стропа. - Белая мерцающая ткань с водоотталкивающим эффектом. - Стопроцентная защита от холода -30С. - Упакована в коробку - Идеальна для подарка. Если вы достали руку из муфты, достаточно просто отстегнуть магнитную кнопку на манжете и можно не беспокоиться, что в муфту попадет снег, так как отворотная манжета будет закрывать вход в муфту от снега и ледяного ветра.   Благодаря уникальной конструкции меховой муфты из овчины для рук u.d.Linden WALROSS, мех внутри всегда будет сухим и теплым, а дополнительные меховые накладки не позволят металлической ледяной ручке коляски выстуживать муфту изнутри. Элегантный стиль, удобство и немецкое качество создадут Вам дополнительное настроение при прогулке с коляской по морозной погоде, не говоря про то, что ваши руки будут в тепле и комфорте и Вам не понадобится надевать по двое...трое варежек. Приятных прогулок с u.d.Linden! Страна: Германия.</description>
+</offer>
+<offer id="1693" available="true" >
+<url>https://kidrulit.ru/mufta-dlya-ruk-na-kolyasku-chernaya-ekokozha-u-d-linden-black-merino-double/</url>
+<price>5150.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>120</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/муфты/bmd-4.jpg</picture>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ ЭКОКОЖА U.D.LINDEN &amp;quot;BLACK MERINO DOUBLE&amp;quot;</name>
+<description>Муфта для рук на детскую коляску U.D.LINDEN &amp;quot;BLACK MERINO DOUBLE&amp;quot;. - 100% овечья шерсть. - Уникальная конструкция муфты с отворотными манжетами на магнитных кнопках. - Отдельные варежки для более удобного расположения рук. - Легко одеваются. - Теплые меховые накладки на ручку коляски (шерсть 100%). - Регулируемый размер муфты под руки. - Светоотражающая стропа. - Евроэкокожа БЕЗ ПВХ, (полиуретен 100%). - Стопроцентная защита от холода -30С. - Упакована в коробку - Идеальна для подарка. Если вы достали руку из муфты, достаточно просто отстегнуть магнитную кнопку на манжете и можно не беспокоиться, что в муфту попадет снег, так как отворотная манжета будет закрывать вход в муфту от снега и ледяного ветра.   Благодаря уникальной конструкции меховой муфты из овчины для рук u.d.Linden BLACK MERINO DOUBLE, мех внутри всегда будет сухим и теплым, а дополнительные меховые накладки не позволят металлической ледяной ручке коляски выстуживать муфту изнутри. Элегантный стиль, удобство и немецкое качество создадут Вам дополнительное настроение при прогулке с коляской по морозной погоде, не говоря про то, что ваши руки будут в тепле и комфорте и Вам не понадобится надевать по двое...трое варежек. Приятных прогулок с u.d.Linden! Страна: Германия.</description>
+</offer>
+<offer id="1694" available="true" >
+<url>https://kidrulit.ru/mufta-dlya-ruk-na-kolyasku-chernaya-ekokozha-u-d-linden-black-merino/</url>
+<price>5150.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>120</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/муфты/bm-3.jpg</picture>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ ЭКОКОЖА U.D.LINDEN &amp;quot;BLACK MERINO&amp;quot;</name>
+<description>Муфта для рук на детскую коляску U.D.LINDEN &amp;quot;BLACK MERINO&amp;quot;. - 100% овечья шерсть. - Уникальная конструкция муфты с отворотными манжетами на магнитных кнопках. - Цельная муфта для максимальной защиты от холода. - Легко одевается. - Усиленные центральные кнопки, не расстегиваются самопроизвольно при использовании. - Теплые меховые накладки на ручку коляски (шерсть 100%). - Регулируемый размер муфты под руки. - Светоотражающая стропа. - Белая мерцающая ткань с водоотталкивающим эффектом. - Стопроцентная защита от холода -30С. - Упакована в коробку - Идеальна для подарка. Если вы достали руку из муфты, достаточно просто отстегнуть магнитную кнопку на манжете и можно не беспокоиться, что в муфту попадет снег, так как отворотная манжета будет закрывать вход в муфту от снега и ледяного ветра.   Благодаря уникальной конструкции меховой муфты из овчины для рук u.d.Linden BLACK MERINO, мех внутри всегда будет сухим и теплым, а дополнительные меховые накладки не позволят металлической ледяной ручке коляски выстуживать муфту изнутри. Элегантный стиль, удобство и немецкое качество создадут Вам дополнительное настроение при прогулке с коляской по морозной погоде, не говоря про то, что ваши руки будут в тепле и комфорте и Вам не понадобится надевать по двое...трое варежек. Приятных прогулок с u.d.Linden! Страна: Германия.</description>
+</offer>
+<offer id="1695" available="true" >
+<url>https://kidrulit.ru/mufta-dlya-ruk-na-kolyasku-chernaya-u-d-linden-black-fleece-double/</url>
+<price>3500.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>120</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/муфты/black-fleece-double-6.jpg</picture>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ U.D.LINDEN &amp;quot;BLACK-FLEECE DOUBLE&amp;quot;</name>
+<description>Муфта для рук на детскую коляску U.D.LINDEN &amp;quot;BLACK-FLEECE DOUBLE&amp;quot;. - Черный флис повышенной плотности. - Уникальная конструкция муфты с отворотными манжетами на магнитных кнопках. - Отдельные варежки для более удобного расположения рук. - Легко одеваются. - Теплые накладки на ручку коляски. - Регулируемый размер муфты под руки. - Светоотражающая стропа. - Белая мерцающая ткань с водоотталкивающим эффектом. - Стопроцентная защита от холода -20С. - Упакована в коробку - Идеальна для подарка. Если вы достали руку из муфты, достаточно просто отстегнуть магнитную кнопку на манжете и можно не беспокоиться, что в муфту попадет снег, так как отворотная манжета будет закрывать вход в муфту от снега и ледяного ветра.   Благодаря уникальной конструкции меховой муфты из овчины для рук u.d.Linden BLACK-FLEECE DOUBLE, мех внутри всегда будет сухим и теплым, а дополнительные меховые накладки не позволят металлической ледяной ручке коляски выстуживать муфту изнутри. Элегантный стиль, удобство и немецкое качество создадут Вам дополнительное настроение при прогулке с коляской по морозной погоде, не говоря про то, что ваши руки будут в тепле и комфорте и Вам не понадобится надевать по двое...трое варежек. Приятных прогулок с u.d.Linden! Страна: Германия.</description>
+</offer>
+<offer id="1696" available="true" >
+<url>https://kidrulit.ru/mufta-dlya-ruk-na-kolyasku-chernaya-u-d-linden-black-fleece/</url>
+<price>3500.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>120</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/муфты/black-fleece-3.jpg</picture>
+<name>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ U.D.LINDEN &amp;quot;BLACK-FLEECE&amp;quot;</name>
+<description>Муфта для рук на детскую коляску U.D.LINDEN &amp;quot;BLACK-FLEECE&amp;quot;. - Черный флис повышенной плотности. - Уникальная конструкция муфты с отворотными манжетами на магнитных кнопках. - Цельная муфта для максимальной защиты от холода. - Легко одевается. - Усиленные центральные кнопки, не расстегиваются самопроизвольно при использовании. - Теплые флисовые накладки на ручку коляски. - Регулируемый размер муфты под руки. - Светоотражающая стропа. - Белая мерцающая ткань с водоотталкивающим эффектом. - Стопроцентная защита от холода -20С. - Упакована в коробку - Идеальна для подарка. Если вы достали руку из муфты, достаточно просто отстегнуть магнитную кнопку на манжете и можно не беспокоиться, что в муфту попадет снег, так как отворотная манжета будет закрывать вход в муфту от снега и ледяного ветра.   Благодаря уникальной конструкции меховой муфты из овчины для рук u.d.Linden BLACK-FLEECE, мех внутри всегда будет сухим и теплым, а дополнительные меховые накладки не позволят металлической ледяной ручке коляски выстуживать муфту изнутри. Элегантный стиль, удобство и немецкое качество создадут Вам дополнительное настроение при прогулке с коляской по морозной погоде, не говоря про то, что ваши руки будут в тепле и комфорте и Вам не понадобится надевать по двое...трое варежек. Приятных прогулок с u.d.Linden! Страна: Германия.</description>
+</offer>
+<offer id="1713" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no022001/</url>
+<price>270.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/чайковски/022001.jpg</picture>
+<name>Втулка для колеса детской коляски №022001</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="1714" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no022002/</url>
+<price>270.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/чайковски/022002.jpg</picture>
+<name>Втулка для колеса детской коляски №022002</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="1722" available="true" >
+<url>https://kidrulit.ru/tyaga-no006074-dlinna-440mm/</url>
+<price>200.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>89</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/karwala/006074.jpg</picture>
+<name>Тяга №006074 длинна 440мм</name>
+<description>Тяга подходит для Механизм складывания шасси №006073 металлический, хром</description>
+</offer>
+<offer id="1728" available="true" >
+<url>https://kidrulit.ru/pruzhina-dlya-amortizatora-detskoj-kolyaski-no001258-3-0x75x26-5mm/</url>
+<price>200.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>103</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/limak/001258.jpg</picture>
+<name>Пружина для амортизатора детской коляски №001258 (3,0x75x26,5мм)</name>
+<description>Диаметр проволки 3мм Длинна 75мм Диаметр 26,5мм</description>
+</offer>
+<offer id="1729" available="true" >
+<url>https://kidrulit.ru/pruzhina-dlya-amortizatora-detskoj-kolyaski-no001259-3-0x75x26-5mm/</url>
+<price>200.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>91</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/limak/001259.jpg</picture>
+<name>Пружина для амортизатора детской коляски №001259 (3,0x75x26,5мм)</name>
+<description>Диаметр проволки 3мм Длинна 75мм Диаметр 26,5мм</description>
+</offer>
+<offer id="1730" available="true" >
+<url>https://kidrulit.ru/pruzhina-dlya-amortizatora-vilki-detskoj-kolyaski-no001260-1-7x39-5x14-5mm/</url>
+<price>46.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>91</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/limak/001260.jpg</picture>
+<name>Пружина для амортизатора вилки детской коляски №001260 (1,7x39,5x14,5мм)</name>
+<description>Диаметр проволки 1,7мм Длинна 39,5мм Диаметр 14,5мм</description>
+</offer>
+<offer id="1732" available="true" >
+<url>https://kidrulit.ru/pruzhina-dlya-amortizatora-detskoj-kolyaski-no001266-1-2x27x16mm/</url>
+<price>80.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>93</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/limak/001266.jpg</picture>
+<name>Пружина для крепления вилки №001266 (1,2x27x16мм)</name>
+<description>Диаметр проволки 1,2мм Длинна 27мм Диаметр 16мм</description>
+</offer>
+<offer id="1743" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-podnozhki-progulochnogo-bloka-no023011-krug-krug-16-16mm/</url>
+<price>390.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>88</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/коханчик/023011.jpg</picture>
+<name>Шарнир регулирования подножки прогулочного блока №023011 круг-круг 16-16мм (ВНИМАНИЕ! Низкое качество)</name>
+<description>Кнопка западает, очень трудно нажимается. Качество оставляет желать лучшего... Но нам удалось разработать кнопку, примерно, за минуту</description>
+</offer>
+<offer id="1757" available="true" >
+<url>https://kidrulit.ru/shtyr-dlya-derzhatelya-detskoj-butylochki-no002103-dlinna-11mm/</url>
+<price>20.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>118</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/anitex/002103.jpg</picture>
+<name>Штырь для держателя детской бутылочки №002103 (длинна 11мм)</name>
+<description> Подходит для держателя детской бутылочки артикул: 002100</description>
+</offer>
+<offer id="1758" available="true" >
+<url>https://kidrulit.ru/shtyr-dlya-derzhatelya-detskoj-butylochki-no002104-dlinna-11mm-seryj/</url>
+<price>20.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>117</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/anitex/002104.jpg</picture>
+<name>Штырь для держателя детской бутылочки №002104 (длинна 11мм) СЕРЫЙ</name>
+<description> Подходит для держателя детской бутылочки артикул: 002101</description>
+</offer>
+<offer id="1759" available="true" >
+<url>https://kidrulit.ru/shtyr-dlya-derzhatelya-detskoj-butylochki-no002105-dlinna-11mm-belyj/</url>
+<price>20.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>118</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/anitex/002105.jpg</picture>
+<name>Штырь для держателя детской бутылочки №002105 (длинна 11мм) БЕЛЫЙ</name>
+<description> Подходит для держателя детской бутылочки артикул: 002102</description>
+</offer>
+<offer id="1773" available="true" >
+<url>https://kidrulit.ru/pruzhina-1-3-16-16-22-no006079/</url>
+<price>50.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>103</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/limak/006079.jpg</picture>
+<name>Пружина 1,3-16-16/22 №006079</name>
+<description>Диаметр проволки 1,3мм Длинна 16мм Диаметр 16мм, 22мм</description>
+</offer>
+<offer id="1800" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no024001-navington-deltim/</url>
+<price>400.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/deltim/024001.jpg</picture>
+<name>Втулка для колеса детской коляски №024001 NAVINGTON (DELTIM)</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="1825" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-36-26-20-30mm-usilennyj-no018013-so-smeshheniem-seryj/</url>
+<price>650.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/гробелак/018013.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 36/26-20/30мм усиленный №018013 (со смещением) СЕРЫЙ</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев.  </description>
+</offer>
+<offer id="1827" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no025001/</url>
+<price>290.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/гранпласт/025001.jpg</picture>
+<name>Втулка для колеса детской коляски №025001</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="1828" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no025002/</url>
+<price>290.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/гранпласт/025020-2.jpg</picture>
+<name>Втулка для колеса детской коляски №025002</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="1859" available="true" >
+<url>https://kidrulit.ru/koleso-dlya-detskoj-kolyaski-no003067-naduv-14-dyujmov-44-288-14h1-3-8h1-5-8-s-tormoznoj-shesterenkoj/</url>
+<price>2000.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>69</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/artmar/003067.jpg</picture>
+<name>Колесо для детской коляски №003067 надув 14 дюймов (44-288) 14х1 3/8х1 5/8 с тормозной шестеренкой. BEBE-MOBILE INES / ADAMEX SOFIA</name>
+<description>КОЛЕСО ДЛЯ ДЕТсКОЙ КОЛЯСКИ  BEBE-MOBILE INES / ADAMEX SOFIA Это колесо может подойти ко многим детским коляскам: Bebe-Mobile, Adamex, ,Alis, Riko, Tako, Mr. Sandman, Deltim, Retrus, Dada Paradiso Group, Adbor, Lonex, Noordi, Noordline, Reindeer, Vikalex, Camarelo, Verdi, Prampol, Sojan, Tutek и другим польским коляскам.  </description>
+</offer>
+<offer id="1860" available="true" >
+<url>https://kidrulit.ru/koleso-dlya-detskoj-kolyaski-no003068-naduv-14-dyujmov-44-288-14h1-3-8h1-5-8-s-tormoznoj-shesterenkoj/</url>
+<price>2000.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>69</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/artmar/003068.jpg</picture>
+<name>Колесо для детской коляски №003068 надув 14 дюймов (44-288) 14х1 3/8х1 5/8 с тормозной шестеренкой. BEBE-MOBILE INES / ADAMEX SOFIA</name>
+<description>КОЛЕСО ДЛЯ ДЕТСКОЙ КОЛЯСКИ  BEBE-MOBILE INES / ADAMEX SOFIA Это колесо может подойти ко многим детским коляскам: Bebe-Mobile, Adamex, ,Alis, Riko, Tako, Mr. Sandman, Deltim, Retrus, Dada Paradiso Group, Adbor, Lonex, Noordi, Noordline, Reindeer, Vikalex, Camarelo, Verdi, Prampol, Sojan, Tutek и другим польским коляскам.</description>
+</offer>
+<offer id="1909" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no026012/</url>
+<price>300.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/тобекс/026012.jpg</picture>
+<name>Втулка для колеса детской коляски №026012</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="1910" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no026013-cvet-seryj/</url>
+<price>330.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/тобекс/026013.jpg</picture>
+<name>Втулка для колеса детской коляски №026013 цвет: СЕРЫЙ</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="1911" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no026014-cvet-belyj/</url>
+<price>330.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/тобекс/026014.jpg</picture>
+<name>Втулка для колеса детской коляски №026014 цвет: БЕЛЫЙ</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="1916" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no027019/</url>
+<price>280.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/кимет/027019.jpg</picture>
+<name>Втулка для колеса детской коляски №027019</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="1919" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-42-22-20-30mm-usilennyj-no019029-so-smeshheniem-roan-bass-esso/</url>
+<price>700.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/роан/019029.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №019029 (со смещением) ROAN (BASS, ESSO)</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев. </description>
+</offer>
+<offer id="1920" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-42-22-20-30mm-usilennyj-no019030-so-smeshheniem-roan-bass-esso-seryj/</url>
+<price>700.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/роан/019030R.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №019030 (со смещением) ROAN (BASS, ESSO) СЕРЫЙ</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев. </description>
+</offer>
+<offer id="1992" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no005091-na-os-8mm-cvet-belyj/</url>
+<price>220.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/futerski/005091.jpg</picture>
+<name>Втулка для колеса детской коляски №005091 на ось 8мм Цвет: БЕЛЫЙ</name>
+<description>D=14mm, d=8mm, D2=31mm L1=37mm, L2=50mm, L3=33,5mm</description>
+</offer>
+<offer id="1995" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no006082-cvet-belyj/</url>
+<price>300.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/karwala/006082.jpg</picture>
+<name>Втулка для колеса детской коляски №006082 Цвет: БЕЛЫЙ</name>
+<description>D=15mm, d=10mm, D2=48mm L1=45mm, L2=56mm, L3=41mm</description>
+</offer>
+<offer id="1996" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no-006083-cvet-seryj/</url>
+<price>300.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/karwala/006083.jpg</picture>
+<name>Втулка для колеса детской коляски №006083 Цвет: СЕРЫЙ</name>
+<description>D=15mm, d=10mm, D2=48mm L1=45mm, L2=56mm, L3=41mm</description>
+</offer>
+<offer id="2012" available="true" >
+<url>https://kidrulit.ru/pruzhina-amortizator-dlya-detskoj-kolyaski-4h23h25-7mm-no006093-usilennaya/</url>
+<price>420.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>91</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/karwala/006093R.jpg</picture>
+<name>Пружина-амортизатор для детской коляски 4х23х25,7мм №006093 УСИЛЕННАЯ</name>
+<description>Пружина может потребовать доработки (подрезки одного края) при установке.</description>
+</offer>
+<offer id="2039" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no007066-cvet-seryj/</url>
+<price>300.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/klimek/007066.jpg</picture>
+<name>Втулка для колеса детской коляски №007066 Цвет: СЕРЫЙ</name>
+<description>D=12mm, d=10mm, D2=45mm L1=42mm, L2=56mm, L3=37mm</description>
+</offer>
+<offer id="2040" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no007067-cvet-belyj/</url>
+<price>300.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/klimek/007067.jpg</picture>
+<name>Втулка для колеса детской коляски №007067 Цвет: БЕЛЫЙ</name>
+<description>D=12mm, d=10mm, D2=45mm L1=42mm, L2=56mm, L3=37mm</description>
+</offer>
+<offer id="2113" available="true" >
+<url>https://kidrulit.ru/chehly-na-kolesa-12-30sm-ruivo-cvet-seryj/</url>
+<price>310.73</price>
+<currencyId>RUB</currencyId>
+<categoryId>108</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/Ruivo/R001-D30GR1.jpg</picture>
+<name>Чехлы на колеса детской коляски 12&amp;quot; (30см) Ruivo Цвет:СЕРЫЙ</name>
+<description>Чехлы на колеса 12&amp;quot; Ruivo. подходит ко всем коляскам с колесами 12&amp;quot; прочная непромокаемая ткань Страна: Португалия.</description>
+</offer>
+<offer id="2146" available="true" >
+<url>https://kidrulit.ru/stopornaya-bystrosemnaya-shajba-diametr-8-10-12mm-cink-n011300/</url>
+<price>23.30</price>
+<currencyId>RUB</currencyId>
+<categoryId>104</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/крепеж/011308.jpg</picture>
+<name>Стопорная быстросъемная шайба диаметр 6-8-10-12мм (Цинк) N011300</name>
+<description>Сделано в Италии.</description>
+</offer>
+<offer id="2465" available="true" >
+<url>https://kidrulit.ru/vtulka-mehanizma-skladyvaniya-universalnaya-bugaboo-cameleon-1-analog-metall-no021004/</url>
+<price>1500.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>116</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/крепеж/21004.jpg</picture>
+<name>Втулка механизма складывания универсальная Bugaboo Cameleon 1 (аналог металл) №021004</name>
+<description>Запчасть универсальная на правую/левую сторону. Переставные рычажки требуют усадки на клей, чтобы исключить выкручивание. Внимание! Требуется доработка под разные модели. Установка специалистом.  </description>
+</offer>
+<offer id="2480" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-41-17-41-17mm-usilennyj-no006131-seryj/</url>
+<price>1800.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/karwala/006131L.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 41/17-41/17мм усиленный №006131 СЕРЫЙ</name>
+<description> </description>
+</offer>
+<offer id="2481" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-41-17-41-17mm-usilennyj-no006130/</url>
+<price>1700.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/karwala/006130L.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 41/17-41/17мм усиленный №006130</name>
+<description> </description>
+</offer>
+<offer id="2482" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-42-22-20-30mm-usilennyj-no033001/</url>
+<price>650.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/stantoma/033001-1.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №033001</name>
+<description> </description>
+</offer>
+<offer id="2504" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no006142/</url>
+<price>350.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/karwala/006142.jpg</picture>
+<name>Втулка для колеса детской коляски №006142</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="2506" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-20-30-20-30mm-usilennyj-no018036-so-smeshheniem/</url>
+<price>600.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/гробелак/018036.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 20/30-20/30мм усиленный №018036 (со смещением)</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев.  </description>
+</offer>
+<offer id="2509" available="true" >
+<url>https://kidrulit.ru/derzhatel-dlya-detskoj-butylochki-na-kolyasku-no001310/</url>
+<price>340.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>118</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/limak/001310.jpg</picture>
+<name>Держатель для детской бутылочки на коляску №001310</name>
+<description>Подходит крепление артикул: 001311 или 001312</description>
+</offer>
+<offer id="2567" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no006160/</url>
+<price>350.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/karwala/006160.jpg</picture>
+<name>Втулка для колеса детской коляски №006160</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="2568" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no006161/</url>
+<price>300.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/karwala/006161.jpg</picture>
+<name>Втулка для колеса детской коляски №006161</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="2588" available="true" >
+<url>https://kidrulit.ru/mehanizm-regulirovaniya-kapyushona-no004117/</url>
+<price>2000.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>83</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/bos/004117R.jpg</picture>
+<name>Механизм регулирования капюшона №004117</name>
+<description>левый - с черной кнопкой без фиксации; правый - с серой кнопкой с фиксацией</description>
+</offer>
+<offer id="2617" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-42-22-20-30mm-usilennyj-no023016/</url>
+<price>260.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/коханчик/023016.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №023016 (Возможно залипание кнопки)</name>
+<description>Возможно залипание кнопки! Но нам удалось разработать кнопку, примерно, за минуту</description>
+</offer>
+<offer id="2618" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-20-30-20-30mm-usilennyj-no023017/</url>
+<price>260.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/коханчик/023017.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 20/30-20/30мм усиленный №023017 (Возможно залипание кнопки)</name>
+<description>Возможно залипание кнопки! Но нам удалось разработать кнопку, примерно, за минуту</description>
+</offer>
+<offer id="2665" available="true" >
+<url>https://kidrulit.ru/koleso-dlya-detskoj-kolyaski-no005100-ne-naduv-s-podshipnikom-16dyujmov-40sm-brak-ucenka/</url>
+<price>800.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>69</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/futerski/005022-1.jpg</picture>
+<name>Колесо для детской коляски №005100 не надув с подшипником 16дюймов (40см) БРАК, УЦЕНКА</name>
+<description>Брак хромированного покрытия + сварка ступицы выполнена не качественно</description>
+</offer>
+<offer id="2682" available="true" >
+<url>https://kidrulit.ru/truba-diametr-30mm-dlya-ramy-kolyaski-no035001-komplekt-cvet-chernyj/</url>
+<price>6500.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>116</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/retrus/035001-1.jpg</picture>
+<name>Труба диаметр 30мм для рамы коляски №035001 (комплект) Длина: 490мм. Цвет: Черный</name>
+<description>Подходит для Механизм складывания шасси №002123 на трубу 30мм (комплект)</description>
+</offer>
+<offer id="2684" available="true" >
+<url>https://kidrulit.ru/kreplenie-tyagi-mehanizma-skladyvaniya-shassi-no004133/</url>
+<price>70.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>89</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/bos/004133.jpg</picture>
+<name>Крепление тяги механизма складывания шасси №004133</name>
+<description>Для механизма складывания шасси №004130</description>
+</offer>
+<offer id="2696" available="true" >
+<url>https://kidrulit.ru/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-36-26-20-30mm-usilennyj-no018038-so-smeshheniem-temno-seryj/</url>
+<price>600.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>87</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/гробелак/018038.jpg</picture>
+<name>Шарнир регулирования ручки по высоте овал-овал 36/26-20/30мм усиленный №018038 (со смещением) ТЕМНО СЕРЫЙ</name>
+<description>Оси труб, к которым крепиться шарнир, повернуты друг относительно друга. Для колясок у которых середина ручки приподнята/изогнута относительно ее краев.  </description>
+</offer>
+<offer id="2708" available="true" >
+<url>https://kidrulit.ru/zaklepochnik-mehanicheskij-ruchnoj-kr-3-dlya-ustanovki-polupustotelyh-zaklepok-diametrom-4-5-6-mm-no014003-usilennyj-1654090477/</url>
+<price>16000.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>115</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/инструменты/014004.jpg</picture>
+<name>Заклепочник механический ручной КР-4 для установки полупустотелых заклепок Диаметром 4, 5, 6 мм №014004 УСИЛЕННЫЙ</name>
+<description>В комлекте сменные насадки для заклепок диаметром 4-5мм и 6мм. Максимальная длинна заклепки 70мм. (Насадки и втулка от предыдущих версий заклепочников не подходят к новой модели КР-4.) Видео работы заклепочника Гарантия 6мес.</description>
+</offer>
+<offer id="2724" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no-022006-cvet-belyj/</url>
+<price>300.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/чайковски/022006.jpg</picture>
+<name>Втулка для колеса детской коляски №022006 Цвет: БЕЛЫЙ</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="2725" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no022007-cvet-seryj/</url>
+<price>300.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/чайковски/022007.jpg</picture>
+<name>Втулка для колеса детской коляски №022007 Цвет: СЕРЫЙ</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="2726" available="true" >
+<url>https://kidrulit.ru/vtulka-dlya-kolesa-detskoj-kolyaski-no022008-cvet-belyj/</url>
+<price>300.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>84</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/чайковски/022008.jpg</picture>
+<name>Втулка для колеса детской коляски №022008 Цвет: БЕЛЫЙ</name>
+<description>Внутренний диаметр 10мм.</description>
+</offer>
+<offer id="2760" available="true" >
+<url>https://kidrulit.ru/nakladka-na-mehanizm-skladyvaniya-shassi-no022024-bebetto/</url>
+<price>150.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>89</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/bebetto/022024.jpg</picture>
+<name>Накладка на механизм складывания шасси №022024 (Bebetto)</name>
+<description>Подходит на механизм складывания шасси №022023</description>
+</offer>
+<offer id="2886" available="true" >
+<url>https://kidrulit.ru/metallicheskaya-korzina-dlya-produktov-no019023-roan-2079924055/</url>
+<price>200.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>116</categoryId>
+<picture>https://kidrulit.ru/image/data/bt_products/роан/019023B.jpg</picture>
+<name>Металлическая корзина для продуктов №019023 ROAN !!!БРАК!!!</name>
+<description>Небольшие сколы на решетке</description>
+</offer>
+<offer id="2898" available="true" >
+<url>https://kidrulit.ru/koleso-dlya-detskoj-kolyaski-no003049-naduv-10dyujmov-bez-vilki-54-152-10h2-0-vtulka-na-os-10mm-1227346786/</url>
+<price>700.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>69</categoryId>
+<picture>https://kidrulit.ru/image/data/X/003049X.jpg</picture>
+<name>Половинка диска от колеса для детской коляски №003049 надув 10дюймов без вилки 54-152 10х2,0 (втулка на ось 10мм)</name>
+<description>Вот такой остаток колеса. Может кому актуально</description>
+</offer>
+</offers>
+</shop>
+</yml_catalog>
