@@ -3695,7 +3695,7 @@ a i.fa{
     margin:18px 0;
 }
 .docs ul li::before{
-    content:"●";
+    content:'\2022';
     color:rgb(143, 191, 76);
     position:absolute;
     left:-18px;

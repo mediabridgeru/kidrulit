@@ -18,11 +18,58 @@ class ModelCheckoutOrder extends Model
         foreach ($data['vouchers'] as $voucher) {
             $this->db->query("INSERT INTO " . DB_PREFIX . "order_voucher SET order_id = '" . (int)$order_id . "', description = '" . $this->db->escape($voucher['description']) . "', code = '" . $this->db->escape($voucher['code']) . "', from_name = '" . $this->db->escape($voucher['from_name']) . "', from_email = '" . $this->db->escape($voucher['from_email']) . "', to_name = '" . $this->db->escape($voucher['to_name']) . "', to_email = '" . $this->db->escape($voucher['to_email']) . "', voucher_theme_id = '" . (int)$voucher['voucher_theme_id'] . "', message = '" . $this->db->escape($voucher['message']) . "', amount = '" . (float)$voucher['amount'] . "'");
         }
+
+        $totals = [];
+        $shipping_cost = 0;
+        $order_total = $data['total'];
+        $isNullShipping = $this->isNullShipping($data);
+
         foreach ($data['totals'] as $total) {
+            if ($isNullShipping) {
+                if ($total['code'] === 'shipping') {
+                    $shipping_cost = $total['value'];
+
+                    $total['text'] = '0';
+                    $total['value'] = 0;
+                }
+
+                if ($total['code'] === 'total') {
+                    $order_total -= $shipping_cost;
+                    $total['value'] -= $shipping_cost;
+                    $total['text'] = (string)$total['value'];
+                }
+            }
+
+            $totals[] = $total;
+        }
+
+        foreach ($totals as $total) {
             $this->db->query("INSERT INTO " . DB_PREFIX . "order_total SET order_id = '" . (int)$order_id . "', code = '" . $this->db->escape($total['code']) . "', title = '" . $this->db->escape($total['title']) . "', text = '" . $this->db->escape($total['text']) . "', `value` = '" . (float)$total['value'] . "', sort_order = '" . (int)$total['sort_order'] . "'");
         }
 
+        if ($isNullShipping) {
+            $this->db->query("UPDATE `" . DB_PREFIX . "order` SET total = '" . (float)$order_total . "', shipping_cost = '" . (float)$shipping_cost . "' WHERE order_id = '" . (int)$order_id . "'");
+        }
+
         return $order_id;
+    }
+
+    /**
+     * @param $data
+     *
+     * @return bool
+     */
+    private function isNullShipping($data) {
+        $shipping_codes = ['russianpost2']; // коды доставок, для которых не надо обнулять доставку
+
+        foreach ($shipping_codes as $shippingCode) {
+            $shippingCodeData = explode('.', $data['shipping_code']);
+            if ($shippingCodeData[0] === $shippingCode) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function getOrder($order_id) {

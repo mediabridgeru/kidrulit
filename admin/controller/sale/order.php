@@ -331,6 +331,12 @@ class ControllerSaleOrder extends Controller {
     			$cdek = $result['cdek'];
     		}
 
+            $cost = '';
+
+            if ($result['shipping_cost'] > 0) {
+                $cost = $result['shipping_cost'];
+            }
+
     		$action = array();
 
     		$action[] = array(
@@ -359,6 +365,7 @@ class ControllerSaleOrder extends Controller {
     			'status'        => $result['status'],
     			'status_id'		=> $result['order_status_id'],
                 'tasks'         => $result['tasks'],
+                'cost'          => $cost,
     			'cdek'          => $cdek,
     			'total'         => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
     			'date_added'    => date($this->language->get('date_format_time'), strtotime($result['date_added'])),
@@ -2924,6 +2931,8 @@ class ControllerSaleOrder extends Controller {
                     $waybill = new ControllerWaybill($this->registry);
 
                     $waybill->invoice($orders);
+                } else {
+                    $this->response->setOutput($this->render());
                 }
             } else {
                 $this->template = 'sale/order_invoice.tpl';

@@ -363,7 +363,7 @@
  </tr>
  <tr height=17 style='mso-height-source:userset;height:12.95pt'>
   <td height=17 class=xl65 style='height:12.95pt'></td>
-  <td colspan=31 class=xl75 width=658 style='width:501pt'><? print $this->num2str($total['text']) ?></td>
+  <td colspan=31 class=xl75 width=658 style='width:501pt'><? print num2str($total['text']) ?></td>
   <td class=xl65></td><? //print_r($order); ?>
  </tr>
  <tr height=15 style='height:11.45pt'>
