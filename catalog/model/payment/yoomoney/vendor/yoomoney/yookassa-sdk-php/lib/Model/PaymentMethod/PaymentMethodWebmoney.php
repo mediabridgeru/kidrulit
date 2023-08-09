@@ -30,6 +30,7 @@ use YooKassa\Model\PaymentMethodType;
 
 /**
  * Класс, описывающий метод оплаты, при оплате через Webmoney.
+ * @deprecated Будет удален в следующих версиях
  *
  * @property string $type Тип объекта
  */

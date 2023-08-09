@@ -28,6 +28,9 @@ namespace YooKassa\Model\PaymentMethod;
 
 use YooKassa\Model\PaymentMethodType;
 
+/**
+ * @deprecated Будет удален в следующих версиях
+ */
 class PaymentMethodPsb extends AbstractPaymentMethod
 {
     public function __construct()

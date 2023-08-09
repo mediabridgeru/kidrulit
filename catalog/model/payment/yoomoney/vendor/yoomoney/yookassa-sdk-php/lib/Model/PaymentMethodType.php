@@ -67,15 +67,24 @@ class PaymentMethodType extends AbstractEnum
     const GOOGLE_PAY     = 'google_pay';
     /** Платеж из кошелька Qiwi */
     const QIWI           = 'qiwi';
-    /** Платеж из кошелька Webmoney */
+    /**
+     * Платеж из кошелька Webmoney
+     * @deprecated Будет удален в следующих версиях
+     */
     const WEBMONEY       = 'webmoney';
-    /** Платеж через Альфа-Клик */
+    /**
+     * Платеж через Альфа-Клик
+     * @deprecated Будет удален в следующих версиях
+     */
     const ALFABANK       = 'alfabank';
     /** Сбербанк Бизнес Онлайн */
     const B2B_SBERBANK   = 'b2b_sberbank';
     /** Интернет-банк Тинькофф */
     const TINKOFF_BANK   = 'tinkoff_bank';
-    /** ПромсвязьБанк */
+    /**
+     * ПромсвязьБанк
+     * @deprecated Будет удален в следующих версиях
+     */
     const PSB            = 'psb';
     /** Заплатить по частям */
     const INSTALLMENTS   = 'installments';
@@ -86,23 +95,32 @@ class PaymentMethodType extends AbstractEnum
     const WECHAT         = 'wechat';
     /** Оплата через сервис быстрых платежей */
     const SBP            = 'sbp';
+    /** Прием оплаты с использованием Кредита от СберБанка */
+    const SBER_LOAN = 'sber_loan';
+    /**
+     * Для неизвестных методов оплаты
+     * @deprecated Не используется для реальных платежей
+     */
+    const UNKNOWN = 'unknown';
 
     protected static $validValues = array(
         self::YOO_MONEY      => true,
         self::BANK_CARD      => true,
         self::SBERBANK       => true,
         self::CASH           => true,
-        self::MOBILE_BALANCE => false,
+        self::MOBILE_BALANCE => true,
         self::APPLE_PAY      => false,
         self::GOOGLE_PAY     => false,
         self::QIWI           => true,
-        self::WEBMONEY       => true,
-        self::ALFABANK       => true,
+        self::WEBMONEY       => false,
+        self::ALFABANK       => false,
         self::TINKOFF_BANK   => true,
         self::INSTALLMENTS   => true,
         self::B2B_SBERBANK   => true,
         self::PSB            => false,
         self::WECHAT         => false,
         self::SBP            => true,
+        self::SBER_LOAN      => true,
+        self::UNKNOWN        => false,
     );
 }

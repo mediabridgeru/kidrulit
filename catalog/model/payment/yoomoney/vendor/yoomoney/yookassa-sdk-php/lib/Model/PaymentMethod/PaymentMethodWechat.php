@@ -29,7 +29,7 @@ namespace YooKassa\Model\PaymentMethod;
 use YooKassa\Model\PaymentMethodType;
 
 /**
- * @deprecated Класс будет удалён в одной из будущих версий.
+ * @deprecated Будет удален в следующих версиях
  */
 class PaymentMethodWechat extends AbstractPaymentMethod
 {

@@ -24,17 +24,20 @@
  * THE SOFTWARE.
  */
 
-namespace YooKassa\Model\PaymentData;
+namespace YooKassa\Model\PaymentMethod;
 
 use YooKassa\Model\PaymentMethodType;
 
 /**
- * @deprecated Будет удален в следующих версиях
+ * Класс, описывающий неизвестный метод оплаты
+ *
+ * @package YooKassa
+ * @deprecated Не используется в реальных платежах
  */
-class PaymentDataWechat extends AbstractPaymentData
+class PaymentMethodUnknown extends AbstractPaymentMethod
 {
     public function __construct()
     {
-        $this->setType(PaymentMethodType::WECHAT);
+        $this->setType(PaymentMethodType::UNKNOWN);
     }
 }

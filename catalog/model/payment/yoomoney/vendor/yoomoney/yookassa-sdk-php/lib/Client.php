@@ -122,7 +122,7 @@ class Client extends BaseClient
     /**
      * Текущая версия библиотеки
      */
-    const SDK_VERSION = '2.8.1';
+    const SDK_VERSION = '2.9.0';
 
     /**
      * Получить список платежей магазина

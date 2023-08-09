@@ -1,6 +1,5 @@
 # The YooKassa API PHP Client Library
 
-[![Build Status](https://img.shields.io/travis/yoomoney/yookassa-sdk-php)](https://travis-ci.org/yoomoney/yookassa-sdk-php)
 [![Latest Stable Version](https://img.shields.io/packagist/v/yoomoney/yookassa-sdk-php?label=stable)](https://packagist.org/packages/yoomoney/yookassa-sdk-php)
 [![Total Downloads](https://img.shields.io/packagist/dt/yoomoney/yookassa-sdk-php)](https://packagist.org/packages/yoomoney/yookassa-sdk-php)
 [![Monthly Downloads](https://img.shields.io/packagist/dm/yoomoney/yookassa-sdk-php)](https://packagist.org/packages/yoomoney/yookassa-sdk-php)

@@ -26,6 +26,7 @@
 
 namespace YooKassa\Model\PaymentData;
 
+use InvalidArgumentException;
 use YooKassa\Model\PaymentMethodType;
 
 /**
@@ -44,13 +45,11 @@ class PaymentDataFactory
         PaymentMethodType::APPLE_PAY      => 'PaymentDataApplePay',
         PaymentMethodType::GOOGLE_PAY     => 'PaymentDataGooglePay',
         PaymentMethodType::QIWI           => 'PaymentDataQiwi',
-        PaymentMethodType::WEBMONEY       => 'PaymentDataWebmoney',
-        PaymentMethodType::ALFABANK       => 'PaymentDataAlfabank',
         PaymentMethodType::INSTALLMENTS   => 'PaymentDataInstallments',
         PaymentMethodType::B2B_SBERBANK   => 'PaymentDataB2bSberbank',
         PaymentMethodType::TINKOFF_BANK   => 'PaymentDataTinkoffBank',
-        PaymentMethodType::WECHAT         => 'PaymentDataWechat',
         PaymentMethodType::SBP            => 'PaymentDataSbp',
+        PaymentMethodType::SBER_LOAN      => 'PaymentDataSberLoan',
     );
 
     /**
@@ -62,10 +61,10 @@ class PaymentDataFactory
     public function factory($type)
     {
         if (!is_string($type)) {
-            throw new \InvalidArgumentException('Invalid payment type value in payment factory');
+            throw new InvalidArgumentException('Invalid payment type value in payment factory');
         }
         if (!array_key_exists($type, $this->typeClassMap)) {
-            throw new \InvalidArgumentException('Invalid payment data type "' . $type . '"');
+            throw new InvalidArgumentException('Invalid payment data type "' . $type . '"');
         }
         $className = __NAMESPACE__ . '\\' . $this->typeClassMap[$type];
 
@@ -87,7 +86,7 @@ class PaymentDataFactory
                 $type = $data['type'];
                 unset($data['type']);
             } else {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     'Parameter type not specified in PaymentDataFactory.factoryFromArray()'
                 );
             }

@@ -31,6 +31,7 @@ use YooKassa\Model\PaymentMethodType;
 /**
  * PaymentDataWebmoney
  * Платежные данные для проведения оплаты Webmoney.
+ * @deprecated Будет удален в следующих версиях
  */
 class PaymentDataWebmoney extends AbstractPaymentData
 {

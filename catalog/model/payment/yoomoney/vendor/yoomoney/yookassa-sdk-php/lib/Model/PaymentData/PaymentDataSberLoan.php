@@ -28,13 +28,10 @@ namespace YooKassa\Model\PaymentData;
 
 use YooKassa\Model\PaymentMethodType;
 
-/**
- * @deprecated Будет удален в следующих версиях
- */
-class PaymentDataWechat extends AbstractPaymentData
+class PaymentDataSberLoan extends AbstractPaymentData
 {
     public function __construct()
     {
-        $this->setType(PaymentMethodType::WECHAT);
+        $this->setType(PaymentMethodType::SBER_LOAN);
     }
 }

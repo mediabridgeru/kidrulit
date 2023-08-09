@@ -68,7 +68,7 @@ class MarkCodeInfo extends AbstractObject
     /** @var int Максимальная длина GS_10 */
     const MAX_GS_10_LENGTH = 38;
     /** @var int Максимальная длина GS_1M */
-    const MAX_GS_1M_LENGTH = 150;
+    const MAX_GS_1M_LENGTH = 200;
     /** @var int Максимальная длина HORT */
     const MAX_SHORT_LENGTH = 38;
     /** @var int Максимальная длина FUR */

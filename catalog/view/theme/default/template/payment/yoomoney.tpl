@@ -50,7 +50,7 @@ if (isset($header)) {
     }
 ?>
 
-<script src="https://yookassa.ru/checkout-ui/v2.js"></script>
+<script src="https://yookassa.ru/checkout-widget/v1/checkout-widget.js"></script>
 <script type="text/javascript"><!--
 jQuery(document).ready(function () {
 
@@ -199,7 +199,6 @@ jQuery(document).ready(function () {
         const checkout = new window.YooMoneyCheckoutWidget({
             confirmation_token: data.token,
             return_url: data.redirect,
-            embedded_3ds: true,
             error_callback: function(error) {
                 if (error.error === 'token_expired') {
                     resetToken();

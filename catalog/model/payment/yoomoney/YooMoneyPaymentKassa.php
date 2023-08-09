@@ -260,6 +260,8 @@ class YooMoneyPaymentKassa extends YooMoneyPaymentMethod
             PaymentMethodType::WEBMONEY,
             PaymentMethodType::SBP,
             PaymentMethodType::ALFABANK,
+            PaymentMethodType::SBER_LOAN,
+            PaymentMethodType::MOBILE_BALANCE,
         );
 
         $result = array(

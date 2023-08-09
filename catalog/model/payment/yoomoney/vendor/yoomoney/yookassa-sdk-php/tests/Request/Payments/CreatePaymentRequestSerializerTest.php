@@ -15,7 +15,6 @@ use YooKassa\Model\Passenger;
 use YooKassa\Model\Payment;
 use YooKassa\Model\PaymentData\B2b\Sberbank\VatDataRate;
 use YooKassa\Model\PaymentData\B2b\Sberbank\VatDataType;
-use YooKassa\Model\PaymentData\PaymentDataAlfabank;
 use YooKassa\Model\PaymentData\PaymentDataB2bSberbank;
 use YooKassa\Model\PaymentData\PaymentDataGooglePay;
 use YooKassa\Model\PaymentData\PaymentDataApplePay;
@@ -25,6 +24,7 @@ use YooKassa\Model\PaymentData\PaymentDataMobileBalance;
 use YooKassa\Model\PaymentData\PaymentDataInstallments;
 use YooKassa\Model\PaymentData\PaymentDataQiwi;
 use YooKassa\Model\PaymentData\PaymentDataSberbank;
+use YooKassa\Model\PaymentData\PaymentDataSbp;
 use YooKassa\Model\PaymentData\PaymentDataWebmoney;
 use YooKassa\Model\PaymentData\PaymentDataYooMoney;
 use YooKassa\Model\PaymentMethodType;
@@ -318,7 +318,7 @@ class CreatePaymentRequestSerializerTest extends TestCase
             new ConfirmationAttributesMobileApplication(),
         );
         $paymentData   = array(
-            new PaymentDataAlfabank(),
+            new PaymentDataSbp(),
             new PaymentDataApplePay(),
             new PaymentDataGooglePay(),
             new PaymentDataBankCard(),
@@ -330,7 +330,6 @@ class CreatePaymentRequestSerializerTest extends TestCase
             new PaymentDataInstallments(),
             new PaymentDataB2bSberbank(),
         );
-        $paymentData[0]->setLogin(Random::str(10));
 
         $paymentData[1]->setPaymentData(Random::str(10));
         $paymentData[2]->setPaymentMethodToken(Random::str(10));

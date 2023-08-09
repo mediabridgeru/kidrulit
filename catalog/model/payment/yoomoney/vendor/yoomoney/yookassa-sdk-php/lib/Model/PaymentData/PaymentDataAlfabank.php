@@ -34,6 +34,8 @@ use YooKassa\Model\PaymentMethodType;
 /**
  * PaymentDataAlfabank
  * Платежные данные для проведения оплаты через Альфа Клик или Альфа Молнию.
+ * @deprecated Будет удален в следующих версиях
+ *
  * @property string $login Имя пользователя в Альфа-Клике
  */
 class PaymentDataAlfabank extends AbstractPaymentData

@@ -26,6 +26,7 @@
 
 namespace YooKassa\Model\PaymentMethod;
 
+use InvalidArgumentException;
 use YooKassa\Model\PaymentMethodType;
 
 /**
@@ -56,6 +57,8 @@ class PaymentMethodFactory
         PaymentMethodType::PSB            => 'PaymentMethodPsb',
         PaymentMethodType::WECHAT         => 'PaymentMethodWechat',
         PaymentMethodType::SBP            => 'PaymentMethodSbp',
+        PaymentMethodType::SBER_LOAN      => 'PaymentMethodSberLoan',
+        PaymentMethodType::UNKNOWN        => 'PaymentMethodUnknown',
     );
 
     /**
@@ -68,10 +71,10 @@ class PaymentMethodFactory
     public function factory($type)
     {
         if (!is_string($type)) {
-            throw new \InvalidArgumentException('Invalid payment method type value in payment factory');
+            throw new InvalidArgumentException('Invalid payment method type value in payment factory');
         }
         if (!array_key_exists($type, $this->typeClassMap)) {
-            throw new \InvalidArgumentException('Invalid payment method data type "' . $type . '"');
+            $type = PaymentMethodType::UNKNOWN;
         }
         $className = __NAMESPACE__ . '\\' . $this->typeClassMap[$type];
 
@@ -93,26 +96,15 @@ class PaymentMethodFactory
                 $type = $data['type'];
                 unset($data['type']);
             } else {
-                throw new \InvalidArgumentException(
-                    'Parameter type not specified in PaymentDataFactory.factoryFromArray()'
+                throw new InvalidArgumentException(
+                    'Parameter type not specified in PaymentMethodFactory.factoryFromArray()'
                 );
             }
         }
 
         $paymentData = $this->factory($type);
-        $this->fillModel($paymentData, $data);
+        $paymentData->fromArray($data);
 
         return $paymentData;
-    }
-
-    private function fillModel(AbstractPaymentMethod $paymentData, array $data)
-    {
-        foreach ($data as $key => $value) {
-            if ($paymentData->offsetExists($key)) {
-                $paymentData->offsetSet($key, $value);
-            } elseif (is_array($value)) {
-                $this->fillModel($paymentData, $value);
-            }
-        }
     }
 }

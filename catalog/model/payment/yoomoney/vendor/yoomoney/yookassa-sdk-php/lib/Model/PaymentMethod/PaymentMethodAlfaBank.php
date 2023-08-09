@@ -32,6 +32,7 @@ use YooKassa\Model\PaymentMethodType;
 
 /**
  * Класс, описывающий метод оплаты, при оплате через Альфа Банк
+ * @deprecated Будет удален в следующих версиях
  *
  * @property string $type Тип объекта
  * @property string $login Имя пользователя в Альфа-Клике
