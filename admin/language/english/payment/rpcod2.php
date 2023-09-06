@@ -2,33 +2,23 @@
 // Heading
 $_['heading_title']      = 'Почта России 2.0 - наложенный платеж';
 
-$_['text_rpcod2']	 = '<a onclick="window.open(\'http://russianpost.ru/\');"
+$_['text_rpcod2']	 = '<a onclick="window.open(\'https://pochta.ru/\');"
 ><img src="view/image/payment/russianpost2.gif" 
 alt="Почта России" 
 title="Почта России" style="border: 1px solid #EEEEEE;" /></a>';
 
+$_['entry_order_filters']       = 'Фильтры к заказу, способ оплаты НЕ отображается если подходит хотябы
+один из выбранных фильтров.
+Если ни один фильтр не выбран - то модуль отображается независимо от фильтров';
 $_['text_support']	= '<b>СТАТЬИ:</b> <ul>
-	<li><a href="http://softpodkluch.ru/russianpost2-method-service" target="_blank">Архитектура модуля Почта России 2.0: Методы и Сервисы</a></li>
-	<li><a href="http://softpodkluch.ru/russianpost2-filters-dops" target="_blank">Фильтры, Надбавки и "Отметка осторожно" в модуле Почта России 2.0</a></li>
-	<li><a href="http://softpodkluch.ru/russianpost2-api" target="_blank">Обзор API Почты России</a></li>
-	<li><a href="http://softpodkluch.ru/russianpost2-cod" target="_blank">Наложенный платеж Почты России</a></li>
+	<li><a href="https://ocart.ru/russianpost2/methods" target="_blank">Архитектура модуля Почта России 2.0: Методы и Сервисы</a></li>
+	<li><a href="https://ocart.ru/russianpost2/filters" target="_blank">Фильтры, Надбавки и "Отметка осторожно" в модуле Почта России 2.0</a></li>
+	<li><a href="https://ocart.ru/russianpost2/api" target="_blank">Обзор API Почты России</a></li>
+	<li><a href="https://ocart.ru/russianpost2/cod" target="_blank">Наложенный платеж Почты России</a></li>
 </ul>
-
-<p><b>ОБНОВЛЕНИЕ МОДУЛЯ</b></p>
-
-
-Чтобы скачать последнюю версию перейдите на сайт где Вы его купили.
-
-Вы могли купить модуль на одном из следующих сайтов:
-<ul>
-	<li><a href="https://opencartforum.com/files/file/1420-%D0%BF%D0%BE%D1%87%D1%82%D0%B0-%D1%80%D0%BE%D1%81%D1%81%D0%B8%D0%B8-%D0%BD%D0%B0%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D0%BF%D0%BB%D0%B0%D1%82%D0%B5%D0%B6/" target="_blank">OpenCartForum.com</a></li>
-	<li><a href="https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=14551" target="_blank">OpenCart.com</a></li>
-	<li><a href="https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=14551" target="_blank">SoftPodKluch.ru</a> (скачать последнюю версию можно авторизовавшись в личном кабинете)</li>
-</ul>
-
 
 <p><b>ТЕХ.ПОДДЕРЖКА:</b></p>
-Контакты тех.поддержки на сайте разработчика <a href="http://softpodkluch.ru"  target="_blank">http://softpodkluch.ru</a>
+internetstartru@gmail.com
 
 ';
 // Text

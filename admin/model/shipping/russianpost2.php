@@ -31,6 +31,59 @@ class ModelShippingRussianPost2 extends Model {
 		}
 	}
 	
+	public function getMultistores()
+	{ 
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "multistore`");
+
+		if ($query->num_rows == 0) {
+			return array();
+		}
+
+		$sort_order = array();
+		$results = $query->rows;
+
+		foreach ($results as $key => $row) {
+			$sort_order[$key] = isset($row['sort']) ? $row['sort'] : 0;
+		}
+
+		array_multisort($sort_order, SORT_ASC, $results);
+
+		return $results; 
+	}
+	
+	public function checkIsCorporateService($service_key)
+	{
+		$list = array(
+			"ems_tender",
+			"kpo_econom",
+			"ecom",
+			"express_parcel",
+			"ems_parcel",
+			"business_courier",
+			"ems_optimal",
+			"ems_pt",
+			"parcel_online",
+			"courier_online"
+		);
+		 
+		foreach( $list as $serv_key )
+		{
+			if( strstr($service_key, $serv_key) )
+				return 1;
+		}
+		
+		return 0;
+	}
+	
+	public function getCountPvz()
+	{
+		$sql = "SELECT COUNT(*) as cn FROM `" . DB_PREFIX . "russianpost2_pvz` ";
+		
+		$query = $this->db->query($sql);
+		
+		return $query->row['cn'];
+	}
+	
 	public function getVersion()
 	{
 		$VERSION = VERSION;
@@ -50,7 +103,7 @@ class ModelShippingRussianPost2 extends Model {
 	
 	private function isTableExists( $table_key )
 	{
-		$query = $this->db->query("SHOW TABLES LIKE '" . DB_PREFIX . $table_key. "'");
+		$query = $this->db->query("SHOW TABLES LIKE '" . DB_PREFIX . $this->db->escape($table_key). "'");
 		
 		return empty($query->row) ? false : true;
 	}
@@ -172,7 +225,8 @@ class ModelShippingRussianPost2 extends Model {
 			{
 				$sql = "UPDATE `" . DB_PREFIX . "russianpost2_customs` SET 
 					`name` = '".$this->db->escape($row['name'])."',
-					`price` = '".(int)$row['price']."',
+					`price` = '".(float)$row['price']."',
+					`currency` = '".$this->db->escape( $row['currency'] )."',
 					`type` = '".$this->db->escape( $row['type'] )."',  
 					`status` = '".(int)$row['status']."'
 				WHERE custom_id = '".(int)$row['custom_id']."'";
@@ -184,7 +238,8 @@ class ModelShippingRussianPost2 extends Model {
 			{
 				$sql = "INSERT INTO `" . DB_PREFIX . "russianpost2_customs` SET 
 					`name` = '".$this->db->escape($row['name'])."',
-					`price` = '".(int)$row['price']."',
+					`price` = '".(float)$row['price']."',
+					`currency` = '".$this->db->escape( $row['currency'] )."',
 					`type` = '".$this->db->escape( $row['type'] )."',  
 					`status` = '".(int)$row['status']."'";
 				$this->db->query($sql);	
@@ -229,6 +284,24 @@ class ModelShippingRussianPost2 extends Model {
 			)
 			continue;
 			
+			if( !empty( $russianpost2_options[$row['service_parent']]['is_split']['status'] ) 
+				||
+				!empty( $russianpost2_options[$row['service_key']]['is_split']['status'] )
+			)
+				$row['is_split'] = 1;
+			else
+				$row['is_split'] = 0;
+			
+			if( !empty( $russianpost2_options[$row['service_parent']]['is_courier']['status'] ) 
+				||
+				!empty( $russianpost2_options[$row['service_key']]['is_courier']['status'] )
+			)
+				$row['is_courier'] = 1;
+			else
+				$row['is_courier'] = 0;
+			
+			$row['is_corporate'] = $this->checkIsCorporateService( $row['service_key'] );
+			
 			if( empty( $row['service_parent'] ) )
 			{
 				$results[] = $row;
@@ -262,6 +335,23 @@ class ModelShippingRussianPost2 extends Model {
 			elseif( strstr( $row['service_key'], 'avia' ) && 
 					!empty( $russianpost2_options[$row['service_parent']]['is_avia']['status'] ) && 
 					!empty( $russianpost2_options[$row['service_parent']]['is_avia']['is_dedicated'] )
+			)
+			{
+				//echo "m5: ".$row['service_key']."<br>";
+				$results[] = $row;
+			}
+			elseif( strstr( $row['service_key'], 'ems_optimal_courier' ) && 
+					!empty( $russianpost2_options[$row['service_parent']]['is_insured']['status'] ) && 
+					!empty( $russianpost2_options[$row['service_parent']]['is_insured']['is_dedicated'] )
+			)
+			{
+				//echo "m4: ".$row['service_key']."<br>";
+				$results[] = $row;
+			}
+			
+			elseif( strstr( $row['service_key'], 'ecom' ) && 
+					!empty( $russianpost2_options[$row['service_parent']]['is_compulsory']['status'] ) && 
+					!empty( $russianpost2_options[$row['service_parent']]['is_compulsory']['is_dedicated'] )
 			)
 			{
 				//echo "m5: ".$row['service_key']."<br>";
@@ -581,13 +671,20 @@ class ModelShippingRussianPost2 extends Model {
 			{
 				$filters .= ','.implode(",", $row['filters']).',';
 			}
-					
+			
+			if( !isset($row['filter_deliverycost_from']) )
+				$row['filter_deliverycost_from'] = '';
+			if( !isset($row['filter_deliverycost_to']) )
+				$row['filter_deliverycost_to'] = '';
+			
 			if( !empty($row['adds_id']) )
 			{
 				
 				$sql = "UPDATE `" . DB_PREFIX . "russianpost2_adds` SET 
 					`filters` = '".$this->db->escape($filters)."',
 					`type` = '".$this->db->escape($row['type'])."',
+					`filter_deliverycost_from` = '".(float)$row['filter_deliverycost_from']."',
+					`filter_deliverycost_to` = '".(float)$row['filter_deliverycost_to']."',
 					`data` = '".$this->db->escape( serialize($row) )."',  
 					`sort_order` = '".(int)$row['sort_order']."'
 				WHERE adds_id = '".(int)$row['adds_id']."' 
@@ -602,12 +699,13 @@ class ModelShippingRussianPost2 extends Model {
 					`filters` = '".$this->db->escape($filters)."',
 					`type` = '".$this->db->escape($row['type'])."',  
 					`data` = '".$this->db->escape( serialize($row) )."',  
+					`filter_deliverycost_from` = '".(float)$row['filter_deliverycost_from']."',
+					`filter_deliverycost_to` = '".(float)$row['filter_deliverycost_to']."',
 					`sort_order` = '".(int)$row['sort_order']."'"; 
 				$this->db->query($sql);	
 				
 				$updated_ids[] = $this->db->getLastId();
 			}
-			
 			
 		}
 		
@@ -637,48 +735,34 @@ class ModelShippingRussianPost2 extends Model {
 		return $query->row;
 	}
 	
+	
 	public function getVersions()
 	{
 		$files = glob(DIR_SYSTEM . 'library/russianpost2/version.*.txt');
-		 
-		/* start 812 */
-		$file = 0;
 		
+		$max = '1.0.0';
 		
-		foreach($files as $filename)
+		foreach($files as $file)
 		{
-			if( strstr($filename, 'version') )
-			{
-				$filename = str_replace(DIR_SYSTEM . 'library/russianpost2/version.', "", $filename);
-				$filename = (float)str_replace('.txt', "", $filename);
-				
-				$ar = explode(".", $filename);
-				
-				$filename = $ar[0];
-				
-				if( !empty($ar[1]) )
-				{
-					if( (float)$ar[1] < 10 )
-						$ar[1] = '0'.$ar[1];
-					
-					$filename .= '.'.$ar[1];
-				}
-				
-				if( (float)$file <= (float)$filename )
-				{
-					$file = (float)$filename;
-				}
-			}
+			if( !strstr($file, ".txt") ) continue;
+			
+			$file = str_replace( DIR_SYSTEM . 'library/russianpost2/version.', "", $file);
+			$file = str_replace('.txt', "", $file);
+			
+			if( !preg_match("/^\d\.\d\.\d\$/", $file ) ) continue;
+			
+			if( version_compare($file , $max ) == 1 )
+				$max = $file ;
 		}
 		
-		/* end 812 */
 		return array( 
-			$file,  
+			$max,  
 			$this->config->get('russianpost2_version'),
 			$this->config->get('russianpost2_min_module_version_for_sfp'),
 			$this->config->get('russianpost2_min_module_version_for_work')
 		);
 	}
+	
 	
 	/* start metka-1 */
 	public function clearCache()

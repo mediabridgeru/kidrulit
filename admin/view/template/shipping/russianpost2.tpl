@@ -1,5 +1,12 @@
 <?php echo $header; ?>
-<style>
+<style> 
+select { 
+    min-width: 100px !important;
+}
+
+input[type=text] { 
+    min-width: 50px !important ;
+}
 .htabs2 {
 	padding: 0px 0px 0px 10px;
 	height: 30px;
@@ -87,6 +94,13 @@
 	text-align: left;
 }
 
+.tab-pane {
+	clear: both;
+}
+
+.mintextfield {
+	width: 50px !important;
+}
 
 </style>
 <div id="content">
@@ -94,6 +108,9 @@
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
     <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
     <?php } ?>
+	<div style="float: right;" ><a href="https://ocart.ru/russianpost2/start" 
+		target=_blank style="background: yellow; padding: 4px;"><?php echo $text_general_instruction; ?></a>
+		</div>
   </div>
 <?php if ($errors) { ?>
 <?php foreach($errors as $err) { ?>
@@ -110,11 +127,13 @@
   <div class="heading">
     <h1 style="background-image: url('view/image/shipping.png') left top no-repeat;"><?php echo $heading_title; ?></h1>
     <div class="buttons">
+		<a id="spinner" href="javascript: void(0);" style="display: none; height: 10px; float: left;"
+		><img src="<?php echo $spinner; ?>"></a>
+	
 	
 		<?php /* start metka-1 */ ?>
 		<a href="<?php echo $clear_cache; ?>" class="button"><span><?php echo $button_clear_cache; ?></span></a>
 		<?php /* end metka-1 */ ?>	
-	
 	
 		<a href="javascript: set_tab(); $('#stay_field').attr('value', '0'); saveByTabs();" class="button"><span><?php echo $button_save_go; ?></span></a>
   
@@ -124,7 +143,7 @@
 		<a  href="<?php echo $cancel; ?>"  class="button" 
 		><span><?php echo $button_cancel; ?></span></a>
 		
-		</div>
+	</div>
   </div>
   <div class="content">
   
@@ -147,7 +166,12 @@
 			onclick="$('#hiddentab').val('link-tab-packs');"><?php echo $tab_packs; ?></a>
 			<?php /* end 112 */ ?>		
 		
-		
+			<a href="#tab-customsrok" style="cursor: pointer;" id="link-tab-customsrok"   onclick="$('#hiddentab').val('link-tab-customsrok');"><?php echo $tab_customsrok; ?></a>
+			
+			
+			<?php if($is_show_sklads) { ?>
+			<a href="#tab-sklads" style="cursor: pointer;" id="link-tab-sklads"   onclick="$('#hiddentab').val('link-tab-sklads');"><?php echo $tab_sklads; ?></a>
+			<?php } ?>
 		
 			<a href="#tab-filters" style="cursor: pointer;" id="link-tab-filters"   onclick="$('#hiddentab').val('link-tab-filters');"><?php echo $tab_filters; ?></a>
 					
@@ -158,6 +182,7 @@
 			<a href="#tab-synx" style="cursor: pointer;" id="link-tab-synx"   onclick="$('#hiddentab').val('link-tab-synx');"><?php echo $tab_synx; ?></a>
 			
 			<a href="#tab-cod" style="cursor: pointer;" id="link-tab-cod"   onclick="$('#hiddentab').val('link-tab-cod');"><?php echo $tab_cod; ?></a>
+	          <a href="#tab-settings" style="cursor: pointer;" id="link-tab-settings"   onclick="$('#hiddentab').val('link-tab-settings');"><?php echo $tab_settings; ?></a>
 			
             <a href="#tab-support" style="cursor: pointer;" id="link-tab-support"   onclick="$('#hiddentab').val('link-tab-support');"><?php echo $tab_support; ?></a>
 	</div>
@@ -170,7 +195,7 @@
 		?>">
 		<input type="hidden" id="hiddensubtab2" name="subtab2" value="<?php 
 		if( !empty($subtab2) ) echo $subtab2; 
-		?>">
+		?>"><br>
 		
 		<?php $submethod_row = array(); ?>
 		
@@ -188,7 +213,15 @@
 							></span>  &nbsp;&nbsp;&nbsp; 
 							<a class="button" onclick="window.location.href='<?php echo $update_action; ?>'" 
 							
-							><span><?php echo $button_update_tarif; ?></span></a></td>
+							><span><?php echo $button_update_tarif; ?></span></a>
+							
+							
+				<a class="button" onclick="window.location.href='<?php echo $update_pvz_action; ?>'" 
+				><span><?php echo $button_pvz; ?></span></a> 
+			
+			<div style="background-color: #fef8f4; border: 1px #ddd solid; padding: 10px;margin-top: 10px;"
+			><?php echo $text_data_notice; ?></div>
+							</td>
         </tr>
 		<tr>
 			<td><?php echo $entry_status; ?></td>
@@ -220,27 +253,49 @@
 				value="print"
 				><?php echo $entry_debug_print; ?></option>
               </select>
+				<div><?php echo $entry_debug_notice; ?></div>
 			<?php /* end 2012 */ ?>
 			</td>
         </tr>
 		<tr>
-			<td><?php echo $entry_notifyme; ?></td>
-			<td><select class="form-control"  name="russianpost2_notifyme">
-                <?php if ($russianpost2_notifyme) { ?>
-                <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-                <option value="0"><?php echo $text_disabled; ?></option>
-                <?php } else { ?>
-                <option value="1"><?php echo $text_enabled; ?></option>
-                <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
-                <?php } ?>
-              </select>
-				<div><?php echo $entry_notifyme_notice; ?></div>
-			</td>
-        </tr>
-		<tr>
-			<td><?php echo $entry_notifyme_email; ?></td>
-			<td><input type="text" class="form-control"  name="russianpost2_notifyme_email" value="<?php echo $russianpost2_notifyme_email; ?>" /></td>
-        </tr>
+			<td><?php echo $entry_clienttype; ?> *</td>
+			<td>
+					<table>
+					<tr>
+						<td>
+							<input type="radio" name="russianpost2_clienttype" value="corporate"
+							<?php if($russianpost2_clienttype == 'corporate') { ?> checked <?php } ?>
+							id="russianpost2_clienttype_corporate"
+							onclick="changeClientType(this.value);"
+							>
+						</td>
+						<td style="padding-top: 5px; padding-left: 10px;">
+							<label for="russianpost2_clienttype_corporate" style="font-weight: normal;" 
+							><?php echo $entry_clienttype_corporate; ?></label>
+						</td>
+						<td style="padding-top: 5px; padding-left: 10px;"> 
+							<?php echo $entry_clienttype_corporate_notice; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="radio" name="russianpost2_clienttype" value="common"
+							<?php if($russianpost2_clienttype == 'common') { ?> checked <?php } ?>
+							id="russianpost2_clienttype_common"
+							onclick="changeClientType(this.value);"
+							>
+						</td>
+						<td style="padding-top: 5px; padding-left: 10px;">
+							<label for="russianpost2_clienttype_common" style="font-weight: normal;" 
+							><?php echo $entry_clienttype_common; ?></label>
+						</td>
+						<td style="padding-top: 5px; padding-left: 10px;"> 
+							<?php echo $entry_clienttype_common_notice; ?>
+						</td>
+					</tr>
+					</table>
+				</td>
+        </tr> 
 		<tr>
 			<td><?php echo $entry_from_region; ?></td>
 			<td><select class="form-control"  name="russianpost2_from_region">
@@ -255,32 +310,134 @@
         </tr>
 		<tr>
 			<td><?php echo $entry_from_postcode; ?></td>
-			<td><input type="text" class="form-control"  name="russianpost2_from_postcode" value="<?php echo $russianpost2_from_postcode; ?>" />
-			
-		<?php /* start 1511 */ ?>
+			<td>
+				<input type="text" class="form-control"  name="russianpost2_from_postcode" value="<?php echo $russianpost2_from_postcode; ?>" id="russianpost2_from_postcode" />
+				
+				<div id="check_general" style="display: none;"></div>
+				<div id="error_russianpost2_from_postcode" style="display: none;"></div>
 		  <div><?php echo $entry_from_postcode_notice; ?></div>
-		<?php /* end 1511 */ ?>
-			
+		
 			</td>
         </tr>
-		<?php /* start 0805 */ ?>
+		
+		<tbody class="corporate_blocks">
 		<tr>
-			<td><?php echo $entry_if_nosrok; ?></td>
-			<td><select class="form-control"  name="russianpost2_if_nosrok">
-				<option value="tariff" 
-				<?php if($russianpost2_if_nosrok=='tariff') { ?> 
-				selected="selected" <?php } ?> ><?php echo $entry_if_nosrok_tariff; ?></option>
-				
-				
-				<option value="postcalc" 
-				<?php if($russianpost2_if_nosrok=='postcalc') { ?> 
-				selected="selected" <?php } ?> ><?php echo $entry_if_nosrok_postcalc ?></option>
-				<option value="none" 
-				<?php if($russianpost2_if_nosrok=='none') { ?> 
-				selected="selected" <?php } ?> ><?php echo $entry_if_nosrok_none; ?></option>
-            </select>
-			<div><?php echo $entry_if_nosrok_notice; ?></div></td>
+			<td><?php echo $entry_dop_indexes; ?></td>
+			<td>
+				<table class="noborder">
+					<tr>
+						<td style="padding: 10px;"><b><?php echo $entry_dop_indexes_col_service; ?></b></td>
+						<td style="padding: 10px;"><b><?php echo $entry_dop_indexes_col_postcode; ?></b></td>
+						<td style="padding: 10px;"></td>
+					</tr>
+					
+					<tr>
+						<td style="padding: 10px;"><?php echo $entry_dop_indexes_parcel_online; ?>
+						 
+						</td>
+						<td style="padding: 10px;">
+							<input type="text" class="form-control" id="dopindex_parcel_online_postcode"  name="russianpost2_services2api_list[parcel_online][postcode]" value="<?php echo $dopindex_parcel_online_postcode; ?>" <?php if( !empty($dopindex_parcel_online_is_default) ) { 
+							?> disabled <?php } ?> /> 
+								<div id="check_ONLINE_PARCEL" style="display: none;"></div>
+								<div id="suggestion_ONLINE_PARCEL" style="display: none;">
+								<div id="suggestion_ONLINE_PARCEL2" style="display: none;"></div>
+							
+							</td>
+						<td style="padding: 10px;"><input type="checkbox" 
+								id="dopindex_parcel_online_is_default" 
+								onclick="if( this.checked ) { $('#dopindex_parcel_online_postcode').prop('disabled', true); $('#dopindex_parcel_online_postcode').val(''); } else $('#dopindex_parcel_online_postcode').prop('disabled', false);"
+								<?php if( !empty( $dopindex_parcel_online_is_default ) ) { ?>  checked <?php } ?>
+								><label for="dopindex_parcel_online_is_default"><?php echo $text_use_default_index; ?></label>
+								
+						</td>
+					</tr>
+					
+					<tr>
+						<td style="padding: 10px;"><?php echo $entry_dop_indexes_parcel_online_postamat; ?>
+						 
+						</td>
+						<td style="padding: 10px;">
+							<input type="text" class="form-control" id="dopindex_parcel_online_postamat_postcode"  name="russianpost2_services2api_list[parcel_online_postamat][postcode]" value="<?php echo $dopindex_parcel_online_postamat_postcode; ?>" <?php if( !empty($dopindex_parcel_online_postamat_is_default) ) { 
+							?> disabled <?php } ?> /> 
+								<div id="check_ONLINE_PARCEL_POSTAMAT" style="display: none;"></div>
+								<div id="suggestion_ONLINE_PARCEL_POSTAMAT" style="display: none;">
+								<div id="suggestion_ONLINE_PARCEL2_POSTAMAT" style="display: none;"></div>
+							
+							</td>
+						<td style="padding: 10px;"><input type="checkbox" 
+								id="dopindex_parcel_online_postamat_is_default" 
+								onclick="if( this.checked ) { $('#dopindex_parcel_online_postamat_postcode').prop('disabled', true); $('#dopindex_parcel_online_postamat_postcode').val(''); } else $('#dopindex_parcel_online_postamat_postcode').prop('disabled', false);"
+								<?php if( !empty( $dopindex_parcel_online_postamat_is_default ) ) { ?>  checked <?php } ?>
+								><label for="dopindex_parcel_online_postamat_is_default"><?php echo $text_use_default_index; ?></label>
+								
+						</td>
+					</tr>
+					<tr>
+						<td style="padding: 10px;"><?php echo $entry_dop_indexes_courier_online; ?></td>
+						<td style="padding: 10px;">
+							<input type="text" class="form-control" id="dopindex_courier_online_postcode"  name="russianpost2_services2api_list[courier_online][postcode]" value="<?php echo $dopindex_courier_online_postcode; ?>" <?php if( !empty($dopindex_courier_online_is_default) ) { 
+							?> disabled <?php } ?> />
+								<div id="check_ONLINE_COURIER" style="display: none;"></div>
+								<div id="suggestion_ONLINE_COURIER" style="display: none;"></div>
+								<div id="suggestion_ONLINE_COURIER2" style="display: none;"></div></td>
+						<td style="padding: 10px;"><input type="checkbox" 
+								id="dopindex_courier_online_is_default" 
+								onclick="if( this.checked ) { $('#dopindex_courier_online_postcode').prop('disabled', true); $('#dopindex_courier_online_postcode').val(''); } else $('#dopindex_courier_online_postcode').prop('disabled', false);"
+								<?php if( !empty( $dopindex_courier_online_is_default ) ) { ?>  checked <?php } ?>
+								><label for="dopindex_courier_online_is_default"><?php echo $text_use_default_index; ?></label>
+						</td>
+					</tr>
+					
+					<tr>
+						<td style="padding: 10px;"><?php echo $entry_dop_indexes_ems_optimal; ?></td>
+						<td style="padding: 10px;">
+							<input type="text" class="form-control" id="dopindex_ems_optimal_postcode"  name="russianpost2_services2api_list[ems_optimal][postcode]" value="<?php echo $dopindex_ems_optimal_postcode; ?>" <?php if( !empty($dopindex_ems_optimal_is_default) ) { 
+							?> disabled <?php } ?> />
+								<div id="check_EMS_OPTIMAL" style="display: none;"></div>
+								<div id="suggestion_EMS_OPTIMAL" style="display: none;"></div>
+								<div id="suggestion_EMS_OPTIMAL2" style="display: none;"></div></td>
+						<td style="padding: 10px;"><input type="checkbox" 
+								id="dopindex_ems_optimal_is_default" 
+								onclick="if( this.checked ) { $('#dopindex_ems_optimal_postcode').prop('disabled', true); $('#dopindex_ems_optimal_postcode').val(''); } else $('#dopindex_ems_optimal_postcode').prop('disabled', false);"
+								<?php if( !empty( $dopindex_ems_optimal_is_default ) ) { ?>  checked <?php } ?>
+								><label for="dopindex_ems_optimal_is_default"><?php echo $text_use_default_index; ?></label>
+						</td>
+					</tr>
+					 
+				</table>  
+			</td>
         </tr>
+		</tbody>
+		<tr>
+			<td><?php echo $entry_if_nosrok_calculated; ?></td>
+			<td>
+			<select class="form-control"  name="russianpost2_if_nosrok_calculated"
+			onchange="if( this.value == 'capital' ) $('#block_nosrok_calculated').show(); else $('#block_nosrok_calculated').hide(); ">
+				<option value="tariff" 
+				<?php if($russianpost2_if_nosrok_calculated=='hide') { ?> 
+				selected="selected" <?php } ?> ><?php echo $entry_if_nosrok_calculated_hide; ?></option>
+				<option value="capital" 
+				<?php if($russianpost2_if_nosrok_calculated=='capital') { ?> 
+				selected="selected" <?php } ?> ><?php echo $entry_if_nosrok_calculated_capital; ?></option>
+				
+				 
+            </select>
+			<div><?php echo $entry_if_nosrok_calculated_notice; ?></div>
+			</td>
+        </tr>
+		<tbody 
+			<?php if($russianpost2_if_nosrok_calculated!='capital') { ?>style="display: none;"<?php } ?>
+		>
+		<tr>
+			<td> 
+				<?php echo $entry_if_nosrok_calculated_additional; ?></td>
+			<td>
+				<input type="text" class="form-control"  name="russianpost2_if_nosrok_calculated_additional" 
+				value="<?php echo $russianpost2_if_nosrok_calculated_additional; ?>" />  
+				<div><?php echo $entry_if_nosrok_calculated_additional_notice; ?></div>
+			</td>
+        </tr> 
+		</tbody>
 		<?php /* end 0805 */ ?>
 		
 		<tr>
@@ -338,6 +495,69 @@
 				<?php } ?>
             </select></td>
         </tr>
+		
+		<tr>
+			<td><?php echo $entry_russianpost2_ifnopostcode; ?></td>
+			<td>
+			<select class="form-control"  name="russianpost2_ifnopostcode"> 
+              <?php if ($russianpost2_ifnopostcode == 'on') { ?>
+              <option value="on" selected="selected"><?php echo $entry_russianpost2_ifnopostcode_on; ?></option>
+              <option value="off"><?php echo $entry_russianpost2_ifnopostcode_off; ?></option>
+              <?php } else { ?>
+              <option value="on"><?php echo $entry_russianpost2_ifnopostcode_on; ?></option>
+              <option value="off" selected="selected"><?php echo $entry_russianpost2_ifnopostcode_off; ?></option>
+              <?php } ?>
+            </select> </td>
+        </tr> 
+		
+		
+		<tr>
+			<td><?php echo $entry_russianpost2_ifnouserpostcode; ?></td>
+			<td>
+			<select class="form-control"  name="russianpost2_ifnouserpostcode"> 
+              <?php if ($russianpost2_ifnouserpostcode) { ?>
+              <option value="1" selected="selected"><?php echo $entry_russianpost2_ifnouserpostcode_usedetected; ?></option>
+              <option value="0"><?php echo $entry_russianpost2_ifnouserpostcode_skip; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $entry_russianpost2_ifnouserpostcode_usedetected; ?></option>
+              <option value="0" selected="selected"><?php echo $entry_russianpost2_ifnouserpostcode_skip; ?></option>
+              <?php } ?>
+            </select> 
+			<div><?php echo $entry_russianpost2_ifnouserpostcode_notice; ?></div>
+			</td>
+        </tr>  
+		<tr>
+			<td><?php echo $entry_calc_by_region_for_remote; ?></td>
+			<td><select class="form-control"  name="russianpost2_calc_by_region_for_remote"> 
+              <?php if ($russianpost2_calc_by_region_for_remote) { ?>
+              <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+              <option value="0"><?php echo $text_disabled; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_enabled; ?></option>
+              <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+              <?php } ?>
+            </select>
+			<div><?php echo $entry_calc_by_region_for_remote_notice; ?></div></td>
+        </tr>
+		<?php /* end 0802 */ ?>
+		
+		<tr>
+			<td><?php echo $entry_is_ignore_user_postcode; ?></td>
+			<td><select class="form-control"  name="russianpost2_is_ignore_user_postcode"> 
+                <option value="0" 
+				  <?php if( !$russianpost2_is_ignore_user_postcode ) { ?> selected="selected" <?php } ?>
+				  ><?php echo $text_disabled; ?></option>
+				  
+				  <option value="1" 
+				  <?php if( $russianpost2_is_ignore_user_postcode == 1 ) { ?> selected="selected" <?php } ?>
+				  ><?php echo $text_enabled; ?></option>
+				  
+				  <option value="2" 
+				  <?php if( $russianpost2_is_ignore_user_postcode == 2 ) { ?> selected="selected" <?php } ?>
+				  ><?php echo $entry_is_ignore_user_postcode_byregion; ?></option>
+				
+            </select> </td>
+        </tr>
 		<tr>
 			<td><?php echo $entry_ifnocity; ?></td>
 			<td><select class="form-control"  name="russianpost2_ifnocity">
@@ -353,6 +573,72 @@
 			<td><?php echo $entry_default_city; ?></td>
 			<td><input type="text" class="form-control"  name="russianpost2_default_city" 
 					value="<?php echo $russianpost2_default_city; ?>" /></td>
+        </tr>
+		
+		<tr>
+			<td><?php echo $entry_pvz_showtype; ?></td>
+			<td>
+				<select class="form-control"  name="russianpost2_pvz_showtype"
+				onchange="if( this.value == 'city' ) $('#block_isnopvz').show(); else $('#block_isnopvz').hide();"
+				>
+					<option value="region" 
+					<?php if($russianpost2_pvz_showtype == 'region') { ?> 
+					selected="selected" <?php } ?> ><?php echo $entry_pvz_showtype_region; ?></option>  
+					<option value="capital" 
+					<?php if($russianpost2_pvz_showtype == 'capital') { ?> 
+					selected="selected" <?php } ?> ><?php echo $entry_pvz_showtype_capital; ?></option>  
+					<option value="city" 
+					<?php if($russianpost2_pvz_showtype == 'city') { ?> 
+					selected="selected" <?php } ?> ><?php echo $entry_pvz_showtype_city; ?></option>  
+				</select>
+			</td>
+        </tr>
+		<tbody id="block_isnopvz" <?php if( $russianpost2_pvz_showtype != 'city' ) { ?> style="display: none;" <?php } ?> >
+		<tr>
+			<td><?php echo $entry_pvz_showtype_isnopvz; ?></td>
+			<td>
+				<select class="form-control"  name="russianpost2_pvz_showtype_isnopvz">
+					<option value="region" 
+					<?php if($russianpost2_pvz_showtype_isnopvz == 'region') { ?> 
+					selected="selected" <?php } ?> ><?php echo $entry_pvz_showtype_isnopvz_region; ?></option>  
+					<option value="capital" 
+					<?php if($russianpost2_pvz_showtype_isnopvz == 'capital') { ?> 
+					selected="selected" <?php } ?> ><?php echo $entry_pvz_showtype_isnopvz_capital; ?></option>  
+					<option value="hide" 
+					<?php if($russianpost2_pvz_showtype_isnopvz == 'hide') { ?> 
+					selected="selected" <?php } ?> ><?php echo $entry_pvz_showtype_isnopvz_hide; ?></option>   
+				</select>
+			</td>
+        </tr>
+		</tbody>
+		<tr>
+			<td><?php echo $entry_pvz_sorttype; ?></td>
+			<td>
+				<select class="form-control"  name="russianpost2_pvz_sorttype">
+					<option value="abc" 
+					<?php if($russianpost2_pvz_sorttype=='abc') { ?> 
+					selected="selected" <?php } ?> ><?php echo $entry_pvz_sorttype_abc; ?></option>
+					<option value="brand" 
+					<?php if($russianpost2_pvz_sorttype=='brand') { ?> 
+					selected="selected" <?php } ?> ><?php echo $entry_pvz_sorttype_brand; ?></option>
+				</select>
+			</td>
+        </tr>
+		<tr>
+			<td><?php echo $entry_weight_source; ?></td>
+			<td>
+			<select class="form-control"  name="russianpost2_weight_source">
+              
+			  <option value="product"
+			  <?php if ($russianpost2_weight_source=='product') { ?> selected="selected" <?php } ?>
+			  ><?php echo $entry_weight_source_product; ?></option>
+			  
+			  <option value="cart"
+			  <?php if( $russianpost2_weight_source=='cart' ) { ?> selected="selected" <?php } ?>
+			  ><?php echo $entry_weight_source_cart; ?></option>
+			  
+			  
+            </select></td>
         </tr>
 		<tr>
 			<td><?php echo $entry_use_max_product_weight; ?></td>
@@ -388,6 +674,21 @@
 			<td><input type="text" class="form-control"  name="russianpost2_product_default_weight" 
 				value="<?php echo $russianpost2_product_default_weight; ?>"></td>
         </tr>
+		<?php /* start 3005 */ ?>
+		<tr>
+			<td><?php echo $entry_product_replace_weight; ?></td>
+			<td>
+			<select class="form-control"  name="russianpost2_product_replace_weight">
+              <?php if ($russianpost2_product_replace_weight) { ?>
+              <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+              <option value="0"><?php echo $text_disabled; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_enabled; ?></option>
+              <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+              <?php } ?> 
+            </select></td>
+        </tr>
+		<?php /* end 3005 */ ?>
 		<tr>
 			<td><?php echo $entry_order_nullweight; ?></td>
 			<td><select class="form-control"  name="russianpost2_order_nullweight">
@@ -409,6 +710,20 @@
 				value="<?php echo $russianpost2_order_default_weight; ?>"></td>
         </tr>
 		<tr>
+			<td><?php echo $entry_order_replace_weight; ?></td>
+			<td>
+			<select class="form-control"  name="russianpost2_order_replace_weight">
+              <?php if ($russianpost2_order_replace_weight) { ?>
+              <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+              <option value="0"><?php echo $text_disabled; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_enabled; ?></option>
+              <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+              <?php } ?> 
+            </select>
+			<div><b><?php echo $entry_order_replace_weight_notice; ?></b></div></td>
+        </tr>
+		<tr>
 			<td><?php echo $entry_product_nullsize; ?></td>
 			<td><select class="form-control"  name="russianpost2_product_nullsize">
                
@@ -428,22 +743,39 @@
 			<td><table >
 				<tr>
 					<td>
-						<input type="text" class="form-control"  name="russianpost2_product_default_width" 
+						<input type="text" class="form-control mintextfield"  name="russianpost2_product_default_width" 
 						value="<?php echo $russianpost2_product_default_width; ?>" style="width: 30px;">
 					</td>
 					<td>x</td>
 					<td>
-						<input type="text" class="form-control"  name="russianpost2_product_default_height" 
+						<input type="text" class="form-control mintextfield"  name="russianpost2_product_default_height" 
 						value="<?php echo $russianpost2_product_default_height; ?>" style="width: 30px;">
 					</td>
 					<td>x</td>
 					<td>
-						<input type="text" class="form-control"  name="russianpost2_product_default_length" 
+						<input type="text" class="form-control mintextfield"  name="russianpost2_product_default_length" 
 						value="<?php echo $russianpost2_product_default_length; ?>" style="width: 30px;">
 					</td>
 				</tr>	
 				</table>	</td>
         </tr>
+		
+		
+		
+		<tr>
+			<td><?php echo $entry_product_replace_size; ?></td>
+			<td>
+			<select class="form-control"  name="russianpost2_product_replace_size">
+              <?php if ($russianpost2_product_replace_size) { ?>
+              <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+              <option value="0"><?php echo $text_disabled; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_enabled; ?></option>
+              <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+              <?php } ?> 
+            </select></td>
+        </tr>
+		
 		<tr>
 			<td><?php echo $entry_order_nullsize; ?></td>
 			<td><select class="form-control"  name="russianpost2_order_nullsize">
@@ -453,7 +785,7 @@
 			  ><?php echo $text_order_nullsize_setdefault; ?></option>
 			  
 			  <option value="setnull"
-			  <?php if( $russianpost2_order_nullsize=='hide' ) { ?> selected="selected" <?php } ?>
+			  <?php if( $russianpost2_order_nullsize=='setnull' ) { ?> selected="selected" <?php } ?>
 			  ><?php echo $text_nullsize_hide; ?></option>
 			  
 			  
@@ -464,21 +796,52 @@
 			<td><table >
 				<tr>
 					<td>
-						<input type="text" class="form-control"  name="russianpost2_order_default_width" 
+						<input type="text" class="form-control mintextfield"  name="russianpost2_order_default_width" 
 						value="<?php echo $russianpost2_order_default_width; ?>" style="width: 30px;">
 					</td>
 					<td>x</td>
 					<td>
-						<input type="text" class="form-control"  name="russianpost2_order_default_height" 
+						<input type="text" class="form-control mintextfield"  name="russianpost2_order_default_height" 
 						value="<?php echo $russianpost2_order_default_height; ?>" style="width: 30px;">
 					</td>
 					<td>x</td>
 					<td>
-						<input type="text" class="form-control"  name="russianpost2_order_default_length" 
+						<input type="text" class="form-control mintextfield"  name="russianpost2_order_default_length" 
 						value="<?php echo $russianpost2_order_default_length; ?>" style="width: 30px;">
 					</td>
 				</tr>	
 				</table>	</td>
+        </tr>
+		
+		<tr>
+			<td><?php echo $entry_order_replace_size; ?></td>
+			<td>
+			<select class="form-control"  name="russianpost2_order_replace_size">
+              <?php if ($russianpost2_order_replace_size) { ?>
+              <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+              <option value="0"><?php echo $text_disabled; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_enabled; ?></option>
+              <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+              <?php } ?> 
+            </select>
+			<div><b><?php echo $entry_order_replace_size_notice; ?></b></div>
+			</td>
+        </tr>
+		
+		<tr>
+			<td><?php echo $entry_is_custom_calc_function; ?></td>
+			<td><select class="form-control"  name="russianpost2_is_custom_calc_function">
+              <?php if ($russianpost2_is_custom_calc_function) { ?>
+              <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+              <option value="0"><?php echo $text_disabled; ?></option>
+              <?php } else { ?>
+              <option value="1"><?php echo $text_enabled; ?></option>
+              <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+              <?php } ?>
+            </select>
+			<div><?php echo $entry_is_custom_calc_function_notice; ?></div>
+			</td>
         </tr>
 		<tr>
 			<td><?php echo $entry_tax_class; ?></td>
@@ -491,6 +854,32 @@
                 <option value="<?php echo $tax_class['tax_class_id']; ?>"><?php echo $tax_class['title']; ?></option>
                 <?php } ?>
                 <?php } ?>
+              </select></td>
+        </tr>
+		
+        <tr>
+			<td><?php echo $entry_is_no_insurance_limit; ?></td>
+			<td><select name="russianpost2_is_no_insurance_limit" class="form-control">
+                <option value="0"
+				<?php if( !$russianpost2_is_no_insurance_limit ) { ?> selected <?php } ?>
+				><?php echo $entry_is_no_insurance_limit_hide; ?></option> 
+                <option value="1"
+				<?php if( $russianpost2_is_no_insurance_limit == 1 ) { ?> selected <?php } ?>
+				><?php echo $entry_is_no_insurance_limit_show; ?></option> 
+                <option value="2"
+				<?php if( $russianpost2_is_no_insurance_limit == 2 ) { ?> selected <?php } ?>
+				><?php echo $entry_is_no_insurance_limit_show2; ?></option> 
+              </select></td>
+        </tr>
+        <tr>
+			<td><?php echo $entry_is_pack_limit; ?></td>
+			<td><select name="russianpost2_is_pack_limit" class="form-control">
+                <option value="nopack"
+				<?php if( $russianpost2_is_pack_limit == 'nopack' ) { ?> selected <?php } ?>
+				><?php echo $entry_is_pack_limit_nopack; ?></option> 
+                <option value="hide"
+				<?php if( $russianpost2_is_pack_limit == 'hide' ) { ?> selected <?php } ?>
+				><?php echo $entry_is_pack_limit_hide; ?></option> 
               </select></td>
         </tr>
 		<tr>
@@ -532,44 +921,36 @@
 <?php		/* end 510 */ ?>
 		<tr>
 			<td><?php echo $entry_sort_order; ?></td>
-			<td><input type="text" class="form-control"  name="russianpost2_sort_order" 
-				value="<?php echo $russianpost2_sort_order; ?>">
-			</td>
-        </tr>
-		<?php foreach( $russianpost2_configs as $item ) { ?> 
-		<tr>
-			
-			<?php if( $item['type'] == 'checkbox' ) { ?> 
-			<td><?php echo $item['name']; ?></td>
-			<td>
-				<input type="checkbox" name="russianpost2_configs[<?php echo $item['config_key']; ?>]" value="1"
-					<?php if( !empty( $item['value'] ) ) { ?> checked <?php } ?>
-					>
-			</td>
-			<?php } elseif( $item['type'] == 'hidden' ) { ?>
-				<input type="hidden" name="russianpost2_configs[<?php echo $item['config_key']; ?>]" value="<?php 
-						if( !empty($item['value']) )
-						echo $item['value'];
-				?>">
-			
-			<?php } elseif( $item['type'] == 'text' ) { ?>
-			<td><?php echo $item['name']; ?></td>
-			<td>
-				<input type="text" name="russianpost2_configs[<?php echo $item['config_key']; ?>]" value="<?php 
-						if( !empty($item['value']) )
-						echo $item['value'];
-				?>"
+			<td><?php /* start 2602 */ ?>
+				<input type="text" class="form-control"  name="russianpost2_sort_order" 
+				value="<?php echo $russianpost2_sort_order; ?>"
+				id="russianpost2_sort_order"
+				<?php if( $russianpost2_sort_order_type == 'absolute' ) { ?>
+				disabled
+				<?php } ?>
+				><br>
+				
+				<select class="form-control"  name="russianpost2_sort_order_type"
+				onchange="if( this.value == 'absolute' ) $('#russianpost2_sort_order').prop('disabled', true); else $('#russianpost2_sort_order').prop('disabled', false);"
 				>
+				  <option value="relative" 
+				  <?php if ($russianpost2_sort_order_type == 'relative') { ?> selected="selected" <?php } ?>
+				  ><?php echo $entry_sort_order_relative; ?></option> 
+				  <option value="absolute" 
+				  <?php if ($russianpost2_sort_order_type == 'absolute') { ?> selected="selected" <?php } ?>
+				  ><?php echo $entry_sort_order_absolute; ?></option> 
+				</select>
+				<?php /* end 2602 */ ?>
 			</td>
-			<?php } ?>
-        </tr>
-		<?php } ?>
+        </tr> 
 		</table>
 		
 		</div>
 		<div id="tab-methods" class="tab-pane">
 		
 		<p><?php echo $text_russianpost2_method_service; ?></p>
+		<div style="background-color: #fef8f4; border: 1px #ddd solid; padding: 10px;"><?php echo $text_tags_notice; ?></div>
+
 		<hr>
 		
 		<div id="methods_list">
@@ -637,7 +1018,56 @@
                   <div class="text-danger"><?php echo $error_method[$method_row][$language['language_id']]; ?></div>
                   <?php } ?>
                   <?php } ?></td>
-				  <td  class="left" style="width: 10%;"><input type="text" name="russianpost2_methods[<?php echo $method_row; ?>][sort_order]" value="<?php echo $method['sort_order']; ?>" placeholder="<?php echo $entry_sort_order; ?>" class="form-control" /></td>
+				  <td  class="left" style="width: 15%;"><input type="text" name="russianpost2_methods[<?php echo $method_row; ?>][sort_order]" value="<?php echo $method['sort_order']; ?>" placeholder="<?php echo $entry_sort_order; ?>" class="form-control" />
+
+
+<?php /* start 2602 */ ?> 
+					<table border=0 width=100% 
+					id="sort_orders<?php echo $method_row; ?>"  
+class="method_filters">
+					<tbody class="tbody2_class">
+<?php if( !empty($method['sort_orders']) ) { 
+	foreach($method['sort_orders'] as $x=>$sort_order) { ?>	
+
+					<tr id="sort_orders<?php echo $method_row; ?>-<?php echo $x; ?>">
+						<td style="padding: 5px;">
+							<input type="text" 
+name="russianpost2_methods[<?php echo $method_row; ?>][sort_orders][<?php echo $x; ?>][sort_order]" 
+value="<?php echo $sort_order['sort_order']; ?>" 
+placeholder="<?php echo $entry_sort_order; ?>" class="form-control" />
+						 
+						<select 
+name="russianpost2_methods[<?php echo $method_row; ?>][sort_orders][<?php echo $x; ?>][filter]" 
+class="form-control"> 
+<?php foreach($russianpost2_order_filters as $ft) { ?>
+					<option value="<?php echo $ft['filter_id']; ?>"
+					<?php if( $ft['filter_id'] == $sort_order['filter'] ) { ?> selected <?php } ?>
+					><?php echo $ft['filtername']; ?></option>
+<?php } ?>
+	</select>
+					</td>
+					<td style="padding: 5px;"> 
+
+<a href="javascript: $('#sort_orders<?php echo $method_row; ?>-<?php echo $x; ?>').remove();" 
+					class="button"><span>X</span></a>
+
+					</td>
+					</tr>
+<?php } } ?>					
+					</tbody>
+					<tfoot>
+					<tr>
+						<td colspan=3 style="padding: 5px;"><a  
+						href="javascript: addMethodsSort('<?php echo $method_row; ?>');" 
+						  title="<?php echo $button_add_sort; ?>" 
+						class="button"><span><?php echo $text_add_button; ?></span></a></td>
+					</tr>
+					</tfoot>
+				</table>
+
+<?php /* end 2602 */ ?>	
+
+</td>
 				  
 				  <td class="left">
 				  
@@ -751,10 +1181,58 @@
 						  <?php if (isset($error_method[$method_row][$language['language_id']])) { ?>
 						  <div class="text-danger"><?php echo $error_method[$method_row][$language['language_id']]; ?></div>
 						  <?php } ?>
-						  <?php } ?></td>
+						  <?php } ?>
+						  
+						  
+				<div  id="desclink<?php echo $method_row; ?>-<?php echo $submethod_row[$method_row]; ?>">
+				<a style="cursor: pointer;" onclick="$('#desc<?php echo $method_row; ?>-<?php echo $submethod_row[$method_row]; ?>').show(); $('#desclink<?php echo $method_row; ?>-<?php echo $submethod_row[$method_row]; ?>').hide();"><?php echo $text_description_link; ?></a>
+				</div>
+<div><?php echo $text_tags_notice2; ?></div>
+				<div style="display: none;" id="desc<?php echo $method_row; ?>-<?php echo $submethod_row[$method_row]; ?>" >
+				<div><?php echo $text_description; ?></div>
+				  <?php foreach ($languages as $language) { ?>
+                  <div class="input-group pull-left" style="width: 100%;"><span class="input-group-addon"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /> </span> 
+                  <textarea rows=3 name="russianpost2_methods[<?php echo $method_row; ?>][submethods][<?php echo $submethod_row[$method_row]; ?>][desc][<?php echo $language['language_id']; ?>]" 
+				   class="form-control" style="width: 90%;"><?php echo isset($submethod['desc'][$language['language_id']]) ? $submethod['desc'][$language['language_id']] : ''; ?></textarea>
+				  </div>
+                  <?php } ?>
+				</div>
+				
+				
+					<hr>
+					<label for="showmap<?php echo $method_row; ?>-<?php echo $submethod_row[$method_row]; ?>"
+					style="font-weight: normal; text-align: left; width: 100%; "
+					><input type="checkbox" 
+					name="russianpost2_methods[<?php echo $method_row; ?>][submethods][<?php echo $submethod_row[$method_row]; ?>][showmap]"
+					 value="1" id="showmap<?php echo $method_row; ?>-<?php echo $submethod_row[$method_row]; ?>"
+					 <?php if( !empty($submethod['showmap']) ) { ?> checked <?php } ?> onclick="showPvzPayBlock('<?php echo $method_row; ?>-<?php echo $submethod_row[$method_row]; ?>' )"
+					 >&nbsp;&nbsp;<?php echo $text_showmap; ?></label>
+					 
+					 
+					<div id="showmapPayBlock<?php echo $method_row; ?>-<?php echo $submethod_row[$method_row]; ?>"
+					<?php if( empty($submethod['showmap']) ) { ?> style="display: none;" <?php } ?> >
+					<label style="font-weight: normal; text-align: left; width: 100%; ">
+						<?php echo $text_maptype; ?>&nbsp;&nbsp;
+						
+						
+						<select  style="max-width: 400px;"
+						name="russianpost2_methods[<?php echo $method_row; ?>][submethods][<?php echo $submethod_row[$method_row]; ?>][pvztype]"
+						>
+							<?php foreach($russianpost2_mapwidget_codes as $mapwidget) { ?>  
+								<option value="<?php echo $mapwidget['key']; ?>" 
+								<?php if( $submethod['pvztype'] == $mapwidget['key'] ) { ?> selected <?php } ?>
+								><?php echo $mapwidget['name']; ?></option>
+							<?php } ?>
+						
+						</select>
+						<div><?php echo $text_maptype_notice; ?></div>
+					 </label>
+					 </div>
+						  
+						  </td>
 						  <td  class="left" style="width: 10%;"><input type="text" name="russianpost2_methods[<?php echo $method_row; ?>][submethods][<?php echo $submethod_row[$method_row]; ?>][sort_order]" value="<?php echo $submethod['sort_order']; ?>" placeholder="<?php echo $entry_sort_order; ?>" class="form-control" />
 						 </td>
-						  <td class="left">
+						  <td class="left" style="min-width: 200px;">
 						  
 						  
 						  
@@ -847,6 +1325,7 @@
 					<?php /* end 2801 */ ?>
 <?php foreach($services_list as $serv) { ?>
 					<option value="<?php echo $serv['service_key']; ?>"
+					<?php if( $serv['is_corporate'] ) { ?>class="corporate_options" <?php } ?>
 					<?php if( $serv['service_key'] == $service['service'] ) { ?> selected <?php } ?>
 					><?php echo $serv['service_name']; ?></option>
 <?php } ?>
@@ -876,6 +1355,7 @@
 
 <?php foreach($services_list as $serv) { ?>
 					<option value="<?php echo $serv['service_key']; ?>"
+					<?php if( $serv['is_corporate'] ) { ?>class="corporate_options" <?php } ?>
 					><?php echo $serv['service_name']; ?></option>
 <?php } ?>
 					</select></td>
@@ -996,11 +1476,11 @@
 					</select>
 					</td>
 					<td style="padding: 5px;">
-						<button type="button" onclick="$('#submethod_adds<?php 
+					
+					<a href="javascript: $('#submethod_adds<?php 
 						echo $method_row; ?>-<?php echo $submethod_row[$method_row]; 
-						?>-<?php echo $x; ?>, .tooltip').remove();" 
-						data-toggle="tooltip" class="btn btn-danger"><i 
-						class="fa fa-minus-circle"></i></button>
+						?>-<?php echo $x; ?>" class="button"><span>-</span></a>
+					 
 					</td>
 					</tr>
 <?php } } ?>					
@@ -1046,6 +1526,7 @@
 			<br><br>
 		  <p><?php echo $text_methods_notice; ?></p>
 		  <p><?php echo $text_split_notice; ?></p>
+		  <p><?php echo $text_option_unavailable_notice; ?></p>
 		
 			<h2><?php echo $text_tags_header; ?></h2>
 			<table border=0 width=100%  class="list">
@@ -1141,8 +1622,13 @@
 					<td class="left"><?php echo $text_tag_srok_example; ?></td>
 				</tr>
 				<tr>
+					<td>{srok_date}</td>
+					<td><?php echo $text_tag_srok_date; ?></td>
+					<td><?php echo $text_tag_srok_date_example; ?></td>
+				</tr>
+				<tr>
 					<td class="left">{srok_block}</td>
-					<td class="left"><?php echo $text_tag_srok; ?></td>
+					<td class="left"><?php echo $text_tag_srok_block; ?></td>
 					<td class="left">
 					<?php foreach ($languages as $language) { ?>
                   <div class="input-group pull-left" style="width: 100%;"><span class="input-group-addon"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /> </span> 
@@ -1175,26 +1661,378 @@
 					<td class="left">{dimensions_cm}</td>
 					<td class="left"><?php echo $text_tag_dimensions_cm; ?></td>
 					<td class="left"><?php echo $text_tag_dimensions_cm_example; ?></td>
-				</tr>
-				<?php /* end 0510 */ ?>
+				</tr> 
 				
 			</tbody>
 			</table>
 			<h2><?php echo $text_image_header; ?></h2>
 			<p><?php echo $text_image_notice; ?></p>
-			<table class="form">
-			<tbody>
+			<table class="form"> 
 				<tr>
 					<td class="left"><?php echo $entry_method_image_html; ?></td>
 					<td class="left"><textarea name="russianpost2_method_image_html"  class="form-control" cols=70 rows=5
 					><?php echo $russianpost2_method_image_html; ?></textarea></td>
 				</tr>
 				<tr>
-					<td class="left"><?php echo $entry_submethod_image_html; ?></td>
-					<td class="left"><textarea name="russianpost2_submethod_image_html"  class="form-control" cols=70 rows=5
-					><?php echo $russianpost2_submethod_image_html; ?></textarea></td>
+					<td class="left"><?php echo $entry_icons_format; ?></td>
+					<td class="left">
+				
+					  <table class="noborder">
+					  <tr>
+						<td valign=top style="padding-right: 15px;"><input type="radio" name="russianpost2_icons_format" 
+						value="inname" 
+							id="russianpost2_icons_format_inname"
+							<?php if( $russianpost2_icons_format == 'inname' ) { ?> checked <?php } ?>
+							onclick="show_hide_inname_block('inname')"
+							>
+						</td>
+						<td>
+							<label for="russianpost2_icons_format_inname" style="font-weight: normal;"
+							><?php echo $entry_icons_format_inname; ?></label><br><br>
+						</td>
+					  </tr>
+					  <tr>
+						<td valign=top style="padding-right: 15px;"><input type="radio" name="russianpost2_icons_format" 
+						value="inimage" 
+							id="russianpost2_icons_format_inimage"
+							<?php if( $russianpost2_icons_format == 'inimage' ) { ?> checked <?php } ?>
+							onclick="show_hide_inname_block('inimage')"
+							>
+						</td>
+						<td>
+							<label for="russianpost2_icons_format_inimage" style="font-weight: normal;"
+							><?php echo $entry_icons_format_inimage; ?></label><br><br>
+						</td>
+					  </tr>
+					  <tr>
+						<td valign=top style="padding-right: 15px;"><input type="radio" name="russianpost2_icons_format" 
+						value="inimg" 
+							id="russianpost2_icons_format_inimg"
+							<?php if( $russianpost2_icons_format == 'inimg' ) { ?> checked <?php } ?>
+							onclick="show_hide_inname_block('inimg')"
+							>
+						</td>
+						<td>
+							<label for="russianpost2_icons_format_inimg" style="font-weight: normal;"
+							><?php echo $entry_icons_format_inimg; ?></label><br><br>
+						</td>
+					  </tr>
+					  </table>
+				
+					</td> 
+			
+				</tr> 
+			</table>
+			
+			<?php /* start 2602 */ ?>
+			
+			<script>
+			function show_hide_inname_block(value)
+			{
+				if( value == 'inname' ) {
+					$('#inname_block').show();
+				} 
+				else
+				{
+					$('#inname_block').hide();
+				}
+				
+			}
+			</script> 
+			
+			<div id="inname_block"
+				<?php if( $russianpost2_icons_format != 'inname' ) { 
+				?> style="display: none;" <?php } ?> 
+			>
+				
+				<table class="form">
+					<tr>
+						<td class="left"><?php echo $entry_submethod_image_html; ?></td>
+						<td class="left"><textarea name="russianpost2_submethod_image_html"  class="form-control" cols=70 rows=5
+						><?php echo $russianpost2_submethod_image_html; ?></textarea></td>
+					</tr>
+				</tbody>
+				</table>
+			</div>
+			<?php /* end 2602 */ ?>
+			
+			<h2><?php echo $header_pvz; ?></h2>
+			<p><?php echo $header_pvz_notice; ?></p>
+			
+			
+			<table class="form">
+			<tr>
+				<td class="left"> <?php echo $entry_hide_map_js; ?></td>
+				<td class="left">
+					<select class="form-control"  name="russianpost2_hide_map_js">
+					  <?php if ($russianpost2_hide_map_js) { ?>
+					  <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+					  <option value="0"><?php echo $text_disabled; ?></option>
+					  <?php } else { ?>
+					  <option value="1"><?php echo $text_enabled; ?></option>
+					  <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+					  <?php } ?>
+					</select> 
+					<div><?php echo $entry_hide_map_js_notice; ?></div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="left"> <?php echo $entry_map_show; ?></td>
+				<td class="left">
+					
+					<select class="form-control"  name="russianpost2_map_show" 
+					 
+					>
+					  <option value="title" 
+					  <?php if ($russianpost2_map_show == 'title') { ?> 
+					  selected="selected"
+						<?php } ?>
+					  ><?php echo $entry_map_show_title; ?></option>
+					  
+					  <option value="description" 
+					  <?php if ($russianpost2_map_show == 'description') { ?> 
+					  selected="selected"
+					  <?php } ?> 
+					  ><?php echo $entry_map_show_description; ?></option>
+					</select> 
+				</td>
+			</tr>  
+			<tr>
+				<td class="left"><?php echo $entry_pvz_address_set; ?></td>
+				<td class="left">
+				<select name="russianpost2_pvz_address_set" class="form-control">
+				  <option value="" <?php if( !$russianpost2_pvz_address_set ) { ?>selected="selected" <?php } ?>
+				  ><?php echo $text_disabled; ?></option>
+				
+				  <option value="address_1" 
+				  <?php if( $russianpost2_pvz_address_set == 'address_1' ) { ?>selected="selected" <?php } ?>
+				  ><?php echo $text_address_1; ?></option>
+				
+				  <option value="address_2" 
+				  <?php if( $russianpost2_pvz_address_set == 'address_2' ) { ?>selected="selected" <?php } ?>
+				  ><?php echo $text_address_2; ?></option> 
+				</select> 
+				<div><?php echo $entry_pvz_address_set_notice; ?></div>
+				</td>
+			</tr>  
+			<tr>
+				<td class="left"><?php echo $entry_ops_address_set; ?></td>
+				<td class="left">
+				<select name="russianpost2_ops_address_set" class="form-control">
+				  <option value="" <?php if( !$russianpost2_ops_address_set ) { ?>selected="selected" <?php } ?>
+				  ><?php echo $text_disabled; ?></option>
+				
+				  <option value="address_1" 
+				  <?php if( $russianpost2_ops_address_set == 'address_1' ) { ?>selected="selected" <?php } ?>
+				  ><?php echo $text_address_1; ?></option>
+				
+				  <option value="address_2" 
+				  <?php if( $russianpost2_ops_address_set == 'address_2' ) { ?>selected="selected" <?php } ?>
+				  ><?php echo $text_address_2; ?></option> 
+				</select> 
+				<div><?php echo $entry_ops_address_set_notice; ?></div>
+				</td>
+			</tr>  
+			<tr>
+				<td class="left"><?php echo $entry_mapsource_area; ?></td>
+				<td class="left">
+					<select class="form-control"  name="russianpost2_mapsource_area" 
+					id="russianpost2_mapsource_area">
+					  <option value="region" 
+					  <?php if( $russianpost2_mapsource_area == 'region' ) { ?>  
+					  selected="selected"
+					  <?php } ?>
+					  ><?php echo $entry_mapsource_area_region; ?></option>
+					  
+					  <option value="city" 
+					  <?php if( $russianpost2_mapsource_area == 'city' ) { ?>   
+					  selected="selected"
+					  <?php } ?>
+					  ><?php echo $entry_mapsource_area_city; ?></option>
+					  
+					  <option value="region_capital"
+					  <?php if( $russianpost2_mapsource_area == 'region_capital' ) { ?>   
+					  selected="selected"
+					  <?php } ?>
+					  ><?php echo $entry_mapsource_area_region_capital; ?></option>
+					   
+					</select> 
+					<div><?php echo $entry_mapsource_area_notice; ?></div>
+				</td>
+			</tr>   
+			<tr>
+				<td class="left"><?php echo $entry_widget_pochta; ?></td>
+				<td class="left">
+					<table id="mapwidgets" class="list">
+					<thead>
+						<tr>
+							<td class="left"><?php echo $col_pvzrow_name; ?></td>
+							<td class="left"><?php echo $col_pvzrow_pvztype; ?></td>
+							<td class="left"><?php echo $col_pvzrow_payment; ?></td> 
+							<td class="left"><?php echo $col_pvzrow_code; ?></td>  
+						</tr>
+					</thead>
+					<tbody class="tbody_class"> 
+					<?php $mapwidget_row = 0; ?>
+					<?php if( !empty($russianpost2_mapwidget_codes) ) { 
+					foreach($russianpost2_mapwidget_codes as $mapwidget) { ?>
+					<tr id="mapwidget-row<?php echo $mapwidget_row; ?>">
+						<td class="left"
+							<span id="mapwidget_name_<?php echo $mapwidget_row; ?>"
+							><?php echo $mapwidget['name']; ?></span>
+						</td>
+						<td class="left">  
+							<?php if( $mapwidget['pvztype'] == "all" ) { ?>
+								<?php echo $text_pvztype_filter_all; ?>
+							<?php } elseif( $mapwidget['pvztype'] == "rupost" ) { ?>
+								<?php echo $text_pvztype_filter_rupost; ?>
+							<?php } elseif( $mapwidget['pvztype'] == "noops" ) { ?>
+								<?php echo $text_pvztype_filter_noops; ?>
+							<?php } ?> 
+						</td>
+						<td class="left">
+							<?php if( !empty( $mapwidget['payment_required'] ) ) { ?>
+								<?php echo $text_pvzpayment_required; ?>
+							<?php } else { ?>
+								<?php echo $text_pvzpayment_any; ?>
+							<?php } ?>  
+						</td>
+						
+						<td class="left"> 
+							<select name="russianpost2_mapwidget_codes[<?php echo $mapwidget['key']; ?>][maptype]" 
+							  onclick="showMapCodeField(<?php echo $mapwidget_row; ?>)"
+								class="form-control" id="maptype_<?php echo $mapwidget_row; ?>" >  
+								<option value="module" <?php if( $mapwidget['maptype'] == "module" ) { ?> selected <?php } ?>
+								><?php echo $text_mpatype_module; ?></option>
+								<option value="widget" <?php if( $mapwidget['maptype'] == "widget" ) { ?> selected <?php } ?>
+								><?php echo $text_mpatype_widget; ?></option> 
+							</select> 
+							
+							<div><?php echo $text_widget_code; ?></div>
+							<div id="block_mapcode_<?php echo $mapwidget_row; ?>" 
+								<?php if( $mapwidget['maptype'] == "module" ) { ?> style="display: none" <?php } ?>> 
+								
+								<textarea cols=40 class="form-control" rows=3
+								  name="russianpost2_mapwidget_codes[<?php echo $mapwidget['key']; ?>][code]"
+								  ><?php echo $mapwidget['code']; ?></textarea>
+								<?php echo $entry_mapwidget_code_notice; ?>
+							</div>
+						</td> 
+					</tr> 
+					<?php $mapwidget_row++; ?>
+					<?php } ?>
+					<?php } ?>
+					</tbody> 
+					</table>
+				</td>
+			</tr>   
+			 
+			<table class="form"> 
+				<tr>
+					<td class="left"> <?php echo $entry_ops_selectblock; ?></td>
+					<td class="left">
+					<?php foreach ($languages as $language) { ?>
+					  <textarea cols=40 class="form-control" rows=7 style="width: 50%;"
+					  name="russianpost2_ops_selectblock[<?php echo $language['language_id']; ?>]"
+					  ><?php echo isset($russianpost2_ops_selectblock[$language['language_id']]) ? $russianpost2_ops_selectblock[$language['language_id']] : '';
+					  ?></textarea><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
+					 <?php } ?></td>
+				</tr> 
+				<tr>
+					<td class="left"> <?php echo $entry_ops_titleblock; ?></td>
+					<td class="left">
+				
+						<?php foreach ($languages as $language) { ?>
+						  <textarea cols=40 class="form-control"  rows=7
+						  name="russianpost2_tag_ops_block[<?php echo $language['language_id']; ?>]"
+						  ><?php echo isset($russianpost2_tag_ops_block[$language['language_id']]) ? $russianpost2_tag_ops_block[$language['language_id']] : '';
+						  ?></textarea><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br /> 
+						<?php } ?>
+					 </td>
+				</tr>  
+				<tr>
+					<td class="left"><?php echo $entry_pvz_address_infield; ?></td>
+					<td class="left"> 
+						<?php foreach ($languages as $language) { ?><input type="text" class="form-control" 
+						  name="russianpost2_pvz_address_infield[<?php echo $language['language_id']; ?>]"
+						  value="<?php echo isset($russianpost2_pvz_address_infield[$language['language_id']]) ? $russianpost2_pvz_address_infield[$language['language_id']] : '';
+						  ?>"
+						  ><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
+						  
+						<?php } ?> 
+					</td>
+				</tr>  
+				<tr>
+					<td class="left"> <?php echo $entry_ops_descblock; ?></td>
+					<td class="left">
+					<?php foreach ($languages as $language) { ?>
+					  <textarea cols=40 class="form-control"  rows=7
+					  name="russianpost2_ops_descblock[<?php echo $language['language_id']; ?>]"
+					  ><?php echo isset($russianpost2_ops_descblock[$language['language_id']]) ? $russianpost2_ops_descblock[$language['language_id']] : '';
+					  ?></textarea><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
+					 <?php } ?>
+					 </td>
 				</tr>
-			</tbody>
+				<tr>
+					<td class="left"> <?php echo $entry_ops_selecttitle; ?></td>
+					<td class="left">
+					<?php foreach ($languages as $language) { ?>
+					  <input type="text" class="form-control" 
+					  name="russianpost2_ops_selecttitle[<?php echo $language['language_id']; ?>]"
+					  value="<?php echo isset($russianpost2_ops_selecttitle[$language['language_id']]) ? $russianpost2_ops_selecttitle[$language['language_id']] : '';
+					  ?>"
+					  ><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
+					 <?php } ?>
+					 </td>
+				</tr>
+				<tr>
+					<td class="left"> <?php echo $entry_ops_worktime_block; ?></td>
+					<td class="left">
+					<?php foreach ($languages as $language) { ?>
+					  <input type="text" class="form-control" 
+					  name="russianpost2_ops_worktime_block[<?php echo $language['language_id']; ?>]"
+					  value="<?php echo isset($russianpost2_ops_worktime_block[$language['language_id']]) ? $russianpost2_ops_worktime_block[$language['language_id']] : '';
+					  ?>"
+					  ><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
+					 <?php } ?>
+					</td>
+				</tr> 
+			
+			<tr>
+					<td class="left"> <?php echo $entry_pvz_worktime_workline_nodinner; ?></td>
+					<td class="left">
+					<?php foreach ($languages as $language) { ?>
+					  <input type="text" class="form-control"  style="width: 50%;"
+					  name="russianpost2_pvz_worktime_workline_nodinner[<?php echo $language['language_id']; ?>]"
+					  value="<?php echo isset($russianpost2_pvz_worktime_workline_nodinner[$language['language_id']]) ? $russianpost2_pvz_worktime_workline_nodinner[$language['language_id']] : '';
+					  ?>"
+					  ><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
+					 <?php } ?></td>
+				</tr>
+			
+			<tr>
+					<td class="left"> <?php echo $entry_pvz_worktime_workline_withdinner; ?></td>
+					<td class="left">
+					<?php foreach ($languages as $language) { ?>
+					  <input type="text" class="form-control"  style="width: 50%;"
+					  name="russianpost2_pvz_worktime_workline_withdinner[<?php echo $language['language_id']; ?>]"
+					  value="<?php echo isset($russianpost2_pvz_worktime_workline_withdinner[$language['language_id']]) ? $russianpost2_pvz_worktime_workline_withdinner[$language['language_id']] : '';
+					  ?>"
+					  ><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
+					 <?php } ?></td>
+				</tr>
+			<tr>
+					<td class="left"> <?php echo $entry_pvz_worktime_weekendline; ?></td>
+					<td class="left">
+					<?php foreach ($languages as $language) { ?>
+					  <input type="text" class="form-control"  style="width: 50%;"
+					  name="russianpost2_pvz_worktime_weekendline[<?php echo $language['language_id']; ?>]"
+					  value="<?php echo isset($russianpost2_pvz_worktime_weekendline[$language['language_id']]) ? $russianpost2_pvz_worktime_weekendline[$language['language_id']] : '';
+					  ?>"
+					  ><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
+					 <?php } ?></td>
+				</tr>
 			</table>
 		</div>
 		
@@ -1382,7 +2220,16 @@
 						echo $customs_row; 
 						?>][price]" value="<?php  if( !empty($custom['price']) ) 
 														echo $custom['price']; ?>">
-							
+						
+								<select name="russianpost2_customs[<?php 
+								echo $customs_row; 
+								?>][currency]" class="form-control">
+								<?php foreach( $currencies as $currency ) { ?>
+									<option value="<?php echo $currency['code']; ?>"
+									<?php if( $custom['currency'] == $currency['code'] ) { ?> selected <?php } ?>
+									><?php echo $currency['code']; ?></option>
+								<?php } ?>
+								</select>	
 					</td>
 					<td class="left">
 						<select class="form-control"  name="russianpost2_customs[<?php echo 
@@ -1413,10 +2260,11 @@
 						  <?php } ?>
 						</select>
 					</td>
-					<td class="left"><button type="button" onclick="$('#customs-row<?php echo $customs_row; 
-					?>, .tooltip').remove();" data-toggle="tooltip" 
-					title="<?php echo $button_remove; ?>" 
-					class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+					<td class="left">
+					
+					<a href="javascript: $('#customs-row<?php echo $customs_row; 
+					?>, .tooltip').remove();" class="button"><span>-</span></a>
+					 </td>
 				</tr>
                 <?php $customs_row++; ?>
 				<?php } ?>
@@ -1555,7 +2403,7 @@
 						<table >
 						<tr>
 							<td>
-								<input type="text" class="form-control"  name="russianpost2_delivery_types[<?php echo $delivery_type['type_key']; ?>][maxlength]" 
+								<input type="text" class="form-control mintextfield"  name="russianpost2_delivery_types[<?php echo $delivery_type['type_key']; ?>][maxlength]" 
 								value="<?php echo $delivery_type['maxlength']; ?>"
 								 id="delivery_types_<?php echo $delivery_type['type_key']; ?>_maxlength" 
 									<?php if( $delivery_type['maxlength_mode']=='auto' ) { ?> disabled <?php } ?>
@@ -1564,7 +2412,7 @@
 							</td>
 							<td>x</td>
 							<td>
-								<input type="text" class="form-control"  name="russianpost2_delivery_types[<?php echo $delivery_type['type_key']; ?>][maxwidth]" 
+								<input type="text" class="form-control mintextfield"  name="russianpost2_delivery_types[<?php echo $delivery_type['type_key']; ?>][maxwidth]" 
 								 id="delivery_types_<?php echo $delivery_type['type_key']; ?>_maxwidth" 
 								value="<?php echo $delivery_type['maxwidth']; ?>"
 								
@@ -1574,7 +2422,7 @@
 							</td>
 							<td>x</td>
 							<td>
-								<input type="text" class="form-control"  name="russianpost2_delivery_types[<?php echo $delivery_type['type_key']; ?>][maxheight]" 
+								<input type="text" class="form-control mintextfield"  name="russianpost2_delivery_types[<?php echo $delivery_type['type_key']; ?>][maxheight]" 
 								 id="delivery_types_<?php echo $delivery_type['type_key']; ?>_maxheight" 
 								value="<?php echo $delivery_type['maxheight']; ?>"
 								
@@ -1662,6 +2510,7 @@
 					<td class="left"><?php echo $col_packs_name; ?></td>
 					<td class="left"><?php echo $col_packs_sizes; ?></td>
 					<td class="left"><?php echo $col_packs_price; ?></td>
+					<td class="left"><?php echo $col_packs_weight; ?></td>
 					<td class="left"><?php echo $col_packs_status; ?></td>
 					<td class="left"></td>
 				  </tr>
@@ -1678,17 +2527,17 @@
 					</td>
 					
 					<td class="left">
-						<input type="text" class="form-control" 
+						<input type="text" class="form-control mintextfield" 
 						name="russianpost2_custom_packs[<?php
 						echo $custom_pack_row; ?>][length]" value="<?php 
 							if( isset($custom_pack['length']) ) echo $custom_pack['length'];
 						?>" style="width: 50px;"> x 
-						<input type="text" class="form-control" 
+						<input type="text" class="form-control mintextfield" 
 						name="russianpost2_custom_packs[<?php
 						echo $custom_pack_row; ?>][width]" value="<?php 
 							if( isset($custom_pack['width']) ) echo $custom_pack['width'];
 						?>" style="width: 50px;"> x 
-						<input type="text" class="form-control" name="russianpost2_custom_packs[<?php
+						<input type="text" class="form-control mintextfield" name="russianpost2_custom_packs[<?php
 						echo $custom_pack_row; ?>][height]" value="<?php 
 							if( isset($custom_pack['height']) ) echo $custom_pack['height'];
 						?>" style="width: 50px;">
@@ -1697,6 +2546,12 @@
 						<input type="text" class="form-control" name="russianpost2_custom_packs[<?php
 						echo $custom_pack_row; ?>][price]" value="<?php 
 							if( isset($custom_pack['price']) ) echo $custom_pack['price'];
+						?>" >
+					</td>
+					<td class="left">
+						<input type="text" class="form-control" name="russianpost2_custom_packs[<?php
+						echo $custom_pack_row; ?>][dopweight]" value="<?php 
+							if( isset($custom_pack['dopweight']) ) echo $custom_pack['dopweight'];
 						?>" >
 					</td>
 					<td class="left">
@@ -1719,7 +2574,7 @@
 				<?php } ?>
 				<tfoot>
 				<tr>
-					<td colspan=5 class="right">
+					<td colspan=6 class="right">
 						<a href="javascript: addCustomPack();" class="button"
 						><span><?php echo $button_custom_pack_add; ?></span></a>
 					</td>
@@ -1738,6 +2593,7 @@
 					<td class="left"><?php echo $col_packs_name; ?></td>
 					<td class="left"><?php echo $col_packs_sizes; ?></td>
 					<td class="left"><?php echo $col_packs_price; ?></td>
+					<td class="left"><?php echo $col_packs_weight; ?></td>
 					<td class="left"><?php echo $col_packs_status; ?></td>
 				  </tr>
 				</thead>
@@ -1776,6 +2632,12 @@
 						?>" >
 					</td>
 					<td class="left">
+						<input type="text" class="form-control" name="russianpost2_packs[<?php
+						echo $pack['pack_key']; ?>][dopweight]" value="<?php 
+							if( isset($pack['dopweight']) ) echo $pack['dopweight'];
+						?>" >
+					</td>
+					<td class="left">
 						<select class="form-control"  name="russianpost2_packs[<?php
 						echo $pack['pack_key']; ?>][status]">
 						  <?php if ( !empty( $pack['status'] ) ) { ?>
@@ -1793,7 +2655,174 @@
 			</table>
 		
 		</div>
-		<?php /* end 112 */ ?>
+		
+		<div id="tab-customsrok" class="tab-pane">
+			<h3><?php echo $text_customsrok_header; ?></h3>
+			<p><?php echo $text_customsrok_notice; ?></p>
+			
+			<table class="list">
+			<thead>
+				<tr>
+					<td class="left"><b><?php echo $col_russianpost_region_name; ?></b></td>
+					<td class="left"><b><?php echo $col_avia_srok_capital; ?></b></td>
+					<td class="left"><b><?php echo $col_avia_srok_region; ?></b></td>
+					<td class="left"><b><?php echo $col_surface_srok_capital; ?></b></td>
+					<td class="left"><b><?php echo $col_surface_srok_region; ?></b></td>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($current_regions as $i=>$region ) { ?>
+				<tr>
+					<td class="left" style="width: 200px;"
+					><?php echo $region['name']; ?></td>
+					<td class="left" >
+						<?php echo $text_from; ?>
+						<input type="text" class="form-control"   style="width: 100px;"
+						name="russianpost2_customsrok[<?php echo $region['ems_code']; ?>][avia_capital_from]"  
+						value="<?php echo $region['avia_capital_from']; ?>"
+						>
+						
+						<?php echo $text_to; ?>
+						<input type="text" class="form-control"  style="width: 100px;"
+						name="russianpost2_customsrok[<?php echo $region['ems_code']; ?>][avia_capital_to]"  
+						value="<?php echo $region['avia_capital_to']; ?>"
+						></td>
+					</td>
+					<td class="left" >
+						<?php echo $text_from; ?>
+						<input type="text" class="form-control"   style="width: 100px;"
+						name="russianpost2_customsrok[<?php echo $region['ems_code']; ?>][avia_region_from]"  
+						value="<?php echo $region['avia_region_from']; ?>">
+						
+						<?php echo $text_to; ?>
+						<input type="text" class="form-control"  style="width: 100px;"
+						name="russianpost2_customsrok[<?php echo $region['ems_code']; ?>][avia_region_to]"  
+						value="<?php echo $region['avia_region_to']; ?>">
+						
+						</td>
+					</td>
+					<td class="left" >
+						<?php echo $text_from; ?>
+						<input type="text" class="form-control"  style="width: 100px;"
+						name="russianpost2_customsrok[<?php echo $region['ems_code']; ?>][surface_capital_from]"  
+						value="<?php echo $region['surface_capital_from']; ?>">
+						
+						<?php echo $text_to; ?>
+						<input type="text" class="form-control"  style="width: 100px;"
+						name="russianpost2_customsrok[<?php echo $region['ems_code']; ?>][surface_capital_to]"  
+						value="<?php echo $region['surface_capital_to']; ?>"></td>
+					</td>
+					<td class="left" >
+						<?php echo $text_from; ?>
+						<input type="text" class="form-control"  style="width: 100px;"
+						name="russianpost2_customsrok[<?php echo $region['ems_code']; ?>][surface_region_from]"  
+						value="<?php echo $region['surface_region_from']; ?>">
+						
+						<?php echo $text_to; ?>
+						<input type="text" class="form-control"  style="width: 100px;"
+						name="russianpost2_customsrok[<?php echo $region['ems_code']; ?>][surface_region_to]"  
+						value="<?php echo $region['surface_region_to']; ?>"></td>
+					</td>
+				</tr>
+				<?php } ?>
+			</tbody>
+			</table>
+			
+			
+		</div>
+		
+		
+		<?php if( $is_show_sklads ) { ?>
+		<div id="tab-sklads" class="tab-pane">
+		
+			<table id="sklads" class="list">
+				<thead>
+					<tr>
+						<td class="left"><?php echo $col_sklads_multistore; ?></td>
+						<td class="left"><?php echo $col_sklads_region; ?></td>
+						<td class="left"><?php echo $col_sklads_city; ?></td>
+						<td class="left"><?php echo $col_sklads_postcode; ?></td>
+						<td class="left"></td>
+					</tr>
+				</thead>
+				<tbody class="tbody_class"> 
+				<?php $sklads_row = 0; ?>
+				
+				<?php foreach($russianpost2_sklads as $sklad) { ?> 
+				<tr id="sklads-row<?php echo $sklads_row; ?>">
+				
+					<td>	
+						<select class="form-control"
+								name="russianpost2_sklads[<?php echo $sklads_row; ?>][multistore_id]">
+						
+							<?php foreach($multistores as $multistore) { ?> 
+						<option value="<?php echo $multistore['multistore_id']; ?>"  
+							<?php if(  $sklad['multistore_id'] == $multistore['multistore_id'] ) { ?> 
+							selected="selected" <?php } ?> 
+						><?php echo $multistore['name']; ?></option>
+						<?php } ?>
+						
+						</select>
+					</td>
+	
+					<td> 
+						<select class="form-control"  
+							name="russianpost2_sklads[<?php echo $sklads_row; ?>][region]"> 
+							<?php foreach($zones as $zone) { ?>
+							<option value="<?php echo $zone['zone_id']; ?>"  
+							<?php if(  $sklad['region'] == $zone['zone_id'] ) { ?> 
+							selected="selected" <?php } ?> ><?php echo $zone['name']; ?></option>
+							<?php } ?>
+						</select>
+					</td>
+					<td> 
+						<input type="text" class="form-control" 
+								name="russianpost2_sklads[<?php echo $sklads_row; ?>][city]" 
+								value="<?php echo $sklad['city']; ?>" /> 
+					</td>
+					<td>
+						<div><?php echo $entry_sklads_postcode_main; ?></div>
+						<input type="text" class="form-control" 
+						name="russianpost2_sklads[<?php echo $sklads_row; ?>][postcode]" 
+						value="<?php echo $sklad['postcode']; ?>" /> 
+						
+						<div><?php echo $entry_sklads_postcode_parcel_online; ?></div>
+						<input type="text" class="form-control" 
+						name="russianpost2_sklads[<?php echo $sklads_row; ?>][postcode_parcel_online]" 
+						value="<?php echo $sklad['postcode_parcel_online']; ?>" /> 
+						
+						<div><?php echo $entry_sklads_postcode_courier_online; ?></div>
+						<input type="text" class="form-control" 
+						name="russianpost2_sklads[<?php echo $sklads_row; ?>][postcode_courier_online]" 
+						value="<?php echo $sklad['postcode_courier_online']; ?>" />
+						
+						<div><?php echo $entry_sklads_postcode_ems_optimal; ?></div>
+						<input type="text" class="form-control" 
+						name="russianpost2_sklads[<?php echo $sklads_row; ?>][postcode_ems_optimal]" 
+						value="<?php echo $sklad['postcode_ems_optimal']; ?>" /> 
+					</td>
+					 
+					<td>
+						<a href="javascript: $('#sklads-row<?php echo $sklads_row; ?>, .tooltip').remove();" 
+						class="button"><span><?php echo $button_remove; ?></span></a> 
+					</td>
+				</tr>
+				<?php $sklads_row++; ?> 
+				<?php } ?>
+				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan=5 class="text-right">
+						<a href="javascript: addSklads();" class="button"><span><?php echo $button_sklads_add; ?></span></a> 
+					</td>
+				</tr>
+				</tfoot>
+				</table>
+		
+		</div> 
+		<?php } ?>
+		
+		
 		<div id="tab-filters" class="tab-pane">
 		
 				  <p><?php echo $text_russianpost2_filters_dops; ?></p>
@@ -1876,16 +2905,19 @@
 						<table class="noborder">
 						<tr>
 						<td>
-						<select name="russianpost2_product_filters[<?php echo $filter_row; ?>][price_type]" class="form-control">
-							<option value="more" <?php if( !empty( $filter['price_type'] ) && $filter['price_type'] == 'more' ) { ?> selected <?php } ?>><?php echo $text_more; ?></option>
-							
-							<option value="less" <?php if( !empty( $filter['price_type'] ) && $filter['price_type'] == 'less' ) { ?> selected <?php } ?>><?php echo $text_less; ?></option>
-							
-						</select>
+							<?php echo $text_from_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][price_from]" 
+							value="<?php  if( !empty($filter['price_from']) ) echo $filter['price_from']; ?>">
+						
 						</td>
 						<td>&nbsp;</td>
 						<td>
-						<input type="text" class="form-control" name="russianpost2_product_filters[<?php echo $filter_row; ?>][price]" value="<?php  if( !empty($filter['price']) ) echo $filter['price']; ?>">
+							<?php echo $text_to_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][price_to]" 
+							value="<?php  if( !empty($filter['price_to']) ) echo $filter['price_to']; ?>">
+						 
 						</td>
 						</tr>
 						</table>
@@ -1896,16 +2928,17 @@
 						<table class="noborder">
 						<tr>
 						<td>
-						<select name="russianpost2_product_filters[<?php echo $filter_row; ?>][weight_type]" class="form-control">
-							<option value="more" <?php if( !empty( $filter['weight_type'] ) && $filter['weight_type'] == 'more' ) { ?> selected <?php } ?>><?php echo $text_more; ?></option>
-							
-							<option value="less" <?php if( !empty( $filter['weight_type'] ) && $filter['weight_type'] == 'less' ) { ?> selected <?php } ?>><?php echo $text_less; ?></option>
-							
-						</select>
+							<?php echo $text_from_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][weight_from]" 
+							value="<?php  if( !empty($filter['weight_from']) ) echo $filter['weight_from']; ?>">
 						</td>
 						<td>&nbsp;</td>
 						<td>
-						<input type="text" class="form-control" name="russianpost2_product_filters[<?php echo $filter_row; ?>][weight]" value="<?php  if( !empty($filter['weight']) ) echo $filter['weight']; ?>">
+							<?php echo $text_to_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][weight_to]" 
+							value="<?php  if( !empty($filter['weight_to']) ) echo $filter['weight_to']; ?>">
 						</td>
 						</tr>
 						</table>
@@ -1914,32 +2947,90 @@
 						<b><?php echo $text_product_sizes; ?></b><br>
 						<table class="noborder">
 						<tr>
-						<td>
+						<td colspan=5>
 						
-						<select name="russianpost2_product_filters[<?php echo $filter_row; ?>][length_type]" class="form-control">
-							<option value="more" <?php if( !empty( $filter['length_type'] ) && $filter['length_type'] == 'more' ) { ?> selected <?php } ?>><?php echo $text_more; ?></option>
-							
-							<option value="less" <?php if( !empty( $filter['length_type'] ) && $filter['length_type'] == 'less' ) { ?> selected <?php } ?>><?php echo $text_less; ?></option>
-							
-						</select>
+							<?php echo $text_from_inc; ?>
+							 
 						</td>
 						<td>&nbsp;</td>
-						<td>
+						<td colspan=5>
 						
-						<input type="text" class="form-control" name="russianpost2_product_filters[<?php echo $filter_row; ?>][length]" value="<?php  if( !empty($filter['length']) ) echo $filter['length']; ?>" style="width: 30px;">
+							<?php echo $text_to_inc; ?>
+							 
+						</td>
+						</tr>
+						<tr> 
+						<td>
+							<input type="text" class="form-control mintextfield" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][length_from]" 
+							value="<?php  if( !empty($filter['length_from']) ) echo $filter['length_from']; ?>" 
+							style="width: 50px;">
 						</td>
 						<td>
 						x
 						</td>
 						<td>
-						<input type="text" class="form-control" name="russianpost2_product_filters[<?php echo $filter_row; ?>][width]" value="<?php  if( !empty($filter['width']) ) echo $filter['width']; ?>" style="width: 30px;">
+							<input type="text" class="form-control mintextfield" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][width_from]" 
+							value="<?php  if( !empty($filter['width_from']) ) echo $filter['width_from']; ?>" 
+							style="width: 50px;">
 						</td>
 						<td>
 						x
 						</td>
 						<td>
-						<input type="text" class="form-control" name="russianpost2_product_filters[<?php echo $filter_row; ?>][height]" value="<?php  if( !empty($filter['height']) ) echo $filter['height']; ?>" style="width: 30px;">
+							<input type="text" class="form-control mintextfield" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][height_from]" 
+							value="<?php  if( !empty($filter['height_from']) ) echo $filter['height_from']; ?>" 
+							style="width: 50px;">
 						</td>
+						<td>&nbsp;</td>
+						
+						<td>
+							<input type="text" class="form-control mintextfield" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][length_to]" 
+							value="<?php  if( !empty($filter['length_to']) ) echo $filter['length_to']; ?>" 
+							style="width: 50px;">
+						</td>
+						<td>
+						x
+						</td>
+						<td>
+							<input type="text" class="form-control mintextfield" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][width_to]" 
+							value="<?php  if( !empty($filter['width_to']) ) echo $filter['width_to']; ?>" 
+							style="width: 50px;">
+						</td>
+						<td>
+						x
+						</td>
+						<td>
+							<input type="text" class="form-control mintextfield" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][height_to]" 
+							value="<?php  if( !empty($filter['height_to']) ) echo $filter['height_to']; ?>" 
+							style="width: 50px;">
+						</td>
+						</tr>
+						</table>
+						 
+						<br>
+						<b><?php echo $text_count_items; ?></b><br>
+						
+						<table class="noborder">
+						<tr>
+						<td>
+							<?php echo $text_from_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][count_products_from]" 
+							value="<?php  if( !empty($filter['count_products_from']) ) echo $filter['count_products_from']; ?>">
+						</td> 
+						<td>&nbsp;</td>
+						<td>
+							<?php echo $text_to_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_product_filters[<?php echo $filter_row; ?>][count_products_to]" 
+							value="<?php  if( !empty($filter['count_products_to']) ) echo $filter['count_products_to']; ?>">
+						</td> 
 						</tr>
 						</table>
 					</td>
@@ -1988,30 +3079,26 @@
 			
 			
 			<h2><?php echo $text_filters_order_header; ?></h2>
+			
 			<table id="order_filters" class="list">
 				<thead>
 					<tr>
 						<td class="left"><?php echo $col_filter_filtername; ?></td>
-						<td class="left"><?php echo $col_filter_filterproduct; ?></td>
-						<td class="left"><?php echo $col_filter_region; ?></td>
+						<td class="left"><?php echo $col_filter_filterproduct_region; ?></td> 
 						<td class="left"><?php echo $col_filter_sizes; ?></td>
 						<td class="left"><?php echo $col_filter_sort_order; ?></td>
 						<td class="left"></td>
 					</tr>
 				</thead>
 				<tbody class="tbody_class">
-				
-				<?php /* start 0711 */ ?>
-				<?php $cg_row = array(); ?>
-				<?php /* end 0711 */ ?>
+				 
+				<?php $cg_row = array(); ?> 
 				<?php $filter2_row = 0; ?>
 				<?php if( !empty($russianpost2_order_filters) ) { foreach($russianpost2_order_filters as $filter) { ?>
-				
-				<?php /* start 0711 */ ?>
-				<?php $cg_row[$filter2_row] = 1; ?>
-				<?php /* end 0711 */ ?>
+				 
+				<?php $cg_row[$filter2_row] = 1; ?> 
 				<tr id="filter2-row<?php echo $filter2_row; ?>">
-					<td class="left">
+					<td>
 						<input type="hidden" class="form-control" name="russianpost2_order_filters[<?php echo $filter2_row; ?>][filter_id]"  value="<?php if( !empty( $filter['filter_id'] ) ) echo $filter['filter_id']; ?>">
 						
 						
@@ -2019,8 +3106,81 @@
 						
 						
 						<input type="text" class="form-control" name="russianpost2_order_filters[<?php echo $filter2_row; ?>][filtername]"  value="<?php echo $filter['filtername']; ?>"></td>
+					</td> 
+					<td> 
+						<div><b><?php echo $text_filter_regions_type; ?></b></div>
+						<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][filter_regions_type]"
+						 class="form-control">
+							<option value="include_only"
+							<?php if( $filter['filter_regions_type'] == 'include_only' ) { ?> selected <?php } ?>
+							><?php echo $text_filter_regions_type_include_only; ?></option>
+							<option value="exclude"
+							<?php if( $filter['filter_regions_type'] == 'exclude' ) { ?> selected <?php } ?>
+							><?php echo $text_filter_regions_type_exclude; ?></option>
+						
+						</select><br><br> 
+					<!-- --------------------------- -->
+					<table border=0 width=100% id="filter_regions<?php echo $filter2_row; ?>"  class="noborder">
+					<thead>
+					<tr>
+						<td class="left"><?php echo $col_text_region_geozone; ?></td>
+						<td class="left"><?php echo $col_text_city; ?></td>
+						<td class="left"></td>
+					</tr>
+					</thead>
+					<tbody class="tbody2_class">
+<?php if( !empty($filter['filter_regions']) ) { foreach($filter['filter_regions'] as $x=>$filter_region) { ?>	
+
+					<tr id="filter_regions<?php echo $filter2_row; ?>-<?php echo $x; ?>">
+						<td  class="left">
+					
+					<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][filter_regions][<?php echo $x; ?>][ems_code]" class="form-control" style="width: 200px;">
+					
+					
+					<option value=""><?php echo $text_select_region_geozone; ?></option>
+					
+					<?php foreach ($geo_zones as $geo_zone) { ?>
+							<?php if ( 'geozone_'.$geo_zone['geo_zone_id'] == $filter_region['ems_code'] ) { ?>
+							<option value="geozone_<?php echo $geo_zone['geo_zone_id']; ?>" selected="selected"><?php echo $text_geozone.' '.$geo_zone['name']; ?></option>
+							<?php } else { ?>
+							<option value="geozone_<?php echo $geo_zone['geo_zone_id']; ?>"><?php echo $text_geozone.' '.$geo_zone['name']; ?></option>
+							<?php } ?>
+							<?php } ?>
+					
+
+<?php foreach($current_regions as $region ) { ?>
+					<option value="<?php echo $region['ems_code']; ?>"
+					<?php if( $region['ems_code'] == $filter_region['ems_code'] ) { ?> selected <?php } ?>
+					><?php echo $region['name']; ?></option>
+<?php } ?>
+					</select>
 					</td>
-					<td class="left">
+					<td  class="left">
+					<textarea name="russianpost2_order_filters[<?php echo $filter2_row; ?>][filter_regions][<?php echo $x; ?>][cities]" cols="40" rows=3
+					><?php echo $filter_region['cities']; ?></textarea>
+					</td>
+					
+					
+					<td  class="left">
+						<a class="button" onclick="$('#filter_regions<?php echo $filter2_row; ?>-<?php echo $x; ?>, .tooltip').remove();"><span><?php echo $text_del_button; ?></span></a>
+					
+					</td>
+					</tr>
+<?php } } ?>			
+			</tbody>
+			<tfoot>
+			<tr>
+				<td colspan=3 style="padding: 5px;">
+				<a class="button" onclick="addRegionBlock('<?php echo $filter2_row; ?>');"><span><?php echo $button_add_region; ?></span></a>
+					
+				</td>
+			</tr>
+			</tfoot>
+		</table>
+					<!-- --------------------------- -->
+					
+					
+						<div><b><?php echo $text_product_filter ; ?></b></div>
 						<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][productfilter]" class="form-control" >
 						<option value=""><?php echo $text_select_filter; ?></option>
 						<?php if( !empty($russianpost2_product_filters) ) { 
@@ -2033,16 +3193,14 @@
 						<?php } } ?>
 						</select>
 						<br>
-						<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][productfilter_type]" style="width: 170px;" class="form-control" >
+						<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][productfilter_type]" class="form-control" >
 						<option value="all" <?php if( !empty($filter['productfilter_type']) && $filter['productfilter_type'] == 'all' ) { ?> selected <?php } ?>><?php echo $text_all_product; ?></option>
 						<option value="one" <?php if( !empty($filter['productfilter_type']) && $filter['productfilter_type'] == 'one' ) { ?> selected <?php } ?>><?php echo $text_one_product; ?></option>
-						</select>
-						
-						<?php /* start 0711 */ ?>
-						 <br>
+						<option value="except" <?php if( !empty($filter['productfilter_type']) && $filter['productfilter_type'] == 'except' ) { ?> selected <?php } ?>><?php echo $text_except_product; ?></option>
+						</select><?php /* start 0711 */ ?>
 						 <br>
 						<div><b><?php echo $text_customer_group; ?></b></div>
-						<table border=0 width=100% class="servtabs" id="cgtab<?php echo $filter2_row; 
+						<table border=0 width=100% id="cgtab<?php echo $filter2_row; 
 						?>">
 					<tbody>
 <?php if( !empty($filter['customer_groups']) ) { 
@@ -2066,7 +3224,8 @@
 <?php } ?>
 					</select>
 					</td>
-					<td style="padding: 5px;"><a 
+					<td style="padding: 5px;">
+						<a 
 						href="javascript: $('#cg<?php echo $filter2_row; ?>-<?php 
 						echo $cg_row[$filter2_row]; ?>').remove();" 
 						class="button"><span><?php echo $text_del_button; ?></span></a>
@@ -2076,104 +3235,35 @@
 			</tbody>
 			<tfoot>
 			<tr>
-				<td colspan=3 style="padding: 5px;"><a 
-				href="javascript: addCustomerGroupBlock('<?php echo $filter2_row; ?>');" 
-				class="button"><span><?php echo $text_add_button; ?></span></a></td>
-			</tr>
-			</tfoot>
-		</table> 
-						<?php /* end 0711 */ ?>
-					</td>
-					<td class="left">
-						<?php /* start metka-707 */ ?>
-						<?php echo $text_filter_regions_type; ?>
-						<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][filter_regions_type]"
-						 class="form-control">
-							<option value="include_only"
-							<?php if( $filter['filter_regions_type'] == 'include_only' ) { ?> selected <?php } ?>
-							><?php echo $text_filter_regions_type_include_only; ?></option>
-							<option value="exclude"
-							<?php if( $filter['filter_regions_type'] == 'exclude' ) { ?> selected <?php } ?>
-							><?php echo $text_filter_regions_type_exclude; ?></option>
-						
-						</select><br><br>
-						<?php /* end metka-707 */ ?>
-					<!-- --------------------------- -->
-					<table border=0 width=100% id="filter_regions<?php echo $filter2_row; ?>"  class="noborder">
-					<thead>
-					<tr>
-						<td><?php echo $col_text_region_geozone; ?></td>
-						<td><?php echo $col_text_city; ?></td>
-						<td></td>
-					</tr>
-					</thead>
-					<tbody class="tbody2_class">
-<?php if( !empty($filter['filter_regions']) ) { foreach($filter['filter_regions'] as $x=>$filter_region) { ?>	
-
-					<tr id="filter_regions<?php echo $filter2_row; ?>-<?php echo $x; ?>">
-						<td >
-					
-					<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][filter_regions][<?php echo $x; ?>][ems_code]" class="form-control" style="width: 200px;">
-					
-					
-					<option value=""><?php echo $text_select_region_geozone; ?></option>
-					
-					<?php foreach ($geo_zones as $geo_zone) { ?>
-							<?php if ( 'geozone_'.$geo_zone['geo_zone_id'] == $filter_region['ems_code'] ) { ?>
-							<option value="geozone_<?php echo $geo_zone['geo_zone_id']; ?>" selected="selected"><?php echo $text_geozone.' '.$geo_zone['name']; ?></option>
-							<?php } else { ?>
-							<option value="geozone_<?php echo $geo_zone['geo_zone_id']; ?>"><?php echo $text_geozone.' '.$geo_zone['name']; ?></option>
-							<?php } ?>
-							<?php } ?>
-					
-
-<?php foreach($current_regions as $region ) { ?>
-					<option value="<?php echo $region['ems_code']; ?>"
-					<?php if( $region['ems_code'] == $filter_region['ems_code'] ) { ?> selected <?php } ?>
-					><?php echo $region['name']; ?></option>
-<?php } ?>
-					</select>
-					</td>
-					<td>
-					<textarea name="russianpost2_order_filters[<?php echo $filter2_row; ?>][filter_regions][<?php echo $x; ?>][cities]" cols="40" rows=3
-					><?php echo $filter_region['cities']; ?></textarea>
-					</td>
-					
-					
-					<td>
-					<a class="button" onclick="$('#filter_regions<?php echo $filter2_row; ?>-<?php echo $x; ?>, .tooltip').remove();"><span><?php echo $text_del_button; ?></span></a>
-					
-					</td>
-					</tr>
-<?php } } ?>			
-			</tbody>
-			<tfoot>
-			<tr>
 				<td colspan=3 style="padding: 5px;">
+				<a 
+				href="javascript: addCustomerGroupBlock('<?php echo $filter2_row; ?>');" 
+				class="button"><span><?php echo $text_add_button; ?></span></a>
 				
-					<a class="button" onclick="addRegionBlock('<?php echo $filter2_row; ?>');"><span><?php echo $button_add_region; ?></span></a>
-					
 				</td>
 			</tr>
 			</tfoot>
-		</table>
-					<!-- --------------------------- -->
+		</table> 
 					</td>
-					<td class="left"> 
+					<td> 
 						<b><?php echo $text_order_price; ?></b><br>
-						<table  class="noborder">
+						<table class="noborder">
 						<tr>
 						<td>
-						<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][price_type]" class="form-control">
-							<option value="more" <?php if( !empty( $filter['price_type'] ) && $filter['price_type'] == 'more' ) { ?> selected <?php } ?>><?php echo $text_more; ?></option>
+						
+							<?php echo $text_from_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_order_filters[<?php echo $filter2_row; ?>][price_from]" 
+							value="<?php  if( !empty($filter['price_from']) ) echo $filter['price_from']; ?>">
 							
-							<option value="less" <?php if( !empty( $filter['price_type'] ) && $filter['price_type'] == 'less' ) { ?> selected <?php } ?>><?php echo $text_less; ?></option>
-							
-						</select>
 						</td>
 						<td>&nbsp;</td>
 						<td>
-						<input type="text" class="form-control" name="russianpost2_order_filters[<?php echo $filter2_row; ?>][price]" value="<?php  if( !empty($filter['price']) ) echo $filter['price']; ?>">
+							<?php echo $text_to_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_order_filters[<?php echo $filter2_row; ?>][price_to]" 
+							value="<?php  if( !empty($filter['price_to']) ) echo $filter['price_to']; ?>">
+						
 						</td>
 						</tr>
 						</table>
@@ -2181,19 +3271,23 @@
 						<br>
 						<b><?php echo $text_order_weight; ?></b><br>
 						
-						<table  class="noborder">
+						<table class="noborder">
 						<tr>
 						<td>
-						<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][weight_type]" class="form-control">
-							<option value="more" <?php if( !empty( $filter['weight_type'] ) && $filter['weight_type'] == 'more' ) { ?> selected <?php } ?>><?php echo $text_more; ?></option>
+						
+							<?php echo $text_from_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_order_filters[<?php echo $filter2_row; ?>][weight_from]" 
+							value="<?php  if( !empty($filter['weight_from']) ) echo $filter['weight_from']; ?>">
 							
-							<option value="less" <?php if( !empty( $filter['weight_type'] ) && $filter['weight_type'] == 'less' ) { ?> selected <?php } ?>><?php echo $text_less; ?></option>
-							
-						</select>
 						</td>
 						<td>&nbsp;</td>
 						<td>
-						<input type="text" class="form-control" name="russianpost2_order_filters[<?php echo $filter2_row; ?>][weight]" value="<?php  if( !empty($filter['weight']) ) echo $filter['weight']; ?>">
+							<?php echo $text_to_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_order_filters[<?php echo $filter2_row; ?>][weight_to]" 
+							value="<?php  if( !empty($filter['weight_to']) ) echo $filter['weight_to']; ?>">
+							
 						</td>
 						</tr>
 						</table>
@@ -2202,38 +3296,111 @@
 						<b><?php echo $text_order_sizes; ?></b><br>
 						<table  class="noborder">
 						<tr>
-						<td>
-						
-						<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][length_type]" class="form-control">
-							<option value="more" <?php if( !empty( $filter['length_type'] ) && $filter['length_type'] == 'more' ) { ?> selected <?php } ?>><?php echo $text_more; ?></option>
+						<td colspan=5>
+							<?php echo $text_from_inc; ?>
+						</td> 
+						</tr>
+						<tr>  
+							<td>
 							
-							<option value="less" <?php if( !empty( $filter['length_type'] ) && $filter['length_type'] == 'less' ) { ?> selected <?php } ?>><?php echo $text_less; ?></option>
-							
-						</select>
+								<input type="text" class="form-control mintextfield" 
+								name="russianpost2_order_filters[<?php echo $filter2_row; ?>][length_from]" 
+								value="<?php  if( !empty($filter['length_from']) ) echo $filter['length_from']; ?>">
+							</td>
+							<td>
+							x
+							</td>
+							<td>
+								<input type="text" class="form-control mintextfield" 
+								name="russianpost2_order_filters[<?php echo $filter2_row; ?>][width_from]" 
+								value="<?php  if( !empty($filter['width_from']) ) echo $filter['width_from']; ?>">
+							</td>
+							<td>
+							x
+							</td>
+							<td>
+								<input type="text" class="form-control mintextfield" 
+								name="russianpost2_order_filters[<?php echo $filter2_row; ?>][height_from]" 
+								value="<?php  if( !empty($filter['height_from']) ) echo $filter['height_from']; ?>">
+							</td>
+						</tr>
+						<tr>
+						<td colspan=5>
+							<?php echo $text_to_inc; ?>
 						</td>
+						</tr>
+						<tr>
+							<td>
+							
+								<input type="text" class="form-control mintextfield" 
+								name="russianpost2_order_filters[<?php echo $filter2_row; ?>][length_to]" 
+								value="<?php  if( !empty($filter['length_to']) ) echo $filter['length_to']; ?>">
+							</td>
+							<td>
+							x
+							</td>
+							<td>
+								<input type="text" class="form-control mintextfield" 
+								name="russianpost2_order_filters[<?php echo $filter2_row; ?>][width_to]" 
+								value="<?php  if( !empty($filter['width_to']) ) echo $filter['width_to']; ?>">
+							</td>
+							<td>
+							x
+							</td>
+							<td>
+								<input type="text" class="form-control mintextfield" 
+								name="russianpost2_order_filters[<?php echo $filter2_row; ?>][height_to]" 
+								value="<?php  if( !empty($filter['height_to']) ) echo $filter['height_to']; ?>">
+							</td>
+						</tr>
+						</table>
+						
+						
+						<br>
+						<b><?php echo $text_count_products2; ?></b><br>
+						
+						<table class="noborder">
+						<tr>
+						<td>
+							<?php echo $text_from_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_order_filters[<?php echo $filter2_row; ?>][count_products_from]" 
+							value="<?php  if( !empty($filter['count_products_from']) ) echo $filter['count_products_from']; ?>">
+						</td> 
 						<td>&nbsp;</td>
 						<td>
+							<?php echo $text_to_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_order_filters[<?php echo $filter2_row; ?>][count_products_to]" 
+							value="<?php  if( !empty($filter['count_products_to']) ) echo $filter['count_products_to']; ?>">
+						</td> 
+						</tr>
+						</table>
 						
-						<input type="text" class="form-control" name="russianpost2_order_filters[<?php echo $filter2_row; ?>][length]" value="<?php  if( !empty($filter['length']) ) echo $filter['length']; ?>" style="width: 30px;">
-						</td>
+						<br>
+						<b><?php echo $text_count_items2; ?></b><br>
+						
+						<table class="noborder">
+						<tr>
 						<td>
-						x
-						</td>
+							<?php echo $text_from_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_order_filters[<?php echo $filter2_row; ?>][count_items_from]" 
+							value="<?php  if( !empty($filter['count_items_from']) ) echo $filter['count_items_from']; ?>">
+						</td> 
+						<td>&nbsp;</td>
 						<td>
-						<input type="text" class="form-control" name="russianpost2_order_filters[<?php echo $filter2_row; ?>][width]" value="<?php  if( !empty($filter['width']) ) echo $filter['width']; ?>" style="width: 30px;">
-						</td>
-						<td>
-						x
-						</td>
-						<td>
-						<input type="text" class="form-control" name="russianpost2_order_filters[<?php echo $filter2_row; ?>][height]" value="<?php  if( !empty($filter['height']) ) echo $filter['height']; ?>" style="width: 30px;">
-						</td>
+							<?php echo $text_to_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_order_filters[<?php echo $filter2_row; ?>][count_items_to]" 
+							value="<?php  if( !empty($filter['count_items_to']) ) echo $filter['count_items_to']; ?>">
+						</td> 
 						</tr>
 						</table>
 					</td>
 					
 					
-					<td class="left">
+					<td>
 					
 						<b><?php echo $text_status; ?></b><br>
 						<select class="form-control"  name="russianpost2_order_filters[<?php echo $filter2_row; ?>][status]">
@@ -2251,10 +3418,9 @@
 					
 					
 					</td>
-					<td class="left">
+					<td>
 					
-					<a class="button" onclick="$('#filter2-row<?php echo $filter2_row; ?>, .tooltip').remove();"><span><?php echo $text_del_button; ?></span></a>
-					
+						<a class="button" onclick="$('#filter2-row<?php echo $filter2_row; ?>, .tooltip').remove();"><span><?php echo $text_del_button; ?></span></a>
 					</td>
 					</tr>
 				<?php $filter2_row++; ?>
@@ -2262,13 +3428,13 @@
 				</tbody>
 				<tfoot>
 				<tr>
-					<td colspan=6 class="right">
+					<td colspan=5 class="text-right">
+						
 					<a class="button" onclick="addFilter2();"><span><?php echo $button_filter_add; ?></span></a>
-					
 					</td>
 				</tr>
 				</tfoot>
-			</table>
+			</table> 
 			<p><?php echo $text_order_filters_notice; ?></p>
 			
 			
@@ -2285,7 +3451,7 @@
 					<?php echo $entry_product_adds_type; ?>
 				</label>
 				<div class="col-sm-10">
-					<table>
+					<table  class="noborder">
 					<tr>
 						<td>
 							<input type="radio" name="russianpost2_product_adds_type" value="one"
@@ -2388,28 +3554,58 @@
 					<td class="left">
 					
 						<input type="text" class="form-control" name="russianpost2_product_adds[<?php echo $adds_row; ?>][weight]" value="<?php  if( !empty($adds['weight']) ) echo $adds['weight']; ?>">
+						<select name="russianpost2_product_adds[<?php echo $adds_row; ?>][weighttype]" class="form-control" >
 						
+						<option value="fix" 
+						<?php if( !empty($adds['weighttype']) && $adds['weighttype'] == 'fix' ) { ?> selected <?php } ?>
+						><?php echo $text_order_adds_weight_fix; ?></option> 
+						
+						<option value="percent" 
+						<?php if( !empty($adds['weighttype']) && $adds['weighttype'] == 'percent' ) { ?> selected <?php } ?>
+						><?php echo $text_order_adds_weight_perc; ?></option> 
+						
+						</select>
+						
+						<input type="checkbox" 
+								id="russianpost2_product_adds_<?php echo $adds_row; ?>_nosumweight"
+								name="russianpost2_product_adds[<?php echo $adds_row; ?>][nosumweight]"
+								<?php  if( !empty($adds['nosumweight']) ) { ?> checked <?php } ?>
+								><label for="russianpost2_product_adds_<?php echo $adds_row; ?>_nosumweight"
+								><?php echo $text_nosumweight; ?></label>
 					</td>
-					<td class="left"><table>
+					<td class="left"><table  class="noborder">
 						<tr>
 						<td>
 						
-						<input type="text" class="form-control" name="russianpost2_product_adds[<?php echo $adds_row; ?>][length]" value="<?php  if( !empty($adds['length']) ) echo $adds['length']; ?>" style="width: 30px;">
+						<input type="text" class="form-control mintextfield" name="russianpost2_product_adds[<?php echo $adds_row; ?>][length]" value="<?php  if( !empty($adds['length']) ) echo $adds['length']; ?>" style="width: 30px;">
 						</td>
 						<td>
 						x
 						</td>
 						<td>
-						<input type="text" class="form-control" name="russianpost2_product_adds[<?php echo $adds_row; ?>][width]" value="<?php  if( !empty($adds['width']) ) echo $adds['width']; ?>" style="width: 30px;">
+						<input type="text" class="form-control mintextfield" name="russianpost2_product_adds[<?php echo $adds_row; ?>][width]" value="<?php  if( !empty($adds['width']) ) echo $adds['width']; ?>" style="width: 30px;">
 						</td>
 						<td>
 						x
 						</td>
 						<td>
-						<input type="text" class="form-control" name="russianpost2_product_adds[<?php echo $adds_row; ?>][height]" value="<?php  if( !empty($adds['height']) ) echo $adds['height']; ?>" style="width: 30px;">
+						<input type="text" class="form-control mintextfield" name="russianpost2_product_adds[<?php echo $adds_row; ?>][height]" value="<?php  if( !empty($adds['height']) ) echo $adds['height']; ?>" style="width: 30px;">
 						</td>
 						</tr>
 						</table>
+						<input type="checkbox" 
+								id="russianpost2_product_adds_<?php echo $adds_row; ?>_nosumlength"
+								name="russianpost2_product_adds[<?php echo $adds_row; ?>][nosumlength]"
+								<?php  if( !empty($adds['nosumlength']) ) { ?> checked <?php } ?>
+								><label for="russianpost2_product_adds_<?php echo $adds_row; ?>_nosumlength"
+								><?php echo $text_nosumlength; ?></label>
+								<div><input type="checkbox" 
+								id="russianpost2_product_adds_<?php echo $adds_row; ?>_set_split"
+								name="russianpost2_product_adds[<?php echo $adds_row; ?>][set_split]"
+								<?php  if( !empty($adds['set_split']) ) { ?> checked <?php } ?>
+								><label for="russianpost2_product_adds_<?php echo $adds_row; ?>_set_split"
+								><?php echo $text_set_split; ?></label>
+								</div>
 					</td>
 					<td class="left">
 						<select class="form-control"  name="russianpost2_product_adds[<?php echo $adds_row; ?>][caution]">
@@ -2466,7 +3662,7 @@
 					<?php echo $entry_order_adds_type; ?>
 				</label>
 				<div class="col-sm-10">
-					<table>
+					<table  class="noborder">
 					<tr>
 						<td>
 							<input type="radio" name="russianpost2_order_adds_type" value="one"
@@ -2580,6 +3776,7 @@
 					<select name="russianpost2_order_adds[<?php echo $adds2_row; ?>][services][]" class="form-control" style="width: 150px;"><option value=""><?php echo $text_select_filter; ?></option>
 <?php foreach($services_list as $serv) { ?>
 					<option value="<?php echo $serv['service_key']; ?>"
+					<?php if( $serv['is_corporate'] ) { ?>class="corporate_options" <?php } ?>
 					<?php if( $serv['service_key'] == $service_key ) { ?> selected <?php } ?>
 					><?php echo $serv['service_name']; ?></option>
 <?php } ?>
@@ -2614,7 +3811,7 @@
 						
 						<?php /* start 2009 */ ?>
 						<select name="russianpost2_order_adds[<?php echo $adds2_row; ?>][costtype]"
-						 class="form-control" >
+						 class="form-control" style="max-width: 200px;" >
 							<option value="fix"
 							<?php if( !empty($adds['costtype']) && $adds['costtype'] == 'fix' ) { ?> selected <?php } ?>
 							><?php echo $text_order_adds_cost_fix; ?></option>
@@ -2629,6 +3826,10 @@
 							<option value="delivery_perc"
 							<?php if(  !empty($adds['costtype']) && $adds['costtype'] == 'delivery_perc' ) { ?> selected <?php } ?>
 							><?php echo $text_order_adds_cost_delivery_perc; ?></option>
+							<option value="set"
+							<?php if(  !empty($adds['costtype']) && $adds['costtype'] == 'set' ) { ?> selected <?php } ?>
+							><?php echo $text_order_adds_cost_set; ?></option>
+							 
 						</select>
 						<?php /* end 2009 */ ?>
 						
@@ -2636,25 +3837,35 @@
 					<td class="left">
 					
 						<input type="text" class="form-control" name="russianpost2_order_adds[<?php echo $adds2_row; ?>][weight]" value="<?php  if( !empty($adds['weight']) ) echo $adds['weight']; ?>">
+						<select name="russianpost2_order_adds[<?php echo $adds2_row; ?>][weighttype]"
+						 class="form-control" >
+							<option value="fix"
+							<?php if( !empty($adds['weighttype']) && $adds['weighttype'] == 'fix' ) { ?> selected <?php } ?>
+							><?php echo $text_order_adds_weight_fix; ?></option>
+							
+							<option value="percent"
+							<?php if( !empty($adds['weighttype']) && $adds['weighttype'] == 'percent' ) { ?> selected <?php } ?>
+							><?php echo $text_order_adds_weight_perc; ?></option>
+						</select>
 						
 					</td>
 					<td class="left"><table class="noborder">
 						<tr>
 						<td>
 						
-						<input type="text" class="form-control" name="russianpost2_order_adds[<?php echo $adds2_row; ?>][length]" value="<?php  if( !empty($adds['length']) ) echo $adds['length']; ?>" style="width: 30px;">
+						<input type="text" class="form-control mintextfield" name="russianpost2_order_adds[<?php echo $adds2_row; ?>][length]" value="<?php  if( !empty($adds['length']) ) echo $adds['length']; ?>" style="width: 30px;">
 						</td>
 						<td>
 						x
 						</td>
 						<td>
-						<input type="text" class="form-control" name="russianpost2_order_adds[<?php echo $adds2_row; ?>][width]" value="<?php  if( !empty($adds['width']) ) echo $adds['width']; ?>" style="width: 30px;">
+						<input type="text" class="form-control mintextfield" name="russianpost2_order_adds[<?php echo $adds2_row; ?>][width]" value="<?php  if( !empty($adds['width']) ) echo $adds['width']; ?>" style="width: 30px;">
 						</td>
 						<td>
 						x
 						</td>
 						<td>
-						<input type="text" class="form-control" name="russianpost2_order_adds[<?php echo $adds2_row; ?>][height]" value="<?php  if( !empty($adds['height']) ) echo $adds['height']; ?>" style="width: 30px;">
+						<input type="text" class="form-control mintextfield" name="russianpost2_order_adds[<?php echo $adds2_row; ?>][height]" value="<?php  if( !empty($adds['height']) ) echo $adds['height']; ?>" style="width: 30px;">
 						</td>
 						</tr>
 						</table>
@@ -2711,6 +3922,7 @@
 						<td  class="left"><?php echo $col_adds_method_name; ?></td>
 						<td  class="left"><?php echo $col_adds_method_cost; ?></td>
 						<td  class="left"><?php echo $col_adds_method_srok; ?></td>
+						<td  class="left"><?php echo $col_adds_method_filters; ?></td>
 						<td  class="left"><?php echo $col_adds_method_status; ?></td>
 						<td  class="left"></td>
 					</tr>
@@ -2744,7 +3956,7 @@
 						
 						<?php /* start 2009 */ ?>
 						<select name="russianpost2_method_adds[<?php echo $adds3_row; ?>][costtype]"
-						 class="form-control">
+						 class="form-control" style="max-width: 200px;">
 							<option value="fix"
 							<?php if( !empty($adds['costtype']) && $adds['costtype'] == 'fix' ) { ?> selected <?php } ?>
 							><?php echo $text_order_adds_cost_fix; ?></option>
@@ -2776,6 +3988,28 @@
 						value="<?php  if( !empty($adds['srok']) ) echo $adds['srok']; ?>">
 					
 					
+					</td>
+					
+					<td> 
+						<table>
+						<tr>
+						<td>
+							<?php echo $text_from_inc; ?>
+							<input type="text" class="form-control" 
+							name="russianpost2_method_adds[<?php echo $adds3_row; ?>][filter_deliverycost_from]" 
+							value="<?php echo $adds['filter_deliverycost_from']; ?>">
+						
+						</td>
+						<td>&nbsp;</td>
+						<td>
+							<?php echo $text_to_inc; ?>
+							<input type="text" class="form-control"  
+							name="russianpost2_method_adds[<?php echo $adds3_row; ?>][filter_deliverycost_to]" 
+							value="<?php echo $adds['filter_deliverycost_to']; ?>">
+						 
+						</td>
+						</tr>
+						</table>
 					</td>
 					<td class="left">
 						<select class="form-control"  
@@ -2825,8 +4059,8 @@
 			<?php foreach($zones as $zone) { ?>
 			allZonesNumbers[ allZonesNumbers.length ] = <?php echo $zone['zone_id']; ?>;
 			allZonesHash[<?php echo $zone['zone_id']; ?> ] = {
-				"zone_id": "<? echo $zone['zone_id']; ?>",
-				"name": "<? echo $zone['name']; ?>",
+				"zone_id": "<?php echo $zone['zone_id']; ?>",
+				"name": "<?php echo $zone['name']; ?>",
 				"is_assigned": <?php 
 					if( empty($zones_to_select_hash[$zone['zone_id']]) ) 
 						echo "1"; 
@@ -3042,7 +4276,7 @@
 				<div id="apitab_tariff" class="api_tabs" 
 				<?php if( !empty( $subtab2 ) && $subtab2 != 'tariff' ) { 
 				?> style="display: none;" <?php } ?> >
-				<h3><?php echo $api_list['tariff']['api_name']; ?></h3>
+				<h2><?php echo $api_list['tariff']['api_name']; ?></h2>
 					
 				<table class="form">
 				<tr>
@@ -3077,6 +4311,25 @@
 						</select>
 					</td>
 				</tr>	
+				<tr>
+					<td>
+						<?php echo $entry_tariff_inn; ?></td>
+					<td>
+							<input type="text" class="form-control" name="russianpost2_tariff_inn"
+								value="<?php echo $russianpost2_tariff_inn; ?>"
+							>
+							<div><?php echo $entry_tariff_inn_notice; ?></div>
+						</td>
+				</tr>
+				<tr>
+					<td><?php echo $entry_tariff_dogovor; ?></td>
+					<td>
+							<input type="text" class="form-control" name="russianpost2_tariff_dogovor"
+								value="<?php echo $russianpost2_tariff_dogovor; ?>"
+							>
+							<div><?php echo $entry_tariff_dogovor_notice; ?></div>
+						</td>
+				</tr>
 				<tr>
 					<td>
 						<?php echo $entry_api_sort_order; ?>
@@ -3114,6 +4367,17 @@
 							>
 					</td>
 				</tr>	
+				<tr>
+					<td>
+						<?php echo $entry_tariff_curl_lifetime; ?>
+					</td>
+					<td>
+						<input type="text" class="form-control" 
+							name="russianpost2_tariff_curl_lifetime"
+								value="<?php echo $russianpost2_tariff_curl_lifetime; ?>"
+							>
+					</td>
+				</tr>	 
 				</table>	
 				</div>
 					
@@ -3180,6 +4444,16 @@
 				</tr>
 				<tr>
 					<td>
+						<?php echo $entry_postcalc_curl_lifetime; ?>
+					</td>
+					<td>
+						<input type="text" class="form-control" name="russianpost2_postcalc_curl_lifetime"
+								value="<?php echo $russianpost2_postcalc_curl_lifetime; ?>"
+							>
+					</td>
+				</tr> 
+				<tr>
+					<td>
 						<?php echo $entry_postcalc_email; ?>
 					</td>
 					<td>
@@ -3187,6 +4461,18 @@
 							<input type="text" class="form-control" name="russianpost2_api_postcalc_email"
 								value="<?php echo $russianpost2_api_postcalc_email; ?>"
 							>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<?php echo $entry_postcalc_key; ?>
+					</td>
+					<td>
+							<input type="text" class="form-control" name="russianpost2_api_postcalc_key"
+								value="<?php echo $russianpost2_api_postcalc_key; ?>"
+							>
+							<div><?php echo $entry_postcalc_key_notice; ?></div>
+						
 					</td>
 				</tr>
 				<tr>
@@ -3205,8 +4491,11 @@
 				</div>
 					
 				<div id="apitab_otpravka" class="api_tabs"   <?php if( empty( $subtab2 ) || $subtab2 != 'otpravka' ) { ?> style="display: none;" <?php } ?>>
-					<h3><?php echo $api_list['otpravka']['api_name']; ?></h3>
+					<h2><?php echo $api_list['otpravka']['api_name']; ?></h2>
 					
+					<div class="corporate_blocks" 
+					<?php if($russianpost2_clienttype == 'common') { ?> style="display: none;" <?php } ?>
+					>
 					<table class="form">
 					<tr>
 						<td>
@@ -3290,6 +4579,16 @@
 					</tr>
 					<tr>
 						<td>
+							<?php echo $entry_otpravka_curl_lifetime; ?>
+						</td>
+						<td>
+							<input type="text" class="form-control" name="russianpost2_otpravka_curl_lifetime"
+								value="<?php echo $russianpost2_otpravka_curl_lifetime; ?>"
+							>
+						</td>
+					</tr>
+					<tr>
+						<td>
 							<?php echo $entry_api_sort_order; ?>
 						</td>
 						<td>
@@ -3298,8 +4597,74 @@
 							>
 						</td>
 					</tr>
+				</table>
+					
+					<h2><?php echo $header_otprvka_pvz ?></h2>
+				<table class="form">
+					<tr>
+						<td><?php echo $entry_optravka_pvz; ?>
+						</td>
+						<td>
+						
+							<a class="button" onclick="window.location.href='<?php echo $update_pvz_action; ?>'" 
+							><span><?php echo $button_pvz; ?></span></a> 
+			 
+			 
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo $entry_optravka_pvz_mode; ?>
+						</td>
+						<td>
+							<select name="russianpost2_optravka_pvz_mode" class="form-control">
+							  <option value="each_day" <?php if( $russianpost2_optravka_pvz_mode == 'each_day' ) { ?> selected="selected" <?php } ?>><?php echo $entry_optravka_pvz_mode_each_day; ?></option>
+							  <option value="each_week" <?php if( $russianpost2_optravka_pvz_mode == 'each_week' ) { ?> selected="selected" <?php } ?>><?php echo $entry_optravka_pvz_mode_each_week; ?></option>
+							  <option value="each_month" <?php if( $russianpost2_optravka_pvz_mode == 'each_month' ) { ?> selected="selected" <?php } ?>><?php echo $entry_optravka_pvz_mode_each_month; ?></option>
+							  <option value="by_button" <?php if( $russianpost2_optravka_pvz_mode == 'by_button' ) { ?> selected="selected" <?php } ?>><?php echo $entry_optravka_pvz_mode_button; ?></option>
+							  <option value="by_cron" <?php if( $russianpost2_optravka_pvz_mode == 'by_cron' ) { ?> selected="selected" <?php } ?>><?php echo $entry_optravka_pvz_mode_cron; ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo $entry_otpravka_pvz_cron; ?>
+						</td>
+						<td>
+							<?php echo $russianpost2_pvz_cron_command; ?>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo $entry_otpravka_pvz_date; ?>
+						</td>
+						<td>
+							<?php echo $russianpost2_pvz_date; ?>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo $entry_count_pvz; ?>
+						</td>
+						<td>
+							<?php echo $count_pvz; ?>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo $entry_otpravka_pvz_curl_lifetime; ?>
+						</td>
+						<td>
+							<input type="text" class="form-control" 
+								name="russianpost2_otpravka_pvz_curl_lifetime"
+								value="<?php echo $russianpost2_otpravka_pvz_curl_lifetime; ?>"
+							>
+						</td>
+					</tr>
+					
 					</table>
 					
+					</div>
+					<div class="nocorporate_blocks"
+					<?php if($russianpost2_clienttype != 'common') { ?> style="display: none;" <?php } ?>
+					>
+						<?php echo $text_api_unavailable; ?>
+					</div>
 				</div>
 				<?php /* end metka-2006 */ ?>
 				
@@ -3325,7 +4690,7 @@
 				<?php echo $entry_cod_script; ?>
 			</td>
 			<td>
-					<table>
+					<table  class="noborder">
 					<tr>
 						<td>
 							<input type="radio" name="russianpost2_cod_script" value="full"
@@ -3395,7 +4760,7 @@
 				<?php echo $entry_cod_is_cod_included; ?><span  id="cod_block_full"></span>
 			</td>
 			<td>
-				<table>
+				<table  class="noborder">
 					<tr>
 						<td>
 							<input type="radio" name="russianpost2_is_cod_included" value="inmod"
@@ -3480,6 +4845,24 @@
 				value="<?php echo $russianpost2_cod_tariftype_minvalue; ?>" class="form-control"  />
 			</td>
 		</tr>
+		<tr>
+			<td>
+				<?php echo $entry_cod_tariftype_ems_percent; ?>
+			</td>
+			<td>
+				<input type="text" name="russianpost2_cod_tariftype_ems_percent" 
+				value="<?php echo $russianpost2_cod_tariftype_ems_percent; ?>" class="form-control"  />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php echo $entry_cod_tariftype_ems_minvalue; ?>
+			</td>
+			<td>
+				<input type="text" name="russianpost2_cod_tariftype_ems_minvalue" 
+				value="<?php echo $russianpost2_cod_tariftype_ems_minvalue; ?>" class="form-control"  />
+			</td>
+		</tr>
 		<?php /* end 2901 */ ?>
 			
 		
@@ -3497,6 +4880,34 @@
 				  ><?php echo isset($russianpost2_rpcod_title[$language['language_id']]) ? $russianpost2_rpcod_title[$language['language_id']] : '';
 				  ?></textarea><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
 				<?php } ?>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<?php echo $entry_rpcod_ems_title; ?>
+			</td>
+			<td>
+				<?php foreach ($languages as $language) { ?>
+              <textarea cols=70  class="form-control" 
+			  name="russianpost2_rpcod_ems_title[<?php echo $language['language_id']; ?>]"
+			  ><?php echo isset($russianpost2_rpcod_ems_title[$language['language_id']]) ? $russianpost2_rpcod_ems_title[$language['language_id']] : '';
+			  ?></textarea><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
+			 <?php } ?>
+			</td>
+		</tr>
+		
+        <tr>
+			<td>
+				<?php echo $entry_rpcod_ecom_title; ?>
+			</td>
+			<td>
+				<?php foreach ($languages as $language) { ?>
+              <textarea cols=70 class="form-control" 
+			  name="russianpost2_rpcod_ecom_title[<?php echo $language['language_id']; ?>]"
+			  ><?php echo isset($russianpost2_rpcod_ecom_title[$language['language_id']]) ? $russianpost2_rpcod_ecom_title[$language['language_id']] : '';
+			  ?></textarea><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />
+			 <?php } ?>
 			</td>
 		</tr>
 		<tr>
@@ -3553,6 +4964,40 @@
 		
         </form>
      
+		<div id="tab-settings" class="tab-pane">
+			<div style="padding-left: 10px;"><?php echo $text_settings_notice; ?></div>
+		
+			<form action="<?php echo $import_settings; ?>" method="post" enctype="multipart/form-data" 
+			id="form-import_settings" class="form-horizontal">
+				<table class="form">
+				<tr>
+					<td><?php echo $entry_import; ?></td>
+					<td><table  class="noborder">
+						<tr>
+							<td>
+						  <input type="file" name="import_settings" id="input-import" /> 
+							</td>
+							<td>
+							  <a href="javascript: $('#form-import_settings').submit();"  
+							title="<?php echo $button_import_settings; ?>" 
+							class="button"><span><?php echo $button_import_settings; ?></span></a>
+							</td>
+						</tr>
+					</table></td>
+				</tr>
+				<tr>
+					<td><?php echo $entry_export; ?></td>
+					<td><a href="<?php echo $export_settings; ?>"  
+						title="<?php echo $button_export_settings; ?>" 
+						class="button"><span><?php echo $button_export_settings; ?></span></a>
+					</td>
+				</tr>
+				</table>
+			</form>
+			
+			 
+			  
+      </div>
   </div>
 </div>
 </div>
@@ -3657,7 +5102,21 @@ html  += '</div>';
 <?php } ?>
 				  
 html  += '</td>';
-html  += '<td  class="left" style="width: 10%;"><input type="text" name="russianpost2_methods[' + method_row + '][sort_order]" value="'+new_sort_order+'" placeholder="<?php echo $entry_sort_order; ?>" class="form-control" /></td>';
+
+html  += '<td  class="left" style="width: 15%;"><input type="text" name="russianpost2_methods[' + method_row + '][sort_order]" value="'+new_sort_order+'" placeholder="<?php echo $entry_sort_order; ?>" class="form-control" />';
+html  += '<table border=0 width=100% ';
+html  += ' id="sort_orders' + method_row + '"  ';
+html  += ' class="method_filters">';
+html  += '<tbody class="tbody2_class">  </tbody>';
+html  += '<tfoot>';
+html  += '<tr>';
+html  += '<td colspan=3 style="padding: 5px;"><a  ';
+html  += ' href="javascript: addMethodsSort(\'' + method_row + '\');" ';
+html  += '  title="<?php echo $button_add_sort; ?>" ';
+html  += ' class="button"><span>X</span></a></td>';
+html  += '</tr>';
+html  += '</tfoot>';
+html  += '</table></td>';
 
 html  += '<td class="left">';
 html  += '<table border=0 width=100% id="method_filters' + method_row + '"  class="method_filters">';
@@ -3713,6 +5172,7 @@ html  += '</tr>';
 	submethod_row[method_row] = 1;
 	addSubMethod(method_row, 'russianpost2f'+method_code);
 	
+	sorts_hash[method_row] = 0;
 	method_row++;
 }
 
@@ -3761,6 +5221,47 @@ html  += '<div class="input-group pull-left" style="width: 100%;"><span class="i
 html  += '<input type="text" name="russianpost2_methods[' + method_row + '][submethods]['+submethod_row[method_row]+'][title][<?php echo $language['language_id']; ?>]" value="" placeholder="<?php echo $entry_method_title; ?>" class="form-control" />';
 html  += '</div>';
 <?php } ?>
+
+
+html  += '<div  id="desclink' + method_row + '-'+submethod_row[method_row]+'">';
+html  += '<a style="cursor: pointer;" onclick=" $(\'#desc' + method_row + '-'+submethod_row[method_row]+'\').show(); $(\'#desclink' + method_row + '-'+submethod_row[method_row]+'\').hide();"><?php echo $text_description_link; ?></a>';
+html  += '</div>';
+html  += '<div><?php echo $text_tags_notice2; ?></div>';
+html  += '<div style="display: none;" id="desc' + method_row + '-'+submethod_row[method_row]+'" >';
+html  += '<div><?php echo $text_description; ?></div>';
+				  <?php foreach ($languages as $language) { ?>
+html  += '<div class="input-group pull-left" style="width: 100%;"><span class="input-group-addon"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /> </span> ';
+html  += '<textarea rows=3 name="russianpost2_methods[' + method_row + '][submethods]['+submethod_row[method_row]+'][desc][<?php echo $language['language_id']; ?>]" ';
+html  += 'class="form-control"  style="width: 90%;"></textarea>';
+html  += '</div>';
+                  <?php } ?>
+html  += '</div>';
+
+html  += '<hr>';
+html  += '<label for="showmap' + method_row + '-'+submethod_row[method_row]+'" ';
+html  += ' style="font-weight: normal; text-align: left; width: 100%; " ';
+html  += ' ><input type="checkbox"  onclick="showPvzPayBlock(\'' + method_row + '-'+submethod_row[method_row]+'\' )"';
+html  += ' name="russianpost2_methods[' + method_row + '][submethods]['+submethod_row[method_row]+'][showmap]" ';
+html  += ' value="1" id="showmap' + method_row + '-'+submethod_row[method_row]+'" '; 
+html  += ' >&nbsp;&nbsp;<?php echo $text_showmap; ?></label> ';
+
+
+html  += '<div id="showmapPayBlock'+method_row+'-'+submethod_row[method_row]+'" style="display: none;"> ';
+
+html  += '<label style="font-weight: normal; text-align: left; width: 100%; ">';
+html  += '<?php echo $text_maptype; ?>&nbsp;&nbsp;';
+						
+						
+html  += '<select  style="max-width: 400px;"';
+html  += ' name="russianpost2_methods['+method_row+'][submethods]['+submethod_row[method_row]+'][pvztype]">';
+							<?php foreach($russianpost2_mapwidget_codes as $mapwidget) { ?>  
+html  += '<option value="<?php echo $mapwidget['key']; ?>" ><?php echo $mapwidget['name']; ?></option>';
+							<?php } ?>
+						
+html  += '</select>';
+html  += '<div><?php echo $text_maptype_notice; ?></div>';
+html  += '</label>';
+
 html  += '</td>';
 /* start 112 */
 /* start 1606 */
@@ -3770,7 +5271,7 @@ html  += '<td  class="left" style="width: 10%;"><input type="text" name="russian
 html  += '</td>';
 /* end 112 */				  
 						  
-html  += '<td class="left">';
+html  += '<td class="left" style="min-width: 200px;">';
 
 
 html  += '<table border=0 width=100% id="submethod_filters' + method_row + '-'+submethod_row[method_row]+'"  class="submethod_filters">';
@@ -3824,7 +5325,9 @@ html  += '><?php echo $custom['name']; ?></option> ';
 html  += '<option value="" disabled >-------------</option> ';
 <?php /* end 2801 */ ?>
 <?php foreach($services_list as $serv) { ?>
-html  += '<option value="<?php echo $serv['service_key']; ?>"><?php echo $serv['service_name']; ?></option>';
+html  += '<option value="<?php echo $serv['service_key']; ?>" ';
+html  += ' <?php if( $serv['is_corporate'] ) { ?>class="corporate_options" <?php } ?> ';
+html  += ' ><?php echo $serv['service_name']; ?></option>';
 <?php } ?>
 html  += '</select></td>';
 
@@ -3893,7 +5396,7 @@ html  += '</select>';
 html  += '<br><?php echo $text_services_adds; ?><br>';
 /* start 0110 */
 html  += '<table border=0 width=100% ';
-html  += ' id="submethod_adds' + method_row + '-'+submethod_row[method_row]+'"  class="table table-striped table-bordered table-hover"> ';
+html  += ' id="submethod_adds' + method_row + '-'+submethod_row[method_row]+'"  class="noborder"> ';
 html  += ' <tbody class="tbody2_class"></tbody> ';
 html  += ' <tfoot> ';
 html  += ' <tr> ';
@@ -3966,9 +5469,11 @@ function addServiceBlock(method_row, submethod_row2)
 	html  += '<option value="" disabled >-------------</option> ';
 <?php /* end 2801 */ ?>
 					
-	<?php foreach($services_list as $serv) { ?>
-	html  += '<option value="<?php echo $serv['service_key']; ?>"><?php echo $serv['service_name']; ?></option>';
-	<?php } ?>
+<?php foreach($services_list as $serv) { ?>
+html  += '<option value="<?php echo $serv['service_key']; ?>" ';
+html  += ' <?php if( $serv['is_corporate'] ) { ?>class="corporate_options" <?php } ?> ';
+html  += ' ><?php echo $serv['service_name']; ?></option>';
+<?php } ?>
 	html  += '</select></td>';
 	
 	html  += '<td style="padding: 5px;">';
@@ -3995,9 +5500,11 @@ function addServiceBlock2(method_row)
 	var html = '<tr id="order_service_adds'+method_row+'-'+rand+'"><td style="padding: 5px;">';
 	html += '<select name="russianpost2_order_adds[' + method_row + '][services][]" class="form-control" style="width: 150px;"><option value=""><?php echo $text_add_service; ?></option>';
  
-	<?php foreach($services_list as $serv) { ?>
-	html  += '<option value="<?php echo $serv['service_key']; ?>"><?php echo $serv['service_name']; ?></option>';
-	<?php } ?>
+<?php foreach($services_list as $serv) { ?>
+html  += '<option value="<?php echo $serv['service_key']; ?>" ';
+html  += ' <?php if( $serv['is_corporate'] ) { ?>class="corporate_options" <?php } ?> ';
+html  += ' ><?php echo $serv['service_name']; ?></option>';
+<?php } ?>
 	html  += '</select></td>';
 	
 	html  += '<td style="padding: 5px;">';
@@ -4076,6 +5583,11 @@ function set_tab()
 		document.getElementById('hiddentab').value = 'link-tab-filters';
 	}
 	
+	if( $('#link-tab-sklads').attr('aria-expanded') == 'true' )
+	{
+		document.getElementById('hiddentab').value = 'link-tab-sklads';
+	}
+	
 	/* start 112 */
 	if( $('#link-tab-packs').attr('aria-expanded') == 'true' )
 	{
@@ -4109,6 +5621,10 @@ function set_tab()
 		document.getElementById('hiddentab').value = 'link-tab-support';
 	}
 	
+	if( $('#link-tab-settings').attr('aria-expanded') == 'true' )
+	{
+		document.getElementById('hiddentab').value = 'link-tab-settings';
+	}
 }
 $('.htabs a').tabs();
 $('.htabs2 a').tabs();
@@ -4154,17 +5670,22 @@ function addCustomPack()
 	html  += '<td class="left"> ';
 	
 	
-	html  += '<input type="text" class="form-control"  ';
-	html  += ' name="russianpost2_custom_packs['+custom_pack_row+'][length]" style="width: 50px;"> x ';
-	html  += '<input type="text" class="form-control"  ';
-	html  += ' name="russianpost2_custom_packs['+custom_pack_row+'][width]" style="width: 50px;"> x ';
-	html  += '<input type="text" class="form-control"  ';
-	html  += ' name="russianpost2_custom_packs['+custom_pack_row+'][height]" style="width: 50px;">';
+	html  += '<input type="text" class="form-control mintextfield"  ';
+	html  += ' name="russianpost2_custom_packs['+custom_pack_row+'][length]" > x ';
+	html  += '<input type="text" class="form-control mintextfield"  ';
+	html  += ' name="russianpost2_custom_packs['+custom_pack_row+'][width]" > x ';
+	html  += '<input type="text" class="form-control mintextfield"  ';
+	html  += ' name="russianpost2_custom_packs['+custom_pack_row+'][height]" >';
 	
 	html  += '</td>';
 	html  += '<td class="left">';
 	html  += '<input type="text" class="form-control" name="russianpost2_custom_packs['+custom_pack_row+'][price]" value="" >';
 	html  += '</td>';
+	html  += '<td>';
+	html  += '<input type="text" class="form-control" name="russianpost2_custom_packs['+custom_pack_row+'][dopweight]"  >';
+	html  += '</td>';
+	
+	
 	html  += '<td class="left">';
 	html  += '<select class="form-control"  name="russianpost2_custom_packs['+custom_pack_row+'][status]">';
 	html  += '<option value="1" selected="selected"><?php echo $text_enabled; ?></option>';
@@ -4232,19 +5753,22 @@ function addFilter()
 	
 	html  += '<td>';
 	html  += '<b><?php echo $text_product_price; ?></b><br>';
-	html  += '<table class="noborder">';
+	html  += '<table  class="noborder">';
 	html  += '<tr>';
 	html  += '<td>';
-	html  += '<select name="russianpost2_product_filters[' + filter_row + '][price_type]" class="form-control">';
-	html  += '<option value="more"><?php echo $text_more; ?></option>';
-							
-	html  += '<option value="less"><?php echo $text_less; ?></option>';
-							
-	html  += '</select>';
+	html  += '<?php echo $text_from_inc; ?>';
+	html  += '<input type="text" class="form-control" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][price_from]" ';
+	html  += 'value="">';
+						
 	html  += '</td>';
 	html  += '<td>&nbsp;</td>';
 	html  += '<td>';
-	html  += '<input type="text" class="form-control" name="russianpost2_product_filters[' + filter_row + '][price]" value="">';
+	html  += '<?php echo $text_to_inc; ?>';
+	html  += '<input type="text" class="form-control" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][price_to]" ';
+	html  += 'value="">';
+						 
 	html  += '</td>';
 	html  += '</tr>';
 	html  += '</table>';
@@ -4252,51 +5776,116 @@ function addFilter()
 	html  += '<br>';
 	html  += '<b><?php echo $text_product_weight; ?></b><br>';
 						
-	html  += '<table class="noborder">';
+	html  += '<table  class="noborder">';
 	html  += '<tr>';
 	html  += '<td>';
-	html  += '<select name="russianpost2_product_filters[' + filter_row + '][weight_type]" class="form-control">';
-	html  += '<option value="more"><?php echo $text_more; ?></option>';
-							
-	html  += '<option value="less"><?php echo $text_less; ?></option>';
-							
-	html  += '</select>';
+	html  += '<?php echo $text_from_inc; ?>';
+	html  += '<input type="text" class="form-control" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][weight_from]" ';
+	html  += 'value="">';
 	html  += '</td>';
 	html  += '<td>&nbsp;</td>';
 	html  += '<td>';
-	html  += '<input type="text" class="form-control" name="russianpost2_product_filters[' + filter_row + '][weight]" value="">';
+	html  += '<?php echo $text_to_inc; ?>';
+	html  += '<input type="text" class="form-control" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][weight_to]" ';
+	html  += 'value="">';
 	html  += '</td>';
 	html  += '</tr>';
 	html  += '</table>';
 						
 	html  += '<br>';
 	html  += '<b><?php echo $text_product_sizes; ?></b><br>';
-	html  += '<table class="noborder">';
+	html  += '<table  class="noborder">';
 	html  += '<tr>';
-	html  += '<td>';
+	html  += '<td colspan=5>';
 						
-	html  += '<select name="russianpost2_product_filters[' + filter_row + '][length_type]" class="form-control">';
-	html  += '<option value="more"><?php echo $text_more; ?></option>';
-							
-	html  += '<option value="less"><?php echo $text_less; ?></option>';
-							
-	html  += '</select>';
+	html  += '<?php echo $text_from_inc; ?>';
+							 
 	html  += '</td>';
 	html  += '<td>&nbsp;</td>';
-	html  += '<td>';
+	html  += '<td colspan=5>';
 						
-	html  += '<input type="text" class="form-control" name="russianpost2_product_filters[' + filter_row + '][length]" value="" style="width: 30px;">';
+	html  += '<?php echo $text_to_inc; ?>';
+							 
 	html  += '</td>';
-	html  += '<td>x</td>';
+	html  += '</tr>';
+	html  += '<tr> ';
 	html  += '<td>';
-	html  += '<input type="text" class="form-control" name="russianpost2_product_filters[' + filter_row + '][width]" value="" style="width: 30px;">';
+	html  += '<input type="text" class="form-control mintextfield" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][length_from]" ';
+	html  += 'value="" ';
+	html  += 'style="width: 50px;">';
 	html  += '</td>';
-	html  += '<td>x</td>';
 	html  += '<td>';
-	html  += '<input type="text" class="form-control" name="russianpost2_product_filters[' + filter_row + '][height]" value="" style="width: 30px;">';
+	html  += 'x';
+	html  += '</td>';
+	html  += '<td>';
+	html  += '<input type="text" class="form-control mintextfield" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][width_from]" ';
+	html  += 'value="" ';
+	html  += 'style="width: 50px;">';
+	html  += '</td>';
+	html  += '<td>';
+	html  += 'x';
+	html  += '</td>';
+	html  += '<td>';
+	html  += '<input type="text" class="form-control mintextfield" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][height_from]" ';
+	html  += 'value="" ';
+	html  += 'style="width: 50px;">';
+	html  += '</td>';
+	html  += '<td>&nbsp;</td>';
+						
+	html  += '<td>';
+	html  += '<input type="text" class="form-control mintextfield" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][length_to]" ';
+	html  += 'value="" ';
+	html  += 'style="width: 50px;">';
+	html  += '</td>';
+	html  += '<td>';
+	html  += 'x';
+	html  += '</td>';
+	html  += '<td>';
+	html  += '<input type="text" class="form-control mintextfield" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][width_to]" ';
+	html  += 'value="" ';
+	html  += 'style="width: 50px;">';
+	html  += '</td>';
+	html  += '<td>';
+	html  += 'x';
+	html  += '</td>';
+	html  += '<td>';
+	html  += '<input type="text" class="form-control mintextfield" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][height_to]" ';
+	html  += 'value="" ';
+	html  += 'style="width: 50px;">';
 	html  += '</td>';
 	html  += '</tr>';
 	html  += '</table>';
+						 
+	html  += '<br>';
+	html  += '<b><?php echo $text_count_items; ?></b><br>';
+						
+	html  += '<table class="noborder">';
+	html  += '<tr>';
+	html  += '<td>';
+	html  += '<?php echo $text_from_inc; ?>';
+	html  += '<input type="text" class="form-control" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][count_products_from]" ';
+	html  += 'value="">';
+	html  += '</td> ';
+	html  += '<td>&nbsp;</td>';
+	html  += '<td>';
+	html  += '<?php echo $text_to_inc; ?>';
+	html  += '<input type="text" class="form-control" ';
+	html  += 'name="russianpost2_product_filters[' + filter_row + '][count_products_to]" ';
+	html  += 'value="">';
+	html  += '</td> ';
+	html  += '</tr>';
+	html  += '</table>';
+						 
+	
 	
 	html  += '</td>';
 	
@@ -4325,61 +5914,25 @@ function addFilter()
 var filter2_row = <?php echo $filter2_row; ?>;
 
 function addFilter2() 
-{
-	<?php /* start 0711 */ ?>
+{ 
 	filter2_row++;
-	cg_row[filter2_row] = 1;
-	<?php /* end 0711 */ ?>
+	cg_row[filter2_row] = 1; 
 	html = '';
 	html  += '<tr id="filter2-row'+filter2_row+'">';
-	html  += '<td class="left">';
+	html  += '<td>';
 	html  += '<input type="hidden" class="form-control" name="russianpost2_order_filters['+filter2_row+'][filter_id]">';
 						
 						
 	html  += '<input type="hidden" class="form-control" name="russianpost2_order_filters['+filter2_row+'][type]"  value="order">';
 						
 						
-	html  += '<input type="text" class="form-control" name="russianpost2_order_filters['+filter2_row+'][filtername]" >';
+	html  += '<input type="text" class="form-control" name="russianpost2_order_filters['+filter2_row+'][filtername]" ></td>';
 	html  += '</td>';
-	html  += '<td class="left">';
+	html  += '<td>';
 	
-	
-	html  += '<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][productfilter]" class="form-control" >';
-	html  += '<option value=""><?php echo $text_select_filter; ?></option>';
-						<?php if( !empty($russianpost2_product_filters) ) { 
-						foreach($russianpost2_product_filters as $ft) { ?>
-						
-	html  += '<option value="<?php echo $ft['filter_id']; ?>"><?php echo $ft['filtername']; ?></option>';
-						
-						<?php } } ?>
-	html  += '</select>';
-	html  += '<br>';
-	html  += '<select name="russianpost2_order_filters[<?php echo $filter2_row; ?>][productfilter_type]" style="width: 170px;" class="form-control" >';
-	html  += '<option value="all"><?php echo $text_all_product; ?></option>';
-	html  += '<option value="one"><?php echo $text_one_product; ?></option>';
-	html  += '</select>';
-	
-	
-	
-	html  += '<br>';
-	html  += '<div><b><?php echo $text_customer_group; ?></b></div>';
-	html  += '<table border=0 width=100% id="cgtab'+filter2_row+'" class="servtabs">';
-	html  += '<tbody>			';
-	html  += '</tbody>';
-	html  += '<tfoot>';
-	html  += '<tr>';
-	html  += '<td colspan=3 style="padding: 5px;"><a class="button" ';
-	html  += 'href="javascript: addCustomerGroupBlock(\''+filter2_row+'\');"><span><?php echo $text_add_button; ?></span></a></td>';
-	html  += '</tr>';
-	html  += '</tfoot>';
-	html  += '</table> ';
-	
-	
-	html  += '</td>';
-	html  += '<td class="left">';
-	
-	<?php /* start metka-707 */ ?>
-	html += '<?php echo $text_filter_regions_type; ?>';
+	 
+	 
+	html  += '<div><b><?php echo $text_filter_regions_type ; ?></b></div>';
 						
 	html += '<select name="russianpost2_order_filters['+filter2_row+'][filter_regions_type]" ';
 	html += ' class="form-control">';
@@ -4387,9 +5940,8 @@ function addFilter2()
 	html += '<option value="exclude"><?php echo $text_filter_regions_type_exclude; ?></option>';
 						
 	html += '</select><br><br>';
-	
-	<?php /* end metka-707 */ ?>		
-	html  += '<table border=0 width=100% id="filter_regions'+filter2_row+'"   class="noborder">';
+	 
+	html  += '<table border=0 width=100% id="filter_regions'+filter2_row+'"  class="noborder">';
 	html  += '<thead>';
 	html  += '<tr>';
 	html  += '<td class="left"><?php echo $col_text_region_geozone; ?></td>';
@@ -4401,29 +5953,67 @@ function addFilter2()
 	html  += '</tbody>';
 	html  += '<tfoot>';
 	html  += '<tr>';
-	html  += '<td colspan=3 style="padding: 5px;"><a class="button" onclick="addRegionBlock(\''+filter2_row+'\');"><span><?php echo $button_add_region; ?></span></a></td>';
+	html  += '<td colspan=3 style="padding: 5px;">';
+	html  += '<a href="javascript: addRegionBlock(\''+filter2_row+'\');" class="button"><span><?php echo $button_add_region; ?></span></a></td>';
 	html  += '</tr>';
 	html  += '</tfoot>';
 	html  += '</table>';
 	
 	
+	html  += '<div><b><?php echo $text_product_filter ; ?></b></div>';
+	
+	html  += '<select name="russianpost2_order_filters['+filter2_row+'][productfilter]" class="form-control" >';
+	html  += '<option value=""><?php echo $text_select_filter; ?></option>';
+						<?php if( !empty($russianpost2_product_filters) ) { 
+						foreach($russianpost2_product_filters as $ft) { ?>
+						
+	html  += '<option value="<?php echo $ft['filter_id']; ?>"><?php echo $ft['filtername']; ?></option>';
+						
+						<?php } } ?>
+	html  += '</select>';
+	html  += '<br>';
+	html  += '<select name="russianpost2_order_filters['+filter2_row+'][productfilter_type]" class="form-control" >';
+	html  += '<option value="all"><?php echo $text_all_product; ?></option>';
+	html  += '<option value="one"><?php echo $text_one_product; ?></option>';
+	html  += '<option value="except"><?php echo $text_except_product; ?></option>';
+	 
+	
+	html  += '<br>';
+	html  += '<div><b><?php echo $text_customer_group; ?></b></div>';
+	html  += '<table border=0 width=100% id="cgtab'+filter2_row+'"   class="noborder">';
+	html  += '<tbody>			';
+	html  += '</tbody>';
+	html  += '<tfoot>';
+	html  += '<tr>';
+	html  += '<td colspan=3 style="padding: 5px;"><a href="javascript: addCustomerGroupBlock(\''+filter2_row+'\');" class="button" ';
+	html  += '><span>+</span></a></td>';
+	html  += '</tr>';
+	html  += '</tfoot>';
+	html  += '</table> '; 
+	
+	
+	html  += '</select>';
 	
 	html  += '</td>';
-	html  += '<td class="left"> ';
+	html  += '<td> ';
 	html  += '<b><?php echo $text_order_price; ?></b><br>';
-	html  += '<table class="noborder">';
+	html  += '<table  class="noborder">';
 	html  += '<tr>';
 	html  += '<td>';
-	html  += '<select name="russianpost2_order_filters['+filter2_row+'][price_type]" class="form-control">';
-	html  += '<option value="more"><?php echo $text_more; ?></option>';
+						
+	html  += '<?php echo $text_from_inc; ?>';
+	html  += '<input type="text" class="form-control" ';
+	html  += 'name="russianpost2_order_filters['+filter2_row+'][price_from]" ';
+	html  += 'value="">';
 							
-	html  += '<option value="less"><?php echo $text_less; ?></option>';
-							
-	html  += '</select>';
 	html  += '</td>';
 	html  += '<td>&nbsp;</td>';
 	html  += '<td>';
-	html  += '<input type="text" class="form-control" name="russianpost2_order_filters['+filter2_row+'][price]" value="">';
+	html  += '<?php echo $text_to_inc; ?>';
+	html  += '<input type="text" class="form-control" ';
+	html  += 'name="russianpost2_order_filters['+filter2_row+'][price_to]" ';
+	html  += 'value="">';
+						
 	html  += '</td>';
 	html  += '</tr>';
 	html  += '</table>';
@@ -4431,55 +6021,135 @@ function addFilter2()
 	html  += '<br>';
 	html  += '<b><?php echo $text_order_weight; ?></b><br>';
 						
-	html  += '<table class="noborder">';
+	html  += '<table  class="noborder">';
 	html  += '<tr>';
 	html  += '<td>';
-	html  += '<select name="russianpost2_order_filters['+filter2_row+'][weight_type]" class="form-control">';
-	html  += '<option value="more"><?php echo $text_more; ?></option>';
+						
+	html  += '<?php echo $text_from_inc; ?>';
+	html  += '<input type="text" class="form-control" ';
+	html  += 'name="russianpost2_order_filters['+filter2_row+'][weight_from]" ';
+	html  += 'value="">';
 							
-	html  += '<option value="less"><?php echo $text_less; ?></option>';
-							
-	html  += '</select>';
 	html  += '</td>';
 	html  += '<td>&nbsp;</td>';
 	html  += '<td>';
-	html  += '<input type="text" class="form-control" name="russianpost2_order_filters['+filter2_row+'][weight]" value="">';
+	html  += '<?php echo $text_to_inc; ?>';
+	html  += '<input type="text" class="form-control" ';
+	html  += 'name="russianpost2_order_filters['+filter2_row+'][weight_to]" ';
+	html  += 'value="">';
+							
 	html  += '</td>';
 	html  += '</tr>';
 	html  += '</table>';
 						
 	html  += '<br>';
 	html  += '<b><?php echo $text_order_sizes; ?></b><br>';
-	html  += '<table class="noborder">';
+	html  += '<table  class="noborder">';
 	html  += '<tr>';
+	html  += '<td colspan=5>';
+	html  += '<?php echo $text_from_inc; ?>';
+	html  += '</td> ';
+	html  += '</tr>';
+	html  += '<tr>  ';
 	html  += '<td>';
-						
-	html  += '<select name="russianpost2_order_filters['+filter2_row+'][length_type]" class="form-control">';
-	html  += '<option value="more"><?php echo $text_more; ?></option>';
 							
-	html  += '<option value="less"><?php echo $text_less; ?></option>';
-							
-	html  += '</select>';
+	html  += '<input type="text" class="form-control mintextfield" ';
+	html  += 'name="russianpost2_order_filters['+filter2_row+'][length_from]" ';
+	html  += 'value="">';
 	html  += '</td>';
-	html  += '<td>&nbsp;</td>';
 	html  += '<td>';
-						
-	html  += '<input type="text" class="form-control" name="russianpost2_order_filters['+filter2_row+'][length]" value="" style="width: 30px;">';
+	html  += 'x';
 	html  += '</td>';
-	html  += '<td>x</td>';
 	html  += '<td>';
-	html  += '<input type="text" class="form-control" name="russianpost2_order_filters['+filter2_row+'][width]" value="" style="width: 30px;">';
+	html  += '<input type="text" class="form-control mintextfield" ';
+	html  += 'name="russianpost2_order_filters['+filter2_row+'][width_from]" ';
+	html  += 'value="">';
 	html  += '</td>';
-	html  += '<td>x</td>';
 	html  += '<td>';
-	html  += '<input type="text" class="form-control" name="russianpost2_order_filters['+filter2_row+'][height]" value="" style="width: 30px;">';
+	html  += 'x';
+	html  += '</td>';
+	html  += '<td>';
+	html  += '<input type="text" class="form-control mintextfield" ';
+	html  += 'name="russianpost2_order_filters['+filter2_row+'][height_from]"  ';
+	html  += 'value="">';
 	html  += '</td>';
 	html  += '</tr>';
-	html  += '</table>';
+	html  += '<tr>';
+	html  += '<td colspan=5>';
+	html  += '<?php echo $text_to_inc; ?>';
+	html  += '</td>';
+	html  += '</tr>';
+	html  += '<tr>';
+	html  += '<td>';
+	html  += ' <input type="text" class="form-control mintextfield" ';
+	html  += 'name="russianpost2_order_filters['+filter2_row+'][length_to]" ';
+	html  += ' value="">';
+	html  += ' </td>';
+	html  += ' <td>';
+	html  += ' x';
+	html  += ' </td>';
+	html  += ' <td>';
+	html  += ' <input type="text" class="form-control mintextfield" ';
+	html  += ' name="russianpost2_order_filters['+filter2_row+'][width_to]" ';
+	html  += ' value="">';
+	html  += ' </td>';
+	html  += ' <td>';
+	html  += ' x';
+	html  += ' </td>';
+	html  += ' <td>';
+	html  += ' <input type="text" class="form-control mintextfield" ';
+	html  += ' name="russianpost2_order_filters['+filter2_row+'][height_to]" ';
+	html  += ' value="">';
+	html  += ' </td>';
+	html  += ' </tr>';
+	html  += ' </table>';
+						
+						
+	html  += ' <br>';
+	html  += ' <b><?php echo $text_count_products2; ?></b><br>';
+						
+	html  += ' <table class="noborder">';
+	html  += ' <tr>';
+	html  += ' <td>';
+	html  += ' <?php echo $text_from_inc; ?>';
+	html  += ' <input type="text" class="form-control" ';
+	html  += ' name="russianpost2_order_filters['+filter2_row+'][count_products_from]" ';
+	html  += ' value="">';
+	html  += ' </td> ';
+	html  += ' <td>&nbsp;</td>';
+	html  += ' <td>';
+	html  += ' <?php echo $text_to_inc; ?>';
+	html  += ' <input type="text" class="form-control" ';
+	html  += ' name="russianpost2_order_filters['+filter2_row+'][count_products_to]" ';
+	html  += ' value="">';
+	html  += ' </td> ';
+	html  += ' </tr>';
+	html  += ' </table>';
+						
+	html  += ' <br>';
+	html  += ' <b><?php echo $text_count_items2; ?></b><br>';
+						
+	html  += ' <table class="noborder">';
+	html  += ' <tr>';
+	html  += ' <td>';
+	html  += ' <?php echo $text_from_inc; ?>';
+	html  += ' <input type="text" class="form-control" ';
+	html  += ' name="russianpost2_order_filters['+filter2_row+'][count_items_from]" ';
+	html  += ' value="">';
+	html  += ' </td> ';
+	html  += ' <td>&nbsp;</td>';
+	html  += ' <td>';
+	html  += ' <?php echo $text_to_inc; ?>';
+	html  += ' <input type="text" class="form-control" ';
+	html  += ' name="russianpost2_order_filters['+filter2_row+'][count_items_to]" ';
+	html  += ' value="">';
+	html  += ' </td> ';
+	html  += ' </tr>';
+	html  += ' </table>';
 	html  += '</td>';
 					
 					
-	html  += '<td class="left">';
+	html  += '<td>';
 					
 	html  += '<b><?php echo $text_status; ?></b><br>';
 	html  += '<select class="form-control"  name="russianpost2_order_filters['+filter2_row+'][status]">';
@@ -4498,6 +6168,7 @@ function addFilter2()
 	
 	$('#order_filters .tbody_class').append(html);
 }
+
 
 function filterautocomplete(filter_row)
 {
@@ -4606,24 +6277,50 @@ function addAdds()
 	html  += '<td class="left">';
 					
 	html  += '<input type="text" class="form-control" name="russianpost2_product_adds['+adds_row+'][weight]">';
+	html += '<select name="russianpost2_product_adds['+adds_row+'][weighttype]" ';
+	html += ' class="form-control" > ';
+	html += '<option value="fix" ><?php echo $text_order_adds_weight_fix; ?></option> ';
+	html += '<option value="percent" ><?php echo $text_order_adds_weight_perc; ?></option> ';
+	html += '</select>'; 
 					
+	html  += '<input type="checkbox" ';
+	html  += 'id="russianpost2_product_adds_'+adds_row+'_nosumweight" ';
+	html  += 'name="russianpost2_product_adds['+adds_row+'][nosumlength]" ';
+	html  += '><label for="russianpost2_product_adds_'+adds_row+'_nosumweight" ';
+	html  += '><?php echo $text_nosumweight; ?></label>';
+	
 	html  += '</td>';
 	html  += '<td class="left"><table class="noborder">';
 	html  += '<tr>';
 	html  += '<td>';
 						
-	html  += '<input type="text" class="form-control" name="russianpost2_product_adds['+adds_row+'][length]" style="width: 30px;">';
+	html  += '<input type="text" class="form-control mintextfield" name="russianpost2_product_adds['+adds_row+'][length]" style="width: 30px;">';
 	html  += '</td>';
 	html  += '<td>x</td>';
 	html  += '<td>';
-	html  += '<input type="text" class="form-control" name="russianpost2_product_adds['+adds_row+'][width]" style="width: 30px;">';
+	html  += '<input type="text" class="form-control mintextfield" name="russianpost2_product_adds['+adds_row+'][width]" style="width: 30px;">';
 	html  += '</td>';
 	html  += '<td>x</td>';
 	html  += '<td>';
-	html  += '<input type="text" class="form-control" name="russianpost2_product_adds['+adds_row+'][height]" style="width: 30px;">';
+	html  += '<input type="text" class="form-control mintextfield" name="russianpost2_product_adds['+adds_row+'][height]" style="width: 30px;">';
 	html  += '</td>';
 	html  += '</tr>';
 	html  += '</table>';
+	
+	
+	html  += '<input type="checkbox" ';
+	html  += 'id="russianpost2_product_adds_'+adds_row+'_nosumlength" ';
+	html  += 'name="russianpost2_product_adds['+adds_row+'][nosumlength]" ';
+	html  += '><label for="russianpost2_product_adds_'+adds_row+'_nosumlength" ';
+	html  += '><?php echo $text_nosumlength; ?></label>';
+	
+	html  += '<div><input type="checkbox" ';
+	html  += 'id="russianpost2_product_adds_'+adds_row+'_set_split" ';
+	html  += 'name="russianpost2_product_adds['+adds_row+'][set_split]" '; 
+	html  += '><label for="russianpost2_product_adds_'+adds_row+'_set_split" ';
+	html  += '><?php echo $text_set_split; ?></label></div>';
+	
+	
 	html  += '</td>';
 	html  += '<td class="left">';
 	html  += '<select class="form-control"  name="russianpost2_product_adds['+adds_row+'][caution]">';
@@ -4745,13 +6442,14 @@ function addAdds2()
 					
 	html += '<input type="text" class="form-control" name="russianpost2_order_adds['+adds2_row+'][cost]" value="">';
 	<?php /* start 2009 */ ?>
-	html += '<select name="russianpost2_order_adds['+adds2_row+'][costtype]" class="form-control" >';
+	html += '<select name="russianpost2_order_adds['+adds2_row+'][costtype]" class="form-control"  style="max-width: 200px;">';
 	html += '<option value="fix"><?php echo $text_order_adds_cost_fix; ?></option>';
 	<?php /* start 2401 */ ?>
 	html += '<option value="fix2products"><?php echo $text_order_adds_cost_fix2products; ?></option>';
 	<?php /* end 2401 */ ?>
 	html += '<option value="products_perc"><?php echo $text_order_adds_cost_products_perc; ?></option>';
 	html += '<option value="delivery_perc"><?php echo $text_order_adds_cost_delivery_perc; ?></option>';
+	html += '<option value="set"><?php echo $text_order_adds_cost_set; ?></option>';
 	html += '</select>';
 	<?php /* end 2009 */ ?>
 						
@@ -4759,21 +6457,26 @@ function addAdds2()
 	html += '<td>';
 					
 	html += '<input type="text" class="form-control" name="russianpost2_order_adds['+adds2_row+'][weight]" value="">';
+	html += '<select name="russianpost2_order_adds['+adds2_row+'][weighttype]" ';
+	html += ' class="form-control" > ';
+	html += '<option value="fix" ><?php echo $text_order_adds_weight_fix; ?></option> ';
+	html += '<option value="percent" ><?php echo $text_order_adds_weight_perc; ?></option> ';
+	html += '</select>'; 
 						
 	html += '</td>';
 	html += '<td><table class="noborder">';
 	html += '<tr>';
 	html += '<td>';
 						
-	html += '<input type="text" class="form-control" name="russianpost2_order_adds['+adds2_row+'][length]" value="" style="width: 30px;">';
+	html += '<input type="text" class="form-control mintextfield" name="russianpost2_order_adds['+adds2_row+'][length]" value="" style="width: 30px;">';
 	html += '</td>';
 	html += '<td>x</td>';
 	html += '<td>';
-	html += '<input type="text" class="form-control" name="russianpost2_order_adds['+adds2_row+'][width]" value="" style="width: 30px;">';
+	html += '<input type="text" class="form-control mintextfield" name="russianpost2_order_adds['+adds2_row+'][width]" value="" style="width: 30px;">';
 	html += '</td>';
 	html += '<td>x</td>';
 	html += '<td>';
-	html += '<input type="text" class="form-control" name="russianpost2_order_adds['+adds2_row+'][height]" value="" style="width: 30px;">';
+	html += '<input type="text" class="form-control mintextfield" name="russianpost2_order_adds['+adds2_row+'][height]" value="" style="width: 30px;">';
 	html += '</td>';
 	html += '</tr>';
 	html += '</table>';
@@ -4805,6 +6508,87 @@ function addAdds2()
 	adds2_row++;
 }
 
+<?php if( $is_show_sklads ) { ?>
+var sklads_row = <?php echo $sklads_row; ?>;
+
+function addSklads()
+{
+	html = '';
+
+	html += '<tr id="sklads-row'+sklads_row+'">';
+	
+	html += '<td> ';
+	html += '<select class="form-control"  ';
+	html += ' name="russianpost2_sklads['+sklads_row+'][multistore_id]">';
+	
+	<?php foreach($multistores as $multistore) { ?> 
+	html += ' <option value="<?php echo $multistore['multistore_id']; ?>" ><?php echo $multistore['name']; ?></option>';
+	<?php } ?>
+	
+	html += '</select>';
+	html += '</td>';
+	
+	
+	html += '<td> ';
+	html += '<select class="form-control"  ';
+	html += ' name="russianpost2_sklads['+sklads_row+'][region]">';
+	
+	<?php foreach($zones as $zone) { ?> 
+	html += ' <option value="<?php echo $zone['zone_id']; ?>" ><?php echo $zone['name']; ?></option>';
+	<?php } ?>
+	
+	html += '</select>';
+	html += '</td>';
+	html += '<td> ';
+	html += '<input type="text" class="form-control" ';
+	html += ' name="russianpost2_sklads['+sklads_row+'][city]" ';
+	html += ' value="<?php echo $sklad['city']; ?>" /> ';
+	html += '</td>';
+	html += '<td>';
+	html += '<div><?php echo $entry_sklads_postcode_main; ?></div>';
+	html += '<input type="text" class="form-control" ';
+	html += ' name="russianpost2_sklads['+sklads_row+'][postcode]" ';
+	html += ' value="<?php echo $sklad['postcode']; ?>" /> ';
+						
+	html += '<div><?php echo $entry_sklads_postcode_parcel_online; ?></div>';
+	html += '<input type="text" class="form-control" ';
+	html += 'name="russianpost2_sklads['+sklads_row+'][postcode_parcel_online]" ';
+	html += ' value="<?php echo $sklad['postcode_parcel_online']; ?>" /> ';
+						
+	html += '<div><?php echo $entry_sklads_postcode_courier_online; ?></div>';
+	html += '<input type="text" class="form-control" ';
+	html += ' name="russianpost2_sklads['+sklads_row+'][postcode_courier_online]" ';
+	html += ' value="<?php echo $sklad['postcode_courier_online']; ?>" />';
+						
+	html += '<div><?php echo $entry_sklads_postcode_ems_optimal; ?></div>';
+	html += '<input type="text" class="form-control" ';
+	html += ' name="russianpost2_sklads['+sklads_row+'][postcode_ems_optimal]" ';
+	html += ' value="<?php echo $sklad['postcode_ems_optimal']; ?>" /> ';
+	html += '</td>';
+					 
+	html += '<td><a href="javascript: $(\'#sklads-row'+sklads_row+'\').remove();" ';
+	html += ' title="<?php echo $button_remove; ?>" ';
+	html += ' class="button"><span><?php echo $button_remove; ?></span></a>';
+	html += '</tr>';
+	
+	sklads_row++;
+	
+	$('#sklads .tbody_class').append(html);
+}
+<?php } ?>
+
+
+function showMapCodeField(mapwidget_row)
+{
+	var value = document.getElementById('maptype_'+mapwidget_row).value; 
+	
+	if( value == 'widget')
+		$('#block_mapcode_'+mapwidget_row).show();
+	else
+		$('#block_mapcode_'+mapwidget_row).hide(); 
+}
+ 
+ 
 /* start 2801 */
 var customs_row = <?php echo $customs_row; ?>;
 
@@ -4819,7 +6603,14 @@ function addCustoms()
 				
 	html += '<td class="left">';
 	html += '<input type="text" class="form-control" name="russianpost2_customs['+customs_row+'][price]">';
-							
+							 
+	html += ' <select name="russianpost2_customs['+customs_row+'][currency]" class="form-control">';
+									<?php foreach( $currencies as $currency ) { ?>
+	html += ' <option value="<?php echo $currency['code']; ?>"';
+	html += ' ><?php echo $currency['code']; ?></option>';
+									<?php } ?>
+	html += ' </select>'; 
+	
 	html += '</td>';
 	html += '<td class="left">';
 	html += '<select class="form-control"  name="russianpost2_customs['+customs_row+'][type]">';
@@ -4871,7 +6662,7 @@ function addAdds3()
 	html += ' name="russianpost2_method_adds['+adds3_row+'][cost]" ';
 	html += ' value="">';
 	<?php /* start 2009 */ ?>
-	html += '<select name="russianpost2_method_adds['+adds3_row+'][costtype]" class="form-control" >';
+	html += '<select name="russianpost2_method_adds['+adds3_row+'][costtype]" class="form-control"  style="max-width: 200px;">';
 	html += '<option value="fix"><?php echo $text_order_adds_cost_fix; ?></option>';
 	<?php /* start 2401 */ ?>
 	html += '<option value="fix2products"><?php echo $text_order_adds_cost_fix2products; ?></option>';
@@ -4889,6 +6680,29 @@ function addAdds3()
 	html += ' name="russianpost2_method_adds['+adds3_row+'][srok]" ';
 	html += ' value="">';
 	html += ' </td>';
+	
+	html += ' <td> ';
+	html += ' <table>';
+	html += ' <tr>';
+	html += ' <td>';
+	html += ' <?php echo $text_from_inc; ?>';
+	html += ' <input type="text" class="form-control" ';
+	html += ' name="russianpost2_method_adds['+adds3_row+'][filter_deliverycost_from]" ';
+	html += ' value="">';
+						
+	html += ' </td>';
+	html += ' <td>&nbsp;</td>';
+	html += ' <td>';
+	html += ' <?php echo $text_to_inc; ?> ';
+	html += ' <input type="text" class="form-control"  ';
+	html += ' name="russianpost2_method_adds['+adds3_row+'][filter_deliverycost_to]" ';
+	html += ' value="">';
+						 
+	html += ' </td>';
+	html += ' </tr>';
+	html += ' </table>';
+	html += ' </td>';
+	
 	html += ' <td class="left">';
 	html += ' <select class="form-control"  ';
 	html += ' name="russianpost2_method_adds['+adds3_row+'][status]">';
@@ -5022,52 +6836,103 @@ function setCountry(country_id) {
 }
 
 
-function saveTab(tab_id, is_end)
-{
-	$.ajax({ 
+
+function saveTab(index, count_errors, tabs) {
+	
+	var keys = Object.keys(tabs);   
+	var row = tabs[keys[index]];
+		
+	$.ajax({
 		url: 'index.php?route='+encodeURIComponent('shipping/russianpost2/saveTab')+'&token=<?php echo $token; ?>'+
-		'&tab_id='+tab_id+
-		'&is_end='+is_end+'&stay='+$('#stay_field').val()+'&subtab='+$('#hiddensubtab').val()
+		'&tab_id='+row['tab_id']+
+		'&is_end='+row['is_end']+'&stay='+$('#stay_field').val()+'&subtab='+$('#hiddensubtab').val()
 		+'&tab='+$('#hiddentab').val()
 		+'&subtab2='+$('#hiddensubtab2').val(),
         type: 'post',
-        data: $('#'+tab_id+' input[type="text"],  #'+tab_id+' input[type="textbox"], #'+tab_id+' input[type="hidden"], #'+tab_id+' input[type="radio"]:checked, #'+tab_id+' input[type="checkbox"]:checked, #'+tab_id+' textarea, #'+tab_id+' select'),
+        data: $('#'+row['tab_id']+' input[type="text"],  #'+row['tab_id']+' input[type="textbox"], #'+row['tab_id']+' input[type="hidden"], #'+row['tab_id']+' input[type="radio"]:checked, #'+row['tab_id']+' input[type="checkbox"]:checked, #'+row['tab_id']+' textarea, #'+row['tab_id']+' select, .class_'+row['tab_id']+' input[type="text"]'),
         dataType: 'json',
-        success: function(json) {
-			console.log('saved '+tab_id);
-			if( json['redirect'] && is_end ) {
-				
-				location = json['redirect'].replace(/&amp;/g, '&');
-				
+         success: function(response) {
+			
+			if( response['status'] == 'ok' )
+			{
+				if( response['redirect'] && row['is_end'] ) 
+				{
+					location = response['redirect'].replace(/&amp;/g, '&')+'&r='+Math.random();
+					$('#spinner').hide();
+				}
+				else
+				{
+					saveTab( index + 1, count_errors, tabs );
+				}
+			}
+			else if( response['status'] == 'stop' )
+			{
+				alert(response['message']);
+					$('#spinner').hide();
+			}
+			else
+			{
+				if( count_errors == 3 )
+				{
+					alert('<?php echo $text_savetabs_error; ?>'); 
+					$('#spinner').hide();
+				}
+				else
+				{
+					saveTab( index, count_errors+1, tabs );
+				}
 			}
         },
         error: function(xhr, ajaxOptions, thrownError) {
+
+			 console.log("log: "+thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 			
-			$.ajax({
-				url: 'index.php?route='+encodeURIComponent('shipping/russianpost2/logError')+'&token=<?php echo $token; ?>',
-				type: 'post',
-				data: {log: thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText}
-			});
+			
+			 if( xhr.responseText.indexOf('title') > -1 )
+			 {
+				alert('<?php echo $text_session_error; ?>');
+				$('#spinner').hide();
+			 }
+			 else
+			 {
+				if( count_errors == 3 )
+				{
+					alert('<?php echo $text_savetabs_error; ?>');
+					alert(xhr.responseText);
+					$('#spinner').hide();
+				}
+				else
+				{
+					saveTab( index, count_errors+1, tabs );
+				}
+			 }
+			
         }
     });
-}
-	
+} 
+
 function saveByTabs()
 { 
 	$('.success').remove();
-	saveTab('tab-general', 0);
-	saveTab('tab-methods', 0);
-	saveTab('tab-service', 0);
-	/* start 2801 */
-	saveTab('tab-customs', 0);
-	/* end 2801 */
-	saveTab('tab-delivery_types', 0);
-	saveTab('tab-packs', 0);
-	saveTab('tab-filters', 0);
-	saveTab('tab-adds', 0);
-	saveTab('tab-regions', 0);
-	saveTab('tab-synx');
-	saveTab('tab-cod', 1);
+	$('#spinner').show();
+	
+	var tabs = [
+		{tab_id: 'tab-general', is_end: 0},
+		{tab_id: 'tab-methods', is_end: 0},
+		{tab_id: 'tab-service', is_end: 0},
+		{tab_id: 'tab-customs', is_end: 0},
+		{tab_id: 'tab-customsrok', is_end: 0},
+		{tab_id: 'tab-delivery_types', is_end: 0},
+		{tab_id: 'tab-packs', is_end: 0},
+		{tab_id: 'tab-filters', is_end: 0},
+		{tab_id: 'tab-sklads', is_end: 0},
+		{tab_id: 'tab-adds', is_end: 0},
+		{tab_id: 'tab-regions', is_end: 0},
+		{tab_id: 'tab-synx', is_end: 0},
+		{tab_id: 'tab-cod', is_end: 1}
+	];
+	
+	saveTab( 0, 0, tabs );
 }
 
 /* start 0310 */
@@ -5084,8 +6949,272 @@ $(document).ready(function() {
 						//alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 		}
 	});	
+	
+	
+	$.ajax({
+				url: 'index.php?route=shipping/russianpost2/checkFromPostcodes&token=<?php echo $token; ?>',
+				dataType: 'json',
+				method: 'POST',
+				data: {
+					"general": $('#russianpost2_from_postcode').val(),
+					"parcel_online": $('#dopindex_parcel_online_postcode').val(),
+					"parcel_online_postamat": $('#dopindex_parcel_online_postamat_postcode').val(),
+					"courier_online": $('#dopindex_courier_online_postcode').val(),
+					"ems_optimal": $('#dopindex_ems_optimal_postcode').val(),
+					"ecom": $('#dopindex_ecom_postcode').val(),
+				},
+				success: function(json) {
+					
+					console.log(json);
+					
+					if( json.general.status == 'success' )
+					{
+						$('#check_general').html( '<b><font color=green><?php echo $text_correct_postcode; ?></font></b> ');
+						$('#check_general').show();
+					}
+					else if( json.general.status == 'fail' )
+					{
+						$('#check_general').html( '<b><font color=red><?php echo $text_incorrect_postcode; ?></font></b> ');
+						$('#check_general').show();
+					}
+					
+					if( json.parcel_online && json.parcel_online.status == 'success' )
+					{
+						$('#check_ONLINE_PARCEL').html( '<b><font color=green><?php echo $text_correct_postcode; ?></font></b> ');
+						$('#check_ONLINE_PARCEL').show();
+					}
+					else if( json.parcel_online && json.parcel_online.status == 'fail' )
+					{
+						$('#check_ONLINE_PARCEL').html( '<b><font color=red><?php echo $text_incorrect_postcode2; ?></font></b> ');
+						$('#check_ONLINE_PARCEL').show();
+					}
+					
+					if( json.parcel_online_postamat && json.parcel_online_postamat.status == 'success' )
+					{
+						$('#check_ONLINE_PARCEL_POSTAMAT').html( '<b><font color=green><?php echo $text_correct_postcode; ?></font></b> ');
+						$('#check_ONLINE_PARCEL_POSTAMAT').show();
+					}
+					else if( json.parcel_online_postamat && json.parcel_online_postamat.status == 'fail' )
+					{
+						$('#check_ONLINE_PARCEL_POSTAMAT').html( '<b><font color=red><?php echo $text_incorrect_postcode2; ?></font></b> ');
+						$('#check_ONLINE_PARCEL_POSTAMAT').show();
+					}
+					
+					if( json.ems_optimal && json.ems_optimal.status == 'success' )
+					{
+						$('#check_EMS_OPTIMAL').html( '<b><font color=green><?php echo $text_correct_postcode; ?></font></b> ');
+						$('#check_EMS_OPTIMAL').show();
+					}
+					else if( json.ems_optimal && json.ems_optimal.status == 'fail' )
+					{
+						$('#check_EMS_OPTIMAL').html( '<b><font color=red><?php echo $text_incorrect_postcode2; ?></font></b> ');
+						$('#check_EMS_OPTIMAL').show();
+					}
+					
+					if( json.courier_online && json.courier_online.status == 'success' )
+					{
+						$('#check_ONLINE_COURIER').html( '<b><font color=green><?php echo $text_correct_postcode; ?></font></b> ');
+						$('#check_ONLINE_COURIER').show();
+					}
+					else if( json.courier_online && json.courier_online.status == 'fail' )
+					{
+						$('#check_ONLINE_COURIER').html( '<b><font color=red><?php echo $text_incorrect_postcode2; ?></font></b> ');
+						$('#check_ONLINE_COURIER').show();
+					}
+					
+					if( json.ecom && json.ecom.status == 'success' )
+					{
+						$('#check_ECOM').html( '<b><font color=green><?php echo $text_correct_postcode; ?></font></b> ');
+						$('#check_ECOM').show();
+					}
+					else if( json.ecom && json.ecom.status == 'fail' )
+					{
+						$('#check_ECOM').html( '<b><font color=red><?php echo $text_incorrect_postcode2; ?></font></b> ');
+						$('#check_ECOM').show();
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+								//alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+	});
+	
+	$.ajax({
+				url: 'index.php?route=shipping/russianpost2/getFromPostcodeSuggestions&token=<?php echo $token; ?>',
+				dataType: 'json',
+				success: function(json) {
+					
+					console.log('start getPostcodeSuggests');
+					
+					console.log(json);
+					
+					if( json.status == 'success' )
+					{
+						if( json.general )
+						{
+							$('#error_russianpost2_from_postcode').html('<?php echo $text_postcode_suggest; ?> '+json.general);
+							$('#error_russianpost2_from_postcode').show();
+						}
+						
+						if( json.suggestions.EMS_OPTIMAL.length )
+						{
+							$('#suggestion_EMS_OPTIMAL').html( '<?php echo $text_postcode_suggest; ?> '+json.suggestions.EMS_OPTIMAL.join(', ') );
+							$('#suggestion_EMS_OPTIMAL').show();
+						}
+						
+						if( json.suggestions.ONLINE_PARCEL.length )
+						{
+							$('#suggestion_ONLINE_PARCEL').html( '<?php echo $text_postcode_suggest; ?> '+json.suggestions.ONLINE_PARCEL.join(', ') );
+							$('#suggestion_ONLINE_PARCEL').show();
+						}
+						
+						if( json.suggestions.ONLINE_PARCEL_POSTAMAT.length )
+						{
+							$('#suggestion_ONLINE_PARCEL_POSTAMAT').html( '<?php echo $text_postcode_suggest; ?> '+json.suggestions.ONLINE_PARCEL_POSTAMAT.join(', ') );
+							$('#suggestion_ONLINE_PARCEL_POSTAMAT').show();
+						}
+						
+						if( json.suggestions.ONLINE_COURIER.length )
+						{
+							$('#suggestion_ONLINE_COURIER').html( '<?php echo $text_postcode_suggest; ?> '+json.suggestions.ONLINE_COURIER.join(', ') );
+							$('#suggestion_ONLINE_COURIER').show();
+						}
+						
+						if( json.suggestions.ECOM.length )
+						{
+							$('#suggestion_ECOM').html( '<?php echo $text_postcode_suggest; ?> '+json.suggestions.ECOM.join(', ') );
+							$('#suggestion_ECOM').show();
+						}
+						
+					}
+					
+					if( json.warnings )
+					{
+						if( json.warnings.EMS_OPTIMAL )
+						{
+							$('#suggestion_EMS_OPTIMAL2').html( json.warnings.EMS_OPTIMAL );
+							$('#suggestion_EMS_OPTIMAL2').show();
+						}
+						
+						if( json.warnings.ONLINE_PARCEL )
+						{
+							$('#suggestion_ONLINE_PARCEL2').html( json.warnings.ONLINE_PARCEL );
+							$('#suggestion_ONLINE_PARCEL2').show();
+						}
+						
+						if( json.warnings.ONLINE_PARCEL_POSTAMAT )
+						{
+							$('#suggestion_ONLINE_PARCEL2_POSTAMAT').html( json.warnings.ONLINE_PARCEL_POSTAMAT );
+							$('#suggestion_ONLINE_PARCEL2_POSTAMAT').show();
+						}
+						
+						if( json.warnings.ONLINE_COURIER )
+						{
+							$('#suggestion_ONLINE_COURIER2').html( json.warnings.ONLINE_COURIER );
+							$('#suggestion_ONLINE_COURIER2').show();
+						}
+						
+						if( json.warnings.ECOM )
+						{
+							$('#suggestion_ECOM2').html( json.warnings.ECOM );
+							$('#suggestion_ECOM2').show();
+						}
+					}
+					
+					console.log('endgetPostcodeSuggests');
+				}
+			}); 
 });	
 /* end 0310 */
 
+var sorts_hash = new Array();
+
+<?php foreach ($russianpost2_methods as $i=>$method) { ?>
+sorts_hash[<?php echo $i; ?>] = <?php echo isset( $method['sort_orders'] ) ? count($method['sort_orders']) : '0 '; ?>;
+<?php } ?>
+
+/* start 2602 */
+function addMethodsSort( current_method_row )
+{
+	var html = '';
+	key = current_method_row+'-'+sorts_hash[current_method_row];
+	 
+	html += '<tr id="sort_orders'+key+'">';
+	html += '<td style="padding: 5px;">';
+	html += '<input type="text" ';
+	html += 'name="russianpost2_methods['+current_method_row+'][sort_orders]['+sorts_hash[current_method_row]+'][sort_order]" ';
+ 	html += 'placeholder="<?php echo $entry_sort_order; ?>" class="form-control" />';
+ 	 
+ 	html += '<select ';
+ 	html += 'name="russianpost2_methods['+current_method_row+'][sort_orders]['+sorts_hash[current_method_row]+'][filter]" ';
+ 	html += 'class="form-control"> ';
+<?php foreach($russianpost2_order_filters as $ft) { ?>
+ 	html += '<option value="<?php echo $ft['filter_id']; ?>" ';
+ 	html += '><?php echo $ft['filtername']; ?></option>';
+<?php } ?>
+ 	html += '</select>';
+	html += '</td>';
+	html += '<td style="padding: 5px;">';
+
+	
+	html += '<a ';
+	html += ' href="javascript: $(\'#sort_orders'+key+'\').remove();" ';
+	html += ' class="button"><span>X</span></a>';
+	html += ' </td>';
+	html += ' </tr>';
+	
+	$('#sort_orders'+current_method_row+' .tbody2_class').append(html);
+
+	sorts_hash[current_method_row]++;
+}
+
+
+function changeClientType(value)
+{
+	if( value == 'common' )
+	{
+		
+		$('.corporate_options').attr('disabled','disabled');
+		
+		$('.corporate_options').each(function( key, value ) {
+			var label = $(this).html();
+			$(this).html( '<?php echo $text_option_unavailable; ?> '+label );
+		});
+
+		$('.corporate_blocks').hide();
+		$('.nocorporate_blocks').show();
+	}
+	else
+	{
+		$('.corporate_options').attr('disabled', false);
+		
+		
+		$('.corporate_options').each(function( key, value ) {
+			var label = $(this).html();
+			label = label.replace("<?php echo $text_option_unavailable; ?> ", ""); 
+			$(this).html( label );
+		});
+
+		
+		$('.corporate_blocks').show();
+		$('.nocorporate_blocks').hide();
+	}
+}
+
+$(document).ready(function() {
+	changeClientType('<?php echo $russianpost2_clienttype; ?>');
+});
+
+
+function showPvzPayBlock(ID)
+{
+	if( $('#showmap'+ID).prop("checked") )
+	{
+		$('#showmapPayBlock'+ID).show();
+	}
+	else
+	{
+		$('#showmapPayBlock'+ID).hide();
+	}
+}
 //--></script> 
 <?php echo $footer; ?> 

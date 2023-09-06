@@ -26,15 +26,45 @@ class ModelPaymentRpcod2 extends Model {
 			return false;
 		}
 		
-		if( empty($this->session->data['shipping_method']['code']) 
-			/* start 2402 */
+		if( !strstr($this->format_data('russianpost2_rpcod_title', 
+						array(
+						)), '{price}') 
+		)
+		{
+			$title = $this->format_data('russianpost2_rpcod_title', 
+							array(
+									
+							)
+			);	
+			$method_data = array( 
+					'code'       => 'rpcod2',
+					'title'      => html_entity_decode($title, ENT_QUOTES, 'UTF-8'),
+					'terms'      => '',
+					'sort_order' => $this->config->get('rpcod2_sort_order'),
+					'tax_class_id' => false
+			);
+			
+	   
+			return $method_data;
+		}
+		
+		
+		if( empty($this->session->data['shipping_method']['code'])
 			&& 
 			(
 				empty($this->request->get['route']) 
 				||
-				$this->request->get['route'] != 'api/payment/methods'
-			)
-			/* end 2402 */ )
+				(
+					$this->request->get['route'] != 'api/payment/methods'
+					&&
+					$this->request->get['route'] != 'checkout/recalculate/getMethods'
+					&&
+					$this->request->get['route'] != 'extension/module/lightshop/shippay_method'
+					&&
+					$this->request->get['route'] != 'module/lightshop/shippay_method'
+				)
+			)  
+		)
 		{
 			$this->handleError("rpcod2-DEBUG: shipping method ne vybran");
 			return false;
@@ -53,7 +83,9 @@ class ModelPaymentRpcod2 extends Model {
 		
 		$address['is_cod'] = 1;
 		/* start 2402 */
-		if( !empty($this->session->data['shipping_method']['code']) )
+		if( !empty($this->session->data['shipping_method']['code'])
+			&&
+			empty( $this->session->data['simple'] ) )
 		{
 			list($address['code1'], $address['code2']) = explode('.', $this->session->data['shipping_method']['code']);
 		}
@@ -64,12 +96,40 @@ class ModelPaymentRpcod2 extends Model {
 		}
 		/* end 2402 */
 		
-		$cost_rub = $this->model_shipping_russianpost2->getQuote($address);
+		list(
+			$cost_rub, 
+			$shippping_cost_rub
+		) = $this->model_shipping_russianpost2->getQuote($address);
 		
 		if( !$cost_rub ) {
 			$this->handleError("rpcod2-DEBUG: cost_rub");
 			return;
 		}
+		
+		$rpcod2_order_filters = $this->config->get('rpcod2_order_filters');
+		
+		$filters = array();
+		
+		if( $rpcod2_order_filters )
+		{
+			foreach( $rpcod2_order_filters as $filter_id=>$val )
+			{
+				if( $this->model_shipping_russianpost2->checkFilterFromPayment(
+						$filter_id, $address
+					) 
+				)
+				{
+					$filters[] = $filter_id;
+				}
+			}
+			
+			if( !empty($filters) )
+			{
+				$this->handleError("rpcod2-DEBUG: filters");
+				return false;
+			}
+		} 
+		
 		
 		$this->RUB = $this->model_shipping_russianpost2->getRubCode();
 		$config_currency = $this->model_shipping_russianpost2->getConfigCurrency();
@@ -80,9 +140,21 @@ class ModelPaymentRpcod2 extends Model {
 		
 		$cost = $this->currency->convert($cost_rub, $this->RUB, $config_currency);
 		
+		 
+		$cost = $this->model_shipping_russianpost2->getOkrugl($cost); 
+		
+		$shippping_cost = $this->currency->convert($shippping_cost_rub, $this->RUB, $config_currency);
+		$full_cost = $this->currency->convert($shippping_cost_rub+$cost_rub, $this->RUB, $config_currency);
+		
+		$full_cost = $this->model_shipping_russianpost2->getOkrugl($full_cost);
+		$shippping_cost = $this->model_shipping_russianpost2->getOkrugl($shippping_cost);
+		
 		$title = $this->format_data('russianpost2_rpcod_title', 
 						array(
-								"price" => $this->currency->format($cost, $user_currency)
+								"price" => $this->currency->format($cost, $user_currency),
+								"full_price" => $this->currency->format($full_cost, $user_currency),
+								"shipping_price" => $this->currency->format($shippping_cost, $user_currency)
+								
 						)
 		);	
 		

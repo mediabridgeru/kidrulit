@@ -88,6 +88,29 @@ class ControllerPaymentRpcod2 extends Controller {
 			$this->data['rpcod2_mintotal'] = $this->config->get('rpcod2_mintotal');
 		}
 		
+		/* start 0104 */
+		
+		$this->data['entry_order_filters'] = $this->language->get('entry_order_filters');
+		
+		$rpcod2_order_filters = array();
+		if( $this->config->get('rpcod2_order_filters') )
+			$rpcod2_order_filters = $this->config->get('rpcod2_order_filters');
+		
+		$this->load->model('shipping/russianpost2');
+		$russianpost2_order_filters = $this->model_shipping_russianpost2->getFilters('order');
+		
+		foreach($russianpost2_order_filters as $order_filter)
+		{
+			if( !empty($rpcod2_order_filters[ $order_filter['filter_id'] ]) )
+				$order_filter['status'] = 1;
+			else
+				$order_filter['status'] = 0;
+			
+			$this->data['rpcod2_order_filters'][] = $order_filter;
+		} 
+		
+		/* end 0104 */
+		
 		
 		if (isset($this->request->post['rpcod2_maxtotal'])) {
 			$this->data['rpcod2_maxtotal'] = $this->request->post['rpcod2_maxtotal'];

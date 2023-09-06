@@ -57,7 +57,9 @@ class ModelTotalRpcodonly2 extends Model {
 		$title = html_entity_decode($ar[ $this->config->get('config_language_id') ]);
 		
 		$koef = 1;
-		if( $this->config->get('russianpost2_cod_is_double') )
+		if( $this->config->get('russianpost2_cod_is_double') 	&&
+			(float)$this->session->data['shipping_method']['cost'] * 2 <= $total['total']
+		)
 			$koef = 2;
 		
 		$cost = ( $total - ($this->session->data['shipping_method']['cost'] * $koef) );

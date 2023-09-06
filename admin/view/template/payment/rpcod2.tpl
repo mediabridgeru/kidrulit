@@ -83,6 +83,24 @@
 				</select>
 			</td>
 		</tr>
+		<?php if( !empty($rpcod2_order_filters) ) { ?>
+		<tr>
+			<td>
+				<?php echo $entry_order_filters; ?>
+			</td>
+			<td> 
+				<?php foreach($rpcod2_order_filters as $ft) { ?>
+				<label for="filter_<?php echo $ft['filter_id']; ?>"
+				><input type="checkbox" 
+				name="rpcod2_order_filters[<?php echo $ft['filter_id']; ?>]"
+				value="1"
+				id="filter_<?php echo $ft['filter_id']; ?>"
+				<?php if( $ft['status'] ) { ?> checked <?php } ?>
+				>&nbsp;&nbsp;<?php echo $ft['filtername']; ?></label><br><br>
+				<?php } ?> 
+			</td>
+		</tr>
+		<?php } ?>
 		<tr>
 			<td>
 				<?php echo $entry_sort_order; ?>

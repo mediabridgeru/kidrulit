@@ -2,25 +2,194 @@
 	<id>RussianPost2 module</id>
 	<version>1.5.x</version>
 	<vqmver>1.0.8</vqmver>
-	<author>softpodkluch.ru</author>
+	<author>kin208</author>
 	<file name="admin/controller/extension/shipping.php">
 		<operation>
 			<search position="after"><![CDATA[$extension = basename($file, '.php');]]></search>
 			<add><![CDATA[if( preg_match("/^russianpost2f[\d]+$/", $extension) ) continue;]]></add>
 		</operation>
 	</file>
+	
 	<file name="catalog/view/theme/*/template/checkout/shipping_method.tpl">
 		<operation>
 			<search position="replace"><![CDATA[<?php echo $quote['title']; ?>]]></search>
 			<add><![CDATA[
-			<?php /* start russianpost2 */ ?>
-			  <?php if( !empty($quote['html_image']) ) { ?>
-				<?php echo $quote['html_image']; ?>
-			  <?php } else { ?>
-				<?php echo $quote['title']; ?>
-			  <?php } ?>
-		    <?php /* end russianpost2 */ ?>]]></add>
+				<?php /* start russianpost2 */ ?>
+				<?php if( !empty($quote['dpd_html']) ) { ?>
+					<style>.simplecheckout-methods-table td.code { vertical-align: top; }</style>
+					<?php echo $quote['dpd_title_short']; ?><?php echo $quote['text']; ?>
+					<?php echo $quote['dpd_html']; ?>
+					
+				<?php } elseif( !empty($quote['html_image']) ) { ?>
+					<?php echo $quote['html_image']; ?> - <?php echo $quote['text']; ?> 
+				<?php } else { ?> 
+						<?php echo $quote['title']; ?> - <?php echo $quote['text']; ?>
+				<?php } ?> 
+				<?php /* end russianpost2 */ ?>
+				]]></add>
 		</operation>
 	</file>
 	
+	<file name="catalog/controller/checkout/simplecheckout_shipping.php">
+		<operation  error="skip">
+			<search position="before"><![CDATA[$this->setOutputContent($this->renderPage('checkout/simplecheckout_shipping.tpl', $this->_templateData));]]></search>
+			<add><![CDATA[
+			
+				$this->load->model('shipping/russianpost2');
+				$this->_templateData['shipping_methods'] = $this->model_shipping_russianpost2->setRpHTMLToQuote($this->_templateData['shipping_methods']);
+			
+			]]></add>
+		</operation>
+		<operation  error="skip">
+			<search position="before"><![CDATA[if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/simplecheckout_shipping.tpl')) {]]></search>
+			<add><![CDATA[
+			
+				$this->load->model('shipping/russianpost2');
+				$this->data['shipping_methods'] = $this->model_shipping_russianpost2->setRpHTMLToQuote($this->data['shipping_methods']);
+			
+			]]></add>
+		</operation>
+		<operation  error="skip">
+			<search position="before"><![CDATA[$this->setOutputContent($this->renderPage('checkout/simplecheckout_shipping', $this->_templateData));]]></search>
+			<add><![CDATA[
+			
+				$this->load->model('shipping/russianpost2');
+				$this->_templateData['shipping_methods'] = $this->model_shipping_russianpost2->setRpHTMLToQuote($this->_templateData['shipping_methods']);
+			
+			]]></add>
+		</operation> 
+	</file>
+	
+	<file name="catalog/controller/checkout/simplecheckout.php">
+		<operation error="skip">
+			<search position="after"><![CDATA[function index]]></search>
+			<add><![CDATA[ 
+				if( $this->config->get('russianpost2_status') )
+				{	
+					$this->load->model('shipping/russianpost2');
+					$this->model_shipping_russianpost2->setRpPostcodeFromCheckout(
+						'simple', 
+						$this->request->post
+					);		 
+				}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/controller/checkout/oct_fastorder.php">
+		<operation  error="skip">
+			<search position="before"><![CDATA[
+			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/oct_fastorder/fastorder.tpl')) {
+			]]></search>
+			<add><![CDATA[
+			
+				$this->load->model('shipping/russianpost2');
+				$this->data['shipping_methods'] = $this->model_shipping_russianpost2->setRpHTMLToQuote($this->data['shipping_methods']);
+			
+			]]></add>
+		</operation>
+		<operation  error="skip">
+			<search position="before"><![CDATA[
+			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/oct_fastorder/fastorder.tpl')) {
+			]]></search>
+			<add><![CDATA[
+				if( !empty($this->data['shipping_methods']) )
+				{
+					$this->load->model('shipping/russianpost2');
+					$this->data['shipping_methods'] = $this->model_shipping_russianpost2->setRpHTMLToQuote($this->data['shipping_methods']);
+				}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/view/theme/*/template/checkout/oct_fastorder/fastorder.tpl">
+		<operation  error="skip">
+			<search position="replace"><![CDATA[<?php echo $quote['title']; ?> - <?php echo $quote['text']; ?>]]></search>
+			<add><![CDATA[
+				<?php /* start russianpost2 */ ?>
+				<?php if( !empty($quote['dpd_html']) ) { ?>
+					<style>.simplecheckout-methods-table td.code { vertical-align: top; }</style>
+					<?php echo $quote['dpd_title_short']; ?><?php echo $quote['text']; ?>
+					<?php echo $quote['dpd_html']; ?>
+					
+				<?php } elseif( !empty($quote['html_image']) ) { ?>
+					<?php echo $quote['html_image']; ?> - <?php echo $quote['text']; ?> 
+				<?php } else { ?> 
+						<?php echo $quote['title']; ?> - <?php echo $quote['text']; ?>
+				<?php } ?> 
+				<?php /* end russianpost2 */ ?>
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/view/theme/*/template/checkout/oct_fastorder/shipping_method.tpl">
+		<operation  error="skip">
+			<search position="replace"><![CDATA[<?php echo $quote['title']; ?> - <?php echo $quote['text']; ?>]]></search>
+			<add><![CDATA[
+				<?php /* start russianpost2 */ ?>
+				<?php if( !empty($quote['dpd_html']) ) { ?>
+					<style>.simplecheckout-methods-table td.code { vertical-align: top; }</style>
+					<?php echo $quote['dpd_title_short']; ?> - <span id="rp_cost_text<?php 
+					echo str_replace(".", "_", $quote['code']); ?>"><?php echo $quote['text']; ?></span>
+					<?php echo $quote['dpd_html']; ?>
+					
+				<?php } elseif( !empty($quote['html_image']) ) { ?>
+					<?php echo $quote['html_image']; ?>  - <span id="rp_cost_text<?php 
+					echo str_replace(".", "_", $quote['code']); ?>"><?php echo $quote['text']; ?></span>
+				<?php } else { ?> 
+						<?php echo $quote['title']; ?> - <?php echo $quote['text']; ?>
+				<?php } ?> 
+				<?php /* end russianpost2 */ ?>
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/controller/checkout/shipping_method.php">
+		<operation  error="skip">
+			<search position="before"><![CDATA[if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/checkout/shipping_method.tpl')) {]]></search>
+			<add><![CDATA[
+			
+				$this->load->model('shipping/russianpost2');
+				$this->data['shipping_methods'] = $this->model_shipping_russianpost2->setRpHTMLToQuote($this->data['shipping_methods']);
+			
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/view/theme/*/template/checkout/simplecheckout_shipping.tpl">
+		<operation  error="skip">
+			<search position="replace"><![CDATA[<?php echo (isset($quote['title_sub']) ? $quote['title_sub'] : $quote['title']); ?>]]></search>
+			<add><![CDATA[
+				<?php /* start russianpost2 */ ?>
+				<?php if( !empty($quote['dpd_html']) ) { ?>
+					<style>.simplecheckout-methods-table td.code { vertical-align: top; }</style>
+					<?php echo $quote['dpd_title_short']; ?>
+					<?php echo $quote['dpd_html']; ?>
+					
+				<?php } elseif( !empty($quote['html_image']) ) { ?>
+					<?php echo $quote['html_image']; ?>
+				<?php } else { ?> 
+					<?php echo (isset($quote['title_sub']) ? $quote['title_sub'] : $quote['title']); ?>
+				<?php } ?> 
+				<?php /* end russianpost2 */ ?>
+			]]></add>
+		</operation>
+		<operation  error="skip">
+			<search position="replace"><![CDATA[<?php echo !empty($quote['title']) ? $quote['title'] : ''; ?>]]></search>
+			<add><![CDATA[
+				<?php /* start russianpost2 */ ?>
+				<?php if( !empty($quote['dpd_html']) ) { ?>
+					<style>.simplecheckout-methods-table td.code { vertical-align: top; }</style>
+					<?php echo $quote['dpd_title_short']; ?>
+					<?php echo $quote['dpd_html']; ?>
+					
+				<?php } elseif( !empty($quote['html_image']) ) { ?>
+					<?php echo $quote['html_image']; ?>
+				<?php } else { ?> 
+						<?php echo $quote['title']; ?>
+				<?php } ?> 
+				<?php /* end russianpost2 */ ?>
+			]]></add>
+		</operation>
+	</file>
 </modification>

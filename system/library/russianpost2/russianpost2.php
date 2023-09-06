@@ -2,13 +2,14 @@
 class ClassRussianpost2 extends ClassLicense {
 	
 	/* start 1410 */
-	private $tarif_url = "http://softpodkluch.ru/API/RP2/DATA3.php";
-	private $version_url = "http://softpodkluch.ru/API/RP2/data3_version.xml";
+	private $tarif_url = "https://ocart.ru/API/RP2/DATA7.php";
+	private $version_url = "https://ocart.ru/API/RP2/data7_version.xml";
 	private $config;
 	private $db;
 	/* end 1410 */
 	
 	
+	private $show_columns = array();
 	private $nds;
 	
 	private $tables = array(
@@ -21,13 +22,39 @@ class ClassRussianpost2 extends ClassLicense {
 		"russianpost2_options",
 		"russianpost2_regions",
 		"russianpost2_regions2regions",
-		"russianpost2_remote"
-		/* start 112 */ ,
+		"russianpost2_remote" ,
 		"russianpost2_packs",
-		"russianpost2_cities"
-		/* end 112 */
+		"russianpost2_cities" , 
+		"russianpost2_indexes"
 	);
 	
+	private $setting_tables = array(
+			"russianpost2_adds", 
+			"russianpost2_current_methods", 
+			"russianpost2_customs",
+			"russianpost2_filters"
+	);
+	
+	private $table_struct = array(
+		"russianpost2_city2city" => 'from_code|from_city|from_id|to_code|to_city|to_id|data',
+		"russianpost2_config" => 'type|name|config_key|value|default_value|values|is_editable',
+		"russianpost2_countries" => 'id|iso_code|country_name|data',
+		"russianpost2_delivery_types" => 'doclink|type_key|type_name|type_name_z|content|data',
+		"russianpost2_formuls" => 'formula_key|formula_group|param_key|value',
+		"russianpost2_services" => 'sort_order|available_packs|is_pack_required|tariff_key|doclink|source|postcalc|postcalc_key|service_name|service_name_z|service_key|service_parent|formula_key|formula_min_srok|formula_max_srok|declared_koef|declared_koef_nds|limitcost|type_key|insured_type|service|transport_type|delivery_type|sender_type|area_type|data',
+		"russianpost2_options" => 'tariff_service_id|available_tariff_key|service_name|service_key|dedicated_key|option_name|option_cost|fieldname|fieldtype|values|default_value|condition|comment',
+		"russianpost2_regions" => 'id|ems_code|ems_name|capital|data|korens',
+		"russianpost2_regions2regions" => 'from_id|to_id|from_region|to_region|magistral|data',
+		"russianpost2_remote" => 'ems_code|postcode|city|start|end|limit_type|is_ems',
+		"russianpost2_packs" => 'id|tariff_pack_id|pack_key|name|length|width|height|price|data|default_value',
+		"russianpost2_cities" => 'id|region_id|pre|city|postcalc_city|start|end',
+		"russianpost2_indexes" => 'postcode|address|wtime|region_id|city|lat|lon|is_online_parcel|is_online_courier|is_ems_optimal',
+	
+		"russianpost2_adds" => 'adds_id|filters|type|data|sort_order',
+		"russianpost2_current_methods" => 'code|filters|data|sort_order',
+		"russianpost2_customs" => 'custom_id|name|price|type|status|currency',
+		"russianpost2_filters" => 'filter_id|productfilter|filtername|type|data|sort_order' 
+	);
 	
 	public function __construct($registry) {
 		/* start 1410 */
@@ -42,7 +69,605 @@ class ClassRussianpost2 extends ClassLicense {
 		
 	}
 	
-	/* start 20092 */
+	public function getCountPvz()
+	{
+		$sql = "SELECT COUNT(*) as cn 
+				FROM `" . DB_PREFIX . "russianpost2_indexes`  WHERE pvz_type = 'pvz'";
+		$query = $this->db->query($sql);
+			
+		
+		return $query->row ? $query->row['cn'] : 0;
+	}
+	
+	public function uploadPvz($is_force = 0)
+	{
+		$this->checkPvzDB(); 
+		
+		if( !$is_force && !$this->isNeedUploadPvz() ) 
+		{
+			return;
+		}
+		
+		$query_regions = $this->db->query("SELECT * FROM `" . DB_PREFIX . "russianpost2_regions`");
+		
+		$regions_hash = array();
+		foreach($query_regions->rows as $region)
+		{
+			$regions_hash[ $region['id'] ] = $region['ems_name'];
+		}
+		
+
+		$url = 'https://otpravka-api.pochta.ru/1.0/unloading-passport/zip?type=APS';
+		$request_headers = array(
+			"Accept: application/octet-stream",
+			"Authorization: AccessToken " . $this->config->get('russianpost2_api_otpravka_token'),
+			"X-User-Authorization: Basic " . $this->config->get('russianpost2_api_otpravka_key'),
+		);
+		
+		
+		$result = $this->getCurl(
+			$url, 
+			'GET', 
+			'', 
+			$request_headers, 
+			$this->config->get('russianpost2_otpravka_pvz_curl_lifetime')
+		);
+		
+		if( !$result )
+			exit("Download error");
+		
+		if( file_exists(DIR_DOWNLOAD.'russianpost2') )
+		{			
+			$files = scandir(DIR_DOWNLOAD.'russianpost2');
+			
+			foreach($files as $file)
+			{
+				if( preg_match("/APS[^\.]+\.txt/", $file) )
+					unlink(DIR_DOWNLOAD.'russianpost2/'.$file);
+			}
+		}
+		
+		
+		$handle = fopen(DIR_DOWNLOAD.'russianpost2_pvz.zip', "w"); 
+		fwrite($handle, $result);
+		fclose($handle);
+		
+		$zip = new ZipArchive;
+		if( $zip->open(DIR_DOWNLOAD.'russianpost2_pvz.zip') === TRUE ) {
+			$zip->extractTo(DIR_DOWNLOAD.'russianpost2');
+			$zip->close();
+		}
+		
+		
+		$files = scandir(DIR_DOWNLOAD.'russianpost2');
+		$data = '';
+		foreach($files as $file)
+		{
+			if( preg_match("/APS[^\.]+\.txt/", $file) )
+			{
+				$handle = fopen(DIR_DOWNLOAD.'russianpost2/'.$file, "r");
+				$data = fread($handle, filesize(DIR_DOWNLOAD.'russianpost2/'.$file));
+				fclose($handle);
+			}
+		}
+		
+		$json = json_decode($data, 1);
+		
+		if( !$json )
+			exit("Download error2"); 
+		
+		if( !empty($json['passportElements'][0]) )
+		{
+			$limit = 100;
+			$sql_list = array();
+			
+			$i = 0;
+			$e = 0;
+			
+			foreach($json['passportElements'] as $item)
+			{
+				/*
+				Array
+				(
+					[address] => Array
+						(
+							[addressType] => DEFAULT
+							[house] => 33
+							[index] => 993808
+							[manualInput] => 
+							[place] => г Елец
+							[region] => обл Липецкая
+							[street] => ул Вермишева
+						)
+
+					[addressFias] => Array
+						(
+							[addGarCode] => 504c6e17-c421-4662-8e48-1e6ed94d95c9
+							[ads] => 993808 обл Липецкая Елец г Вермишева ул, д. 33
+							[locationGarCode] => 8261b161-ceac-4fa2-9fe8-593cb2a28210
+							[regGarId] => 1490490e-49c5-421c-9572-5673ba5d80c8
+						)
+
+					[brandName] => Халва
+					[ecom] => 0
+					[ecomOptions] => Array
+						(
+							[brandName] => Халва
+							[cardPayment] => 
+							[cashPayment] => 
+							[contentsChecking] => 
+							[functionalityChecking] => 
+							[getto] => Магнит Косметик, Почтомат Халва
+							[partialRedemption] => 
+							[returnAvailable] => 
+							[typesizeId] => 30
+							[typesizeVal] => Коробка L
+							[weightLimit] => 20
+							[withFitting] => 
+						)
+
+					[latitude] => 52.616088
+					[longitude] => 38.530898
+					[onlineParcel] => 1
+					[type] => Почтомат
+					[workTime] => Array
+						(
+							[0] => пн, открыто: 08:30 - 19:00
+							[1] => вт, открыто: 08:30 - 19:00
+							[2] => ср, открыто: 08:30 - 19:00
+							[3] => чт, открыто: 08:30 - 19:00
+							[4] => пт, открыто: 08:30 - 19:00
+							[5] => сб, открыто: 08:30 - 19:00
+							[6] => вс, открыто: 08:30 - 19:00
+						)
+
+				)
+				*/
+				
+				$i++;
+				if( $i == $limit )
+				{
+					$i = 0;
+					$e++;
+					$sql_list[$e] = array();
+				}
+				
+				// ---------
+				
+				
+				$item['pre'] = '';
+				$item['city'] = '';
+				
+				if( !empty($item['address']['place']) )
+				{
+					$ar = explode(" ", $item['address']['place']);
+					
+					if( !empty($ar[1]) )
+					{
+						$item['pre'] = trim($ar[0]);
+						$item['pre'] = preg_replace("/\.$/", "", $item['pre']);
+						
+						unset($ar[0]);
+						$item['city'] = implode(" ", $ar); 
+					}
+				}
+				
+				$city_row = $this->getCityByOtpravkaPvz($item); 
+				
+				$address_ar = array(
+					( isset($city_row['region_id']) && isset($regions_hash[ $city_row['region_id'] ]) ) ? $regions_hash[ $city_row['region_id'] ] : $item['address']['region'],
+					$item['city']
+				);
+				
+				if( !empty($item['address']['street']) )
+				{
+					$ar = explode(" ", $item['address']['street']);
+					$abr = $ar[0];
+					$str = $ar[0];
+					
+					unset($ar[0]);
+					$str = implode(" ", $ar).'';
+					
+					$street = $str.' '.$abr;  
+					
+					$address_ar[] = $street;
+				}
+				
+				if( !empty($item['address']['house']) )
+				{
+					$address_ar[] = 'дом '.$item['address']['house'];
+				}
+				 
+				
+				$address = implode(", ", $address_ar);
+				
+				// -----
+				
+				$wtime = '';
+				
+				if( !empty($item['work-time']) )
+				{
+					if( is_array($item['work-time']) )
+						$wtime = implode("|", $item['work-time']);
+					else
+						$wtime = $item['work-time'];
+				} 
+				// -----
+				
+				$weight_limit = ''; 
+				if( !empty($item['ecomOptions']['weightLimit']) )
+				{
+					$weight_limit = $item['ecomOptions']['weightLimit'] * 1000;
+				}
+				 
+				$row = array(
+						'region_id' 			=> isset($city_row['region_id']) ? $city_row['region_id'] : '',
+						'postcode' 	=> isset($item['address']['index']) ? $item['address']['index'] : '',
+						'address' 	=> $address,
+						'wtime'		=> $wtime,
+						'city'		=> isset($item['city']) ? $item['city'] : '',
+						'lat'		=> isset($item['latitude']) ? $item['latitude'] : '',
+						'lon'		=> isset($item['longitude']) ? $item['longitude'] : '',
+						'is_online_parcel'		=> 1,
+						'is_online_courier'		=> 0,
+						'is_ems_optimal'		=> 0,
+						'weight_limit'		=> $weight_limit,
+						'dimension_limit'		=> '', 
+						'partial_redemption'		=> isset($item['ecomOptions']['partialRedemption']) ? $item['ecomOptions']['partialRedemption'] : '',
+						'card_payment'		=> isset($item['ecomOptions']['cardPayment']) ? $item['ecomOptions']['cardPayment'] : '',
+						'cash_payment'		=> isset($item['ecomOptions']['cashPayment']) ? $item['ecomOptions']['cashPayment'] : '',
+						'contents_checking'		=> isset($item['ecomOptions']['contentsChecking']) ? $item['ecomOptions']['contentsChecking'] : '',
+						'functionality_checking'		=> isset($item['ecomOptions']['functionalityChecking']) ? $item['ecomOptions']['functionalityChecking'] : '',
+						'with_fitting'		=> isset($item['ecomOptions']['withFitting']) ? $item['ecomOptions']['withFitting'] : '',
+						'brand_name'		=> isset($item['brandName']) ? $item['brandName'] : '',
+						'delivery_point_type'		=> '',
+						'type_post_office'		=>  '',
+				
+						'pvz_type' => 'pvz',
+						'pvz_data' => serialize($item), 
+				); 
+				
+				// --------
+				
+				$fields = array();
+				
+				foreach($row as $key=>$val)
+				{
+					$fields[] = " '".$this->db->escape($val)."' ";
+				}
+				
+				$sql_list[$e][] = "( ".implode(",", $fields)." )";
+			}
+			
+			
+			if( $sql_list )
+			{
+				
+				$keys = array(
+					'region_id',
+					'postcode',
+					'address',
+					'wtime',
+					'city',
+					'lat',
+					'lon',
+					'is_online_parcel',
+					'is_online_courier',
+					'is_ems_optimal',
+					'weight_limit',
+					'dimension_limit', 
+					'partial_redemption',
+					'card_payment',
+					'cash_payment',
+					'contents_checking',
+					'functionality_checking',
+					'with_fitting',
+					'brand_name',
+					'delivery_point_type',
+					'type_post_office',
+					'pvz_type',
+					'pvz_data',  
+				);
+				
+				$this->db->query("DELETE FROM `" . DB_PREFIX . "russianpost2_indexes` WHERE pvz_type = 'pvz'");
+				
+				$sql_start = 'INSERT INTO `' . DB_PREFIX . 'russianpost2_indexes` ('.implode(", ", $keys).') VALUES ';
+				
+				foreach($sql_list as $rows)
+				{
+					$sql = $sql_start.' '.implode(", ", $rows).'; ';
+					
+					$this->db->query($sql);
+				}
+				
+				
+				$this->deleteDoubleIndexes();
+				
+				$this->updateOneSetting('russianpost2_optravka_pvz_last_upload_date', date("Y-m-d") );
+				return true;
+			}
+		}
+		
+	}
+	
+	private function deleteDoubleIndexes()
+	{ 
+		$this->db->query("DELETE FROM  `" . DB_PREFIX . "russianpost2_indexes` 
+		WHERE lat IS NULL OR lon IS NULL OR lat='' OR lon=''
+		");
+		
+		$this->db->query("UPDATE 
+			`" . DB_PREFIX . "russianpost2_indexes` r1, `" . DB_PREFIX . "russianpost2_indexes` r2 
+		SET 
+			r1.is_online_courier = r2.is_online_courier,
+			r1.is_ems_optimal = r2.is_ems_optimal
+		WHERE
+			r1.pvz_type='pvz' AND r2.pvz_type!='pvz' AND 
+			r1.postcode=r2.postcode 
+		");
+		
+		$this->db->query("UPDATE 
+			`" . DB_PREFIX . "russianpost2_indexes` 
+		SET 
+			todel = 0");
+		
+		$this->db->query("UPDATE 
+			`" . DB_PREFIX . "russianpost2_indexes` r1, `" . DB_PREFIX . "russianpost2_indexes` r2 
+		SET 
+			r2.todel = 1
+		WHERE
+			r1.pvz_type='pvz' AND r2.pvz_type!='pvz' AND 
+			r1.postcode=r2.postcode 
+		");
+		
+		
+		$this->db->query("DELETE FROM   `" . DB_PREFIX . "russianpost2_indexes`  WHERE todel = 1 "); 
+	}
+	
+	private function getCityByOtpravkaPvz($pvz)
+	{
+		$region_id = '';
+		
+		$region = '';
+		if( !empty($pvz['address']['region']) )
+		{
+			$ar = explode(" ", $pvz['address']['region']);
+			
+			if( !empty($ar[1]) )
+			{
+				$pre = trim($ar[0]);
+				
+				if( $pre != 'г.' )
+					unset($ar[0]);
+				
+				$region = implode(" ", $ar); 
+				
+				if( strstr($region, "Башк") )
+					$region = 'Башкортостан';
+				elseif( strstr($region, "Бурят") )
+					$region = 'Бурятия';
+				elseif( strstr($region, "Кабард") )
+					$region = 'Кабардино-Балкарская';
+				elseif( strstr($region, "Кабард") )
+					$region = 'Кабардино-Балкарская';
+				elseif( strstr($region, "Калмык") )
+					$region = 'Калмыкия'; 
+				elseif( strstr($region, "Карачаев") )
+					$region = 'Карачаево-Черкесская'; 
+				elseif( strstr($region, "Марий") )
+					$region = 'Марий Эл';  
+				elseif( strstr($region, "Якут") )
+					$region = 'Саха (Якутия) республика';   
+				elseif( strstr($region, "Осет") )
+					$region = 'Северная Осетия-Алания';   
+				elseif( strstr($region, "Алания") )
+					$region = 'Северная Осетия-Алания';   
+				elseif( strstr($region, "Татар") )
+					$region = 'Татарстан';    
+				elseif( strstr($region, "Тува") )
+					$region = 'Тыва';    
+				elseif( strstr($region, "Тыва") )
+					$region = 'Тыва';  
+				elseif( strstr($region, "Хант") )
+					$region = 'Ханты-Мансийский-Югра'; 
+				elseif( strstr($region, "Чечен") )
+					$region = 'Чеченская';  
+				elseif( strstr($region, "Чечн") )
+					$region = 'Чеченская';  
+				elseif( strstr($region, "Чуваш") )
+					$region = 'Чувашская';   
+				elseif( strstr($region, "Чукот") )
+					$region = 'Чукотский';   
+				elseif( strstr($region, "Байконур") )
+					$region = 'Байконур';    
+				elseif( strstr($region, "Адыг") )
+					$region = 'Адыгея';    	
+				elseif( !strstr($region, "Алтайский") && strstr($region, "Алтай") )
+					$region = 'Алтай';    
+				elseif( strstr($region, "обл Московская")  )
+					$region = 'Московская';    
+				elseif( strstr($region, "Кемеровская область - Кузбасс")  )
+					$region = 'Кемеровская'; 
+				
+			}
+			
+			$region = trim($region);
+			
+			$sql = "SELECT * 
+				FROM `" . DB_PREFIX . "russianpost2_regions` 
+				WHERE ems_name LIKE '".$this->db->escape($region)."'
+					OR 
+					ems_name LIKE 'г. ".$this->db->escape($region)."'
+					OR
+					ems_name LIKE '".$this->db->escape($region)." %'
+				";
+			$query = $this->db->query($sql);
+			
+			if( $query->row )
+			{
+				$region = " AND region_id = ".(int)$query->row['id'];
+			}
+		}
+		
+		
+		if( !empty($pvz['address']['place']) )
+		{
+			$city = $pvz['address']['place'];
+			$pre = '';
+			
+			$ar = explode(" ", $pvz['address']['place']);
+			
+			if( !empty($ar[1]) )
+			{
+				$pre = trim($ar[0]);
+				$pre = preg_replace("/\.$/", "", $pre);
+				if( $pre == 'г' || $pre == 'г.' )
+					$pre = " AND ( `pre` = '".$this->db->escape($pre)."' OR `pre` = '".$this->db->escape($pre).".' ) ";
+				else
+					$pre = " AND ( `pre` != 'г' AND `pre` != 'г.' ) ";
+				
+				unset($ar[0]);
+				$city = implode(" ", $ar);
+			}	
+			
+			$sql = "SELECT * 
+				FROM `" . DB_PREFIX . "russianpost2_cities` 
+				WHERE city = '".$this->db->escape($city)."' ".$region;
+			
+			$query = $this->db->query($sql);
+			
+			if( $query->row )
+				return $query->row;
+			 
+		}
+	}
+	
+	public function isNeedUploadPvz()
+	{
+		if( !$this->config->get('russianpost2_optravka_pvz_last_upload_date') )
+			return true;
+		
+		if( $this->config->get('russianpost2_optravka_pvz_mode') == 'each_day' && 
+			$this->config->get('russianpost2_optravka_pvz_last_upload_date') != date("Y-m-d")
+		)
+		{
+			return true;
+		}
+		elseif(
+			$this->config->get('russianpost2_optravka_pvz_mode') == 'each_week' && 
+			$this->config->get('russianpost2_optravka_pvz_last_upload_date') != date("Y-m-d")
+		)
+		{
+			$diff = abs(strtotime(date("Y-m-d")) - strtotime($this->config->get('russianpost2_optravka_pvz_last_upload_date') ) );
+			
+			$days = ceil($diff / (60*60*24));
+			
+			if( $days > 7 )
+			{
+				return true;
+			}
+		}
+		elseif(
+			$this->config->get('russianpost2_optravka_pvz_mode') == 'each_month' && 
+			$this->config->get('russianpost2_optravka_pvz_last_upload_date') != date("Y-m-d")
+		)
+		{
+			$diff = abs(strtotime(date("Y-m-d")) - strtotime($this->config->get('russianpost2_optravka_pvz_last_upload_date') ) );
+			
+			$days = ceil($diff / (60*60*24));
+			
+			if( $days > 30 )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public function getCurl($url, $method='GET', $destination='', $request_headers='', $timeout = 1)
+	{ 
+		$c = curl_init( $url  );
+			
+		if( $method == 'POST' )                                       
+		curl_setopt($c, CURLOPT_CUSTOMREQUEST, "POST");     
+		
+		if( $destination )                              
+		curl_setopt($c, CURLOPT_POSTFIELDS, $destination );    
+		
+		if( $request_headers )                              
+		curl_setopt($c, CURLOPT_HTTPHEADER, $request_headers);   
+		
+		if( strstr($url, 'https://') )
+			curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
+			
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($c, CURLOPT_CONNECTTIMEOUT, $timeout); 
+		curl_setopt($c, CURLOPT_TIMEOUT, $timeout); //timeout in seconds
+		$res = curl_exec($c);
+		
+		$inf = curl_getinfo($c);
+		
+		if( !$res )
+		{
+			return false;
+		}
+		
+		curl_close($c);
+		
+		return $res;
+	}
+	
+	public function checkPvzDB()
+	{
+		
+		$this->checkColumn("russianpost2_indexes", "pvz_type", "VARCHAR(10)");
+		$this->checkColumn("russianpost2_indexes", "pvz_data", "TEXT"); 
+		$this->checkColumn("russianpost2_indexes", "weight_limit", "int(11)"); 
+		$this->checkColumn("russianpost2_indexes", "dimension_limit", "varchar(100)");   
+		$this->checkColumn("russianpost2_indexes", "partial_redemption", "int(1)"); 
+		$this->checkColumn("russianpost2_indexes", "card_payment", "int(1)"); 
+		$this->checkColumn("russianpost2_indexes", "cash_payment", "int(1)"); 
+		$this->checkColumn("russianpost2_indexes", "contents_checking", "int(1)"); 
+		$this->checkColumn("russianpost2_indexes", "functionality_checking", "int(1)");  
+		$this->checkColumn("russianpost2_indexes", "with_fitting", "int(1)");   
+		$this->checkColumn("russianpost2_indexes", "todel", "int(1)");   
+		$this->checkColumn("russianpost2_indexes", "brand_name", "VARCHAR(100)");
+		$this->checkColumn("russianpost2_indexes", "delivery_point_type", "VARCHAR(100)");
+		$this->checkColumn("russianpost2_indexes", "type_post_office", "VARCHAR(100)");
+		
+		$this->checkKey("russianpost2_indexes", "postcode");
+	}
+	
+	public function checkKey($table, $column)
+	{ 
+		$rows = array();
+		
+		if( empty( $this->show_columns[$table] )  )
+		{
+			$query = $this->db->query("SHOW COLUMNS FROM `".DB_PREFIX . $table."`");
+			$this->show_columns[$table] = $query->rows;
+			$rows = $query->rows;
+		}
+		else
+		{
+			$rows = $this->show_columns[$table];
+		}
+		
+		$hash = array(); 
+		
+		foreach($rows as $row)
+		{
+			$hash[ $row['Field'] ] = $row['Key'];
+		}
+		
+		if( empty($hash[ $column ]) )
+		{
+			$sql = "ALTER TABLE `" . DB_PREFIX . $table . "` ADD INDEX `".$column."` (`".$column."`)"; 
+			$this->db->query($sql);
+		}
+	}
+	
 	public function getCurrentCountries()
 	{
 		$query = $this->db->query("SELECT *
@@ -221,7 +846,8 @@ class ClassRussianpost2 extends ClassLicense {
 			$this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "russianpost2_customs` (
 			  `custom_id` INT(11) NOT NULL auto_increment,
 			  `name` varchar(300) NOT NULL,
-			  `price` INT(11) NOT NULL,
+			  `price` FLOAT NOT NULL, 
+			  `currency` varchar(3) NOT NULL,
 			  `type` varchar(300) NOT NULL,
 			  `status` INT(11) NOT NULL,
 			  PRIMARY KEY  (`custom_id`)	
@@ -273,6 +899,8 @@ class ClassRussianpost2 extends ClassLicense {
 			  `adds_id` int(11) NOT NULL AUTO_INCREMENT,
 			  `filters` varchar(300) NOT NULL,
 			  `type` varchar(100) NOT NULL,
+			  `filter_deliverycost_from` FLOAT NOT NULL,
+			  `filter_deliverycost_to` FLOAT NOT NULL,
 			  `data` TEXT NOT NULL,
 			  `sort_order` int(11) NOT NULL,
 			  PRIMARY KEY  (`adds_id`)	
@@ -477,6 +1105,39 @@ class ClassRussianpost2 extends ClassLicense {
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 		}
 		
+		if( !$this->isTableExists( 'russianpost2_indexes' ) )
+		{
+			$this->db->query("CREATE TABLE IF NOT EXISTS 
+				`" . DB_PREFIX . "russianpost2_indexes` (
+				`id` INT(11) NOT NULL auto_increment,
+				`region_id` INT(11) NOT NULL,
+				`postcode` varchar(100) NOT NULL,
+				`address` varchar(300) NOT NULL,
+				`wtime` varchar(300) NOT NULL,
+				`city` varchar(300) NOT NULL,
+				`lat` varchar(100) NOT NULL,
+				`lon` varchar(100) NOT NULL,
+				`is_online_parcel` INT(11) NOT NULL,
+				`is_online_courier` INT(11) NOT NULL,
+				`is_ems_optimal` INT(11) NOT NULL,
+				`pvz_type` VARCHAR(10) NOT NULL,
+				`pvz_data` TEXT NOT NULL,
+				`weight_limit` INT(11) NOT NULL,
+				`dimension_limit` VARCHAR(100) NOT NULL,
+				`partial_redemption` INT(1) NOT NULL,
+				`card_payment` INT(1) NOT NULL,
+				`cash_payment` INT(1) NOT NULL,
+				`contents_checking` INT(1) NOT NULL,
+				`functionality_checking` INT(1) NOT NULL,
+				`with_fitting` INT(1) NOT NULL,
+				`todel` INT(1) NOT NULL,
+				`brand_name` VARCHAR(100) NOT NULL,
+				`delivery_point_type` VARCHAR(100) NOT NULL,
+				`type_post_office` VARCHAR(100) NOT NULL,
+				KEY  (`postcode`),
+				PRIMARY KEY  (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+		}
 	//	$this->checkColumn("setting", "value", "TEXT");
 		$this->checkColumn("russianpost2_services", "available_packs", "TEXT");
 		$this->checkColumn("russianpost2_services", "is_pack_required", "INT(11)");
@@ -487,10 +1148,20 @@ class ClassRussianpost2 extends ClassLicense {
 		$this->checkColumn("russianpost2_options", "available_tariff_key", "VARCHAR(300)");
 		$this->checkColumn("russianpost2_cities", "postcalc_city", "VARCHAR(300)");
 		
+		
+		$this->checkColumn("russianpost2_adds", "filter_deliverycost_from", "FLOAT");
+		$this->checkColumn("russianpost2_adds", "filter_deliverycost_to", "FLOAT");
+					
+		
 		/* start 0611 */
 		$this->checkColumn("order", "shipping_method", "TEXT");
 		$this->checkColumn("order_total", "title", "TEXT");
 		/* end 0611 */
+		
+		$this->checkColumn("russianpost2_customs", "price", "FLOAT");
+		$this->checkColumn("russianpost2_customs", "currency", "VARCHAR(3)");
+		
+		$this->checkPvzDB(); 
 		
 		/* end 112 */
 	}
@@ -498,11 +1169,22 @@ class ClassRussianpost2 extends ClassLicense {
 	/* start 112 */
 	private function checkColumn($table, $column, $type)
 	{
-		$query = $this->db->query("SHOW COLUMNS FROM `".DB_PREFIX . $table."`");
+		$rows = array();
 		
-		$hash = array();
+		if( empty( $this->show_columns[$table] )  )
+		{
+			$query = $this->db->query("SHOW COLUMNS FROM `".DB_PREFIX . $table."`");
+			$this->show_columns[$table] = $query->rows; 
+			$rows = $query->rows;
+		}
+		else
+		{
+			$rows = $this->show_columns[$table];
+		} 
 		
-		foreach($query->rows as $row)
+		$hash = array(); 
+		
+		foreach($rows as $row)
 		{
 			$hash[ $row['Field'] ] = $row['Type'];
 		}
@@ -535,7 +1217,7 @@ class ClassRussianpost2 extends ClassLicense {
 	
 	private function isTableExists( $table_key )
 	{
-		$query = $this->db->query("SHOW TABLES LIKE '" . DB_PREFIX . $table_key. "'");
+		$query = $this->db->query("SHOW TABLES LIKE '" . DB_PREFIX . $this->db->escape($table_key). "'");
 		
 		return empty($query->row) ? false : true;
 	}
@@ -544,7 +1226,7 @@ class ClassRussianpost2 extends ClassLicense {
 	{
 		foreach($this->tables as $table_key)
 		{
-			$this->db->query("DROP TABLE `" . DB_PREFIX . $table_key. "`");
+			$this->db->query("DROP TABLE `" . DB_PREFIX . $this->db->escape($table_key). "`");
 		}
 		
 		$this->db->query("DROP TABLE `" . DB_PREFIX . "russianpost2_filters`");
@@ -587,9 +1269,26 @@ class ClassRussianpost2 extends ClassLicense {
 		
 		foreach($this->tables as $table_key)
 		{
-			$this->db->query("DELETE FROM `" . DB_PREFIX .$table_key . "`");
+			$skip_indexes = array();
 			
-			$table_struct_ar = explode("|", $this->getSubBlock($table_key, $struct_block) );
+			/*
+			if( $table_key == 'russianpost2_indexes' )
+			{
+				$query_pvz = $this->db->query("SELECT * FROM " . DB_PREFIX ."russianpost2_indexes
+					WHERE pvz_type = 'pvz'")->rows;
+				
+				foreach($query_pvz as $row)
+				{
+					$skip_indexes[ $row['postcode'] ] = 1;
+				}
+				
+				$this->db->query("DELETE FROM `" . DB_PREFIX .$table_key . "` WHERE pvz_type!='pvz'");
+			}
+			else
+				*/
+				$this->db->query("DELETE FROM `" . DB_PREFIX .$table_key . "`");
+			
+			$table_struct_ar = explode("|", $this->table_struct[$table_key]);
 			
 			$table_lines_ar = explode(";;;", $this->getSubBlock($table_key, $data_block) );
 			
@@ -597,13 +1296,21 @@ class ClassRussianpost2 extends ClassLicense {
 			{
 				$values = explode("#", $line);
 				
+				if( $table_key == 'russianpost2_indexes' )
+				{
+					if( !empty($values[0]) && !empty($skip_indexes[ $values[0] ]) )
+					{
+						continue;
+					}
+				}
+				
 				$data_ar = array();
 				
 				for($i = 0; $i < count( $values ); $i++ )
 				{
 					if( !isset($table_struct_ar[$i]) ) exit("NO KEY: ".$table_key." count values: ".count($values)."<hr>".$line);
 					
-					$data_ar[] = " `".$this->db->escape($table_struct_ar[$i])."` = '".$this->db->escape($values[$i])."' ";
+					$data_ar[] = " `".$table_struct_ar[$i]."` = '".$this->db->escape($values[$i])."' ";
 				}
 				
 				$sql =  "INSERT INTO `" . DB_PREFIX . $table_key . "` SET ".implode(", ", $data_ar);
@@ -720,38 +1427,11 @@ class ClassRussianpost2 extends ClassLicense {
 		$html = "Здравствуйте, <br><br>
 		
 		Необходимо обновить модуль Почта России 2.0<br><br>
-		
-		Для этого выполните следующие действия:<br>
-		1. Скачайте последнюю версию модуля Почта России 2.0 на сайте где Вы его купили.<br>
-		Вы могли купить модуль на следующих сайтах:<br>
-		- <a href=\"https://opencartforum.com/files/file/1420-%D0%BF%D0%BE%D1%87%D1%82%D0%B0-%D1%80%D0%BE%D1%81%D1%81%D0%B8%D0%B8-%D0%BD%D0%B0%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D0%BF%D0%BB%D0%B0%D1%82%D0%B5%D0%B6/\">https://opencartforum.com</a> <br>
-		- <a href=\"https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=14551\">https://www.opencart.com/</a> <br>
-		- <a href=\"http://softpodkluch.ru\">http://softpodkluch.ru</a> (авторизуйтесь в личном кабинете) <br><br>
-		
-		2. Перезалейте файлы из папки upload в корень сайта с заменой старых файлов. <br><br>
-		
-		3. Зайдите в настройки модуля в админке в Дополнения -> Доставка и сохраните настройки.
-		
-		<br><br>-------------------<br>
-		Вы получили это сообщение потому что у Вас на сайте ".HTTP_SERVER." установлен модуль Почта России 2.0 и в настройках модуля включена опция \"Уведомлять о необходимости обновить модуль на e-mail\"";
+		";
 		
 		$text = "Здравствуйте, 
 		
-		Необходимо обновить модуль Почта России 2.0
-		
-		Для этого выполните следующие действия:
-		1. Скачайте последнюю версию модуля Почта России 2.0 на сайте где Вы его купили.
-		Вы могли купить модуль на следующих сайтах:
-		- https://opencartforum.com/files/file/1420-%D0%BF%D0%BE%D1%87%D1%82%D0%B0-%D1%80%D0%BE%D1%81%D1%81%D0%B8%D0%B8-%D0%BD%D0%B0%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D0%BF%D0%BB%D0%B0%D1%82%D0%B5%D0%B6/
-		- https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=14551
-		- http://softpodkluch.ru (авторизуйтесь в личном кабинете)
-		
-		2. Перезалейте файлы из папки upload в корень сайта с заменой старых файлов. 
-		
-		3. Зайдите в настройки модуля в админке в Дополнения -> Доставка и сохраните настройки.
-		
-		-------------------
-		Вы получили это сообщение потому что у Вас на сайте ".HTTP_SERVER." установлен модуль Почта России 2.0 и в настройках модуля включена опция \"Уведомлять о необходимости обновить модуль на e-mail\"";
+		Необходимо обновить модуль Почта России 2.0";
 		
 		$mail = new Mail();
 		$mail->protocol = $this->config->get('config_mail_protocol');
@@ -830,6 +1510,9 @@ class ClassRussianpost2 extends ClassLicense {
 				WHERE ems_code = '".$this->db->escape($ems_code)."'
 				ORDER BY rr.`ems_name` ASC");
 			
+				if( !$query->row )
+					continue;
+				
 				$zones_arr = array();
 				
 				foreach( $zones as $zone_id )
@@ -949,5 +1632,449 @@ class ClassRussianpost2 extends ClassLicense {
 		return $regions_hash;
 	}
 	
+	
+	public function importSettings($settings)
+	{
+		$this->db->query("DELETE FROM " . DB_PREFIX . "setting WHERE `group` = 'russianpost2'
+			AND `key` LIKE 'russianpost2_%' 
+			AND `key` != 'russianpost2_regions2zones' 
+			AND `key` != 'russianpost2_countries_list'
+			AND `key` != 'russianpost2_from_region'"); 
+		
+		foreach($settings['setting'] as $row)
+		{
+			$sql = "INSERT INTO `" . DB_PREFIX . "setting` SET
+				`group` = 'russianpost2',
+				`key` = '".$this->db->escape($row['key'])."',
+				`value` = '".$this->db->escape($row['value'])."',
+				`serialized` = '".$this->db->escape($row['serialized'])."'";
+			$this->db->query($sql); 
+		}
+		
+		foreach($this->setting_tables as $table_key)
+		{
+			if( isset( $settings[ $table_key ] ) )
+			{
+				$this->db->query("DELETE FROM `" . DB_PREFIX . $table_key. "`");
+				
+				foreach($settings[$table_key] as $row)
+				{
+					$table_struct_ar = explode("|", $this->table_struct[$table_key]);
+					
+					$data = array();
+					foreach($table_struct_ar as $key)
+					{
+						$value = isset($row[$key]) ? $row[$key] : '';
+						$data[] = " `".$key."` = '".$this->db->escape($value)."' ";
+					}
+					
+					$sql =  "INSERT INTO `" . DB_PREFIX . $table_key . "` SET ".implode(", ", $data);
+					 
+					$this->db->query($sql); 
+				}
+			} 
+		}
+	}
+	
+	public function getSettings()
+	{
+		$result = array();
+		
+		$result['version'] = VERSION;
+		
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "setting` WHERE `group` = 'russianpost2'
+			AND `key` LIKE 'russianpost2_%' AND `key` != 'russianpost22_lista'
+			AND `key` != 'russianpost2_regions2zones' 
+			AND `key` != 'russianpost2_countries_list'
+			AND `key` != 'russianpost2_from_region'
+		");
+		
+		$rows = array();
+		
+		foreach($query->rows as $i=>$row)
+		{
+			if( preg_match("/^shipping\_/", $row['key'] ) )
+			{
+				$row['key'] = preg_replace("/^shipping\_/", "", $row['key'] );
+			}
+			
+			$rows[] = $row;
+		}
+		
+		$result['setting'] = $rows;
+		
+		
+		
+		foreach($this->setting_tables as $table_key )
+		{
+			$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . $table_key. "`");
+			
+			$result[$table_key] = $query->rows;
+		}
+		
+		return $result;
+	}
+	
+	public function getPvzList( $region_id, $city, $is_payment = 0, $type = '')
+	{ 
+		$wh_payment = '';
+		if( $is_payment )
+		{ 
+			$this->checkPvzDB();
+			$wh_payment = " AND ( (card_payment = 1 OR cash_payment = 1) OR ( postcode NOT LIKE '9%' ) ) ";
+		}
+	
+		$wh_type = '';
+		
+		if( $type )
+		{
+			$this->checkPvzDB(); 
+			if( $type == 'rupost' )
+				$wh_type = " AND ( 
+					postcode NOT LIKE '9%'
+				) ";
+			else
+				$wh_type = " AND ( postcode LIKE '9%' ) "; 
+		}
+		
+		$query_region = $this->db->query("SELECT * FROM `" . DB_PREFIX . "russianpost2_regions` 
+			WHERE id = ".(int)$region_id);
+		
+		
+		$wh_type2 = '';
+		
+		if( !empty($city) )
+		{
+			if( $this->config_get('russianpost2_pvz_showtype') == 'capital' )
+			{
+				$wh_type2 .= " AND ( `city` = '".$this->db->escape($query_region->row['capital'])."' OR city = '".$this->db->escape($city)."' ) ";
+			}
+			elseif( $this->config_get('russianpost2_pvz_showtype') == 'city' )
+			{
+				$wh_type2 .= " AND city = '".$this->db->escape($city)."' ";
+			}
+			else // region
+			{
+				//none
+			}
+		}
+		else
+		{
+			if( $this->config_get('russianpost2_pvz_showtype_isnopvz') == 'capital' )
+			{
+				$wh_type2 .= " AND city = '".$this->db->escape($query_region->row['capital'])."' ";
+			}
+			elseif( $this->config_get('russianpost2_pvz_showtype_isnopvz') == 'hide' )
+			{
+				return array();
+			}
+			else // region
+			{
+				//none
+			}
+		}
+		
+		$order_ar = array();
+		
+		if( !empty($city) )
+			$order_ar[] = " IF( city = '".$this->db->escape($city)."', 1, 0 ) DESC ";
+		
+		if( !empty($query_region->row['capital']) && $query_region->row['capital'] != $city )
+			$order_ar[] = " IF( city = '".$this->db->escape($query_region->row['capital'])."', 1, 0 ) DESC ";
+		
+		$order_ar[] = " trim(SUBSTRING_INDEX(address, ',', 2)) "; // "регион, город"
+		$order_ar[] = " address ";
+		
+		
+		
+		if( $this->config_get('russianpost2_pvz_sorttype') == 'brand' )
+		{
+			$order_ar[] = " IF( ( 
+					type_post_office = 'GOPS' OR type_post_office = 'SOPS' OR type_post_office = 'PPS' OR 
+					type_post_office = ''
+				), 1, 0 ), brand_name ";
+		}
+		 
+	
+		$sql = "SELECT * FROM `" . DB_PREFIX . "russianpost2_indexes` 
+				WHERE region_id = '".(int)$region_id."' 
+				AND lat != ''
+				AND lon != ''
+				AND address != ''
+				".$wh_payment."
+				".$wh_type."
+				".$wh_type2."
+				ORDER BY ".implode(", ", $order_ar);  
+		 
+		$res = $this->db->query($sql)->rows;
+		
+		if( !$res && !empty($city) && $this->config_get('russianpost2_pvz_showtype') == 'city' )
+		{
+			$wh_type2 = '';
+			
+			if( $this->config_get('russianpost2_pvz_showtype_isnopvz') == 'capital' )
+			{
+				$wh_type2 .= " AND city = '".$this->db->escape($query_region->row['capital'])."' ";
+			}
+			elseif( $this->config_get('russianpost2_pvz_showtype_isnopvz') == 'hide' )
+			{
+				return array();
+			}
+			else // region
+			{
+				//none
+			}
+			
+				
+			$sql = "SELECT * FROM `" . DB_PREFIX . "russianpost2_indexes` 
+					WHERE region_id = '".(int)$region_id."' 
+					AND lat != ''
+					AND lon != ''
+					AND address != ''
+					".$wh_payment."
+					".$wh_type."
+					".$wh_type2."
+					ORDER BY ".implode(", ", $order_ar);   
+			
+			$res = $this->db->query($sql)->rows;
+			
+		}
+		
+		return $res;
+	}
+	
+	
+	private function config_get($key)
+	{
+		return $this->config->get($key);
+	}
+	
+	 
+	public function getRussiaCountry()
+	{
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "country WHERE iso_code_2='RU'");
+		
+		return $query->row;
+	} 
+	
+	public function getZoneById($zone_id)
+	{
+		$sql = "SELECT rr.*, z.name as name, z.zone_id as zone_id 
+				FROM " . DB_PREFIX . "russianpost2_regions rr 
+								   JOIN 
+									" . DB_PREFIX . "zone z
+								   ON
+									rr.id_oc = z.zone_id
+									WHERE z.zone_id = '".(int)$zone_id."'";
+		
+		return $this->db->query($sql)->row;
+	} 
+		
+	
+	public function formatData($text, $data)
+	{
+		if( is_array($text) )
+		{
+			if( isset($text[ $this->config_get('config_language_id') ]) )
+				$text = $text[ $this->config_get('config_language_id') ];
+			else
+				return "";
+		}
+		else
+		{
+			$text = $this->config_get($text);
+			$text = $this->custom_unserialize($text);
+			
+			if( isset($text[ $this->config_get('config_language_id') ]) )
+				$text = $text[ $this->config_get('config_language_id') ];
+			else
+				return "";
+		}
+		
+		if( !empty($text) && !empty($data) )
+		{
+			foreach($data as $key=>$val)
+			{
+				if( is_string($val) )
+					$text = str_replace("{".$key."}", $val, $text);
+				else
+					$text = str_replace("{".$key."}", "", $text);
+			}
+		}
+		
+		return $text;
+	}
+	
+	public function getPvzType($submethod, $service_key)
+	{
+		if( empty($submethod['pvztype']) && empty($submethod['showmap']) )
+			return '';
+		
+		if( empty($submethod['pvztype']) && !empty($submethod['showmap']) )
+		{
+			$submethod['pvztype'] = 'PVZ_LIST';
+		}
+		
+		/* start 0408 */
+		if( strstr( $service_key, 'parcel_online' ) || strstr( $service_key, 'ecom' ) )
+		/* end 0408 */
+		{ 
+			$listtype = $submethod['pvztype'];
+		}
+		else
+		{
+			if( !empty($submethod['showmap_skipnopay']) ||
+				strstr($submethod['pvztype'], "PAYMENT")
+			)
+			{
+				$listtype = 'OPS_ONLY_PAYMENT_LIST';  
+			}
+			else
+			{
+				$listtype = 'OPS_ONLY_LIST'; 
+			}
+		}
+		
+		return $listtype;
+	}
+	
+	public function getRub()
+	{
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "currency 
+		WHERE   code='RUB' OR 
+				code='RUR' OR 
+				TRIM(title)='Рубль' OR 
+				TRIM(title)='Руб'   OR 
+				TRIM(title)='руб.'  OR 
+				TRIM(title)='rub.'  
+		");
+		
+		if( empty($query->row['code']) )
+		{
+			//$this->addError('Не определена валюта Рубль.', 1);
+		}
+		else
+		{
+			return $query->row ;
+		}
+	}
+	public function getRubCode()
+	{
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "currency 
+		WHERE   code='RUB' OR 
+				code='RUR' OR 
+				TRIM(title)='Рубль' OR 
+				TRIM(title)='Руб'   OR 
+				TRIM(title)='руб.'  OR 
+				TRIM(title)='rub.'  
+		");
+		
+		if( empty($query->row['code']) )
+		{
+			//$this->addError('Не определена валюта Рубль.', 1);
+		}
+		else
+		{
+			return $query->row['code'];
+		}
+	}
+	
+	private function custom_unserialize($s)
+	{
+		if( is_array($s) ) return $s;
+	
+		if(
+			stristr($s, '{' ) != false &&
+			stristr($s, '}' ) != false &&
+			stristr($s, ';' ) != false &&
+			stristr($s, ':' ) != false
+		){
+			return unserialize($s);
+		}else{
+			return $s;
+		}
+	}
+	
+	public function getRegionById($region_id)
+	{
+		$query =  $this->db->query("SELECT * FROM `" . DB_PREFIX . "russianpost2_regions` 
+		WHERE `id` = '".(int)$region_id."' ")->row;
+		
+		$config_query = $this->db->query("SELECT * FROM  " . DB_PREFIX . "russianpost2_config 
+			WHERE config_key = 'regions'");
+			
+		$result = $this->makeDataHash('regions', $query['data'], $config_query->row);
+		
+		
+		return $result ;
+	}
+	
+	private function makeDataHash($key, $data_str, $config_data = array())
+	{
+		if( empty( $config_data ) )
+		{
+			$query = $this->db_query("SELECT * FROM  " . DB_PREFIX . "russianpost2_config 
+			WHERE config_key = '".$this->db->escape($key)."'");
+			
+			$config_data = $query->row;
+		}
+		
+		$keys = explode(":", $config_data['value']);
+		$data = explode("|", $data_str);
+		
+		$result = array();
+		
+		foreach( $keys as $i=>$key )
+		{
+			$result[ $key ] = $data[ $i ];
+		}
+		
+		return $result;
+	}
+	
+	public function getMapwidgetCodeId($service_key, $shipping_method, $listtype = '', $region_id='') 
+	{ 
+		if( $region_id == 88 || $region_id == 87 ) // ЛНР, ДНР
+			return false;
+		$ar = array();
+		
+		$code = '';
+		
+		if( empty( $shipping_method['showmap'] ) )
+			return false;
+		
+		if( !$listtype )
+			$listtype = $this->getPvzType($shipping_method, $service_key);
+		
+		$russianpost2_mapwidget_codes = $this->config_get('russianpost2_mapwidget_codes');
+		
+		if( !$listtype || !$russianpost2_mapwidget_codes )
+		{
+			if( $this->config_get('russianpost2_mapwidget_code_parcel_online') )
+				$code = $this->config_get('russianpost2_mapwidget_code_parcel_online');
+			elseif( $this->config_get('russianpost2_mapwidget_code_ecom') )
+				$code = $this->config_get('russianpost2_mapwidget_code_ecom');   
+		}
+		else
+		{
+			if( !isset($russianpost2_mapwidget_codes[$listtype]['maptype']) )
+				return false;
+			
+			if( $russianpost2_mapwidget_codes[$listtype]['maptype'] == 'module' )
+				return false;
+		
+			if( empty($russianpost2_mapwidget_codes[$listtype]['code']) )
+				return false;
+		
+			$code = $russianpost2_mapwidget_codes[$listtype]['code'];
+		}
+		
+		if( !$code )
+			return false;
+		
+		preg_match("/id:\s([\d]+)\,/", $code, $ar);
+		
+		return (int)$ar[1];
+	}
 }
 ?>

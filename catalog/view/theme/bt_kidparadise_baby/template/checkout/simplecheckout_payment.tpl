@@ -40,9 +40,13 @@
 							
 							<?php 
 								if (empty($payment_method['image'])) {
-									if ($payment_method['code'] == 'yoomoneyb2bsberbank') {
-										echo 'Просьба, не выбирать этот пункт, идет настройка нового способа оплаты'; //'<div class="payment-overlay"></div><img src="./image/pay/cardonline448.jpg" />';
-										} else {
+									if ($payment_method['code'] == 'yandexur_card') {
+										echo '<div class="payment-overlay"></div><img src="./image/pay/cardonline448.jpg" />';
+									} 
+									elseif ($payment_method['code'] == 'yandexur_sb') {
+										echo '<div class="payment-overlay"></div><img src="./image/pay/sber-oplata.jpg" />';
+									}						
+									else {
 										echo $payment_method['title'];
 									}
 									} else {

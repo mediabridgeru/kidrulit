@@ -3887,3 +3887,15 @@ body.page-category .category-info{
     color: red;
 */
 }
+
+#button-confirm {
+    background: #1DC116;
+    color: #fff;
+    border: 2px solid #824181;
+    border-radius: 5px;
+    display: inline-block;
+    font-size: 14px;
+    min-width: 200px;
+    padding: 15px 20px;
+    text-align: center;
+}
