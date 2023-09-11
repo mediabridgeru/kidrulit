@@ -1015,7 +1015,7 @@ class ModelShippingRussianpost2 extends Model {
 									$serv_key, 
 									$CURRENT_ORDER, 
 									$method['code'].'.'.$submethod['code'], 
-									$submethod['pvztype']
+									isset($submethod['pvztype']) ? $submethod['pvztype'] : ''
 								)
 							)
 						)
@@ -1363,7 +1363,7 @@ class ModelShippingRussianpost2 extends Model {
 				
 				$vr = '';
 				list($submethod_title, $submethod_title_with_no_pvz) = $this->getSubmethodTitle($item);
-				list($submethod_description, $submethod_description_with_no_pvz) = $this->getSubmethodTitle($item, 0, 1);
+				list($submethod_description, $submethod_description_with_no_pvz) = $this->getSubmethodTitle($item, true);
 				
 				$quote_data[$item['code2']] = array(
 					'code'         => $item['code1'].'.'.$item['code2'],
@@ -1834,13 +1834,10 @@ class ModelShippingRussianpost2 extends Model {
 		return false;
 	}
 	
-	private function getSubmethodTitle( $submethod 
-	, $is_html = 0 
-	, $is_desc = 0
-	)
+	private function getSubmethodTitle( $submethod, $is_desc = false)
 	{
-		if( $is_desc && !isset($submethod['desc']) )
-			return '';
+		if ( $is_desc && !isset($submethod['desc']) )
+			return ['', ''];
 		$country_block = "";
 		
 		$russianpost2_tag_country_block = $this->config_get('russianpost2_tag_country_block');
