@@ -60,16 +60,9 @@ class ModelCheckoutOrder extends Model
      * @return bool
      */
     private function isNullShipping($data) {
-        $shipping_codes = ['russianpost2']; // коды доставок, для которых не надо обнулять доставку
+        $shipping_codes = ['russianpost2.rp1', 'customer_group.customer_group4']; // коды доставок, для которых не надо обнулять доставку
 
-        foreach ($shipping_codes as $shippingCode) {
-            $shippingCodeData = explode('.', $data['shipping_code']);
-            if ($shippingCodeData[0] === $shippingCode) {
-                return false;
-            }
-        }
-
-        return true;
+        return !in_array($data['shipping_code'], $shipping_codes);
     }
 
     public function getOrder($order_id) {

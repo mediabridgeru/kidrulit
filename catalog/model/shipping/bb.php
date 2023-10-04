@@ -11,6 +11,8 @@ class ModelShippingBB extends Model
     private $custom_params;
     const CUSTOM_PARAMS_FILENAME = 'bb.json';
 
+    const MAX_QUANTITY = 400; // максимальное количество
+
     public function __construct($registry) {
         parent::__construct($registry);
         $this->registry = $registry;
@@ -37,37 +39,44 @@ class ModelShippingBB extends Model
                 $this->logError('Bad or not found bb_regions.txt, check that BOM prefix not exist');
             }
         }
+
         return self::$replace_zones;
     }
 
-    public function getZoneIdByName($sp05f874) {
-        $sp05f874 = mb_strtoupper($sp05f874, 'UTF-8');
+    public function getZoneIdByName($zoneName) {
+        $zoneName = mb_strtoupper($zoneName, 'UTF-8');
         $this->load->model('localisation/zone');
-        $spf366ec = $this->m_geoZones
-        == null ? $this->model_localisation_zone->getZonesByCountryId($this->getCountryId()) : $this->m_geoZones;
+
+        $spf366ec = $this->m_geoZones == null ? $this->model_localisation_zone->getZonesByCountryId($this->getCountryId()) : $this->m_geoZones;
         $sp38eadd = false;
         $this->m_geoZones = $spf366ec;
         $replacedZones = $this->getReplaceZones();
+
         foreach ($spf366ec as $spc1234e) {
             $spcca2b3 = ltrim(mb_strtoupper($spc1234e['name'], 'UTF-8'));
-            if ($sp05f874 == $spcca2b3 && $sp05f874 == 'САНКТ-ПЕТЕРБУРГ') {
+
+            if ($zoneName == $spcca2b3 && $zoneName == 'САНКТ-ПЕТЕРБУРГ') {
                 $sp38eadd = true;
-            } elseif ($sp05f874 == $spcca2b3 && $sp05f874 == 'МОСКВА') {
+            } elseif ($zoneName == $spcca2b3 && $zoneName == 'МОСКВА') {
                 $sp38eadd = true;
             } elseif (array_key_exists($spcca2b3, $replacedZones)) {
                 $spcca2b3 = $replacedZones[$spcca2b3];
             }
-            if ($sp05f874 == 'КРЫМ РЕСПУБЛИКА' && mb_strstr($spcca2b3, 'КРЫМ')) {
+
+            if ($zoneName == 'КРЫМ РЕСПУБЛИКА' && mb_strstr($spcca2b3, 'КРЫМ')) {
                 $sp38eadd = true;
-            } elseif ($spcca2b3 == $sp05f874) {
+            } elseif ($spcca2b3 == $zoneName) {
                 $sp38eadd = true;
             }
+
             if ($sp38eadd) {
                 return $spc1234e['zone_id'];
                 break;
             }
         }
-        $this->logError('Zone id not found for BB Area: ' . $sp05f874);
+
+        $this->logError('Zone id not found for BB Area: ' . $zoneName);
+
         return 0;
     }
 
@@ -261,10 +270,20 @@ class ModelShippingBB extends Model
         return $zipCheck;
     }
 
+    /**
+     * @param string $check_weight  Включить ограничение по весу отправления для ПВЗ
+     * @param string $cityCode
+     * @param bool $getToken
+     *
+     * @return array|mixed
+     */
     private function getPVZByCode($check_weight, $cityCode, $getToken) {
         $prepaid_pvz_only = $this->getConfigValue('prepaid_pvz_only', 0);
-        if ($this->cart->getWeight() > 0) {
-            $cartWeight = intval($this->weight->convert($this->cart->getWeight(), $this->config->get('config_weight_class_id'), 2))
+
+        $weight = $this->cart->getWeight();
+
+        if ($weight > 0) {
+            $cartWeight = intval($this->weight->convert($weight, $this->config->get('config_weight_class_id'), 2))
                 + $this->getSettingsValue('package_weight');
         } else {
             $cartWeight = $this->getSettingsValue('package_weight');
@@ -354,7 +373,7 @@ class ModelShippingBB extends Model
 
     private function getDeliveryCostPrice($pvz_id, $cartWeight, $volume, $totalSum, $paysum = 0, $getToken = false) {
         if (isset($this->session->data['bb_foreign_shop']) && $this->session->data['bb_foreign_shop']) {
-            return $this->sp212570($pvz_id, $cartWeight, $totalSum, 1, 1, $getToken);
+            return $this->getDeliveryCostForeignPrice($pvz_id, $cartWeight, $totalSum, 1, 1, $getToken);
         }
 
         $deliveryCostsCode = md5(
@@ -382,7 +401,18 @@ class ModelShippingBB extends Model
         return isset($deliveryCosts['price']) ? $deliveryCosts['price'] : -1;
     }
 
-    private function spc7c7f3($calcOptions, $postcode, $cartWeight, $volume, $totalSum, $paysum = 0, $getToken = false) {
+    /**
+     * @param array $calcOptions
+     * @param string $postcode
+     * @param int $cartWeight
+     * @param array $volume
+     * @param float $totalSum
+     * @param int $paysum
+     * @param bool $getToken
+     *
+     * @return float|int|mixed
+     */
+    private function getDeliveryCostCourierPrice($calcOptions, $postcode, $cartWeight, $volume, $totalSum, $paysum = 0, $getToken = false) {
         $deliveryCostsCode = md5(
             $postcode . $cartWeight . $volume['height'] . $volume['width'] . $volume['depth'] . $totalSum . $paysum);
 
@@ -406,21 +436,21 @@ class ModelShippingBB extends Model
 
         $this->kd_delivery_period = isset($deliveryCosts['delivery_period']) ? $deliveryCosts['delivery_period'] : false;
 
-        $spd9d302 = isset($deliveryCosts['price']) && $deliveryCosts['price'] > 0 ? $deliveryCosts['price'] : -1;
+        $deliveryCostPrice = isset($deliveryCosts['price']) && $deliveryCosts['price'] > 0 ? $deliveryCosts['price'] : -1;
 
-        if ($spd9d302 >= 0) {
+        if ($deliveryCostPrice >= 0) {
             $rate_value = (int)$calcOptions['rate_value'];
             if ($calcOptions['rate_option'] == 0) {
-                $spd9d302 += $rate_value;
+                $deliveryCostPrice += $rate_value;
             } elseif ($calcOptions['rate_option'] == 1) {
-                $spd9d302 += round($totalSum / 100 * $rate_value, 1, PHP_ROUND_HALF_UP);
+                $deliveryCostPrice += round($totalSum / 100 * $rate_value, 1, PHP_ROUND_HALF_UP);
             }
         }
 
-        return $spd9d302;
+        return $deliveryCostPrice;
     }
 
-    private function sp212570($pvz_id, $cartWeight, $totalSum, $type, $foreign_insurance, $getToken = false) {
+    private function getDeliveryCostForeignPrice($pvz_id, $cartWeight, $totalSum, $type, $foreign_insurance, $getToken = false) {
         $foreign_insurance = (int)$this->getSettingsValue('foreign_insurance');
 
         $deliveryCostsFCode = md5($pvz_id . $cartWeight . $type . $totalSum . $foreign_insurance);
@@ -459,8 +489,7 @@ class ModelShippingBB extends Model
             $this->logInfo('Calculation pvz_id=' . $pvz_id . ' via tariff zone: ' . $shippingPVZTariffZone);
             $deliveryPrice = $this->getSettingsValue($spbb70f0);
         } else {
-            $deliveryPrice = $calcOptions['calc_type']
-            == 1 ? $calcOptions['fix_rate'] : $this->getDeliveryCostPrice($pvz_id, $cartWeight, $this->getCartVolume(), $totalSum, $paysum);
+            $deliveryPrice = $calcOptions['calc_type'] == 1 ? $calcOptions['fix_rate'] : $this->getDeliveryCostPrice($pvz_id, $cartWeight, $this->getCartVolume(), $totalSum, $paysum);
         }
 
         if ($deliveryPrice >= 0) {
@@ -555,10 +584,10 @@ class ModelShippingBB extends Model
 
         if (!count($courierListCities)) {
             $this->logInfo('Empty CourierListCities. Try to calculate via Zip: ' . $address['postcode']);
-            $spd94fa8 = $this->getZipCheck($address['postcode']);
+            $zipCheck = $this->getZipCheck($address['postcode']);
 
-            if (isset($spd94fa8[0]['ExpressDelivery'])) {
-                if ($spd94fa8[0]['ExpressDelivery']) {
+            if (isset($zipCheck[0]['ExpressDelivery'])) {
+                if ($zipCheck[0]['ExpressDelivery']) {
                     $canCourier = true;
                     unset($this->session->data['bb_shipping_wrong_kd_index']);
                 } else {
@@ -578,6 +607,12 @@ class ModelShippingBB extends Model
         return $canCourier;
     }
 
+    /**
+     * @param string $check_weight Включить ограничение по весу отправления для ПВЗ
+     * @param array $address
+     *
+     * @return array|mixed
+     */
     private function getCityPoints($check_weight, $address) {
         $citiName = mb_strtoupper($address['city'], 'UTF-8');
         $allPoints = $this->specdada();
@@ -652,21 +687,28 @@ class ModelShippingBB extends Model
         $calcOptions['free_total_to'] = 0;
         $calcOptions['use_tariff_zones'] = $this->getSettingsValue('calc_type') == 2;
         $calcOptions['round'] = $this->getSettingsValue('round');
-        $spe6b5e4 = false;
+        
+        $geoZoneExist = false;
+        
         $this->session->data['bb_foreign_shop'] = $this->getSettingsValue('foreign_mode') == 1;
         $postcode = isset($address['postcode']) ? $address['postcode'] : '';
-        $this->session->data['bb_shipping_wrong_kd_index'] = $postcode
-        == '' ? $this->language->get('error_empty_kd_post_index') : $this->language->get('error_wrong_kd_post_index');
+
+        $this->session->data['bb_shipping_wrong_kd_index'] = $postcode == '' ? $this->language->get('error_empty_kd_post_index') : $this->language->get('error_wrong_kd_post_index');
+
         if (isset($address['country_id']) && isset($address['zone_id'])) {
             $this->logInfo('Zone: ' . $address['zone_id'] . ', Country: ' . $address['country_id']);
+
             $zonesQuery = $this->db->query(
                 'SELECT * FROM ' . DB_PREFIX . 'zone_to_geo_zone WHERE country_id = \'' . (int)$address['country_id']
                 . '\' AND (zone_id = \'' . (int)$address['zone_id'] . '\' OR zone_id = \'0\') ORDER BY zone_id DESC'
             );
+
             if ($zonesQuery->num_rows) {
                 $geoZones = $zonesQuery->rows;
+
                 foreach ($geoZones as $geoZone) {
                     $geoZoneId = $geoZone['geo_zone_id'];
+
                     if ($this->getSettingsValue('status', $geoZoneId)) {
                         $this->logInfo('Calc geozone: ' . $geoZoneId);
                         $calcOptions['calc_type'] = $this->getSettingsValue('calc_type', $geoZoneId);
@@ -680,14 +722,14 @@ class ModelShippingBB extends Model
                         $calcOptions['free_total'] = $this->getConfigValue('free_total', 0, $geoZoneId);
                         $calcOptions['free_total_to'] = $this->getConfigValue('free_total_to', 0, $geoZoneId);
                         $calcOptions['fix_delivery_period'] = $this->getConfigValue('fix_delivery_period', 5, $geoZoneId);
-                        $spe6b5e4 = true;
+                        $geoZoneExist = true;
                         break;
                     }
                 }
             }
         }
 
-        if (!$spe6b5e4) {
+        if (!$geoZoneExist) {
             $this->logInfo('No geozones, use defaults');
             $calcOptions['calc_type'] = $this->getSettingsValue('calc_type');
             $calcOptions['fix_rate'] = $this->getSettingsValue('fix_rate');
@@ -704,10 +746,10 @@ class ModelShippingBB extends Model
 
         if ($calcOptions['shipping_type']) {
             if (strlen($postcode) == 6) {
-                $spd94fa8 = $this->getZipCheck($postcode);
-                if (isset($spd94fa8[0]['ExpressDelivery'])) {
-                    if ($spd94fa8[0]['ExpressDelivery']) {
-                        $calcOptions['kd_delivery_zone'] = $spd94fa8[0]['ZoneExpressDelivery'];
+                $zipCheck = $this->getZipCheck($postcode);
+                if (isset($zipCheck[0]['ExpressDelivery'])) {
+                    if ($zipCheck[0]['ExpressDelivery']) {
+                        $calcOptions['kd_delivery_zone'] = $zipCheck[0]['ZoneExpressDelivery'];
                         unset($this->session->data['bb_shipping_wrong_kd_index']);
                     } else {
                         $this->logInfo('KD is not available: ZIP=' . $postcode);
@@ -721,12 +763,18 @@ class ModelShippingBB extends Model
         return $calcOptions;
     }
 
-    public function getPVZById($spab22f7, $getToken) {
+    /**
+     * @param string $pvz_id
+     * @param bool $getToken
+     *
+     * @return false|mixed
+     */
+    public function getPVZById($pvz_id, $getToken) {
         $pvzByCode = $this->getPVZByCode($this->getSettingsValue('check_weight'), 0, $getToken);
 
-        foreach ($pvzByCode as $sp947e41) {
-            if ($sp947e41['Code'] === $spab22f7) {
-                return $sp947e41;
+        foreach ($pvzByCode as $pvz) {
+            if ($pvz['Code'] === $pvz_id) {
+                return $pvz;
             }
         }
 
@@ -844,10 +892,12 @@ class ModelShippingBB extends Model
         $bb_html = '';
         $shipping_pvz = false;
 
+        $weight = $this->cart->getWeight();
+
         if (!empty($data) && is_array($data)) {
             $totalSum = isset($data['total']) ? $data['total'] : $this->getTotalSum();
-            $cartWeight = isset($data['weight']) ? $data['weight'] : $this->cart->getWeight();
-            $sp8d32aa = isset($data['bb_pvz_id']) ? $data['bb_pvz_id'] : 0;
+            $cartWeight = isset($data['weight']) ? $data['weight'] : $weight;
+            $bb_pvz_id = isset($data['bb_pvz_id']) ? $data['bb_pvz_id'] : 0;
             $allFreeShipping = $calcOptions['shipping_type'] == 1 || $calcOptions['shipping_type'] == 2;
             $allCourierShipping = $calcOptions['shipping_type'] == 1 || $calcOptions['shipping_type'] == 3;
 
@@ -857,16 +907,16 @@ class ModelShippingBB extends Model
 
             $sp4e2dd6 = -1;
             $shippingCostValue = -1;
-            $spc1e03f = $calcOptions['calc_type'] == 1 && $calcOptions['fix_rate'] == 0
+            $manualCalcType = $calcOptions['calc_type'] == 1 && $calcOptions['fix_rate'] == 0
                 || isset($calcOptions['free_ship'])
                 && (int)($calcOptions['free_ship'] > 0)
                 && $totalSum >= $calcOptions['free_ship'];
             if ($allFreeShipping) {
-                $sp4e2dd6 = $spc1e03f ? 0 : $this->getDeliveryPrice($calcOptions, $sp8d32aa, 1, $cartWeight, $totalSum);
+                $sp4e2dd6 = $manualCalcType ? 0 : $this->getDeliveryPrice($calcOptions, $bb_pvz_id, 1, $cartWeight, $totalSum);
             }
 
             if ($allCourierShipping) {
-                if (!$spc1e03f) {
+                if (!$manualCalcType) {
                     $courierPrice = 200;
                     if ($calcOptions['kd_delivery_zone'] == 1) {
                         $courierPrice = 150;
@@ -890,7 +940,7 @@ class ModelShippingBB extends Model
 
                 $quote['pickup'] = [
                     'code'         => 'bb.pickup',
-                    'title'        => $this->language->get('text_pickup_description') . ' #' . $sp8d32aa . ' '
+                    'title'        => $this->language->get('text_pickup_description') . ' #' . $bb_pvz_id . ' '
                         . $text_pickup_description,
                     'cost'         => $sp4e2dd6,
                     'tax_class_id' => $this->config->get('bb_tax_class_id'),
@@ -917,7 +967,8 @@ class ModelShippingBB extends Model
             ];
         }
 
-        $check_weight = $this->getSettingsValue('check_weight');
+        $check_weight = $this->getSettingsValue('check_weight'); // Включить ограничение по весу отправления для ПВЗ
+
         if (!isset($this->session->data['bb_shipping_pvz_id']) || !isset($this->session->data['bb_shipping_city_id'])) {
             $cityPoints = $this->getCityPoints($check_weight, $address);
 
@@ -991,21 +1042,24 @@ class ModelShippingBB extends Model
             $allCourierShipping = $this->isCanCourier($address);
         }
 
-        if ($this->cart->getWeight() > 0) {
-            $cartWeight = intval($this->weight->convert($this->cart->getWeight(), $this->config->get('config_weight_class_id'), 2))
+        if ($weight > 0) {
+            $cartWeight = intval($this->weight->convert($weight, $this->config->get('config_weight_class_id'), 2))
                 + $this->getSettingsValue('package_weight');
         } else {
             $cartWeight = $this->getSettingsValue('package_weight');
         }
 
         $select_pvz = $this->getConfigValue('select_pvz', 0);
+
         if ($select_pvz == 1 || $select_pvz == 2) {
-            $sp754fa5 = $this->getCityPoints($check_weight, $address);
-            if (!empty($sp754fa5) && count($sp754fa5) > 1) {
-                $firstPoint = reset($sp754fa5);
-                $spf04109 = $firstPoint['CityCode'];
-                $spc6706b = '<option value="0">' . $this->language->get('text_select_pvz_list') . '</option>';
-                $pvzByCode = $this->getPVZByCode($check_weight, $spf04109, false);
+            $cityPoints = $this->getCityPoints($check_weight, $address);
+
+            if (!empty($cityPoints) && count($cityPoints) > 1) {
+                $firstPoint = reset($cityPoints);
+                $cityCode = $firstPoint['CityCode'];
+
+                $selectInner = '<option value="0">' . $this->language->get('text_select_pvz_list') . '</option>';
+                $pvzByCode = $this->getPVZByCode($check_weight, $cityCode, false);
                 if (empty($pvzByCode)) {
                     unset($this->session->data['bb_shipping_pvz_id']);
                 }
@@ -1013,12 +1067,13 @@ class ModelShippingBB extends Model
                 foreach ($pvzByCode as $pvz) {
                     $sp887239 = isset($this->session->data['bb_shipping_pvz_id'])
                     && $pvz['Code'] === $this->session->data['bb_shipping_pvz_id'] ? 'selected' : '';
-                    $spbae0d0 = array_key_exists('AddressReduce', $pvz) ? $pvz['AddressReduce'] : $pvz['Name'];
-                    $spc6706b .= '<option ' . $sp887239 . ' value="' . $pvz['Code'] . '">' . $spbae0d0
+                    $pvzName = array_key_exists('AddressReduce', $pvz) ? $pvz['AddressReduce'] : $pvz['Name'];
+                    $selectInner .= '<option ' . $sp887239 . ' value="' . $pvz['Code'] . '">' . $pvzName
                         . '</option>';
                 }
+
                 $bb_html = '<span style="display: block; margin-top: 2px; margin-bottom: 8px;"><select onchange="bb_callback($(this).val()); $(\'input[value=&quot;bb.pickup&quot;]\').prop(\'checked\', true); return false;">'
-                    . $spc6706b . '</select></span>';
+                    . $selectInner . '</select></span>';
             }
         }
 
@@ -1029,11 +1084,11 @@ class ModelShippingBB extends Model
                 $this->session->data['bb_shipping_office_addr2'] = $shipping_pvz['Phone'] . ', ' . $workSchedule;
             }
 
-            $shippingPVZCode = $shipping_pvz['Code'];
+            $shippingPVZId = $shipping_pvz['Code'];
             $totalSum = $this->getTotalSum();
 
-            if ($this->cart->getWeight() > 0) {
-                $cartWeight = intval($this->weight->convert($this->cart->getWeight(), $this->config->get('config_weight_class_id'), 2))
+            if ($weight > 0) {
+                $cartWeight = intval($this->weight->convert($weight, $this->config->get('config_weight_class_id'), 2))
                     + $this->getSettingsValue('package_weight');
             } else {
                 $cartWeight = $this->getSettingsValue('package_weight');
@@ -1050,7 +1105,7 @@ class ModelShippingBB extends Model
             }
 
             $shippingPVZTariffZone = $shipping_pvz['TariffZone'];
-            $deliveryPriceValue = $this->getDeliveryPrice($calcOptions, $shippingPVZCode, $shippingPVZTariffZone, $cartWeight, $totalSum);
+            $deliveryPriceValue = $this->getDeliveryPrice($calcOptions, $shippingPVZId, $shippingPVZTariffZone, $cartWeight, $totalSum);
             if ($deliveryPriceValue < 0) {
                 $this->logError('Bad response from BB server. Quit.');
                 return false;
@@ -1058,10 +1113,10 @@ class ModelShippingBB extends Model
 
             if (!$manyPVZ) {
                 $text_select_pvz = $this->language->get('text_change_pvz');
-                $spb1eb30 = explode('_', $shipping_pvz['Name']);
-                $spbae0d0 = empty($spb1eb30) ? $shipping_pvz['Name'] : $spb1eb30[0];
+                $pvzNameParts = explode('_', $shipping_pvz['Name']);
+                $pvzName = empty($pvzNameParts) ? $shipping_pvz['Name'] : $pvzNameParts[0];
                 $workSchedule = array_key_exists('WorkSchedule', $shipping_pvz) ? $shipping_pvz['WorkSchedule'] : $shipping_pvz['WorkShedule'];
-                $bb_html .= '<div id="bb-pvz-block" style="margin: 9px;"><b><span id="bb-pvz-name">' . $spbae0d0
+                $bb_html .= '<div id="bb-pvz-block" style="margin: 9px;"><b><span id="bb-pvz-name">' . $pvzName
                     . '</span></b><br><span id="bb-pvz-addr-short">' . $shipping_pvz['AddressReduce'] . '</span><br>'
                     . $this->language->get('text_phone') . '<span id="bb-pvz-phone">' . $shipping_pvz['Phone'] . '</span>'
                     . $this->language->get('text_work') . '<span id="bb-pvz-work">' . $workSchedule . '</span></div>';
@@ -1070,26 +1125,26 @@ class ModelShippingBB extends Model
 
         if ($allCourierShipping) {
             $totalSum = $this->getTotalSum();
-            if ($this->cart->getWeight() > 0) {
-                $cartWeight = intval($this->weight->convert($this->cart->getWeight(), $this->config->get('config_weight_class_id'), 2))
+            if ($weight > 0) {
+                $cartWeight = intval($this->weight->convert($weight, $this->config->get('config_weight_class_id'), 2))
                     + $this->getSettingsValue('package_weight');
             } else {
                 $cartWeight = $this->getSettingsValue('package_weight');
             }
             
             if (isset($this->session->data['bb_foreign_shop']) && $this->session->data['bb_foreign_shop']) {
-                $shippingCostValue = $this->sp212570($address['postcode'], $cartWeight, $totalSum, 2, 1);
+                $shippingCostValue = $this->getDeliveryCostForeignPrice($address['postcode'], $cartWeight, $totalSum, 2, 1);
             } else {
-                $spc1e03f = $calcOptions['calc_type'] == 1 && $calcOptions['fix_rate'] == 0
+                $manualCalcType = $calcOptions['calc_type'] == 1 && $calcOptions['fix_rate'] == 0
                     || isset($calcOptions['free_ship'])
                     && (int)($calcOptions['free_ship'] > 0)
                     && $this->getTotalSum() >= $calcOptions['free_ship'];
-                if ($spc1e03f && $calcOptions['kd_free_too']) {
+                if ($manualCalcType && $calcOptions['kd_free_too']) {
                     $shippingCostValue = 0;
                 } else {
                     $postcode = $address['postcode'];
                     if (!empty($postcode) && strlen($postcode) == 6) {
-                        $shippingCostValue = $this->spc7c7f3($calcOptions, $postcode, $cartWeight, $this->getCartVolume(), $totalSum);
+                        $shippingCostValue = $this->getDeliveryCostCourierPrice($calcOptions, $postcode, $cartWeight, $this->getCartVolume(), $totalSum);
                         if ($shippingCostValue <= 0) {
                             $this->logError('KD devivery: bad response from BB server. KD disabled.');
                             $allCourierShipping = false;
@@ -1115,11 +1170,11 @@ class ModelShippingBB extends Model
         $validateUrl = '$.ajax({url:"index.php?route=checkout/' . $shippingMethode
             . '/validate",type:"post",data:$("#shipping-address input[type=text], #shipping-address select"),dataType:"json",success:function(json){$.ajax({url:"index.php?route=checkout/shipping_method",dataType:"html",success:function(html){$("#shipping-method .checkout-content").html(html); var selector = "input[value=\'"+sel_sm+"\']"; $(selector).prop("checked", true); }});}});';
 
-        $sp3c13a1 = !$allFreeShipping;
+        $notAllFreeShipping = !$allFreeShipping;
 
         $codePrefix = 'bb';
         $text_pickup = '';
-        if ($sp3c13a1) {
+        if ($notAllFreeShipping) {
             $codePrefix = 'fake';
             $text_pickup = $this->language->get('text_pickup_denied');
             $costExist = false;
@@ -1235,13 +1290,35 @@ class ModelShippingBB extends Model
         $cartProducts = $this->cart->getProducts();
         $productIndex = 0;
 
+        $cartProductsQuantity = 0; // количество всех товаров в корзине
+
+        foreach ($cartProducts as $product) {
+            $cartProductsQuantity += $product['quantity'];
+        }
+
         foreach ($cartProducts as $product) {
             $length = $this->length->convert($product['length'], $product['length_class_id'], 1);
             $width = $this->length->convert($product['width'], $product['length_class_id'], 1);
             $height = $this->length->convert($product['height'], $product['length_class_id'], 1);
 
-            if ($product['quantity'] > 399) {
-                $data = $this->getPalette($length, $width, $height, $product['quantity']);
+            if ($cartProductsQuantity > (self::MAX_QUANTITY - 1) && $product['quantity'] > 10) {
+                $paletteData = $this->getPaletteData($length, $width, $height, $product['quantity'], $cartProductsQuantity);
+
+                for ($productCounter = 0; $productCounter < $paletteData['palette']; $productCounter++) {
+                    $data[$productIndex]['X'] = $paletteData['X'];
+                    $data[$productIndex]['Y'] = $paletteData['Y'];
+                    $data[$productIndex]['Z'] = $paletteData['Z'];
+
+                    $productIndex++;
+                }
+
+                for ($productCounter = 0; $productCounter < $paletteData['rest']; $productCounter++) {
+                    $data[$productIndex]['X'] = $length;
+                    $data[$productIndex]['Y'] = $width;
+                    $data[$productIndex]['Z'] = $height;
+
+                    $productIndex++;
+                }
             } else {
                 for ($productCounter = 0; $productCounter < $product['quantity']; $productCounter++) {
                     $data[$productIndex]['X'] = $length;
@@ -1256,10 +1333,9 @@ class ModelShippingBB extends Model
         return $this->getVolume($data);
     }
 
-    private function getPalette($length, $width, $height, $quantity) {
-        $data = null;
-
-        $maxQuantity = 400; // максимальное количество
+    private function getPaletteData($length, $width, $height, $quantity, $cartProductsQuantity) {
+        /* максимальное количество данного товара (пропорционально) */
+        $maxQuantity = ceil(self::MAX_QUANTITY * $quantity / $cartProductsQuantity);
 
         $sizes = [
             'length' => $length,
@@ -1278,24 +1354,24 @@ class ModelShippingBB extends Model
         $quantity2 = $size1 / $size2; // количество средних, которое укладывается в максимальном размере
         $quantity3 = $size1 / $size3; // количество минимальных, которое укладывается в максимальном размере
 
-        $delta2 = $quantity2 - floor($quantity2); // точность совпадения
-        $delta3 = $quantity3 - floor($quantity3); // точность совпадения
-
         $dim2 = $size2; // второй размер средний
         $dim3 = $size3; // третий размер минимальный
-        $delta = $delta2; // разница со средним
 
-        if ($delta3 < $delta2) {
+        if ($quantity3 > $quantity2) {
             $dim2 = $size3; // второй размер минимальный
             $dim3 = $size2; // третий размер средний
-            $delta = $delta3; // разница с минимальным
         }
 
-        $quantity2 = floor($size1 / $dim2) - 1; // количество товаров в паллете по Y
-        $quantity3 = 2; // количество товаров в паллете по Z
-        $length2 = $dim2; // длина по Y
-        $length3 = $dim3; // длина по Z
+        $quantity2 = floor($size1 / $dim2); // количество товаров в паллете по Y
+
+        if ($quantity2 > 2) {
+            $quantity2--;
+        }
+
+        $quantity3 = 1; // количество товаров в паллете по Z
+
         $paletteQuantity = 0; // количество паллет
+        $restQuantity = $quantity; // количество без паллет
         $allQuantity = $maxQuantity + 1; // общее количество товаров
 
         while ($allQuantity > $maxQuantity) {
@@ -1303,34 +1379,24 @@ class ModelShippingBB extends Model
 
             $length2 = $quantity2 * $dim2;
 
-            if ($length2 > $size1) {
+            if ($length2 > $size1 * 2) {
                 $quantity3++;
                 $quantity2 = floor($quantity2 / 2) + 1;
             }
 
             $paletteQuantity = floor($quantity / $quantity2 / $quantity3);
-            $allQuantity = $quantity + $paletteQuantity - $paletteQuantity * $quantity2 * $quantity3;
+            $palettes = $paletteQuantity * $quantity2 * $quantity3;
+            $restQuantity = $quantity - $palettes;
+            $allQuantity = $paletteQuantity + $restQuantity;
         }
 
-        $productIndex = 0;
-
-        while ($productIndex < $paletteQuantity) {
-            $data[$productIndex]['X'] = $size1;
-            $data[$productIndex]['Y'] = $dim2 * $quantity2;
-            $data[$productIndex]['Z'] = $dim3 * $quantity3;
-
-            $productIndex++;
-        }
-
-        while ($productIndex < $allQuantity) {
-            $data[$productIndex]['X'] = $length;
-            $data[$productIndex]['Y'] = $width;
-            $data[$productIndex]['Z'] = $height;
-
-            $productIndex++;
-        }
-
-        return $data;
+        return [
+            'X' => $size1,
+            'Y' => $dim2 * $quantity2,
+            'Z' => $dim3 * $quantity3,
+            'palette' => $paletteQuantity,
+            'rest' => $restQuantity,
+        ];
     }
 
     private function getVolume($data) {
