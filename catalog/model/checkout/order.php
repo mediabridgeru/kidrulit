@@ -60,7 +60,16 @@ class ModelCheckoutOrder extends Model
      * @return bool
      */
     private function isNullShipping($data) {
-        $shipping_codes = ['russianpost2.rp1', 'customer_group.customer_group4']; // коды доставок, для которых не надо обнулять доставку
+        $shipping_codes = [
+            'russianpost2.rp1',
+            'customer_group.customer_group1',
+            'customer_group.customer_group2',
+            'customer_group.customer_group3',
+            'customer_group.customer_group4',
+            'customer_group.customer_group5',
+            'customer_group.customer_group6',
+            'customer_group.customer_group7',
+        ]; // коды доставок, для которых не надо обнулять доставку
 
         return !in_array($data['shipping_code'], $shipping_codes);
     }
@@ -327,7 +336,7 @@ class ModelCheckoutOrder extends Model
             $template->data['do_hidesbrf_card'] = 0;
             //$this->load->model('account/order');
 
-            //$scd_tmp = $this->model_account_order->getOrderScd(1, $order_id, $order_info['customer_id']);
+            //$scd_tmp = $this->model_account_order->getOrderScd(1, $order_id);
 
             if(!empty($this->session->data['custom_customer_type_simple'])) {
                 if($this->session->data['custom_customer_type_simple'] != 'individual') {
@@ -377,6 +386,39 @@ class ModelCheckoutOrder extends Model
             $replace = array('firstname' => $order_info['shipping_firstname'], 'lastname' => $order_info['shipping_lastname'], 'company' => $order_info['shipping_company'], 'address_1' => $order_info['shipping_address_1'], 'address_2' => $order_info['shipping_address_2'], 'city' => $order_info['shipping_city'], 'postcode' => $order_info['shipping_postcode'], 'zone' => $order_info['shipping_zone'], 'zone_code' => $order_info['shipping_zone_code'], 'country' => $order_info['shipping_country']);
             $template->data['shipping_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));
 
+            $template->data['totals'] = $order_total_query->rows;
+
+            $show_delivery = !($this->isNullShipping($order_info));
+
+            $shippingName = '';
+            $shippingPrice = 0;
+            $productTotal = 0;
+            $totals = [];
+
+            foreach ($template->data['totals'] as $total) {
+                if ($total['code'] === 'shipping') {
+                    $shippingName = $total['title'];
+                    $shippingPrice = $total['value'];
+                } elseif ($total['code'] === 'total') {
+                    $productTotal = $total['value'];
+                }
+
+                $totals[$total['code']] = $total;
+            }
+
+            if ($show_delivery && $shippingPrice) {
+               unset($totals['shipping']);
+
+                foreach ($totals as $total_code => $total) {
+                    if ($total_code === 'sub_total') {
+                        $totals[$total_code]['value'] = $productTotal;
+                        $totals[$total_code]['text'] = number_format($productTotal, 2, '.', ' ');
+                    }
+                }
+
+                $template->data['totals'] = $totals;
+            }
+
             // Products
             $template->data['products'] = array();
             foreach ($order_product_query->rows as $product) {
@@ -393,14 +435,16 @@ class ModelCheckoutOrder extends Model
                 $template->data['products'][] = array('name' => $product['name'], 'model' => $product['model'], 'option' => $option_data, 'quantity' => $product['quantity'], 'price' => $this->currency->format($product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0), $order_info['currency_code'], $order_info['currency_value']), 'total' => $this->currency->format($product['total'] + ($this->config->get('config_tax') ? ($product['tax'] * $product['quantity']) : 0), $order_info['currency_code'], $order_info['currency_value']));
             }
 
+            if ($show_delivery && $shippingPrice) {
+                $template->data['products'][] = ['name' => $shippingName, 'model' => '', 'option' => '', 'quantity' => 1, 'price' => $this->currency->format($shippingPrice + ($this->config->get('config_tax') ? $product['tax'] : 0), $order_info['currency_code'], $order_info['currency_value']), 'total' => $this->currency->format($shippingPrice + ($this->config->get('config_tax') ? ($product['tax']) : 0), $order_info['currency_code'], $order_info['currency_value'])];
+            }
+
             // Vouchers
             $template->data['vouchers'] = array();
             foreach ($order_voucher_query->rows as $voucher) {
                 $template->data['vouchers'][] = array('description' => $voucher['description'], 'amount' => $this->currency->format($voucher['amount'], $order_info['currency_code'], $order_info['currency_value']));
             }
 
-            $template->data['totals'] = $order_total_query->rows;
-            
             $codes = array('bank_transfer', 'bank_transfer2'); // коды оплат, для которых надо вывести акты и накладную
 
             if (in_array($order_info['payment_code'], $codes)) {
@@ -449,6 +493,10 @@ class ModelCheckoutOrder extends Model
                 }
             }
 
+            if ($show_delivery && $shippingPrice) {
+                $text .= '1x ' . $shippingName . ' '. html_entity_decode($this->currency->format($shippingPrice + ($this->config->get('config_tax') ? ($product['tax']) : 0), $order_info['currency_code'], $order_info['currency_value']), ENT_NOQUOTES, 'UTF-8') . "\n";
+            }
+
             foreach ($order_voucher_query->rows as $voucher) {
                 $text .= '1x ' . $voucher['description'] . ' ' . $this->currency->format($voucher['amount'], $order_info['currency_code'], $order_info['currency_value']);
             }
@@ -456,7 +504,7 @@ class ModelCheckoutOrder extends Model
             $text .= "\n";
             $text .= $language->get('text_new_order_total') . "\n";
 
-            foreach ($order_total_query->rows as $total) {
+            foreach ($totals as $total) {
                 $text .= $total['title'] . ': ' . html_entity_decode($total['text'], ENT_NOQUOTES, 'UTF-8') . "\n";
             }
 

@@ -179,7 +179,7 @@ class ModelAccountOrder extends Model {
         return $query->row['total'];
     }
 
-    public function getOrderScd($object_type, $object_id, $customer_id) {
+    public function getOrderScd($object_type, $object_id) {
         $query = $this->db->query("SELECT * FROM simple_custom_data WHERE object_type = '" . (int)$object_type . "'  AND  object_id = '" . (int)$object_id . "'");
 
         return $query->rows;

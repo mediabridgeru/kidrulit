@@ -11,7 +11,8 @@ class ModelShippingBB extends Model
     private $custom_params;
     const CUSTOM_PARAMS_FILENAME = 'bb.json';
 
-    const MAX_QUANTITY = 400; // максимальное количество
+    const MAX_QUANTITY = 400; // максимальное количество товаров, которое должно остаться в корзине
+    const MIN_PALETTE_QUANTITY = 5; // минимальное количество товара для расчета блоками
 
     public function __construct($registry) {
         parent::__construct($registry);
@@ -1291,9 +1292,16 @@ class ModelShippingBB extends Model
         $productIndex = 0;
 
         $cartProductsQuantity = 0; // количество всех товаров в корзине
+        $cartPaletteProductsQuantity = 0; // количество товаров в корзине, учитываемых блоками
+        $paletteProducts = []; // ключи товаров, учитываемых блоками
 
         foreach ($cartProducts as $product) {
             $cartProductsQuantity += $product['quantity'];
+
+            if ($product['quantity'] > self::MIN_PALETTE_QUANTITY) {
+                $cartPaletteProductsQuantity += $product['quantity'];
+                $paletteProducts[] = $product['key'];
+            }
         }
 
         foreach ($cartProducts as $product) {
@@ -1301,23 +1309,42 @@ class ModelShippingBB extends Model
             $width = $this->length->convert($product['width'], $product['length_class_id'], 1);
             $height = $this->length->convert($product['height'], $product['length_class_id'], 1);
 
-            if ($cartProductsQuantity > (self::MAX_QUANTITY - 1) && $product['quantity'] > 10) {
-                $paletteData = $this->getPaletteData($length, $width, $height, $product['quantity'], $cartProductsQuantity);
+            if ($length == 0 || $width == 0 || $height == 0) {
+                continue;
+            }
 
-                for ($productCounter = 0; $productCounter < $paletteData['palette']; $productCounter++) {
-                    $data[$productIndex]['X'] = $paletteData['X'];
-                    $data[$productIndex]['Y'] = $paletteData['Y'];
-                    $data[$productIndex]['Z'] = $paletteData['Z'];
+            if ($cartProductsQuantity >= self::MAX_QUANTITY && in_array($product['key'], $paletteProducts)) {
+                /* максимальное количество данного товара (пропорционально) */
+                $maxQuantity = ceil((self::MAX_QUANTITY + $cartPaletteProductsQuantity - $cartProductsQuantity) * $product['quantity'] / $cartPaletteProductsQuantity);
 
-                    $productIndex++;
-                }
+                if ($maxQuantity > 2) {
+                    $paletteData = $this->getPaletteData($length, $width, $height, $product['quantity'], $maxQuantity);
 
-                for ($productCounter = 0; $productCounter < $paletteData['rest']; $productCounter++) {
-                    $data[$productIndex]['X'] = $length;
-                    $data[$productIndex]['Y'] = $width;
-                    $data[$productIndex]['Z'] = $height;
+                    for ($productCounter = 0; $productCounter < $paletteData['palette']; $productCounter++) {
+                        $data[$productIndex]['X'] = $paletteData['X'];
+                        $data[$productIndex]['Y'] = $paletteData['Y'];
+                        $data[$productIndex]['Z'] = $paletteData['Z'];
 
-                    $productIndex++;
+                        $productIndex++;
+                    }
+
+                    for ($productCounter = 0; $productCounter < $paletteData['rest']; $productCounter++) {
+                        $data[$productIndex]['X'] = $length;
+                        $data[$productIndex]['Y'] = $width;
+                        $data[$productIndex]['Z'] = $height;
+
+                        $productIndex++;
+                    }
+                } else {
+                    for ($productCounter = 0; $productCounter < $product['quantity']; $productCounter++) {
+                        $data[$productIndex]['X'] = $length;
+                        $data[$productIndex]['Y'] = $width;
+                        $data[$productIndex]['Z'] = $height;
+
+                        $productIndex++;
+                    }
+
+                    $cartPaletteProductsQuantity -= $product['quantity'];
                 }
             } else {
                 for ($productCounter = 0; $productCounter < $product['quantity']; $productCounter++) {
@@ -1333,10 +1360,16 @@ class ModelShippingBB extends Model
         return $this->getVolume($data);
     }
 
-    private function getPaletteData($length, $width, $height, $quantity, $cartProductsQuantity) {
-        /* максимальное количество данного товара (пропорционально) */
-        $maxQuantity = ceil(self::MAX_QUANTITY * $quantity / $cartProductsQuantity);
-
+    /**
+     * @param $length string
+     * @param $width string
+     * @param $height string
+     * @param $quantity int Количество товара
+     * @param $maxQuantity int Максимальная квота для данного товара
+     *
+     * @return array
+     */
+    private function getPaletteData($length, $width, $height, $quantity, $maxQuantity) {
         $sizes = [
             'length' => $length,
             'width' => $width,
@@ -1363,6 +1396,14 @@ class ModelShippingBB extends Model
         }
 
         $quantity2 = floor($size1 / $dim2); // количество товаров в паллете по Y
+
+        if ($quantity2 > $quantity) {
+            $quantity2 = $quantity;
+        }
+
+        if ($quantity2 > $maxQuantity) {
+            $quantity2 = $maxQuantity;
+        }
 
         if ($quantity2 > 2) {
             $quantity2--;
@@ -1443,9 +1484,9 @@ class ModelShippingBB extends Model
         }
 
         return [
-            'depth'  => Round($data[$countData - 1]['X'], 2),
-            'width'  => Round($data[$countData - 1]['Y'], 2),
-            'height' => Round($data[$countData - 1]['Z'], 2),
+            'depth'  => round($data[$countData - 1]['X'], 2),
+            'width'  => round($data[$countData - 1]['Y'], 2),
+            'height' => round($data[$countData - 1]['Z'], 2),
         ];
     }
 }

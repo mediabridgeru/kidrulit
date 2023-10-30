@@ -204,22 +204,6 @@
                         ]]></add>
         </operation>
         <operation>
-            <search position="before"><![CDATA[$this->data['orders'][] = array(]]></search>
-            <add><![CDATA[
-                    $shipping_cost = $ind = 0;
-                    if (isset($total_data)){
-                        foreach ( $total_data as $total_d ) {
-                            if ( $total_d['code'] == 'total' ){
-                                $ind = $total_d['text'];
-                            }
-                            if ($total_d['code'] == 'shipping') {
-                                $shipping_cost = $total_d['value'];
-                            }
-                        }
-                    }
-        ]]></add>
-        </operation>
-        <operation>
             <search position="before"><![CDATA[=> $total_data,]]></search>
             <add><![CDATA[
                         'firstname'         => $order_info['firstname'],

@@ -366,7 +366,7 @@ class ControllerWaybill
                 $clean_products_total += $c_temp_total;
                 $clean_products_nds += round($c_temp_total * 18 / 118, 2);
 
-                $option_data = array();
+                $option_data = [];
 
                 $options = $this->model_sale_order->getOrderOptions($order_id, $product['order_product_id']);
 
@@ -409,7 +409,7 @@ class ControllerWaybill
                 );
             }
 
-            $voucher_data = array();
+            $voucher_data = [];
 
             $vouchers = $this->model_sale_order->getOrderVouchers($order_id);
 
@@ -442,6 +442,15 @@ class ControllerWaybill
                 $telephone = $company_telefon;
             }
 
+            $show_delivery = true; // выводить доставку в документе
+            $shippingExcludeCodes = ['bb', 'cdek']; // список доставок, где не надо выводить доставку
+
+            foreach ($shippingExcludeCodes as $shippingExcludeCode) {
+                if (stristr($order_info['shipping_code'], $shippingExcludeCode) !== false) {
+                    $show_delivery = false;
+                }
+            }
+
             $this->data['orders'][] = array(
                 'total_2_str'                 => mb_ucfirst(num2str($ind)),
                 'products_order_total'        => isset($clean_products_total) ? $clean_products_total : '',
@@ -449,7 +458,7 @@ class ControllerWaybill
                 'products_order_total_prop'   => mb_ucfirst(num2str(isset($clean_products_total) ? $clean_products_total : 0)),
                 'products_total'              => mb_ucfirst(prop(isset($products_total) ? $products_total : 0)),
                 'clean_products_nds'          => isset($clean_products_nds) ? $clean_products_nds : '0',
-
+                'show_delivery'               => $show_delivery,
 
                 'order_id'                    => $order_id,
                 'invoice_no'                  => $invoice_no,
@@ -678,6 +687,9 @@ class ControllerWaybill
         $total_row = 24;
         $total_rows = 0;
         $order_total = 0;
+        $show_delivery = $order['show_delivery'];
+        $shippingName = '';
+        $shippingPrice = 0;
         $totals = [];
 
         foreach ($order['total'] as $total) {
@@ -696,14 +708,9 @@ class ControllerWaybill
                     }
                 }
             } elseif ($total['code'] == 'shipping') {
-                if ($order['payment_include'] == '1' && $value > 0) {
-                    try { // добавляем строку для доставки
-                        $this->insertRow($sheet, $total_row + 1);
-
-                        $totals[] = $total;
-                    } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
-                        $this->log($e->getMessage());
-                    }
+                if ($show_delivery && $value > 0) {
+                    $shippingName = $total['title'];
+                    $shippingPrice = $value;
                 }
             } elseif ($total['code'] == 'total') {
                 $totals[] = [
@@ -722,14 +729,8 @@ class ControllerWaybill
             foreach ($totals as $total) {
                 $value = $order_total;
 
-                if ($order['payment_include'] == '1') {
-                    $value = $total['value'];
-                }
-
                 $sheet->SetCellValue('B' . ($total_row + $total_rows), $total['title']);
-
                 $sheet->SetCellValue('AH' . ($total_row + $total_rows), $value);
-
                 $sheet->getStyle('AH' . ($total_row + $total_rows))->getNumberFormat()->setFormatCode($format_number);
 
                 $total_rows++;
@@ -787,6 +788,38 @@ class ControllerWaybill
 
             $i++;
             $r++;
+        }
+
+        if ($show_delivery && $shippingPrice) {
+            $sheet->insertNewRowBefore($r, 1);
+
+            $cell[] = 'B' . $r . ':C' . $r;// номер
+            $cell[] = 'D' . $r . ':G' . $r;// Артикул
+            $cell[] = 'H' . $r . ':X' . $r;// Товары (работы, услуги)
+            $cell[] = 'Y' . $r . ':AA' . $r;// Кол-во
+            $cell[] = 'AB' . $r . ':AC' . $r;// Ед.
+            $cell[] = 'AD' . $r . ':AG' . $r;// Цена
+            $cell[] = 'AH' . $r . ':AL' . $r;// Сумма
+
+            foreach ($cell as $cel) {
+                $sheet->mergeCells($cel);
+            }
+
+            $height = 12 + 2 * intval(mb_strlen($shippingName, "UTF-8") / 10);
+            $sheet->getRowDimension($r)->setRowHeight($height);
+
+            $sheet->getStyle("B$r:AL$r")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER_CONTINUOUS);
+            $sheet->getStyle("H$r:X$r")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+
+            $sheet->getStyle('AD' . $r)->getNumberFormat()->setFormatCode($format_number);
+            $sheet->getStyle('AH' . $r)->getNumberFormat()->setFormatCode($format_number);
+
+            $sheet->SetCellValue('B' . $r, $i);
+            $sheet->SetCellValue('H' . $r, $shippingName);
+            $sheet->SetCellValue('Y' . $r, 1);
+            $sheet->SetCellValue('AB' . $r, 'шт.');
+            $sheet->SetCellValue('AD' . $r, $shippingPrice);
+            $sheet->SetCellValue('AH' . $r, $shippingPrice);
         }
 
         return $spreadsheet;
@@ -908,6 +941,9 @@ class ControllerWaybill
         $total_row = 30;
         $total_rows = 0;
         $order_total = 0;
+        $show_delivery = $order['show_delivery'];
+        $shippingName = '';
+        $shippingPrice = 0;
 
         $totals = []; // суммы, которые надо показать
 
@@ -915,7 +951,9 @@ class ControllerWaybill
             $value = (float)$total['value'];
 
             if ($total['code'] == 'sub_total') {
-                $order_total = $total['value'];
+                if (!$show_delivery) {
+                    $order_total = $total['value'];
+                }
 
                 $totals[] = $total;
             } elseif ($total['code'] == 'transfer_total') {
@@ -929,26 +967,21 @@ class ControllerWaybill
                     }
                 }
             } elseif ($total['code'] == 'shipping') {
-                if ($order['payment_include'] == '1' && $value > 0) {
-                    try { // добавляем строку для доставки
-                        $this->insertRow($sheet, $total_row + 1);
-
-                        $totals[] = $total;
-                    } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
-                        $this->log($e->getMessage());
-                    }
+                if ($show_delivery && $value > 0) {
+                    $shippingName = $total['title'];
+                    $shippingPrice = $value;
                 }
             } elseif ($total['code'] == 'total') {
+                if ($show_delivery) {
+                    $order_total = $total['value'];
+                }
+
                 $totals[] = $total;
             }
         }
 
         foreach ($totals as $total) {
             $value = $order_total;
-
-            if ($order['payment_include'] == '1') {
-                $value = $total['value'];
-            }
 
             $sheet->SetCellValue('S' . ($total_row + $total_rows), $total['title']);
 
@@ -1040,6 +1073,67 @@ class ControllerWaybill
             $sheet->setBreak("A$r", Worksheet::BREAK_ROW);
 
             $i++;
+            $r++;
+        }
+
+        if ($show_delivery && $shippingPrice) {
+            $sheet->insertNewRowBefore($r, 1);
+
+            $cell[] = 'B' . $r . ':D' . $r;// номер
+            $cell[] = 'E' . $r . ':U' . $r;// наименование
+            $cell[] = 'V' . $r . ':W' . $r;// код
+            $cell[] = 'X' . $r . ':Y' . $r;// Артикул
+            $cell[] = 'Z' . $r . ':AA' . $r;// Цвет
+            $cell[] = 'AB' . $r . ':AD' . $r;// шт
+            $cell[] = 'AE' . $r . ':AG' . $r;// океи
+            $cell[] = 'AH' . $r . ':AI' . $r;// Вид упаковки
+            $cell[] = 'AJ' . $r . ':AK' . $r;// в одном месте
+            $cell[] = 'AL' . $r . ':AM' . $r;// мест, штук
+            $cell[] = 'AN' . $r . ':AP' . $r;// Масса брутто
+            $cell[] = 'AQ' . $r . ':AS' . $r;// Количество (масса нетто)
+            $cell[] = 'AT' . $r . ':AV' . $r;// Цена руб. коп
+            $cell[] = 'AW' . $r . ':AY' . $r;// Сумма без учета НДС, руб. коп
+            $cell[] = 'AZ' . $r . ':BB' . $r;// ставка,%
+            $cell[] = 'BC' . $r . ':BF' . $r;// сумма, руб. коп
+            $cell[] = 'BG' . $r . ':BJ' . $r;// Сумма с учетом НДС, руб. коп
+
+            foreach ($cell as $cel) {
+                $sheet->mergeCells($cel);
+            }
+
+            $default_height = 18;
+            $height = 12 + 6 * intval(mb_strlen($shippingName, "UTF-8") / 50);
+
+            if ($height > $default_height) {
+                $default_height = $height;
+            }
+
+            $sheet->getRowDimension($r)->setRowHeight($default_height);
+
+            $sheet->getStyle('E' . $r . ':BK' . $r)->getAlignment()->setWrapText(true);
+
+            $sheet->getStyle("B$r:BJ$r")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER_CONTINUOUS);
+            $sheet->getStyle("E$r:U$r")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+
+            $sheet->getStyle('AT' . $r)->getNumberFormat()->setFormatCode($format_number);
+            $sheet->getStyle('AW' . $r)->getNumberFormat()->setFormatCode($format_number);
+            $sheet->getStyle('BG' . $r)->getNumberFormat()->setFormatCode($format_number);
+
+            $sheet->SetCellValue('B' . $r, $i);
+            $sheet->SetCellValue('E' . $r, htmlspecialchars_decode($shippingName));
+            $sheet->SetCellValue('AH' . $r, '');
+            $sheet->SetCellValue('AQ' . $r, 1);
+            $sheet->SetCellValue('AT' . $r, $shippingPrice);
+            $sheet->SetCellValue('AW' . $r, $shippingPrice);
+            $sheet->SetCellValue('AZ' . $r, 'Без НДС');
+            $sheet->SetCellValue('BG' . $r, $shippingPrice);
+
+            $sheet->getStyle('E' . $r)->getAlignment()->setIndent(1);
+
+            $quality += $product['quantity'];
+
+            $sheet->setBreak("A$r", Worksheet::BREAK_ROW);
+
             $r++;
         }
 

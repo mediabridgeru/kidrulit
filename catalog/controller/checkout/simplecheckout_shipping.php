@@ -80,7 +80,7 @@ class ControllerCheckoutSimpleCheckoutShipping extends Controller {
             $update_required = (int)$this->session->data['update_required'];
         }
 
-        if ($update_required && isset($this->session->data['shipping_methods'])) {
+        if (!$update_required && isset($this->session->data['shipping_methods'])) {
             $this->data['shipping_methods'] = $this->session->data['shipping_methods'];
         } else {
             $this->data['shipping_methods'] = array();

@@ -2887,11 +2887,33 @@ class ControllerSaleOrder extends Controller {
                         $telephone = $company_telefon;
                     }
 
+                    $show_delivery = true; // выводить доставку в документе
+                    $shippingExcludeCodes = ['bb', 'cdek']; // список доставок, где не надо выводить доставку
+
+                    foreach ($shippingExcludeCodes as $shippingExcludeCode) {
+                        if (stristr($order_info['shipping_code'], $shippingExcludeCode) !== false) {
+                            $show_delivery = false;
+                        }
+                    }
+
+                    $shipping_cost = $ind = 0;
+                    if (isset($total_data)){
+                        foreach ( $total_data as $total_d ) {
+                            if ( $total_d['code'] == 'total' ){
+                                $ind = $total_d['text'];
+                            }
+                            if ($total_d['code'] == 'shipping') {
+                                $shipping_cost = $total_d['value'];
+                            }
+                        }
+                    }
+
                     $this->data['orders'][] = array(
                         'order_id'           => $order_id,
                         'invoice_no'         => $invoice_no,
                         'okpo'               => $okpo,
                         'company_telefon'    => $company_telefon,
+                        'show_delivery'      => $show_delivery,
                         'date_added'         => date($this->language->get('date_format_time'), strtotime($order_info['date_added'])),
                         'store_name'         => $order_info['store_name'],
                         'store_url'          => rtrim($order_info['store_url'], '/'),
