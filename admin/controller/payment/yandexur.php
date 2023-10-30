@@ -2,7 +2,7 @@
 class ControllerPaymentYandexur extends Controller {
 	private $error = array();
 	private $pname = 'yandexur';
-	private $ver = '5.1 (oc1.5)';
+	private $ver = '4.1 (oc1.5)';
 
 	public function index($payname = 'yandexur') {
 

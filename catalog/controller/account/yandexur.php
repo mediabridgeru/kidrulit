@@ -425,7 +425,7 @@ class ControllerAccountyandexur extends Controller {
 
                     $okassa['items'][] = array(
                         'quantity' => $cart_product['quantity'],
-                        'text' => mb_substr(addslashes(stripslashes(str_replace("'", '', htmlspecialchars_decode($cart_product['name'])))), 0 , 128, 'UTF-8'),
+                        'text' => mb_substr(addslashes(stripslashes(str_replace("'", '', htmlspecialchars_decode($cart_product['name'])))), 0 , 7, 'UTF-8'),
                         'tax' => $ndsvalue,
                         'price' => array(
                         'amount' => $tovprice,
@@ -483,7 +483,7 @@ class ControllerAccountyandexur extends Controller {
 
                           $okassa['items'][] = array(
                               'quantity' => $cart_product['quantity'],
-                              'text' => mb_substr(addslashes(stripslashes(str_replace("'", '', htmlspecialchars_decode($cart_product['name'])))), 0 , 128, 'UTF-8'),
+                              'text' => mb_substr(addslashes(stripslashes(str_replace("'", '', htmlspecialchars_decode($cart_product['name'])))), 0 , 7, 'UTF-8'),
                               'tax' => $ndsvalue,
                               'price' => array(
                               'amount' => $tovprice,
@@ -499,7 +499,7 @@ class ControllerAccountyandexur extends Controller {
                   if ($shipping > 0 && $order_info['shipping_code'] != '' || $this->config->get($codeforpay . '_show_free_shipping') && $order_info['shipping_code'] != '') {
                       $okassa['items'][] = array(
                           'quantity' => 1,
-                          'text' => mb_substr(addslashes(stripslashes(str_replace("'", '', htmlspecialchars_decode($order_info['shipping_method'])))), 0 , 128, 'UTF-8'),
+                          'text' => mb_substr(addslashes(stripslashes(str_replace("'", '', htmlspecialchars_decode($order_info['shipping_method'])))), 0 , 7, 'UTF-8'),
                           'tax' => $this->model_account_yandexur->getndscode($this->config->get($codeforpay . '_shipping_tax')),
                           'price' => array(
                           'amount' => number_format($this->currency->format($shipping, 'RUB', $this->currency->getValue('RUB'), false) * $moden, 2, '.', ''),
@@ -584,7 +584,7 @@ class ControllerAccountyandexur extends Controller {
             if ($shipping > 0 && $alldiscount == false && $order_info['shipping_code'] != '' || $this->config->get($codeforpay . '_show_free_shipping') && $alldiscount == false && $order_info['shipping_code'] != '') {
                 $okassa['items'][] = array(
                     'quantity' => 1,
-                    'text' => mb_substr(addslashes(stripslashes(str_replace("'", '', htmlspecialchars_decode($order_info['shipping_method'])))), 0 , 128, 'UTF-8'),
+                    'text' => mb_substr(addslashes(stripslashes(str_replace("'", '', htmlspecialchars_decode($order_info['shipping_method'])))), 0 , 7, 'UTF-8'),
                     'tax' => $this->model_account_yandexur->getndscode($this->config->get($codeforpay . '_shipping_tax')),
                     'price' => array(
                     'amount' => number_format($this->currency->format($shipping, 'RUB', $this->currency->getValue('RUB'), false), 2, '.', ''),
@@ -596,7 +596,7 @@ class ControllerAccountyandexur extends Controller {
             }
 
 
-        $data['okassa'] = json_encode($okassa);
+        $data['okassa'] = json_encode($okassa, JSON_UNESCAPED_UNICODE);
         if ($this->config->get($codeforpay.'_debug')) {
           echo '<br/>--------------Товары---------------------------------------<br/>';
 	        var_dump($cart_products);
@@ -1668,7 +1668,7 @@ class ControllerAccountyandexur extends Controller {
         $this->erConstructor($place, 'error', $result);
         $this->alertMail('YANDEXUR PRO', 'Запрос в статусе Error ' . $result, 'YANDEXUR PRO', false);
         $resulter->status = 'canceled';
-        return json_encode($resulter);
+        return json_encode($resulter, JSON_UNESCAPED_UNICODE);
       }
     } else {
       return $result;
@@ -1710,7 +1710,7 @@ class ControllerAccountyandexur extends Controller {
     }
 
     if ($postdata != '') {
-      $postdata = json_encode($postdata);
+      $postdata = json_encode($postdata, JSON_UNESCAPED_UNICODE);
     }
 
     if ($data == '') {
@@ -1963,7 +1963,7 @@ class ControllerAccountyandexur extends Controller {
         $this->statusAlgo($order_info, $codeforpay, $checkstatus, $status);
       } else {
         $this->manageYaStatus($payment_id, $codeforpay, $data, '/cancel', true);
-        $this->alertMail('YANDEXUR PRO', 'Проверка суммы оплаты и суммы в заказе ' . $order_info['order_id'] . ' не совпала или не совпал заказ с id платежа. Платеж ' . $payment_id . '  был отменен ' . json_encode($checkstatus), 'YANDEXUR PRO', false);
+        $this->alertMail('YANDEXUR PRO', 'Проверка суммы оплаты и суммы в заказе ' . $order_info['order_id'] . ' не совпала или не совпал заказ с id платежа. Платеж ' . $payment_id . '  был отменен ' . json_encode($checkstatus, JSON_UNESCAPED_UNICODE), 'YANDEXUR PRO', false);
         $checkstatus->status = 'canceled';
       }
     }
@@ -1972,7 +1972,7 @@ class ControllerAccountyandexur extends Controller {
       if ($this->checkSum($checkstatus->amount->value, $order_info, $codeforpay) && $checkstatus->metadata->order_id == $order_info['order_id']) {
         $this->statusAlgo($order_info, $codeforpay, $checkstatus, $status);
       } else {
-        $this->alertMail('YANDEXUR PRO', 'Проверка суммы оплаты и суммы в заказе ' . $order_info['order_id'] . ' не совпала или не совпал заказ с id платежа. Статус заказа не был изменен в магазине. Платеж ' . $payment_id . ' зачислен в кабинет Яндекс.Кассы ' . json_encode($checkstatus), 'YANDEXUR PRO', false);
+        $this->alertMail('YANDEXUR PRO', 'Проверка суммы оплаты и суммы в заказе ' . $order_info['order_id'] . ' не совпала или не совпал заказ с id платежа. Статус заказа не был изменен в магазине. Платеж ' . $payment_id . ' зачислен в кабинет Яндекс.Кассы ' . json_encode($checkstatus, JSON_UNESCAPED_UNICODE), 'YANDEXUR PRO', false);
         $checkstatus->status = 'canceled';
       }
     }
@@ -2048,7 +2048,7 @@ class ControllerAccountyandexur extends Controller {
 
     $this->log->write($result['description']);
 
-    return json_encode($result);
+    return json_encode($result, JSON_UNESCAPED_UNICODE);
 
   }
 
