@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2023-10-25 12:00">
+<yml_catalog date="2023-10-30 11:00">
 <shop>
 <name>Детский гипермаркет KIDRULIT</name>
 <company>Подоляко А. В.</company>
@@ -200,7 +200,7 @@
 <description>Втулка для колеса детской коляски №005009 ➜ оптом от компании КидРулит. ★ Втулки для колес детских колясок предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01000000</param>
 </offer>
-<offer id="843" type="vendor.model" available="true" count="999" >
+<offer id="843" type="vendor.model" available="true" count="979" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/vtulki-dlya-koles-detskih-kolyasok/vtulka-dlya-kolesa-detskoj-kolyaski-007005</url>
 <price>275.00</price>
 <currencyId>RUB</currencyId>
@@ -212,7 +212,7 @@
 <description>Втулка для колеса детской коляски №007005 ➜ оптом от компании КидРулит. ★ Втулки для колес детских колясок предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01000000</param>
 </offer>
-<offer id="844" type="vendor.model" available="true" count="785" >
+<offer id="844" type="vendor.model" available="true" count="784" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/vtulki-dlya-koles-detskih-kolyasok/vtulka-dlya-kolesa-detskoj-kolyaski-007006</url>
 <price>275.00</price>
 <currencyId>RUB</currencyId>
@@ -224,7 +224,7 @@
 <description>Втулка для колеса детской коляски №007006 ➜ оптом от компании КидРулит. ★ Втулки для колес детских колясок предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01100000</param>
 </offer>
-<offer id="845" type="vendor.model" available="true" count="546" >
+<offer id="845" type="vendor.model" available="true" count="544" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/vtulki-dlya-koles-detskih-kolyasok/vtulka-dlya-kolesa-detskoj-kolyaski-006020</url>
 <price>275.00</price>
 <currencyId>RUB</currencyId>
@@ -288,7 +288,7 @@
 <param name="Вес" unit="кг">0.065</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="8490000346" type="vendor.model" available="true" count="929" group_id="849" >
+<offer id="8490000346" type="vendor.model" available="true" count="927" group_id="849" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/sharnir-regulirovaniya-kapyushona-001001-krug-krug-16-16mm#2290</url>
 <price>165.00</price>
 <oldprice>550.00</oldprice>
@@ -302,7 +302,7 @@
 <param name="Вес" unit="кг">0.065</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="8490000345" type="vendor.model" available="true" count="555" group_id="849" >
+<offer id="8490000345" type="vendor.model" available="true" count="553" group_id="849" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/sharnir-regulirovaniya-kapyushona-001001-krug-krug-16-16mm#2289</url>
 <price>165.00</price>
 <oldprice>550.00</oldprice>
@@ -364,7 +364,7 @@
 <description>Механизм складывания шасси №001026 ➜ оптом от компании КидРулит. ★ Механизмы складывания коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.08000000</param>
 </offer>
-<offer id="854" type="vendor.model" available="true" count="573" >
+<offer id="854" type="vendor.model" available="true" count="571" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-skladyvaniya-kolyaski/mehanizm-skladyvaniya-shassi-001025</url>
 <price>330.00</price>
 <currencyId>RUB</currencyId>
@@ -388,7 +388,7 @@
 <description>Колесо для детской коляски №001039 надув 12дюймов (280/65) ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.83000000</param>
 </offer>
-<offer id="857" type="vendor.model" available="true" count="644" >
+<offer id="857" type="vendor.model" available="true" count="2644" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-ruchki-detskoj-kolyaski/sharnir-regulirovaniya-ruchki-po-vysote-oval-oval-42-22-20-30mm-usilennyj-004009</url>
 <price>550.00</price>
 <currencyId>RUB</currencyId>
@@ -448,7 +448,7 @@
 <description>Шарнир регулирования ручки по высоте овал-овал 20/30-20/30мм усиленный №004014 ➜ оптом от компании КидРулит. ★ Регуляторы ручки детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным цен</description>
 <param name="Вес" unit="кг">0.10000000</param>
 </offer>
-<offer id="8620000345" type="vendor.model" available="true" count="29" group_id="862" >
+<offer id="8620000345" type="vendor.model" available="true" count="28" group_id="862" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/sharnir-regulirovaniya-kapyushona-004006-oval-oval#2291</url>
 <price>275.00</price>
 <oldprice>550.00</oldprice>
@@ -462,7 +462,7 @@
 <param name="Вес" unit="кг">0.065</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="8620000346" type="vendor.model" available="true" count="21" group_id="862" >
+<offer id="8620000346" type="vendor.model" available="true" count="20" group_id="862" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/sharnir-regulirovaniya-kapyushona-004006-oval-oval#2292</url>
 <price>275.00</price>
 <oldprice>550.00</oldprice>
@@ -516,7 +516,7 @@
 <description>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №004010 ➜ оптом от компании КидРулит. ★ Регуляторы ручки детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным цен</description>
 <param name="Вес" unit="кг">0.11500000</param>
 </offer>
-<offer id="865" type="vendor.model" available="true" count="398" >
+<offer id="865" type="vendor.model" available="true" count="388" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-ruchki-detskoj-kolyaski/sharnir-regulirovaniya-ruchki-po-vysote-krug-oval-20-20-30mm-usilennyj-004002</url>
 <price>550.00</price>
 <currencyId>RUB</currencyId>
@@ -540,7 +540,7 @@
 <description>Шарнир регулирования ручки по высоте овал-овал 20/30-20/30мм усиленный №004013 ➜ оптом от компании КидРулит. ★ Регуляторы ручки детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным цен</description>
 <param name="Вес" unit="кг">0.13500000</param>
 </offer>
-<offer id="8670000404" type="vendor.model" available="true" count="1580" group_id="867" >
+<offer id="8670000404" type="vendor.model" available="true" count="1564" group_id="867" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/sharnir-regulirovaniya-kapyushona-004005-krug-krug-16-16mm#2972</url>
 <price>340.00</price>
 <oldprice>880.00</oldprice>
@@ -568,7 +568,7 @@
 <param name="Вес" unit="кг">0.06</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="8670000345" type="vendor.model" available="true" count="731" group_id="867" >
+<offer id="8670000345" type="vendor.model" available="true" count="730" group_id="867" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/sharnir-regulirovaniya-kapyushona-004005-krug-krug-16-16mm#2295</url>
 <price>242.00</price>
 <oldprice>550.00</oldprice>
@@ -802,7 +802,7 @@
 <param name="Вес" unit="кг">0.155</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="8780000346" type="vendor.model" available="true" count="90" group_id="878" >
+<offer id="8780000346" type="vendor.model" available="true" count="88" group_id="878" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/kreplenie-vilki-povorotnogo-kolesa/kreplenie-povorotnogo-kolesa-001014#2301</url>
 <price>362.00</price>
 <oldprice>725.00</oldprice>
@@ -816,7 +816,7 @@
 <param name="Вес" unit="кг">0.135</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="8780000345" type="vendor.model" available="true" count="115" group_id="878" >
+<offer id="8780000345" type="vendor.model" available="true" count="113" group_id="878" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/kreplenie-vilki-povorotnogo-kolesa/kreplenie-povorotnogo-kolesa-001014#2302</url>
 <price>362.00</price>
 <oldprice>725.00</oldprice>
@@ -858,7 +858,7 @@
 <param name="Вес" unit="кг">0.165</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="880" type="vendor.model" available="true" count="37" >
+<offer id="880" type="vendor.model" available="true" count="2037" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/kreplenie-vilki-povorotnogo-kolesa/kreplenie-povorotnogo-kolesa-001052</url>
 <price>880.00</price>
 <currencyId>RUB</currencyId>
@@ -1058,7 +1058,7 @@
 <param name="Вес" unit="кг">0.06</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="8940000345" type="vendor.model" available="true" count="74" group_id="894" >
+<offer id="8940000345" type="vendor.model" available="true" count="1074" group_id="894" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/bampera-dlya-kolyaski/kreplenie-bampera-progulochnogo-bloka-20mm#2318</url>
 <price>160.00</price>
 <oldprice>330.00</oldprice>
@@ -1072,7 +1072,7 @@
 <param name="Вес" unit="кг">0.07</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="8940000346" type="vendor.model" available="true" count="74" group_id="894" >
+<offer id="8940000346" type="vendor.model" available="true" count="1074" group_id="894" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/bampera-dlya-kolyaski/kreplenie-bampera-progulochnogo-bloka-20mm#2317</url>
 <price>160.00</price>
 <oldprice>330.00</oldprice>
@@ -1098,7 +1098,7 @@
 <description>Барашек М5 ➜ оптом от компании КидРулит. ★ Регуляторы, фиксаторы капюшона предлагаем купить по доступным ценам в опт.Барашек М5 №001042 ➜ оптом от компании КидРулит. ★ Регуляторы, фиксаторы капюшона предлагаем купить по доступным ценам в опт. ➜ оптом от к</description>
 <param name="Вес" unit="кг">0.01000000</param>
 </offer>
-<offer id="896" type="vendor.model" available="true" count="654" >
+<offer id="896" type="vendor.model" available="true" count="634" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/barashek-m6</url>
 <price>71.50</price>
 <currencyId>RUB</currencyId>
@@ -1138,7 +1138,7 @@
 <param name="Вес" unit="кг">0.025</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="8980000346" type="vendor.model" available="true" count="147" group_id="898" >
+<offer id="8980000346" type="vendor.model" available="true" count="146" group_id="898" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/mehanizm-regulirovaniya-kapyushona-001045#2322</url>
 <price>269.50</price>
 <oldprice>660.00</oldprice>
@@ -1152,7 +1152,7 @@
 <param name="Вес" unit="кг">0.075</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="8980000345" type="vendor.model" available="true" count="69" group_id="898" >
+<offer id="8980000345" type="vendor.model" available="true" count="68" group_id="898" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/mehanizm-regulirovaniya-kapyushona-001045#2321</url>
 <price>269.50</price>
 <oldprice>660.00</oldprice>
@@ -1194,7 +1194,7 @@
 <param name="Вес" unit="кг">0.025</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="9000000346" type="vendor.model" available="true" count="267" group_id="900" >
+<offer id="9000000346" type="vendor.model" available="true" count="254" group_id="900" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-spinki-progulochnogo-bloka/mehanizm-fiksacii-spinki-prog-bloka-001047#2326</url>
 <price>93.50</price>
 <oldprice>253.00</oldprice>
@@ -1208,7 +1208,7 @@
 <param name="Вес" unit="кг">0.035</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="9000000345" type="vendor.model" available="true" count="314" group_id="900" >
+<offer id="9000000345" type="vendor.model" available="true" count="301" group_id="900" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-spinki-progulochnogo-bloka/mehanizm-fiksacii-spinki-prog-bloka-001047#2325</url>
 <price>93.50</price>
 <oldprice>253.00</oldprice>
@@ -1282,7 +1282,7 @@
 <description>Амортизатор пластиковый №001056 ➜ оптом от компании КидРулит. ★ Амортизаторы для детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.02000000</param>
 </offer>
-<offer id="907" type="vendor.model" available="true" count="2135" >
+<offer id="907" type="vendor.model" available="true" count="4035" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/detali-tormoznoj-sistemy/trosik-tormoznoj-280mm-001057</url>
 <price>450.00</price>
 <currencyId>RUB</currencyId>
@@ -1318,7 +1318,7 @@
 <description>Тросик тормозной 368мм  №001059 ➜ оптом от компании КидРулит. ★ Детали тормозной системы предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.03000000</param>
 </offer>
-<offer id="910" type="vendor.model" available="true" count="4286" >
+<offer id="910" type="vendor.model" available="true" count="6286" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/pruzhiny/pruzhina-0-7-34-7-6-001061</url>
 <price>27.50</price>
 <currencyId>RUB</currencyId>
@@ -1330,7 +1330,7 @@
 <description>Пружина 0,7-34-7,6 №001061 ➜ оптом от компании КидРулит. ★ Пружины предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="912" type="vendor.model" available="true" count="4" >
+<offer id="912" type="vendor.model" available="true" count="2004" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/amortizatory-dlya-detskoj-kolyaski/ressora-zakrytaya-160-4-001069</url>
 <price>825.00</price>
 <currencyId>RUB</currencyId>
@@ -1722,7 +1722,7 @@
 <param name="Вес" unit="кг">0.145</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="936" type="vendor.model" available="true" count="314" >
+<offer id="936" type="vendor.model" available="true" count="304" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/adaptery/adapter-001085</url>
 <price>420.00</price>
 <currencyId>RUB</currencyId>
@@ -1734,7 +1734,7 @@
 <description>Адаптер №001085 ➜ оптом от компании КидРулит. ★ Адаптеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.07600000</param>
 </offer>
-<offer id="937" type="vendor.model" available="true" count="627" >
+<offer id="937" type="vendor.model" available="true" count="622" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/adaptery/adapter-001084</url>
 <price>945.00</price>
 <currencyId>RUB</currencyId>
@@ -1826,7 +1826,7 @@
 <param name="Вес" unit="кг">0.04</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="943" type="vendor.model" available="true" count="1" >
+<offer id="943" type="vendor.model" available="true" count="4001" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-ruchki-detskoj-kolyaski/sharnir-regulirovaniya-ruchki-po-vysote-20-20mm-usilennyj-004011</url>
 <price>550.00</price>
 <currencyId>RUB</currencyId>
@@ -1850,7 +1850,7 @@
 <description>Шарнир регулирования ручки по высоте 22-22мм усиленный №004012 ➜ оптом от компании КидРулит. ★ Регуляторы ручки детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.14500000</param>
 </offer>
-<offer id="945" type="vendor.model" available="true" count="478" >
+<offer id="945" type="vendor.model" available="true" count="476" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/sharnir-regulirovaniya-krug-krug-16-16mm-004004</url>
 <price>440.00</price>
 <currencyId>RUB</currencyId>
@@ -2008,7 +2008,7 @@
 <description>Корпус для регулятора капюшона №004021 ➜ оптом от компании КидРулит. ★ Регуляторы, фиксаторы капюшона предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01000000</param>
 </offer>
-<offer id="953" type="vendor.model" available="true" count="963" >
+<offer id="953" type="vendor.model" available="true" count="962" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/nakladka-treshhetki-kapyushona-10mm-004022</url>
 <price>132.00</price>
 <currencyId>RUB</currencyId>
@@ -2152,7 +2152,7 @@
 <description>Колесо для детской коляски №006003 не надув 10дюймов без вилки ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт.Колесо для детской коляски №006003 не надув 10дюймов без вилки низкопрофильное ➜ оптом от компании КидРулит. ★</description>
 <param name="Вес" unit="кг">0.40000000</param>
 </offer>
-<offer id="968" type="vendor.model" available="true" count="33" >
+<offer id="968" type="vendor.model" available="true" count="1033" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-006008-ne-naduv-10dyujmov-bez-vilki</url>
 <price>1732.50</price>
 <currencyId>RUB</currencyId>
@@ -2164,7 +2164,7 @@
 <description>Колесо для детской коляски №006008 не надув 10дюймов без вилки ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт.Колесо для детской коляски №006008 не надув 10дюймов без вилки  низкопрофильное ➜ оптом от компании КидРулит.</description>
 <param name="Вес" unit="кг">0.40000000</param>
 </offer>
-<offer id="969" type="vendor.model" available="true" count="63" >
+<offer id="969" type="vendor.model" available="true" count="1063" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-006005-ne-naduv-12dyujmov</url>
 <price>1732.50</price>
 <currencyId>RUB</currencyId>
@@ -2175,7 +2175,7 @@
 <model>006005</model>
 <description>Колесо для детской коляски №006005 не надув 12дюймов ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт.Колесо для детской коляски №006005 не надув 12дюймов  низкопрофильное ➜ оптом от компании КидРулит. ★ Колеса предлагаем</description>
 </offer>
-<offer id="970" type="vendor.model" available="true" count="30" >
+<offer id="970" type="vendor.model" available="true" count="1030" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-nizkoprofilnoe-006006-naduv-12dyujmov</url>
 <price>1980.00</price>
 <currencyId>RUB</currencyId>
@@ -2187,7 +2187,7 @@
 <description>Колесо для детской коляски низкопрофильное №006006 надув 12дюймов ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт.Колесо для детской коляски №006006 надув 12дюймов низкопрофильное ➜ оптом от компании КидРулит. ★ Колеса пр</description>
 <param name="Вес" unit="кг">0.84000000</param>
 </offer>
-<offer id="971" type="vendor.model" available="true" count="38" >
+<offer id="971" type="vendor.model" available="true" count="1038" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-nizkoprofilnoe-006007-naduv-10dyujmov-bez-vilki</url>
 <price>1848.00</price>
 <currencyId>RUB</currencyId>
@@ -2271,7 +2271,7 @@
 <description>Шестеренка тормозная №005006 ➜ оптом от компании КидРулит. ★ Тормозные шестеренки предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.02000000</param>
 </offer>
-<offer id="980" type="vendor.model" available="true" count="265" >
+<offer id="980" type="vendor.model" available="true" count="263" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/tormoznye-shesterenki/shesterenka-tormoznaya-005005</url>
 <price>253.00</price>
 <currencyId>RUB</currencyId>
@@ -2341,18 +2341,6 @@
 <vendorCode></vendorCode>
 <model>007004</model>
 <description>Шестеренка тормозная №007004 ➜ оптом от компании КидРулит. ★ Тормозные шестеренки предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
-<param name="Вес" unit="кг">0.02000000</param>
-</offer>
-<offer id="988" type="vendor.model" available="true" count="83" >
-<url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/tormoznye-shesterenki/shesterenka-tormoznaya-003019</url>
-<price>275.00</price>
-<currencyId>RUB</currencyId>
-<categoryId>85</categoryId>
-<delivery>true</delivery>
-<typePrefix>Шестеренка тормозная №003019</typePrefix>
-<vendorCode></vendorCode>
-<model>003019</model>
-<description>Шестеренка тормозная №003019 ➜ оптом от компании КидРулит. ★ Тормозные шестеренки предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.02000000</param>
 </offer>
 <offer id="989" type="vendor.model" available="true" count="1318" >
@@ -2427,7 +2415,7 @@
 <description>Шестеренка тормозная №006022 ➜ оптом от компании КидРулит. ★ Тормозные шестеренки предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.03000000</param>
 </offer>
-<offer id="996" type="vendor.model" available="true" count="297" >
+<offer id="996" type="vendor.model" available="true" count="293" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/tormoznye-shesterenki/shesterenka-tormoznaya-006024</url>
 <price>253.00</price>
 <currencyId>RUB</currencyId>
@@ -2523,7 +2511,7 @@
 <description>Колесо для детской коляски №006015 надув 10дюймов 10х2 ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Колесо для детской коляски №006015 надув</description>
 <param name="Вес" unit="кг">0.72000000</param>
 </offer>
-<offer id="10290000346" type="vendor.model" available="true" count="70" group_id="1029" >
+<offer id="10290000346" type="vendor.model" available="true" count="65" group_id="1029" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-podnozhki-progulochnogo-bloka/sharnir-regulirovaniya-podnozhki-progulochnogo-bloka-004031-oval-oval#2354</url>
 <price>209.00</price>
 <oldprice>440.00</oldprice>
@@ -2537,7 +2525,7 @@
 <param name="Вес" unit="кг">0.07</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="10290000345" type="vendor.model" available="true" count="81" group_id="1029" >
+<offer id="10290000345" type="vendor.model" available="true" count="76" group_id="1029" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-podnozhki-progulochnogo-bloka/sharnir-regulirovaniya-podnozhki-progulochnogo-bloka-004031-oval-oval#2353</url>
 <price>209.00</price>
 <oldprice>440.00</oldprice>
@@ -2861,7 +2849,7 @@
 <description>Чехлы на колеса 14&amp;quot;  (36см)  Ruivo ➜ оптом от компании КидРулит. ★ Чехлы на колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Чехлы на колеса детской коляски 14&amp;quot; (36см)</description>
 <param name="Вес" unit="кг">0.12100000</param>
 </offer>
-<offer id="1052" type="vendor.model" available="true" count="478" >
+<offer id="1052" type="vendor.model" available="true" count="476" >
 <url>https://kidrulit.ru/aksessuary-dlya-detskih-kolyasok/chehly-na-kolesa/chehly-na-povorotnye-kolesa-10-12-ruivo</url>
 <price>420.00</price>
 <currencyId>RUB</currencyId>
@@ -2873,7 +2861,7 @@
 <description>Чехлы на поворотные колеса 10/12&amp;quot;   Ruivo ➜ оптом от компании КидРулит. ★ Чехлы на колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Чехлы на детскую коляску с поворотными к</description>
 <param name="Вес" unit="кг">0.09500000</param>
 </offer>
-<offer id="10530000354" type="vendor.model" available="true" count="577" group_id="1053" >
+<offer id="10530000354" type="vendor.model" available="true" count="575" group_id="1053" >
 <url>https://kidrulit.ru/aksessuary-dlya-detskih-kolyasok/moskitnye-setki/moskitka-na-lyulku-ruivo#2380</url>
 <price>185.00</price>
 <oldprice>350.00</oldprice>
@@ -2887,7 +2875,7 @@
 <param name="Вес" unit="кг">0.07</param>
 <param name="Расцветки">Белый</param>
 </offer>
-<offer id="10530000355" type="vendor.model" available="true" count="577" group_id="1053" >
+<offer id="10530000355" type="vendor.model" available="true" count="575" group_id="1053" >
 <url>https://kidrulit.ru/aksessuary-dlya-detskih-kolyasok/moskitnye-setki/moskitka-na-lyulku-ruivo#2381</url>
 <price>185.00</price>
 <oldprice>350.00</oldprice>
@@ -2913,7 +2901,19 @@
 <description>Чехол защитный для хранения коляски в подъезде (ткань) Ruivo ➜ оптом от компании КидРулит. ★ Дождевики, чехлы от снега предлагаем купить по доступным ценам в опт.Чехол защитный для хранения коляски в подъезде (ткань) Ruivo ➜ оптом от компании КидРулит. ★</description>
 <param name="Вес" unit="кг">0.13400000</param>
 </offer>
-<offer id="1056" type="vendor.model" available="true" count="15" >
+<offer id="1055" type="vendor.model" available="true" count="100" >
+<url>https://kidrulit.ru/aksessuary-dlya-detskih-kolyasok/moskitnye-setki/moskitka-na-progulku-ruivo</url>
+<price>400.00</price>
+<currencyId>RUB</currencyId>
+<categoryId>107</categoryId>
+<delivery>true</delivery>
+<typePrefix>Москитка на прогулочную детскую коляску Ruivo</typePrefix>
+<vendorCode>4620032720224</vendorCode>
+<model>R002-PB</model>
+<description>Москитка на прогулку Ruivo ➜ оптом от компании КидРулит. ★ Москитные сетки предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Москитка на прогулочную детскую коляску Ruivo ➜ оптом от ком</description>
+<param name="Вес" unit="кг">0.06500000</param>
+</offer>
+<offer id="1056" type="vendor.model" available="true" count="56" >
 <url>https://kidrulit.ru/aksessuary-dlya-detskih-kolyasok/dozhdeviki-chehly-ot-snega/chehol-ot-dozhdya-na-lyulku-ruivo</url>
 <price>600.00</price>
 <currencyId>RUB</currencyId>
@@ -2949,7 +2949,7 @@
 <description>Втулка для колеса детской коляски №003016 ➜ оптом от компании КидРулит. ★ Втулки для колес детских колясок предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.02000000</param>
 </offer>
-<offer id="1060" type="vendor.model" available="true" count="282" >
+<offer id="1060" type="vendor.model" available="true" count="281" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-wanda-r1069a-280x65-203-008012</url>
 <price>590.00</price>
 <currencyId>RUB</currencyId>
@@ -3189,7 +3189,7 @@
 <param name="Вес" unit="кг">0.045</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="10730000346" type="vendor.model" available="true" count="104" group_id="1073" >
+<offer id="10730000346" type="vendor.model" available="true" count="99" group_id="1073" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/mehanizm-regulirovaniya-kapyushona-002017#2410</url>
 <price>550.00</price>
 <oldprice>800.00</oldprice>
@@ -3217,7 +3217,7 @@
 <param name="Вес" unit="кг">0.145</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="10730000404" type="vendor.model" available="true" count="243" group_id="1073" >
+<offer id="10730000404" type="vendor.model" available="true" count="242" group_id="1073" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/mehanizm-regulirovaniya-kapyushona-002017#2938</url>
 <price>700.00</price>
 <oldprice>1400.00</oldprice>
@@ -3327,7 +3327,7 @@
 <description>Корпус для регулятора капюшона 16мм №002023 ➜ оптом от компании КидРулит. ★ Регуляторы, фиксаторы капюшона предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.02000000</param>
 </offer>
-<offer id="1078" type="vendor.model" available="true" count="5701" >
+<offer id="1078" type="vendor.model" available="true" count="5682" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/nakladka-treshhetki-kapyushona-no004023</url>
 <price>71.50</price>
 <currencyId>RUB</currencyId>
@@ -3339,7 +3339,7 @@
 <description>Накладка трещетки капюшона №002021 ➜ оптом от компании КидРулит. ★ Регуляторы, фиксаторы капюшона предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="1079" type="vendor.model" available="true" count="5197" >
+<offer id="1079" type="vendor.model" available="true" count="9197" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/nakladka-treshhetki-kapyushona-no002021</url>
 <price>63.80</price>
 <currencyId>RUB</currencyId>
@@ -3351,7 +3351,7 @@
 <description>Накладка трещетки капюшона №002022 ➜ оптом от компании КидРулит. ★ Регуляторы, фиксаторы капюшона предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01000000</param>
 </offer>
-<offer id="1080" type="vendor.model" available="true" count="542" >
+<offer id="1080" type="vendor.model" available="true" count="540" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/nakladka-treshhetki-kapyushona-10mm-no004022</url>
 <price>121.00</price>
 <currencyId>RUB</currencyId>
@@ -3363,7 +3363,7 @@
 <description>Накладка трещетки капюшона 10мм №002025 ➜ оптом от компании КидРулит. ★ Регуляторы, фиксаторы капюшона предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01000000</param>
 </offer>
-<offer id="1081" type="vendor.model" available="true" count="1734" >
+<offer id="1081" type="vendor.model" available="true" count="3724" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/regulyator-treshhetka-kapyushona-no004019</url>
 <price>165.00</price>
 <currencyId>RUB</currencyId>
@@ -3439,7 +3439,7 @@
 <description>Адаптер №002016 (комплект) ➜ оптом от компании КидРулит. ★ Адаптеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.09500000</param>
 </offer>
-<offer id="1086" type="vendor.model" available="true" count="1974" >
+<offer id="1086" type="vendor.model" available="true" count="1972" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/amortizatory-dlya-detskoj-kolyaski/amortizator-plastikovyj-no002008</url>
 <price>198.00</price>
 <currencyId>RUB</currencyId>
@@ -3491,7 +3491,7 @@
 <description>Вилка переднего колеса №002018 ось d=10мм, l=70мм с амортизатором ➜ оптом от компании КидРулит. ★ Вилки для поворотных колес предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.27500000</param>
 </offer>
-<offer id="1089" type="vendor.model" available="true" count="1610" >
+<offer id="1089" type="vendor.model" available="true" count="1607" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/podshipniki/kreplenie-povorotnogo-kolesa-no001052-os-10mm-truba-20-30mm</url>
 <price>220.00</price>
 <currencyId>RUB</currencyId>
@@ -3663,7 +3663,7 @@
 <description>Крепление поворотного колеса с подножкой №006031 ось10мм, труба 42х22мм ➜ оптом от компании КидРулит. ★ Крепление вилки поворотного колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в</description>
 <param name="Вес" unit="кг">0.54500000</param>
 </offer>
-<offer id="1113" type="vendor.model" available="true" count="311" >
+<offer id="1113" type="vendor.model" available="true" count="306" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/vilka-perednego-kolesa-no006032-dlina-184mm-os-d-10mm-l-58mm-s-amortizatorom</url>
 <price>1732.50</price>
 <currencyId>RUB</currencyId>
@@ -3747,7 +3747,7 @@
 <description>Шарнир регулирования ручки по высоте овал-овал 42/22-20/30мм усиленный №005016 ➜ оптом от компании КидРулит. ★ Регуляторы ручки детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным цен</description>
 <param name="Вес" unit="кг">0.12000000</param>
 </offer>
-<offer id="1123" type="vendor.model" available="true" count="140" >
+<offer id="1123" type="vendor.model" available="true" count="139" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/furnitura-dlya-remnej-bezopastnosti-fasteksy-karabiny/pyatitochechnyj-remen-no005037</url>
 <price>550.00</price>
 <currencyId>RUB</currencyId>
@@ -4543,7 +4543,7 @@
 <description>Механизм складывания шасси №001144 на трубу 20мм ➜ оптом от компании КидРулит. ★ Механизмы складывания коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.04000000</param>
 </offer>
-<offer id="1176" type="vendor.model" available="true" count="16" >
+<offer id="1176" type="vendor.model" available="true" count="15" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/bampera-dlya-kolyaski/kreplenie-bampera-progulochnogo-bloka-no006038-v-sbore-odna-storona-973028302</url>
 <price>385.00</price>
 <currencyId>RUB</currencyId>
@@ -4635,7 +4635,7 @@
 <description>Адаптер №001117 ➜ оптом от компании КидРулит. ★ Адаптеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.03500000</param>
 </offer>
-<offer id="1181" type="vendor.model" available="true" count="8" >
+<offer id="1181" type="vendor.model" available="true" count="1008" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/detali-tormoznoj-sistemy/pedal-tormoza-no001154</url>
 <price>660.00</price>
 <currencyId>RUB</currencyId>
@@ -4951,7 +4951,7 @@
 <description>Тяга №001149 ➜ оптом от компании КидРулит. ★ Механизмы складывания коляски предлагаем купить по доступным ценам в опт.Тяга №001149 ➜ оптом от компании КидРулит. ★ Прочие запчасти предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★</description>
 <param name="Вес" unit="кг">0.02000000</param>
 </offer>
-<offer id="11980000346" type="vendor.model" available="true" count="620" group_id="1198" >
+<offer id="11980000346" type="vendor.model" available="true" count="618" group_id="1198" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/regulyator-kapyushona-no001102#2509</url>
 <price>400.00</price>
 <oldprice>800.00</oldprice>
@@ -4965,7 +4965,7 @@
 <param name="Вес" unit="кг">0.125</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="11980000345" type="vendor.model" available="true" count="260" group_id="1198" >
+<offer id="11980000345" type="vendor.model" available="true" count="258" group_id="1198" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/regulyator-kapyushona-no001102#2508</url>
 <price>400.00</price>
 <oldprice>800.00</oldprice>
@@ -4979,7 +4979,7 @@
 <param name="Вес" unit="кг">0.125</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="11980000404" type="vendor.model" available="true" count="196" group_id="1198" >
+<offer id="11980000404" type="vendor.model" available="true" count="195" group_id="1198" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/regulyator-kapyushona-no001102#3146</url>
 <price>650.00</price>
 <oldprice>1300.00</oldprice>
@@ -5021,7 +5021,7 @@
 <param name="Вес" unit="кг">0.01</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="12000000346" type="vendor.model" available="true" count="50" group_id="1200" >
+<offer id="12000000346" type="vendor.model" available="true" count="49" group_id="1200" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/kreplenie-dlya-progulochnogo-bloka-no001125#2513</url>
 <price>495.00</price>
 <oldprice>1100.00</oldprice>
@@ -5035,7 +5035,7 @@
 <param name="Вес" unit="кг">0.29</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="12000000345" type="vendor.model" available="true" count="45" group_id="1200" >
+<offer id="12000000345" type="vendor.model" available="true" count="44" group_id="1200" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/kreplenie-dlya-progulochnogo-bloka-no001125#2512</url>
 <price>495.00</price>
 <oldprice>1100.00</oldprice>
@@ -5189,7 +5189,7 @@
 <description>Ручка для коляски 20мм №002039 ➜ оптом от компании КидРулит. ★ Ручки для детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.08500000</param>
 </offer>
-<offer id="1211" type="vendor.model" available="true" count="772" >
+<offer id="1211" type="vendor.model" available="true" count="2771" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/korpus-dlya-regulyatora-kapyushona-no002040</url>
 <price>143.00</price>
 <currencyId>RUB</currencyId>
@@ -5373,7 +5373,7 @@
 <param name="Вес" unit="кг">0.121</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="1221" type="vendor.model" available="true" count="1360" >
+<offer id="1221" type="vendor.model" available="true" count="1358" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/adaptery/adapter-no002050</url>
 <price>392.70</price>
 <currencyId>RUB</currencyId>
@@ -5477,7 +5477,7 @@
 <param name="Вес" unit="кг">0.045</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="12270000346" type="vendor.model" available="true" count="99" group_id="1227" >
+<offer id="12270000346" type="vendor.model" available="true" count="98" group_id="1227" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/derzhatel-dlya-regulyatora-kapyushona-no002056#2533</url>
 <price>48.40</price>
 <oldprice>187.00</oldprice>
@@ -5491,7 +5491,7 @@
 <param name="Вес" unit="кг">0.01</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="12270000345" type="vendor.model" available="true" count="90" group_id="1227" >
+<offer id="12270000345" type="vendor.model" available="true" count="89" group_id="1227" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/derzhatel-dlya-regulyatora-kapyushona-no002056#2532</url>
 <price>48.40</price>
 <oldprice>187.00</oldprice>
@@ -5791,7 +5791,7 @@
 <param name="Вес" unit="кг">0.01043</param>
 <param name="Длина">67мм</param>
 </offer>
-<offer id="12480000426" type="vendor.model" available="true" count="2806" group_id="1248" >
+<offer id="12480000426" type="vendor.model" available="true" count="2786" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#3317</url>
 <price>9.68</price>
 <oldprice>15.40</oldprice>
@@ -5805,7 +5805,7 @@
 <param name="Вес" unit="кг">0.00191</param>
 <param name="Длина">64мм</param>
 </offer>
-<offer id="12480000385" type="vendor.model" available="true" count="3298" group_id="1248" >
+<offer id="12480000385" type="vendor.model" available="true" count="3281" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#3316</url>
 <price>9.02</price>
 <oldprice>14.30</oldprice>
@@ -5819,7 +5819,7 @@
 <param name="Вес" unit="кг">0.00191</param>
 <param name="Длина">62мм</param>
 </offer>
-<offer id="12480000398" type="vendor.model" available="true" count="2969" group_id="1248" >
+<offer id="12480000398" type="vendor.model" available="true" count="2972" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2813</url>
 <price>8.58</price>
 <oldprice>14.30</oldprice>
@@ -5833,7 +5833,7 @@
 <param name="Вес" unit="кг">0.0093</param>
 <param name="Длина">60мм</param>
 </offer>
-<offer id="12480000401" type="vendor.model" available="true" count="1965" group_id="1248" >
+<offer id="12480000401" type="vendor.model" available="true" count="1968" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2904</url>
 <price>8.14</price>
 <oldprice>13.20</oldprice>
@@ -5847,7 +5847,7 @@
 <param name="Вес" unit="кг">0.00896</param>
 <param name="Длина">58мм</param>
 </offer>
-<offer id="12480000425" type="vendor.model" available="true" count="2112" group_id="1248" >
+<offer id="12480000425" type="vendor.model" available="true" count="2095" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#3313</url>
 <price>7.70</price>
 <oldprice>13.20</oldprice>
@@ -5875,7 +5875,7 @@
 <param name="Вес" unit="кг">0.0086</param>
 <param name="Длина">55мм</param>
 </offer>
-<offer id="12480000424" type="vendor.model" available="true" count="6051" group_id="1248" >
+<offer id="12480000424" type="vendor.model" available="true" count="6054" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#3315</url>
 <price>7.26</price>
 <oldprice>12.10</oldprice>
@@ -5889,7 +5889,7 @@
 <param name="Вес" unit="кг">0.00191</param>
 <param name="Длина">54мм</param>
 </offer>
-<offer id="12480000364" type="vendor.model" available="true" count="914" group_id="1248" >
+<offer id="12480000364" type="vendor.model" available="true" count="917" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2558</url>
 <price>6.82</price>
 <oldprice>11.00</oldprice>
@@ -5931,7 +5931,7 @@
 <param name="Вес" unit="кг">0.00759</param>
 <param name="Длина">48мм</param>
 </offer>
-<offer id="12480000422" type="vendor.model" available="true" count="6113" group_id="1248" >
+<offer id="12480000422" type="vendor.model" available="true" count="6093" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#3314</url>
 <price>5.94</price>
 <oldprice>11.00</oldprice>
@@ -5945,7 +5945,7 @@
 <param name="Вес" unit="кг">0.00191</param>
 <param name="Длина">46мм</param>
 </offer>
-<offer id="12480000362" type="vendor.model" available="true" count="14908" group_id="1248" >
+<offer id="12480000362" type="vendor.model" available="true" count="14888" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2556</url>
 <price>5.72</price>
 <oldprice>9.90</oldprice>
@@ -5973,7 +5973,7 @@
 <param name="Вес" unit="кг">0.00668</param>
 <param name="Длина">42мм</param>
 </offer>
-<offer id="12480000361" type="vendor.model" available="true" count="8247" group_id="1248" >
+<offer id="12480000361" type="vendor.model" available="true" count="8242" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2555</url>
 <price>5.28</price>
 <oldprice>9.90</oldprice>
@@ -5987,7 +5987,7 @@
 <param name="Вес" unit="кг">0.00636</param>
 <param name="Длина">40мм</param>
 </offer>
-<offer id="12480000395" type="vendor.model" available="true" count="9965" group_id="1248" >
+<offer id="12480000395" type="vendor.model" available="true" count="9975" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2811</url>
 <price>5.06</price>
 <oldprice>9.90</oldprice>
@@ -6001,7 +6001,7 @@
 <param name="Вес" unit="кг">0.00604</param>
 <param name="Длина">38мм</param>
 </offer>
-<offer id="12480000360" type="vendor.model" available="true" count="11724" group_id="1248" >
+<offer id="12480000360" type="vendor.model" available="true" count="11704" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2554</url>
 <price>4.84</price>
 <oldprice>8.80</oldprice>
@@ -6015,7 +6015,7 @@
 <param name="Вес" unit="кг">0.00576</param>
 <param name="Длина">36мм</param>
 </offer>
-<offer id="12480000394" type="vendor.model" available="true" count="28973" group_id="1248" >
+<offer id="12480000394" type="vendor.model" available="true" count="28983" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2810</url>
 <price>4.62</price>
 <oldprice>7.70</oldprice>
@@ -6029,7 +6029,7 @@
 <param name="Вес" unit="кг">0.00545</param>
 <param name="Длина">34мм</param>
 </offer>
-<offer id="12480000359" type="vendor.model" available="true" count="28317" group_id="1248" >
+<offer id="12480000359" type="vendor.model" available="true" count="28312" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2553</url>
 <price>4.40</price>
 <oldprice>7.70</oldprice>
@@ -6057,7 +6057,7 @@
 <param name="Вес" unit="кг">0.00493</param>
 <param name="Длина">30мм</param>
 </offer>
-<offer id="12480000358" type="vendor.model" available="true" count="10611" group_id="1248" >
+<offer id="12480000358" type="vendor.model" available="true" count="10596" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2552</url>
 <price>3.96</price>
 <oldprice>6.60</oldprice>
@@ -6071,7 +6071,7 @@
 <param name="Вес" unit="кг">0.00466</param>
 <param name="Длина">28мм</param>
 </offer>
-<offer id="12480000392" type="vendor.model" available="true" count="16846" group_id="1248" >
+<offer id="12480000392" type="vendor.model" available="true" count="16646" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2802</url>
 <price>3.74</price>
 <oldprice>6.05</oldprice>
@@ -6085,7 +6085,7 @@
 <param name="Вес" unit="кг">0.00437</param>
 <param name="Длина">26мм</param>
 </offer>
-<offer id="12480000381" type="vendor.model" available="true" count="38375" group_id="1248" >
+<offer id="12480000381" type="vendor.model" available="true" count="38330" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#3170</url>
 <price>3.52</price>
 <oldprice>5.50</oldprice>
@@ -6099,7 +6099,7 @@
 <param name="Вес" unit="кг">0.00191</param>
 <param name="Длина">25мм</param>
 </offer>
-<offer id="12480000357" type="vendor.model" available="true" count="30630" group_id="1248" >
+<offer id="12480000357" type="vendor.model" available="true" count="30490" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2551</url>
 <price>3.30</price>
 <oldprice>5.50</oldprice>
@@ -6113,7 +6113,7 @@
 <param name="Вес" unit="кг">0.00409</param>
 <param name="Длина">24мм</param>
 </offer>
-<offer id="12480000391" type="vendor.model" available="true" count="32852" group_id="1248" >
+<offer id="12480000391" type="vendor.model" available="true" count="32837" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2906</url>
 <price>3.19</price>
 <oldprice>5.50</oldprice>
@@ -6141,7 +6141,7 @@
 <param name="Вес" unit="кг">0.00341</param>
 <param name="Длина">20мм</param>
 </offer>
-<offer id="12480000379" type="vendor.model" available="true" count="16274" group_id="1248" >
+<offer id="12480000379" type="vendor.model" available="true" count="16239" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2676</url>
 <price>2.81</price>
 <oldprice>4.95</oldprice>
@@ -6155,7 +6155,7 @@
 <param name="Вес" unit="кг">0.00273</param>
 <param name="Длина">16мм</param>
 </offer>
-<offer id="12480000406" type="vendor.model" available="true" count="15226" group_id="1248" >
+<offer id="12480000406" type="vendor.model" available="true" count="15186" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#3102</url>
 <price>2.70</price>
 <oldprice>4.40</oldprice>
@@ -6169,7 +6169,7 @@
 <param name="Вес" unit="кг">0.00191</param>
 <param name="Длина">14мм</param>
 </offer>
-<offer id="12480000380" type="vendor.model" available="true" count="97174" group_id="1248" >
+<offer id="12480000380" type="vendor.model" available="true" count="97154" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2675</url>
 <price>2.59</price>
 <oldprice>3.85</oldprice>
@@ -6183,7 +6183,7 @@
 <param name="Вес" unit="кг">0.00219</param>
 <param name="Длина">12мм</param>
 </offer>
-<offer id="12480000403" type="vendor.model" available="true" count="18667" group_id="1248" >
+<offer id="12480000403" type="vendor.model" available="true" count="18647" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2971</url>
 <price>2.42</price>
 <oldprice>3.85</oldprice>
@@ -6197,7 +6197,7 @@
 <param name="Вес" unit="кг">0.00191</param>
 <param name="Длина">10мм</param>
 </offer>
-<offer id="12480000410" type="vendor.model" available="true" count="9597" group_id="1248" >
+<offer id="12480000410" type="vendor.model" available="true" count="9517" group_id="1248" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-5mm#2983</url>
 <price>2.09</price>
 <oldprice>3.63</oldprice>
@@ -6295,7 +6295,7 @@
 <description>Вилка переднего колеса №004039 ось d=10мм, l=50мм с амортизатором ➜ оптом от компании КидРулит. ★ Вилки для поворотных колес предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.36000000</param>
 </offer>
-<offer id="1257" type="vendor.model" available="true" count="824" >
+<offer id="1257" type="vendor.model" available="true" count="812" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/furnitura-dlya-remnej-bezopastnosti-fasteksy-karabiny/fasteks-dlya-pyatitochechnyh-remnej-no004040</url>
 <price>220.00</price>
 <currencyId>RUB</currencyId>
@@ -6415,7 +6415,7 @@
 <description>Регулятор-трещетка капюшона №004045 большой (диаметр 50мм) ➜ оптом от компании КидРулит. ★ Регуляторы, фиксаторы капюшона предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.02000000</param>
 </offer>
-<offer id="1263" type="vendor.model" available="true" count="895" >
+<offer id="1263" type="vendor.model" available="true" count="889" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/derzhatel-kapyushona-dlya-polosy-shirinoj-15mm-no004046</url>
 <price>187.00</price>
 <currencyId>RUB</currencyId>
@@ -6475,7 +6475,7 @@
 <description>Пружинка для трещетки капюшона №004050 ➜ оптом от компании КидРулит. ★ Регуляторы, фиксаторы капюшона предлагаем купить по доступным ценам в опт.Пружинка для трещетки капюшона №004050 ➜ оптом от компании КидРулит. ★ Пружины предлагаем купить по доступным</description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="1268" type="vendor.model" available="true" count="214" >
+<offer id="1268" type="vendor.model" available="true" count="212" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-hota-elochka-12-1-2h2-1-4-a-1022-no008015</url>
 <price>700.00</price>
 <currencyId>RUB</currencyId>
@@ -6523,7 +6523,7 @@
 <description>Покрышка HOTA 12&amp;quot;1/2х2 1/4  A-1031 №008019 ➜ оптом от компании КидРулит. ★ Покрышки предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Покрышка 12 1/2х2 1/4 (57-203) A-1031 HOTA №00</description>
 <param name="Вес" unit="кг">0.55000000</param>
 </offer>
-<offer id="1276" type="vendor.model" available="true" count="279" >
+<offer id="1276" type="vendor.model" available="true" count="274" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-hota-14h1-3-8h1-5-8-a-1018-no008023</url>
 <price>800.00</price>
 <currencyId>RUB</currencyId>
@@ -6671,7 +6671,7 @@
 <description>Колесо для детской коляски №006042 не надув 12дюймов ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт.Колесо для детской коляски №006042 не надув 12дюймов  низкопрофильное ➜ оптом от компании КидРулит. ★ Колеса предлагаем</description>
 <param name="Вес" unit="кг">0.66000000</param>
 </offer>
-<offer id="1292" type="vendor.model" available="true" count="522" >
+<offer id="1292" type="vendor.model" available="true" count="521" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/vtulki-dlya-koles-detskih-kolyasok/vtulka-dlya-povorotnogo-kolesa-detskoj-kolyaski-no007009-na-os-10mm</url>
 <price>99.00</price>
 <currencyId>RUB</currencyId>
@@ -6823,7 +6823,7 @@
 <description>Толкатель тормоза №001184 ➜ оптом от компании КидРулит. ★ Детали тормозной системы предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Толкатель тормоза №001184 (длинна 100мм) ➜ оптом от</description>
 <param name="Вес" unit="кг">0.01000000</param>
 </offer>
-<offer id="1302" type="vendor.model" available="true" count="301" >
+<offer id="1302" type="vendor.model" available="true" count="300" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-hota-elochka-10h2-a-1022-no008024</url>
 <price>680.00</price>
 <currencyId>RUB</currencyId>
@@ -6859,7 +6859,7 @@
 <description>Камера для детской коляски 200x45 HOTA с кривым хромированным соском №008028 ➜ оптом от компании КидРулит. ★ Камеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Камера для детской</description>
 <param name="Вес" unit="кг">0.10000000</param>
 </offer>
-<offer id="1309" type="vendor.model" available="true" count="1914" >
+<offer id="1309" type="vendor.model" available="true" count="1895" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/kamery/kamera-dlya-detskoj-kolyaski-10dyujmov-pryamoj-sosok-kitaj-no008030</url>
 <price>340.00</price>
 <currencyId>RUB</currencyId>
@@ -6871,7 +6871,7 @@
 <description>Камера для детской коляски (10дюймов) прямой сосок (Китай) №008030 ➜ оптом от компании КидРулит. ★ Камеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Камера для детской коляски (1</description>
 <param name="Вес" unit="кг">0.09000000</param>
 </offer>
-<offer id="1310" type="vendor.model" available="true" count="2324" >
+<offer id="1310" type="vendor.model" available="true" count="2269" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/kamery/kamera-dlya-detskoj-kolyaski-12-dyujmov-pryamoj-sosok-kitaj-no008031</url>
 <price>310.00</price>
 <currencyId>RUB</currencyId>
@@ -7309,7 +7309,7 @@
 <description>Фиксатор захвата механизма складывания шасси №004059 на трубу овал 42/22мм ➜ оптом от компании КидРулит. ★ Механизмы складывания коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в оп</description>
 <param name="Вес" unit="кг">0.01000000</param>
 </offer>
-<offer id="13440000345" type="vendor.model" available="true" count="190" group_id="1344" >
+<offer id="13440000345" type="vendor.model" available="true" count="2190" group_id="1344" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-skladyvaniya-kolyaski/zahvat-mehanizma-skladyvaniya-shassi-no004060-na-trubu-oval-42-22mm#3233</url>
 <price>42.00</price>
 <oldprice>220.00</oldprice>
@@ -7407,7 +7407,7 @@
 <description>Камера для детской коляски 48x188 с кривым соском №008034 ➜ оптом от компании КидРулит. ★ Камеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.12000000</param>
 </offer>
-<offer id="1352" type="vendor.model" available="true" count="188" >
+<offer id="1352" type="vendor.model" available="true" count="186" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/kamery/kamera-dlya-detskoj-kolyaski-60x230-s-krivym-soskom-no008035</url>
 <price>410.00</price>
 <currencyId>RUB</currencyId>
@@ -7419,7 +7419,7 @@
 <description>Камера для детской коляски 60x230 с кривым соском №008035 ➜ оптом от компании КидРулит. ★ Камеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.10000000</param>
 </offer>
-<offer id="1353" type="vendor.model" available="true" count="68" >
+<offer id="1353" type="vendor.model" available="true" count="67" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-hota-250x50-a-1026-no008032</url>
 <price>750.00</price>
 <currencyId>RUB</currencyId>
@@ -7611,7 +7611,7 @@
 <description>Колесо для детской коляски №007014 надув 10дюймов без вилки 47-152 10х1,75х2 (втулка на ось 8мм) ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт</description>
 <param name="Вес" unit="кг">0.65000000</param>
 </offer>
-<offer id="1372" type="vendor.model" available="true" count="38" >
+<offer id="1372" type="vendor.model" available="true" count="37" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-no007015-naduv-12dyujmov-47-203-12-1-2h1-75h2-1-4-s-tormoznoj-shesterenkoj</url>
 <price>2268.00</price>
 <currencyId>RUB</currencyId>
@@ -7623,7 +7623,7 @@
 <description>Колесо для детской коляски №007015 надув 12дюймов 47-203 12 1/2х1,75х2 1/4 с тормозной шестеренкой ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в о</description>
 <param name="Вес" unit="кг">0.73000000</param>
 </offer>
-<offer id="1373" type="vendor.model" available="true" count="9" >
+<offer id="1373" type="vendor.model" available="true" count="8" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-no007016-naduv-10dyujmov-bez-vilki-47-152-10h1-75h2-vtulka-na-os-8mm</url>
 <price>2173.50</price>
 <currencyId>RUB</currencyId>
@@ -7743,7 +7743,7 @@
 <description>Колесо для детской коляски №007025 надув 12дюймов 47-203 12 1/2х1,75х2 1/4 с тормозной шестеренкой ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в о</description>
 <param name="Вес" unit="кг">0.75000000</param>
 </offer>
-<offer id="1383" type="vendor.model" available="true" count="22" >
+<offer id="1383" type="vendor.model" available="true" count="21" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-no007026-naduv-10dyujmov-bez-vilki-47-152-10h1-75h2-vtulka-na-os-8mm</url>
 <price>2173.50</price>
 <currencyId>RUB</currencyId>
@@ -7779,7 +7779,7 @@
 <description>Переходник бампера усиленный №001222 ➜ оптом от компании КидРулит. ★ Бампера для коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.03500000</param>
 </offer>
-<offer id="1386" type="vendor.model" available="true" count="905" >
+<offer id="1386" type="vendor.model" available="true" count="887" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/kamery/kamera-dlya-detskoj-kolyaski-12-dyujmov-krivoj-sosok-kitaj-no008036</url>
 <price>380.00</price>
 <currencyId>RUB</currencyId>
@@ -7791,7 +7791,7 @@
 <description>Камера для детской коляски (12 дюймов) кривой сосок (Китай) №008036 ➜ оптом от компании КидРулит. ★ Камеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.10000000</param>
 </offer>
-<offer id="1387" type="vendor.model" available="true" count="993" >
+<offer id="1387" type="vendor.model" available="true" count="980" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/kamery/kamera-dlya-detskoj-kolyaski-10dyujmov-krivoj-sosok-kitaj-no008037</url>
 <price>370.00</price>
 <currencyId>RUB</currencyId>
@@ -7911,7 +7911,7 @@
 <param name="Вес" unit="кг">0.035</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="1394" type="vendor.model" available="true" count="115" >
+<offer id="1394" type="vendor.model" available="true" count="113" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-hota-10x2-54-152-a-1061-no008039</url>
 <price>700.00</price>
 <currencyId>RUB</currencyId>
@@ -7923,7 +7923,7 @@
 <description>Покрышка HOTA 10x2 (54-152) A-1061 №008039 ➜ оптом от компании КидРулит. ★ Покрышки предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Покрышка 10x2 (54-152) A-1061 HOTA №008039 ➜ оптом</description>
 <param name="Вес" unit="кг">0.35000000</param>
 </offer>
-<offer id="1395" type="vendor.model" available="true" count="171" >
+<offer id="1395" type="vendor.model" available="true" count="168" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-hota-12-1-2h2-1-4-53h203-a-1061-no008040</url>
 <price>730.00</price>
 <currencyId>RUB</currencyId>
@@ -7977,7 +7977,7 @@
 <param name="Вес" unit="кг">0.001</param>
 <param name="Диаметр вала">5мм</param>
 </offer>
-<offer id="13960000373" type="vendor.model" available="true" count="1990" group_id="1396" >
+<offer id="13960000373" type="vendor.model" available="true" count="1890" group_id="1396" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/stopornaya-shajba-starlock#2591</url>
 <price>8.80</price>
 <oldprice>17.60</oldprice>
@@ -8047,7 +8047,7 @@
 <param name="Вес" unit="кг">0.001</param>
 <param name="Диаметр вала">6мм</param>
 </offer>
-<offer id="1397" type="vendor.model" available="true" count="330" >
+<offer id="1397" type="vendor.model" available="true" count="328" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-wanda-elochka-12-1-2h2-1-4-57-203-no008041</url>
 <price>550.00</price>
 <currencyId>RUB</currencyId>
@@ -8059,7 +8059,7 @@
 <description>Покрышка WANDA елочка  12&amp;quot;1/2х2 1/4 (57-203) №008041 ➜ оптом от компании КидРулит. ★ Покрышки предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Покрышка 12 1/2х2 1/4 (57-203) &amp;quot</description>
 <param name="Вес" unit="кг">0.42000000</param>
 </offer>
-<offer id="1398" type="vendor.model" available="true" count="100" >
+<offer id="1398" type="vendor.model" available="true" count="95" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-wanda-elochka-10h2-no008042</url>
 <price>550.00</price>
 <currencyId>RUB</currencyId>
@@ -8083,7 +8083,7 @@
 <description>Фастекс для пятиточечных ремней  №015001 (Италия) ➜ оптом от компании КидРулит. ★ Фурнитура для ремней безопастности, фастексы, карабины предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в оп</description>
 <param name="Вес" unit="кг">0.02500000</param>
 </offer>
-<offer id="1400" type="vendor.model" available="true" count="1905" >
+<offer id="1400" type="vendor.model" available="true" count="1904" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/furnitura-dlya-remnej-bezopastnosti-fasteksy-karabiny/fasteks-dlya-pyatitochechnyh-remnej-no015002-italiya</url>
 <price>385.00</price>
 <currencyId>RUB</currencyId>
@@ -8383,7 +8383,7 @@
 <description>Подшипник 6000 2rs резиновый уплотнитель (вн.диаметр 10мм, наруж диам 26мм) №009006 ➜ оптом от компании КидРулит. ★ Подшипники предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.02000000</param>
 </offer>
-<offer id="1419" type="vendor.model" available="true" count="193" >
+<offer id="1419" type="vendor.model" available="true" count="191" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/podshipniki/podshipnik-61901-2rs-rezinovyj-uplotnitel-vn-diametr-12mm-naruzh-diam-24mm-no009007</url>
 <price>220.00</price>
 <currencyId>RUB</currencyId>
@@ -8506,7 +8506,7 @@
 <description>Пруток пластиковый 4,5х1000мм для вшивания в ткань детской коляски №016005 ➜ оптом от компании КидРулит. ★ Пластиковая и резиновая фурнитура для колясок, заглушки, шайбы и прочее предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★</description>
 <param name="Вес" unit="кг">0.01000000</param>
 </offer>
-<offer id="1431" type="vendor.model" available="true" count="253" >
+<offer id="1431" type="vendor.model" available="true" count="252" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/furnitura-dlya-remnej-bezopastnosti-fasteksy-karabiny/fasteks-dlya-pyatitochechnyh-remnej-no016004</url>
 <price>385.00</price>
 <currencyId>RUB</currencyId>
@@ -8785,7 +8785,7 @@
 <description>Шарнир регулирования круг-круг 16-16мм №018001 ➜ оптом от компании КидРулит. ★ Регуляторы, фиксаторы капюшона предлагаем купить по доступным ценам в опт.Шарнир регулирования круг-круг 16-16мм №018001 ➜ оптом от компании КидРулит. ★ Регуляторы ручки детско</description>
 <param name="Вес" unit="кг">0.07000000</param>
 </offer>
-<offer id="1453" type="vendor.model" available="true" count="166" >
+<offer id="1453" type="vendor.model" available="true" count="165" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-ruchki-detskoj-kolyaski/sharnir-regulirovaniya-ruchki-po-vysote-20-20mm-usilennyj-no018002</url>
 <price>550.00</price>
 <currencyId>RUB</currencyId>
@@ -8809,7 +8809,7 @@
 <description>Шарнир регулирования ручки по высоте 20-20мм усиленный №018004 ➜ оптом от компании КидРулит. ★ Регуляторы ручки детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.14000000</param>
 </offer>
-<offer id="1456" type="vendor.model" available="true" count="162" >
+<offer id="1456" type="vendor.model" available="true" count="160" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-ruchki-detskoj-kolyaski/sharnir-regulirovaniya-ruchki-po-vysote-krug-oval-20-20-30mm-usilennyj-no018005</url>
 <price>550.00</price>
 <currencyId>RUB</currencyId>
@@ -9239,7 +9239,7 @@
 <param name="Вес" unit="кг">0.01</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="1480" type="vendor.model" available="true" count="44" >
+<offer id="1480" type="vendor.model" available="true" count="32" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/vtulki-dlya-koles-detskih-kolyasok/vtulka-dlya-kolesa-detskoj-kolyaski-no003041</url>
 <price>275.00</price>
 <currencyId>RUB</currencyId>
@@ -9483,7 +9483,7 @@
 <description>Замок механизма складывания №001224 ➜ оптом от компании КидРулит. ★ Механизмы складывания коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.04000000</param>
 </offer>
-<offer id="14950000346" type="vendor.model" available="true" count="101" group_id="1495" >
+<offer id="14950000346" type="vendor.model" available="true" count="100" group_id="1495" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-krepleniya-lyulki-k-shassi/nakladka-dlya-mehanizma-kreplenie-lyulki-na-shassi-no0060501#2656</url>
 <price>88.00</price>
 <oldprice>187.00</oldprice>
@@ -9497,7 +9497,7 @@
 <param name="Вес" unit="кг">0.51</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="14950000345" type="vendor.model" available="true" count="105" group_id="1495" >
+<offer id="14950000345" type="vendor.model" available="true" count="104" group_id="1495" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-krepleniya-lyulki-k-shassi/nakladka-dlya-mehanizma-kreplenie-lyulki-na-shassi-no0060501#2655</url>
 <price>88.00</price>
 <oldprice>187.00</oldprice>
@@ -9553,7 +9553,7 @@
 <param name="Вес" unit="кг">0.04</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="14970000345" type="vendor.model" available="true" count="410" group_id="1497" >
+<offer id="14970000345" type="vendor.model" available="true" count="409" group_id="1497" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/regulyator-treshhetka-kapyushona-komplekt-no006052#2659</url>
 <price>209.00</price>
 <oldprice>550.00</oldprice>
@@ -9865,7 +9865,7 @@
 <description>Колесо для детской коляски №006054 надув 10дюймов без вилки 50-160 ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.67500000</param>
 </offer>
-<offer id="1520" type="vendor.model" available="true" count="6068" >
+<offer id="1520" type="vendor.model" available="true" count="6008" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-no020001</url>
 <price>50.60</price>
 <currencyId>RUB</currencyId>
@@ -10387,7 +10387,7 @@
 <param name="Вес" unit="кг">0.00292</param>
 <param name="Длина">46мм</param>
 </offer>
-<offer id="15330000362" type="vendor.model" available="true" count="855" group_id="1533" >
+<offer id="15330000362" type="vendor.model" available="true" count="835" group_id="1533" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-6mm#3246</url>
 <price>9.35</price>
 <oldprice>16.50</oldprice>
@@ -10401,7 +10401,7 @@
 <param name="Вес" unit="кг">0.00292</param>
 <param name="Длина">44мм</param>
 </offer>
-<offer id="15330000396" type="vendor.model" available="true" count="1589" group_id="1533" >
+<offer id="15330000396" type="vendor.model" available="true" count="1569" group_id="1533" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-6mm#3238</url>
 <price>9.24</price>
 <oldprice>16.50</oldprice>
@@ -10415,7 +10415,7 @@
 <param name="Вес" unit="кг">0.00292</param>
 <param name="Длина">42мм</param>
 </offer>
-<offer id="15330000361" type="vendor.model" available="true" count="1568" group_id="1533" >
+<offer id="15330000361" type="vendor.model" available="true" count="1548" group_id="1533" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-6mm#2690</url>
 <price>9.02</price>
 <oldprice>14.30</oldprice>
@@ -10429,7 +10429,7 @@
 <param name="Вес" unit="кг">0.0099</param>
 <param name="Длина">40мм</param>
 </offer>
-<offer id="15330000395" type="vendor.model" available="true" count="148" group_id="1533" >
+<offer id="15330000395" type="vendor.model" available="true" count="128" group_id="1533" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-6mm#3172</url>
 <price>8.80</price>
 <oldprice>14.30</oldprice>
@@ -10457,7 +10457,7 @@
 <param name="Вес" unit="кг">0.00874</param>
 <param name="Длина">35мм</param>
 </offer>
-<offer id="15330000359" type="vendor.model" available="true" count="1551" group_id="1533" >
+<offer id="15330000359" type="vendor.model" available="true" count="1531" group_id="1533" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-diametr-6mm#3171</url>
 <price>8.03</price>
 <oldprice>12.10</oldprice>
@@ -11456,7 +11456,7 @@
 <param name="Вес" unit="кг">0.002</param>
 <param name="Диаметр вала">5мм</param>
 </offer>
-<offer id="15910000377" type="vendor.model" available="true" count="4161" group_id="1591" >
+<offer id="15910000377" type="vendor.model" available="true" count="4153" group_id="1591" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/stopornaya-shajba-s-kolpachkom-starlock-diamert-4-5-6-7-8-10mm#2753</url>
 <price>16.50</price>
 <oldprice>33.00</oldprice>
@@ -11484,7 +11484,7 @@
 <param name="Вес" unit="кг">0.002</param>
 <param name="Диаметр вала">6мм</param>
 </offer>
-<offer id="15910000378" type="vendor.model" available="true" count="1640" group_id="1591" >
+<offer id="15910000378" type="vendor.model" available="true" count="1627" group_id="1591" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/stopornaya-shajba-s-kolpachkom-starlock-diamert-4-5-6-7-8-10mm#2754</url>
 <price>20.00</price>
 <oldprice>38.50</oldprice>
@@ -11806,7 +11806,7 @@
 <param name="Вес" unit="кг">0.01</param>
 <param name="Расцветки">Бордовый</param>
 </offer>
-<offer id="1599" type="vendor.model" available="true" count="142" >
+<offer id="1599" type="vendor.model" available="true" count="138" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-wanda-12-1-2h2-1-4-57x203-no008045</url>
 <price>560.00</price>
 <currencyId>RUB</currencyId>
@@ -11842,7 +11842,7 @@
 <description>Педаль тормоза №002094 ➜ оптом от компании КидРулит. ★ Детали тормозной системы предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Педаль тормоза №002096 ➜ оптом от компании КидРулит. ★</description>
 <param name="Вес" unit="кг">0.05000000</param>
 </offer>
-<offer id="1603" type="vendor.model" available="true" count="278" >
+<offer id="1603" type="vendor.model" available="true" count="274" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/plastikovaya-i-rezinovaya-furnitura-dlya-kolyasok-zaglushki-shajby-i-prochee/derzhatel-dlya-sumki-na-ruchku-kolyaski-no005068</url>
 <price>121.00</price>
 <currencyId>RUB</currencyId>
@@ -11918,7 +11918,7 @@
 <description>Камера для детской коляски 280х65-203 кривой сосок (Китай) №008056 ➜ оптом от компании КидРулит. ★ Камеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.10000000</param>
 </offer>
-<offer id="16150000378" type="vendor.model" available="true" count="1050" group_id="1615" >
+<offer id="16150000378" type="vendor.model" available="true" count="1046" group_id="1615" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/stopornaya-shajba-s-vysokim-kolpachkom-starlock-diamert-4-6-8mm#3169</url>
 <price>38.06</price>
 <oldprice>57.67</oldprice>
@@ -11932,7 +11932,7 @@
 <param name="Вес" unit="кг">0.003</param>
 <param name="Диаметр вала">10мм</param>
 </offer>
-<offer id="16150000377" type="vendor.model" available="true" count="9541" group_id="1615" >
+<offer id="16150000377" type="vendor.model" available="true" count="9518" group_id="1615" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/stopornaya-shajba-s-vysokim-kolpachkom-starlock-diamert-4-6-8mm#2786</url>
 <price>34.00</price>
 <oldprice>51.27</oldprice>
@@ -11946,7 +11946,7 @@
 <param name="Вес" unit="кг">0.003</param>
 <param name="Диаметр вала">8мм</param>
 </offer>
-<offer id="16150000375" type="vendor.model" available="true" count="885" group_id="1615" >
+<offer id="16150000375" type="vendor.model" available="true" count="862" group_id="1615" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/stopornaya-shajba-s-vysokim-kolpachkom-starlock-diamert-4-6-8mm#2788</url>
 <price>32.43</price>
 <oldprice>51.27</oldprice>
@@ -12402,7 +12402,7 @@
 <description>Крепление поворотного колеса с подножкой №006061 ось10мм, труба 42х22мм ➜ оптом от компании КидРулит. ★ Крепление вилки поворотного колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в</description>
 <param name="Вес" unit="кг">0.59500000</param>
 </offer>
-<offer id="1628" type="vendor.model" available="true" count="312" >
+<offer id="1628" type="vendor.model" available="true" count="306" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/vilka-perednego-kolesa-no006063-dlina-165mm-os-d-10mm-l-68mm-s-amortizatorom</url>
 <price>1732.50</price>
 <currencyId>RUB</currencyId>
@@ -12557,7 +12557,7 @@
 <description>Колесо для детской коляски №007044 надув 10 дюймов без вилки 47-152 10х1,75х2 (втулка на ось 8 мм) ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в о</description>
 <param name="Вес" unit="кг">0.52000000</param>
 </offer>
-<offer id="1643" type="vendor.model" available="true" count="37" >
+<offer id="1643" type="vendor.model" available="true" count="36" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-no007045-naduv-12dyujmov-47-203-12-1-2h1-75h2-1-4-s-tormoznoj-shesterenkoj</url>
 <price>2268.00</price>
 <currencyId>RUB</currencyId>
@@ -13025,7 +13025,7 @@
 <description>➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ U.D.LINDEN &amp;quot;WALROSS DOUBLE&amp;quot; ➜ оптом от компании КидРулит. ★ Муфты для рук на детскую коляску предлагаем купить по доступным ценам в опт</description>
 <param name="Вес" unit="кг">0.66500000</param>
 </offer>
-<offer id="1692" type="vendor.model" available="true" count="48" >
+<offer id="1692" type="vendor.model" available="true" count="47" >
 <url>https://kidrulit.ru/aksessuary-dlya-detskih-kolyasok/mufty-dlya-ruk-na-detskuyu-kolyasku/mufta-dlya-ruk-na-kolyasku-chernaya-u-d-linden-walross</url>
 <price>4700.00</price>
 <currencyId>RUB</currencyId>
@@ -13037,19 +13037,7 @@
 <description>➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ U.D.LINDEN &amp;quot;WALROSS&amp;quot; ➜ оптом от компании КидРулит. ★ Муфты для рук на детскую коляску предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.76000000</param>
 </offer>
-<offer id="1693" type="vendor.model" available="true" count="2" >
-<url>https://kidrulit.ru/aksessuary-dlya-detskih-kolyasok/mufty-dlya-ruk-na-detskuyu-kolyasku/mufta-dlya-ruk-na-kolyasku-chernaya-ekokozha-u-d-linden-black-merino-double</url>
-<price>5150.00</price>
-<currencyId>RUB</currencyId>
-<categoryId>120</categoryId>
-<delivery>true</delivery>
-<typePrefix>МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ ЭКОКОЖА U.D.LINDEN &amp;quot;BLACK MERINO DOUBLE&amp;quot;</typePrefix>
-<vendorCode></vendorCode>
-<model>BLACK MERINO DOUBLE</model>
-<description>➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ ЭКОКОЖА U.D.LINDEN &amp;quot;BLACK MERINO DOUBLE&amp;quot; ➜ оптом от компании КидРулит. ★ Муфты для рук на детскую коляску предлагаем купить по доступны</description>
-<param name="Вес" unit="кг">0.68500000</param>
-</offer>
-<offer id="1694" type="vendor.model" available="true" count="17" >
+<offer id="1694" type="vendor.model" available="true" count="16" >
 <url>https://kidrulit.ru/aksessuary-dlya-detskih-kolyasok/mufty-dlya-ruk-na-detskuyu-kolyasku/mufta-dlya-ruk-na-kolyasku-chernaya-ekokozha-u-d-linden-black-merino</url>
 <price>5150.00</price>
 <currencyId>RUB</currencyId>
@@ -13061,7 +13049,7 @@
 <description>➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ ЭКОКОЖА U.D.LINDEN &amp;quot;BLACK MERINO&amp;quot; ➜ оптом от компании КидРулит. ★ Муфты для рук на детскую коляску предлагаем купить по доступным ценам</description>
 <param name="Вес" unit="кг">0.93000000</param>
 </offer>
-<offer id="1695" type="vendor.model" available="true" count="14" >
+<offer id="1695" type="vendor.model" available="true" count="13" >
 <url>https://kidrulit.ru/aksessuary-dlya-detskih-kolyasok/mufty-dlya-ruk-na-detskuyu-kolyasku/mufta-dlya-ruk-na-kolyasku-chernaya-u-d-linden-black-fleece-double</url>
 <price>3500.00</price>
 <currencyId>RUB</currencyId>
@@ -13073,7 +13061,7 @@
 <description>➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.МУФТА ДЛЯ РУК НА КОЛЯСКУ ЧЕРНАЯ U.D.LINDEN &amp;quot;BLACK-FLEECE DOUBLE&amp;quot; ➜ оптом от компании КидРулит. ★ Муфты для рук на детскую коляску предлагаем купить по доступным ценам</description>
 <param name="Вес" unit="кг">0.55600000</param>
 </offer>
-<offer id="1696" type="vendor.model" available="true" count="17" >
+<offer id="1696" type="vendor.model" available="true" count="16" >
 <url>https://kidrulit.ru/aksessuary-dlya-detskih-kolyasok/mufty-dlya-ruk-na-detskuyu-kolyasku/mufta-dlya-ruk-na-kolyasku-chernaya-u-d-linden-black-fleece</url>
 <price>3500.00</price>
 <currencyId>RUB</currencyId>
@@ -13121,7 +13109,7 @@
 <description>➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.СУМКА ПЕРЕНОСКА ДЛЯ НОВОРОЖДЕННЫХ БЕЛАЯ U.D.LINDEN EINZELBOOT &amp;quot;WHITE&amp;quot; ➜ оптом от компании КидРулит. ★ Сумки-переноски для новорожденных предлагаем купить по доступным</description>
 <param name="Вес" unit="кг">2.50000000</param>
 </offer>
-<offer id="1701" type="vendor.model" available="true" count="504" >
+<offer id="1701" type="vendor.model" available="true" count="2504" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/vilka-perednego-kolesa-no001020m-dlina-165mm-os-d-10mm-l-77mm-s-amortizatorom-modernizirovannaya</url>
 <price>1602.00</price>
 <currencyId>RUB</currencyId>
@@ -13241,9 +13229,9 @@
 <description>Колесо для детской коляски №006072 не надув 10дюймов без вилки низкопрофильное ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.34200000</param>
 </offer>
-<offer id="1712" type="vendor.model" available="true" count="2962" >
+<offer id="1712" type="vendor.model" available="true" count="2937" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-skladyvaniya-kolyaski/mehanizm-skladyvaniya-shassi-no006073-metallicheskij-hrom</url>
-<price>1990.00</price>
+<price>2126.00</price>
 <currencyId>RUB</currencyId>
 <categoryId>89</categoryId>
 <delivery>true</delivery>
@@ -13377,9 +13365,9 @@
 <description>Крепление поворотного колеса с подножкой №001242 ось10мм, труба 42х22мм ➜ оптом от компании КидРулит. ★ Крепление вилки поворотного колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в</description>
 <param name="Вес" unit="кг">0.61500000</param>
 </offer>
-<offer id="1722" type="vendor.model" available="true" count="238" >
+<offer id="1722" type="vendor.model" available="true" count="2238" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-skladyvaniya-kolyaski/tyaga-no006074-dlinna-440mm</url>
-<price>220.00</price>
+<price>300.00</price>
 <currencyId>RUB</currencyId>
 <categoryId>89</categoryId>
 <delivery>true</delivery>
@@ -13509,19 +13497,19 @@
 <description>Шарнир регулирования круг-круг 16-16мм ФИКСАЦИЯ ТОЛЬКО НА 90 градусов №023002 ➜ оптом от компании КидРулит. ★ Регуляторы, фиксаторы капюшона предлагаем купить по доступным ценам в опт.Шарнир регулирования круг-круг 16-16мм ФИКСАЦИЯ ТОЛЬКО НА 90 градусов №</description>
 <param name="Вес" unit="кг">0.07000000</param>
 </offer>
-<offer id="1737" type="vendor.model" available="true" count="3" >
-<url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-ruchki-detskoj-kolyaski/sharnir-regulirovaniya-ruchki-po-vysote-20-20mm-usilennyj-no023005</url>
+<offer id="1738" type="vendor.model" available="true" count="3" >
+<url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-ruchki-detskoj-kolyaski/sharnir-regulirovaniya-ruchki-po-vysote-krug-oval-20-20-30mm-usilennyj-no023006</url>
 <price>550.00</price>
 <currencyId>RUB</currencyId>
 <categoryId>87</categoryId>
 <delivery>true</delivery>
-<typePrefix>Шарнир регулирования ручки по высоте 20-20мм усиленный №023005 ТУГИЕ КНОПКИ</typePrefix>
+<typePrefix>Шарнир регулирования ручки по высоте круг-овал 20-20/30мм усиленный №023006</typePrefix>
 <vendorCode></vendorCode>
-<model>023005</model>
-<description>Шарнир регулирования ручки по высоте 20-20мм усиленный №023005 ➜ оптом от компании КидРулит. ★ Регуляторы ручки детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
+<model>023006</model>
+<description>Шарнир регулирования ручки по высоте круг-овал 20-20/30мм усиленный №023006 ➜ оптом от компании КидРулит. ★ Регуляторы ручки детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам</description>
 <param name="Вес" unit="кг">0.12500000</param>
 </offer>
-<offer id="17410000346" type="vendor.model" available="true" count="81" group_id="1741" >
+<offer id="17410000346" type="vendor.model" available="true" count="80" group_id="1741" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-podnozhki-progulochnogo-bloka/sharnir-regulirovaniya-podnozhki-progulochnogo-bloka-no023009-krug-krug-16-16mm#2833</url>
 <price>99.00</price>
 <oldprice>264.00</oldprice>
@@ -13535,7 +13523,7 @@
 <param name="Вес" unit="кг">0.045</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="17410000345" type="vendor.model" available="true" count="64" group_id="1741" >
+<offer id="17410000345" type="vendor.model" available="true" count="63" group_id="1741" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-podnozhki-progulochnogo-bloka/sharnir-regulirovaniya-podnozhki-progulochnogo-bloka-no023009-krug-krug-16-16mm#2832</url>
 <price>99.00</price>
 <oldprice>264.00</oldprice>
@@ -13805,7 +13793,7 @@
 <description>Соединитель для трубы наружный №001245 (труба 44х18мм) ➜ оптом от компании КидРулит. ★ Прочие запчасти предлагаем купить по доступным ценам в опт.Соединитель для трубы наружный №001245 (труба 44х18мм) ➜ оптом от компании КидРулит. ★ Прочие предлагаем купи</description>
 <param name="Вес" unit="кг">0.02500000</param>
 </offer>
-<offer id="1765" type="vendor.model" available="true" count="100" >
+<offer id="1765" type="vendor.model" available="true" count="2100" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/soedinitel-dlya-truby-naruzhnyj-no001246-truba-44h18mm</url>
 <price>165.00</price>
 <currencyId>RUB</currencyId>
@@ -13961,7 +13949,7 @@
 <description>Пружина 1,3-16-16/22 №006079 ➜ оптом от компании КидРулит. ★ Пружины предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="1774" type="vendor.model" available="true" count="206" >
+<offer id="1774" type="vendor.model" available="true" count="2206" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/soedinitel-dlya-truby-no004087-truba-oval-42-22mm</url>
 <price>165.00</price>
 <currencyId>RUB</currencyId>
@@ -13997,7 +13985,7 @@
 <description>Соединитель для трубы №004089 (труба овал 20/30мм) ➜ оптом от компании КидРулит. ★ Прочие запчасти предлагаем купить по доступным ценам в опт.Соединитель для трубы №004089 (труба овал 20/30мм) ➜ оптом от компании КидРулит. ★ Прочие предлагаем купить по до</description>
 <param name="Вес" unit="кг">0.02500000</param>
 </offer>
-<offer id="1777" type="vendor.model" available="true" count="86" >
+<offer id="1777" type="vendor.model" available="true" count="80" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/soedinitel-dlya-truby-naruzhnyj-no004090-truba-42h22mm</url>
 <price>165.00</price>
 <currencyId>RUB</currencyId>
@@ -14297,7 +14285,7 @@
 <description>Шарнир регулирования ручки по высоте 20-20мм №024005 NAVINGTON (DELTIM) ➜ оптом от компании КидРулит. ★ Регуляторы ручки детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в оп</description>
 <param name="Вес" unit="кг">0.15000000</param>
 </offer>
-<offer id="1808" type="vendor.model" available="true" count="503" >
+<offer id="1808" type="vendor.model" available="true" count="499" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/kamery/kamera-dlya-detskoj-kolyaski-12dyujmov-n07-12-1-2h1-50-2-10-37-54-203-pryamoj-sosok-chehiya-mitas-rubena-no008068</url>
 <price>400.00</price>
 <currencyId>RUB</currencyId>
@@ -14321,7 +14309,7 @@
 <description>Покрышка 10х1,75х2 (47x152) V57 COMFORT (Чехия МITAS / RUBENA) №008069 ➜ оптом от компании КидРулит. ★ Покрышки предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.30000000</param>
 </offer>
-<offer id="1810" type="vendor.model" available="true" count="1951" >
+<offer id="1810" type="vendor.model" available="true" count="1939" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-12-1-2h1-75h2-1-4-47x203-v57-chehiya-mitas-rubena-no008070</url>
 <price>880.00</price>
 <currencyId>RUB</currencyId>
@@ -14369,7 +14357,7 @@
 <description>Двухщелевая пряжка для стропы 40мм №015004 ➜ оптом от компании КидРулит. ★ Фурнитура для ремней безопастности, фастексы, карабины предлагаем купить по доступным ценам в опт.Двухщелевая пряжка для стропы 40мм №015004 ➜ оптом от компании КидРулит. ★ Пластик</description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="1815" type="vendor.model" available="true" count="247" >
+<offer id="1815" type="vendor.model" available="true" count="237" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/furnitura-dlya-remnej-bezopastnosti-fasteksy-karabiny/dvuhshhelevaya-pryazhka-dlya-stropy-30mm-no015005</url>
 <price>15.39</price>
 <currencyId>RUB</currencyId>
@@ -14473,7 +14461,7 @@
 <param name="Вес" unit="кг">0.255</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="1824" type="vendor.model" available="true" count="356" >
+<offer id="1824" type="vendor.model" available="true" count="353" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/bryzgovik-dlya-vilki-no001282</url>
 <price>132.83</price>
 <currencyId>RUB</currencyId>
@@ -14625,7 +14613,7 @@
 <description>Амортизатор пластиковый №018029 ➜ оптом от компании КидРулит. ★ Амортизаторы для детской коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01500000</param>
 </offer>
-<offer id="1836" type="vendor.model" available="true" count="521" >
+<offer id="1836" type="vendor.model" available="true" count="511" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/furnitura-dlya-remnej-bezopastnosti-fasteksy-karabiny/fasteks-dlya-pyatitochechnyh-remnej-no018030</url>
 <price>275.00</price>
 <currencyId>RUB</currencyId>
@@ -14697,7 +14685,7 @@
 <description>Колесо для детской коляски №007055 надув 10 дюймов (10х1,75х2) СЕРОЕ ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.60000000</param>
 </offer>
-<offer id="1843" type="vendor.model" available="true" count="8" >
+<offer id="1843" type="vendor.model" available="true" count="7" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-no007057-naduv-10-dyujmov-10h1-75h2-adamex-bebe-mobile</url>
 <price>2173.50</price>
 <currencyId>RUB</currencyId>
@@ -15357,7 +15345,7 @@
 <description>Втулка для поворотного колеса детской коляски №026015 на ось 10мм ➜ оптом от компании КидРулит. ★ Втулки для колес детских колясок предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="1913" type="vendor.model" available="true" count="660" >
+<offer id="1913" type="vendor.model" available="true" count="657" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/vtulki-dlya-koles-detskih-kolyasok/vtulka-dlya-povorotnogo-kolesa-detskoj-kolyaski-no026016-na-os-8mm</url>
 <price>99.00</price>
 <currencyId>RUB</currencyId>
@@ -15393,7 +15381,7 @@
 <description>Втулка для поворотного колеса детской коляски №027017 на ось 10мм ➜ оптом от компании КидРулит. ★ Втулки для колес детских колясок предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="1916" type="vendor.model" available="true" count="365" >
+<offer id="1916" type="vendor.model" available="true" count="362" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/vtulki-dlya-koles-detskih-kolyasok/vtulka-dlya-kolesa-detskoj-kolyaski-no027019</url>
 <price>308.00</price>
 <currencyId>RUB</currencyId>
@@ -16154,7 +16142,7 @@
 <description>Механизм складывания шасси №017011 на трубу 20/30мм СЕРЫЙ (LONEX) ➜ оптом от компании КидРулит. ★ Механизмы складывания коляски предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.10500000</param>
 </offer>
-<offer id="19750000386" type="vendor.model" available="true" count="5550" group_id="1975" >
+<offer id="19750000386" type="vendor.model" available="true" count="5540" group_id="1975" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/kolco-stopornoe-naruzhnoe-dlya-vala-8-10-12-mm-no010100-1796836562#2935</url>
 <price>4.80</price>
 <oldprice>9.90</oldprice>
@@ -16168,7 +16156,7 @@
 <param name="Вес" unit="кг">0.001</param>
 <param name="Диаметр вала">12мм</param>
 </offer>
-<offer id="19750000378" type="vendor.model" available="true" count="4816" group_id="1975" >
+<offer id="19750000378" type="vendor.model" available="true" count="4806" group_id="1975" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/kolco-stopornoe-naruzhnoe-dlya-vala-8-10-12-mm-no010100-1796836562#2937</url>
 <price>4.60</price>
 <oldprice>9.90</oldprice>
@@ -16182,7 +16170,7 @@
 <param name="Вес" unit="кг">0.001</param>
 <param name="Диаметр вала">10мм</param>
 </offer>
-<offer id="19750000377" type="vendor.model" available="true" count="3980" group_id="1975" >
+<offer id="19750000377" type="vendor.model" available="true" count="3970" group_id="1975" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/kolco-stopornoe-naruzhnoe-dlya-vala-8-10-12-mm-no010100-1796836562#2936</url>
 <price>4.40</price>
 <oldprice>9.90</oldprice>
@@ -16424,7 +16412,7 @@
 <description>Тросик тормозной 460мм  №006089 ➜ оптом от компании КидРулит. ★ Детали тормозной системы предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.02000000</param>
 </offer>
-<offer id="2003" type="vendor.model" available="true" count="104" >
+<offer id="2003" type="vendor.model" available="true" count="102" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-spinki-progulochnogo-bloka/trosik-mehanizma-skladyvaniya-spinki-progulochnogo-bloka-398mm-no006090</url>
 <price>363.00</price>
 <currencyId>RUB</currencyId>
@@ -16540,7 +16528,7 @@
 <description>Вилка переднего колеса №001291 (КОРОТКАЯ длина 136мм) ось d=10мм, l=77мм с амортизатором ➜ оптом от компании КидРулит. ★ Вилки для поворотных колес предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным</description>
 <param name="Вес" unit="кг">0.29000000</param>
 </offer>
-<offer id="20120000346" type="vendor.model" available="true" count="413" group_id="2012" >
+<offer id="20120000346" type="vendor.model" available="true" count="412" group_id="2012" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/amortizatory-dlya-detskoj-kolyaski/pruzhina-amortizator-dlya-detskoj-kolyaski-4h23h25-7mm-no006093-usilennaya#2963</url>
 <price>231.00</price>
 <oldprice>462.00</oldprice>
@@ -16554,7 +16542,7 @@
 <param name="Вес" unit="кг">0.042</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="20120000345" type="vendor.model" available="true" count="440" group_id="2012" >
+<offer id="20120000345" type="vendor.model" available="true" count="439" group_id="2012" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/amortizatory-dlya-detskoj-kolyaski/pruzhina-amortizator-dlya-detskoj-kolyaski-4h23h25-7mm-no006093-usilennaya#2962</url>
 <price>231.00</price>
 <oldprice>462.00</oldprice>
@@ -16646,7 +16634,7 @@
 <description>Камера для детской коляски 50x160 кривой сосок (Китай) №008081 ➜ оптом от компании КидРулит. ★ Камеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.09000000</param>
 </offer>
-<offer id="2021" type="vendor.model" available="true" count="1192" >
+<offer id="2021" type="vendor.model" available="true" count="992" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-kombinirovannaya-diametr-6-5mm-dlina-9-5-12-5mm-no020004</url>
 <price>38.46</price>
 <currencyId>RUB</currencyId>
@@ -16658,7 +16646,7 @@
 <description>Заклепка полупустотелая комбинированная диаметр 6/5мм, длина 9,5/12,5мм №020004 ➜ оптом от компании КидРулит. ★ Металлическая фурнитура, крепежные элементы предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по д</description>
 <param name="Вес" unit="кг">0.00457000</param>
 </offer>
-<offer id="2022" type="vendor.model" available="true" count="819" >
+<offer id="2022" type="vendor.model" available="true" count="1019" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-polupustotelaya-kombinirovannaya-diametr-6-5mm-dlina-10-20mm-no020005</url>
 <price>38.46</price>
 <currencyId>RUB</currencyId>
@@ -16670,7 +16658,7 @@
 <description>Заклепка полупустотелая комбинированная диаметр 6/5мм, длина 10/20мм №020005 ➜ оптом от компании КидРулит. ★ Металлическая фурнитура, крепежные элементы предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по дост</description>
 <param name="Вес" unit="кг">0.00601000</param>
 </offer>
-<offer id="2023" type="vendor.model" available="true" count="557" >
+<offer id="2023" type="vendor.model" available="true" count="553" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/vtulka-rezinovaya-diametr-10-21-6mm-vysota-11-5mm-no001292</url>
 <price>74.80</price>
 <currencyId>RUB</currencyId>
@@ -16886,9 +16874,9 @@
 <description>Кнопка механизма регулирования D=25,3мм №023014 Цвет: БЕЛЫЙ ➜ оптом от компании КидРулит. ★ Кнопки для механизмов регулирования предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="2048" type="vendor.model" available="true" count="1715" >
+<offer id="2048" type="vendor.model" available="true" count="3707" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-skladyvaniya-kolyaski/mehanizm-skladyvaniya-shassi-no-006095-metallicheskij-chernyj</url>
-<price>1990.00</price>
+<price>2126.00</price>
 <currencyId>RUB</currencyId>
 <categoryId>89</categoryId>
 <delivery>true</delivery>
@@ -17566,7 +17554,7 @@
 <description>Колесо для детской коляски №025027 надув 10 дюймов без вилки, 54-152 10х2, втулка 8мм. ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.65000000</param>
 </offer>
-<offer id="2112" type="vendor.model" available="true" count="324" >
+<offer id="2112" type="vendor.model" available="true" count="322" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/tormoznye-shesterenki/shesterenka-tormoznaya-no025021</url>
 <price>308.00</price>
 <currencyId>RUB</currencyId>
@@ -17690,7 +17678,7 @@
 <description>Подшипник 627-zz  железная заглушка (вн.диаметр 7мм, наруж диам 22мм, ширина 7мм) №009022 для детской коляски ➜ оптом от компании КидРулит. ★ Подшипники предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по дост</description>
 <param name="Вес" unit="кг">0.01500000</param>
 </offer>
-<offer id="21220000375" type="vendor.model" available="true" count="755" group_id="2122" >
+<offer id="21220000375" type="vendor.model" available="true" count="655" group_id="2122" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/shajba-umenshennaya-ocinkovannaya-no030000#2991</url>
 <price>2.83</price>
 <oldprice>5.13</oldprice>
@@ -17704,7 +17692,7 @@
 <param name="Вес" unit="кг">0.0005</param>
 <param name="Диаметр вала">6мм</param>
 </offer>
-<offer id="21220000374" type="vendor.model" available="true" count="690" group_id="2122" >
+<offer id="21220000374" type="vendor.model" available="true" count="590" group_id="2122" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/shajba-umenshennaya-ocinkovannaya-no030000#2992</url>
 <price>2.83</price>
 <oldprice>5.13</oldprice>
@@ -17718,7 +17706,7 @@
 <param name="Вес" unit="кг">0.0005</param>
 <param name="Диаметр вала">5мм</param>
 </offer>
-<offer id="21220000373" type="vendor.model" available="true" count="739" group_id="2122" >
+<offer id="21220000373" type="vendor.model" available="true" count="639" group_id="2122" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/shajba-umenshennaya-ocinkovannaya-no030000#2990</url>
 <price>1.97</price>
 <oldprice>3.84</oldprice>
@@ -17756,7 +17744,7 @@
 <description>Покрышка 16х1.75 A-1066 HOTA №008090 ➜ оптом от компании КидРулит. ★ Покрышки предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.50000000</param>
 </offer>
-<offer id="2125" type="vendor.model" available="true" count="637" >
+<offer id="2125" type="vendor.model" available="true" count="631" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-12-1-2h1-75h2-1-4-47x203-a-1213-hota-no008091</url>
 <price>720.00</price>
 <currencyId>RUB</currencyId>
@@ -17768,7 +17756,7 @@
 <description>Покрышка 12 1/2х1,75х2 1/4 (47x203) A-1213 HOTA №008091 ➜ оптом от компании КидРулит. ★ Покрышки предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.37000000</param>
 </offer>
-<offer id="2126" type="vendor.model" available="true" count="433" >
+<offer id="2126" type="vendor.model" available="true" count="431" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-10h1-75h2-47x152-a-1213-hota-no008092</url>
 <price>700.00</price>
 <currencyId>RUB</currencyId>
@@ -17816,7 +17804,7 @@
 <description>Камера для детской коляски  8 1/2х2  (8 дюймов) прямой короткий сосок 20мм (xiaomi mijia electro scooter m365) №008099 ➜ оптом от компании КидРулит. ★ Камеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по</description>
 <param name="Вес" unit="кг">0.12000000</param>
 </offer>
-<offer id="2140" type="vendor.model" available="true" count="105" >
+<offer id="2140" type="vendor.model" available="true" count="103" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-8-1-2h2-50-134-a-1078-hota-no008105</url>
 <price>700.00</price>
 <currencyId>RUB</currencyId>
@@ -17934,7 +17922,7 @@
 <param name="Вес" unit="кг">0.008</param>
 <param name="Диаметр вала">6мм</param>
 </offer>
-<offer id="21500000374" type="vendor.model" available="true" count="892" group_id="2150" >
+<offer id="21500000374" type="vendor.model" available="true" count="792" group_id="2150" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/gajka-shestigrannaya-samokontryashhayasya-m-5-6-8-no030200#3000</url>
 <price>3.93</price>
 <oldprice>6.60</oldprice>
@@ -17948,7 +17936,7 @@
 <param name="Вес" unit="кг">0.008</param>
 <param name="Диаметр вала">5мм</param>
 </offer>
-<offer id="21520000416" type="vendor.model" available="true" count="15" group_id="2152" >
+<offer id="21520000416" type="vendor.model" available="true" count="14" group_id="2152" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/shajba-ocinkovannaya-no030100#3013</url>
 <price>418.00</price>
 <oldprice>640.88</oldprice>
@@ -18032,7 +18020,7 @@
 <param name="Вес" unit="кг">0.0003</param>
 <param name="Диаметр вала">5мм</param>
 </offer>
-<offer id="21520000375" type="vendor.model" available="true" count="1200" group_id="2152" >
+<offer id="21520000375" type="vendor.model" available="true" count="1100" group_id="2152" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/shajba-ocinkovannaya-no030100#3011</url>
 <price>1.84</price>
 <oldprice>3.84</oldprice>
@@ -18046,7 +18034,7 @@
 <param name="Вес" unit="кг">0.0003</param>
 <param name="Диаметр вала">6мм</param>
 </offer>
-<offer id="21520000373" type="vendor.model" available="true" count="933" group_id="2152" >
+<offer id="21520000373" type="vendor.model" available="true" count="833" group_id="2152" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/shajba-ocinkovannaya-no030100#3014</url>
 <price>1.18</price>
 <oldprice>2.56</oldprice>
@@ -18072,7 +18060,7 @@
 <description>Пружина 1,3-23-24 №002113 ➜ оптом от компании КидРулит. ★ Пружины предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="2156" type="vendor.model" available="true" count="66" >
+<offer id="2156" type="vendor.model" available="true" count="64" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/bryzgovik-dlya-vilki-no001299-belyj</url>
 <price>132.83</price>
 <currencyId>RUB</currencyId>
@@ -18084,7 +18072,7 @@
 <description>Брызговик для вилки №001299 БЕЛЫЙ ➜ оптом от компании КидРулит. ★ Вилки для поворотных колес предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01500000</param>
 </offer>
-<offer id="2157" type="vendor.model" available="true" count="36" >
+<offer id="2157" type="vendor.model" available="true" count="34" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/bryzgovik-dlya-vilki-no001300-seryj</url>
 <price>132.83</price>
 <currencyId>RUB</currencyId>
@@ -18172,7 +18160,7 @@
 <description>Камера для детской коляски 200х50 кривой сосок BUTYL DeliTire (Индонезия) №008113 ➜ оптом от компании КидРулит. ★ Камеры предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.09000000</param>
 </offer>
-<offer id="2173" type="vendor.model" available="true" count="13" >
+<offer id="2173" type="vendor.model" available="true" count="12" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-10h2-54-152-deli-tire-indoneziya-sa-259-no008119</url>
 <price>770.00</price>
 <currencyId>RUB</currencyId>
@@ -18528,7 +18516,7 @@
 <description>➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Шестеренка тормозная №007081 ➜ оптом от компании КидРулит. ★ Тормозные шестеренки предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.03000000</param>
 </offer>
-<offer id="2203" type="vendor.model" available="true" count="1444" >
+<offer id="2203" type="vendor.model" available="true" count="1440" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/podshipniki/podshipnik-608-2rs-rezinovyj-uplotnitel-vn-diametr-8mm-naruzh-diam-22mm-shirina-7mm-shirina-vystupa-4mm-no009024-dlya-detskoj-kolyaski-bugaboo-peg-perego</url>
 <price>330.00</price>
 <currencyId>RUB</currencyId>
@@ -18564,7 +18552,7 @@
 <description>➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Покрышка 260x55 WANDA (p1069) №008122 ➜ оптом от компании КидРулит. ★ Покрышки предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.40000000</param>
 </offer>
-<offer id="2208" type="vendor.model" available="true" count="172" >
+<offer id="2208" type="vendor.model" available="true" count="169" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-280x65-203-wanda-p1091-no008123</url>
 <price>600.00</price>
 <currencyId>RUB</currencyId>
@@ -18576,7 +18564,7 @@
 <description>➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.Покрышка 280x65-203 WANDA (p1091) №008123 ➜ оптом от компании КидРулит. ★ Покрышки предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.40000000</param>
 </offer>
-<offer id="2209" type="vendor.model" available="true" count="56" >
+<offer id="2209" type="vendor.model" available="true" count="52" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-kolyaski-metall-podshipnik-naduv-14-h1-3-8h1-5-8-44-288-no003090-s-tormoznoj-shesterenkoj</url>
 <price>2829.75</price>
 <currencyId>RUB</currencyId>
@@ -19448,7 +19436,7 @@
 <description>Перемычка для рамы №019038 ROAN Цвет: ХРОМ ➜ оптом от компании КидРулит. ★ Прочие запчасти предлагаем купить по доступным ценам в опт.Перемычка для рамы №019038 ROAN Цвет: ХРОМ ➜ оптом от компании КидРулит. ★ Прочие предлагаем купить по доступным ценам в</description>
 <param name="Вес" unit="кг">0.25000000</param>
 </offer>
-<offer id="23250000404" type="vendor.model" available="true" count="388" group_id="2325" >
+<offer id="23250000404" type="vendor.model" available="true" count="387" group_id="2325" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/sharnir-regulirovaniya-kapyushona-no004107-krug-krug-16-16mm-belyj#3048</url>
 <price>440.00</price>
 <oldprice>990.00</oldprice>
@@ -19462,7 +19450,7 @@
 <param name="Вес" unit="кг">0.06</param>
 <param name="Сторона">Комплект (левая+правая)</param>
 </offer>
-<offer id="23250000346" type="vendor.model" available="true" count="123" group_id="2325" >
+<offer id="23250000346" type="vendor.model" available="true" count="120" group_id="2325" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/sharnir-regulirovaniya-kapyushona-no004107-krug-krug-16-16mm-belyj#3047</url>
 <price>352.00</price>
 <oldprice>550.00</oldprice>
@@ -19490,7 +19478,7 @@
 <param name="Вес" unit="кг">0.06</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="23260000404" type="vendor.model" available="true" count="226" group_id="2326" >
+<offer id="23260000404" type="vendor.model" available="true" count="223" group_id="2326" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-regulirovaniya/regulyatory-fiksatory-kapyushona/sharnir-regulirovaniya-kapyushona-no004108-krug-krug-16-16mm-seryj#3051</url>
 <price>430.00</price>
 <oldprice>990.00</oldprice>
@@ -19556,7 +19544,7 @@
 <description>Колесо для детской коляски №006129 надув 10 дюймов (48х188) без вилки низкопрофильное (втулка на ось 10мм) СЕРЫЙ ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.62000000</param>
 </offer>
-<offer id="2330" type="vendor.model" available="true" count="86" >
+<offer id="2330" type="vendor.model" available="true" count="85" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/pokryshki/pokryshka-12-1-2h1-75x2-1-4-47-203-p1021-wanda-no008127</url>
 <price>550.00</price>
 <currencyId>RUB</currencyId>
@@ -21026,7 +21014,7 @@
 <description>Ось толкателя тормоза №032005 (145мм) (Диаметр 8/5,7мм) ARO ➜ оптом от компании КидРулит. ★ Детали тормозной системы предлагаем купить по доступным ценам в опт.Ось толкателя тормоза №032005 (145мм) (Диаметр 8/5,7мм) ARO ➜ оптом от компании КидРулит. ★ Мет</description>
 <param name="Вес" unit="кг">0.04900000</param>
 </offer>
-<offer id="2473" type="vendor.model" available="true" count="362" >
+<offer id="2473" type="vendor.model" available="true" count="360" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/os-dlya-kolesa-no032006-dlinna-132mm-diametr-10mm-adamex</url>
 <price>374.00</price>
 <currencyId>RUB</currencyId>
@@ -21038,7 +21026,7 @@
 <description>Ось для колеса №032006 (Длинна 132мм) (Диаметр 10мм) ADAMEX ➜ оптом от компании КидРулит. ★ Вилки для поворотных колес предлагаем купить по доступным ценам в опт.Ось для колеса №032006 (Длинна 132мм) (Диаметр 10мм) ADAMEX ➜ оптом от компании КидРулит. ★ М</description>
 <param name="Вес" unit="кг">0.07000000</param>
 </offer>
-<offer id="2474" type="vendor.model" available="true" count="363" >
+<offer id="2474" type="vendor.model" available="true" count="361" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/os-dlya-kolesa-no032007-dlinna-136mm-diametr-10mm-adamex</url>
 <price>374.00</price>
 <currencyId>RUB</currencyId>
@@ -21074,7 +21062,7 @@
 <description>Ось для колеса №032009 (Длинна 99мм) (Диаметр 10мм) ADBOR ➜ оптом от компании КидРулит. ★ Вилки для поворотных колес предлагаем купить по доступным ценам в опт.Ось для колеса №032009 (Длинна 99мм) (Диаметр 10мм) ADBOR ➜ оптом от компании КидРулит. ★ Метал</description>
 <param name="Вес" unit="кг">0.06000000</param>
 </offer>
-<offer id="2477" type="vendor.model" available="true" count="428" >
+<offer id="2477" type="vendor.model" available="true" count="426" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/os-dlya-krepleniya-perednego-kolesa-8mm-no032010-dlina-trubki-69-5mm-adamex</url>
 <price>275.00</price>
 <currencyId>RUB</currencyId>
@@ -21086,7 +21074,7 @@
 <description>Ось для крепления переднего колеса 8мм №032010 (длина трубки 69,5мм) ADAMEX ➜ оптом от компании КидРулит. ★ Вилки для поворотных колес предлагаем купить по доступным ценам в опт.Ось для крепления переднего колеса 8мм №032010 (длина трубки 69,5мм) ADAMEX ➜</description>
 <param name="Вес" unit="кг">0.04000000</param>
 </offer>
-<offer id="2478" type="vendor.model" available="true" count="421" >
+<offer id="2478" type="vendor.model" available="true" count="419" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/os-dlya-krepleniya-perednego-kolesa-8mm-no032011-dlina-trubki-71-5mm-adamex</url>
 <price>275.00</price>
 <currencyId>RUB</currencyId>
@@ -21098,7 +21086,7 @@
 <description>Ось для крепления переднего колеса 8мм №032011 (длина трубки 71,5мм) ADAMEX ➜ оптом от компании КидРулит. ★ Вилки для поворотных колес предлагаем купить по доступным ценам в опт.Ось для крепления переднего колеса 8мм №032011 (длина трубки 71,5мм) ADAMEX ➜</description>
 <param name="Вес" unit="кг">0.04000000</param>
 </offer>
-<offer id="2479" type="vendor.model" available="true" count="141" >
+<offer id="2479" type="vendor.model" available="true" count="139" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/os-dlya-kolesa-no032012-dlinna-595mm-diametr-10mm</url>
 <price>550.00</price>
 <currencyId>RUB</currencyId>
@@ -21250,7 +21238,7 @@
 <param name="Вес" unit="кг">0.095</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="2486" type="vendor.model" available="true" count="63" >
+<offer id="2486" type="vendor.model" available="true" count="62" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-no007084-ne-naduv-14-dyujmov-s-tormoznoj-shesterenkoj-adamex-bebe-mobile-cvet-belyj</url>
 <price>2310.00</price>
 <currencyId>RUB</currencyId>
@@ -21322,7 +21310,7 @@
 <description>Колесо для детской коляски №007089 не надув 12 дюймов (Adamex) Цвет: БЕЛЫЙ ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.86500000</param>
 </offer>
-<offer id="2492" type="vendor.model" available="true" count="31" >
+<offer id="2492" type="vendor.model" available="true" count="30" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-no007090-ne-naduv-10-dyujmov-adamex-vtulka-na-os-8mm-cvet-belyj</url>
 <price>2194.50</price>
 <currencyId>RUB</currencyId>
@@ -21816,7 +21804,7 @@
 <description>Колесо для детской коляски №007099 не надув 12 дюймов (Adamex) Цвет: ЗОЛОТО ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.86500000</param>
 </offer>
-<offer id="2525" type="vendor.model" available="true" count="31" >
+<offer id="2525" type="vendor.model" available="true" count="30" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/kolesa/koleso-dlya-detskoj-kolyaski-no007100-ne-naduv-10-dyujmov-adamex-vtulka-na-os-8mm-cvet-zoloto</url>
 <price>2541.00</price>
 <currencyId>RUB</currencyId>
@@ -22652,7 +22640,7 @@
 <description>Крепление держателя детской бутылочки на коляску №004122 на трубу 42х22мм Цвет: СЕРЫЙ ➜ оптом от компании КидРулит. ★ Аксессуары для детских колясок предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.00900000</param>
 </offer>
-<offer id="2601" type="vendor.model" available="true" count="444" >
+<offer id="2601" type="vendor.model" available="true" count="439" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/aksessuary-dlya-detskih-kolyasok-1710558838/derzhatel-dlya-detskoj-butylochki-na-kolyasku-no004123</url>
 <price>440.00</price>
 <currencyId>RUB</currencyId>
@@ -22936,7 +22924,7 @@
 <description>Ручка механизма сложения спинки прогулочного блока №006170 ➜ оптом от компании КидРулит. ★ Регуляторы спинки прогулочного блока предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01400000</param>
 </offer>
-<offer id="2624" type="vendor.model" available="true" count="156" >
+<offer id="2624" type="vendor.model" available="true" count="155" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/vilka-perednego-kolesa-no006171-dlina-165mm-os-d-10mm-l-55mm-s-amortizatorom</url>
 <price>1848.00</price>
 <currencyId>RUB</currencyId>
@@ -23320,7 +23308,7 @@
 <description>Механизм складывания шасси №002127 (комплект) ➜ оптом от компании КидРулит. ★ Механизмы складывания коляски предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.26500000</param>
 </offer>
-<offer id="2658" type="vendor.model" available="true" count="49" >
+<offer id="2658" type="vendor.model" available="true" count="48" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/mehanizmy-skladyvaniya-kolyaski/mehanizm-skladyvaniya-shassi-no002128-na-trubu-30mm-komplekt-cvet-seryj</url>
 <price>2900.00</price>
 <currencyId>RUB</currencyId>
@@ -23448,7 +23436,7 @@
 <param name="Вес" unit="кг">0.165</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="2669" type="vendor.model" available="true" count="114" >
+<offer id="2669" type="vendor.model" available="true" count="112" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/bryzgovik-dlya-vilki-no001321-cvet-belyj</url>
 <price>132.83</price>
 <currencyId>RUB</currencyId>
@@ -23460,7 +23448,7 @@
 <description>Брызговик для вилки №001321 Цвет: БЕЛЫЙ ➜ оптом от компании КидРулит. ★ Вилки для поворотных колес предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01500000</param>
 </offer>
-<offer id="2670" type="vendor.model" available="true" count="126" >
+<offer id="2670" type="vendor.model" available="true" count="124" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/bryzgovik-dlya-vilki-no001322-cvet-seryj</url>
 <price>132.83</price>
 <currencyId>RUB</currencyId>
@@ -23472,7 +23460,7 @@
 <description>Брызговик для вилки №001322 Цвет: СЕРЫЙ ➜ оптом от компании КидРулит. ★ Вилки для поворотных колес предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01500000</param>
 </offer>
-<offer id="2671" type="vendor.model" available="true" count="404" >
+<offer id="2671" type="vendor.model" available="true" count="402" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/bryzgovik-dlya-vilki-no001323</url>
 <price>132.83</price>
 <currencyId>RUB</currencyId>
@@ -23544,7 +23532,7 @@
 <description>Насос ручной для детской коляски (27х280мм) №008159 ➜ оптом от компании КидРулит. ★ Покрышки предлагаем купить по доступным ценам в опт.Насос ручной для детской коляски (27х280мм) №008159 ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступн</description>
 <param name="Вес" unit="кг">0.24000000</param>
 </offer>
-<offer id="26770000377" type="vendor.model" available="true" count="2503" group_id="2677" >
+<offer id="26770000377" type="vendor.model" available="true" count="2493" group_id="2677" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/gajka-shestigrannaya-samokontryashhayasya-nizkaya-m-5-6-8-no030600#3168</url>
 <price>4.50</price>
 <oldprice>11.00</oldprice>
@@ -23558,7 +23546,7 @@
 <param name="Вес" unit="кг">0.008</param>
 <param name="Диаметр вала">8мм</param>
 </offer>
-<offer id="26770000375" type="vendor.model" available="true" count="887" group_id="2677" >
+<offer id="26770000375" type="vendor.model" available="true" count="877" group_id="2677" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/gajka-shestigrannaya-samokontryashhayasya-nizkaya-m-5-6-8-no030600#3167</url>
 <price>3.85</price>
 <oldprice>7.70</oldprice>
@@ -23572,7 +23560,7 @@
 <param name="Вес" unit="кг">0.008</param>
 <param name="Диаметр вала">6мм</param>
 </offer>
-<offer id="26770000374" type="vendor.model" available="true" count="1264" group_id="2677" >
+<offer id="26770000374" type="vendor.model" available="true" count="1254" group_id="2677" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/gajka-shestigrannaya-samokontryashhayasya-nizkaya-m-5-6-8-no030600#3166</url>
 <price>2.20</price>
 <oldprice>4.40</oldprice>
@@ -24338,7 +24326,7 @@
 <description>Втулка для колеса детской коляски №022008 Цвет: БЕЛЫЙ ➜ оптом от компании КидРулит. ★ Втулки для колес детских колясок предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.01500000</param>
 </offer>
-<offer id="2727" type="vendor.model" available="true" count="923" >
+<offer id="2727" type="vendor.model" available="true" count="922" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/furnitura-dlya-remnej-bezopastnosti-fasteksy-karabiny/fasteks-dlya-pyatitochechnyh-remnej-no004135-cvet-seryj</url>
 <price>253.00</price>
 <currencyId>RUB</currencyId>
@@ -24386,7 +24374,7 @@
 <description>Втулка для колеса детской коляски на ось 10мм №003117 ➜ оптом от компании КидРулит. ★ Втулки для колес детских колясок предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.00400000</param>
 </offer>
-<offer id="2731" type="vendor.model" available="true" count="143" >
+<offer id="2731" type="vendor.model" available="true" count="140" >
 <url>https://kidrulit.ru/ucenka/nasos-ruchnoj-dlya-detskoj-kolyaski-romashka-no008160</url>
 <price>400.00</price>
 <currencyId>RUB</currencyId>
@@ -25748,7 +25736,7 @@
 <param name="Вес" unit="кг">0.00191</param>
 <param name="Длина">14мм</param>
 </offer>
-<offer id="28210000380" type="vendor.model" available="true" count="3700" group_id="2821" >
+<offer id="28210000380" type="vendor.model" available="true" count="3650" group_id="2821" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/metallicheskaya-furnitura-krepezhnye-elementy/zaklepka-celnaya-diametr-5mm#3249</url>
 <price>1.68</price>
 <oldprice>2.57</oldprice>
@@ -26170,7 +26158,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="2848" type="vendor.model" available="true" count="71" >
+<offer id="2848" type="vendor.model" available="true" count="56" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/podshipniki/podshipnik-608-2rs-rezinovyj-uplotnitel-vn-diametr-8mm-naruzh-diam-22mm-shirina-7mm-shirina-vystupa-5mm-no009031-dlya-detskoj-kolyaski-bugaboo-peg-perego</url>
 <price>330.00</price>
 <currencyId>RUB</currencyId>
@@ -26182,7 +26170,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.01500000</param>
 </offer>
-<offer id="28490000346" type="vendor.model" available="true" count="22" group_id="2849" >
+<offer id="28490000346" type="vendor.model" available="true" count="1022" group_id="2849" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/amortizatory-dlya-detskoj-kolyaski/opora-amortizatora-no001341#3330</url>
 <price>189.00</price>
 <oldprice>605.00</oldprice>
@@ -26196,7 +26184,7 @@
 <param name="Вес" unit="кг">0.117</param>
 <param name="Сторона">Правая</param>
 </offer>
-<offer id="28490000345" type="vendor.model" available="true" count="22" group_id="2849" >
+<offer id="28490000345" type="vendor.model" available="true" count="1022" group_id="2849" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/amortizatory-dlya-detskoj-kolyaski/opora-amortizatora-no001341#3329</url>
 <price>189.00</price>
 <oldprice>605.00</oldprice>
@@ -26210,7 +26198,7 @@
 <param name="Вес" unit="кг">0.117</param>
 <param name="Сторона">Левая</param>
 </offer>
-<offer id="2850" type="vendor.model" available="true" count="48" >
+<offer id="2850" type="vendor.model" available="true" count="2048" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/amortizatory-dlya-detskoj-kolyaski/soedinitel-dlya-amortizatora-truba-krug-20mm-no001342</url>
 <price>99.00</price>
 <currencyId>RUB</currencyId>
@@ -26222,7 +26210,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.02500000</param>
 </offer>
-<offer id="2851" type="vendor.model" available="true" count="48" >
+<offer id="2851" type="vendor.model" available="true" count="2048" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/amortizatory-dlya-detskoj-kolyaski/soedinitel-dlya-amortizatora-truba-krug-44h18mm-no001343</url>
 <price>99.00</price>
 <currencyId>RUB</currencyId>
@@ -26234,7 +26222,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.02700000</param>
 </offer>
-<offer id="2852" type="vendor.model" available="true" count="146" >
+<offer id="2852" type="vendor.model" available="true" count="2146" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/ruchki-dlya-detskoj-kolyaski/nakladka-elastichnaya-na-ruchku-oval-20h30mm-krug-25mm-no036001</url>
 <price>275.00</price>
 <currencyId>RUB</currencyId>
@@ -26246,7 +26234,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.12500000</param>
 </offer>
-<offer id="2853" type="vendor.model" available="true" count="38" >
+<offer id="2853" type="vendor.model" available="true" count="36" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/kamery/kamera-dlya-detskoj-kolyaski-8h2-0-5-krivoj-nipel-no008169</url>
 <price>500.00</price>
 <currencyId>RUB</currencyId>
@@ -26294,7 +26282,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.02500000</param>
 </offer>
-<offer id="2857" type="vendor.model" available="true" count="148" >
+<offer id="2857" type="vendor.model" available="true" count="1148" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/pedal-na-trubu-44h18-no004139</url>
 <price>330.00</price>
 <currencyId>RUB</currencyId>
@@ -26450,7 +26438,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="2870" type="vendor.model" available="true" count="13921" >
+<offer id="2870" type="vendor.model" available="true" count="13911" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/plastikovaya-i-rezinovaya-furnitura-dlya-kolyasok-zaglushki-shajby-i-prochee/vtulka-plastikovaya-diametr-6-15mm-vysota-2mm-no036009</url>
 <price>6.60</price>
 <currencyId>RUB</currencyId>
@@ -26462,7 +26450,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="2871" type="vendor.model" available="true" count="1590" >
+<offer id="2871" type="vendor.model" available="true" count="1576" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/plastikovaya-i-rezinovaya-furnitura-dlya-kolyasok-zaglushki-shajby-i-prochee/vtulka-plastikovaya-diametr-6-15mm-vysota-4mm-no036010</url>
 <price>8.80</price>
 <currencyId>RUB</currencyId>
@@ -26890,7 +26878,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.53000000</param>
 </offer>
-<offer id="2918" type="vendor.model" available="true" count="225" >
+<offer id="2918" type="vendor.model" available="true" count="223" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/podveska-tormoza-amortizatory/vilki-dlya-povorotnyh-koles/os-dlya-krepleniya-perednego-kolesa-8mm-no032013-dlina-trubki-70-5mm-adamex</url>
 <price>275.00</price>
 <currencyId>RUB</currencyId>
@@ -27166,7 +27154,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.01000000</param>
 </offer>
-<offer id="2941" type="vendor.model" available="true" count="25975" >
+<offer id="2941" type="vendor.model" available="true" count="25971" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/plastikovaya-i-rezinovaya-furnitura-dlya-kolyasok-zaglushki-shajby-i-prochee/vtulka-plastikovaya-diametr-6-14-5mm-vysota-2mm-no004143</url>
 <price>6.60</price>
 <currencyId>RUB</currencyId>
@@ -27178,7 +27166,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="2942" type="vendor.model" available="true" count="59948" >
+<offer id="2942" type="vendor.model" available="true" count="59944" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/plastikovaya-i-rezinovaya-furnitura-dlya-kolyasok-zaglushki-shajby-i-prochee/vtulka-plastikovaya-diametr-5-14-5mm-vysota-2mm-no004144</url>
 <price>6.60</price>
 <currencyId>RUB</currencyId>
@@ -27238,7 +27226,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.32000000</param>
 </offer>
-<offer id="2952" type="vendor.model" available="true" count="879" >
+<offer id="2952" type="vendor.model" available="true" count="875" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/plastikovaya-i-rezinovaya-furnitura-dlya-kolyasok-zaglushki-shajby-i-prochee/vtulka-plastikovaya-diametr-5-15mm-vysota-10mm-no036028</url>
 <price>17.60</price>
 <currencyId>RUB</currencyId>
@@ -27250,7 +27238,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="2953" type="vendor.model" available="true" count="1699" >
+<offer id="2953" type="vendor.model" available="true" count="1695" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/plastikovaya-i-rezinovaya-furnitura-dlya-kolyasok-zaglushki-shajby-i-prochee/vtulka-plastikovaya-diametr-5-15mm-vysota-6mm-no036029</url>
 <price>15.40</price>
 <currencyId>RUB</currencyId>
@@ -27262,7 +27250,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="2954" type="vendor.model" available="true" count="1842" >
+<offer id="2954" type="vendor.model" available="true" count="1841" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/plastikovaya-i-rezinovaya-furnitura-dlya-kolyasok-zaglushki-shajby-i-prochee/vtulka-plastikovaya-diametr-5-15mm-vysota-4mm-no036030</url>
 <price>9.90</price>
 <currencyId>RUB</currencyId>
@@ -27274,7 +27262,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.00500000</param>
 </offer>
-<offer id="2955" type="vendor.model" available="true" count="19894" >
+<offer id="2955" type="vendor.model" available="true" count="19890" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/plastikovaya-i-rezinovaya-furnitura-dlya-kolyasok-zaglushki-shajby-i-prochee/vtulka-plastikovaya-diametr-5-15mm-vysota-2mm-no036031</url>
 <price>6.60</price>
 <currencyId>RUB</currencyId>
@@ -27334,7 +27322,7 @@
 <description></description>
 <param name="Вес" unit="кг">0.01000000</param>
 </offer>
-<offer id="2960" type="vendor.model" available="true" count="961" >
+<offer id="2960" type="vendor.model" available="true" count="960" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/prochie-zapchasti/prochie/brak-sharnir-regulirovaniya-kapyushona-no001301-tutis-krug-krug-16-16mm-pravyj-s-krasnoj-knopkoj-bez-fiksacii</url>
 <price>1000.00</price>
 <currencyId>RUB</currencyId>
@@ -27386,7 +27374,7 @@
 <description>Колесо для детской коляски №003069W надув 12 дюймов 62-203 12 1/2х2 1/4 ➜ оптом от компании КидРулит. ★ Колеса предлагаем купить по доступным ценам в опт. ➜ оптом от компании КидРулит. ★  предлагаем купить по доступным ценам в опт.</description>
 <param name="Вес" unit="кг">0.90000000</param>
 </offer>
-<offer id="2963" type="vendor.model" available="true" count="965" >
+<offer id="2963" type="vendor.model" available="true" count="964" >
 <url>https://kidrulit.ru/zapchasti-dlya-detskih-kolyasok/komplektuyushhie-k-kolesam/kamery/kamera-dlya-detskoj-kolyaski-14-pryamoj-sosok-kitaj-no008171</url>
 <price>430.00</price>
 <currencyId>RUB</currencyId>
